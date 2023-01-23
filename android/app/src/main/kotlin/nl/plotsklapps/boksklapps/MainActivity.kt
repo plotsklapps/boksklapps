@@ -1,0 +1,6 @@
+package nl.plotsklapps.boksklapps
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
