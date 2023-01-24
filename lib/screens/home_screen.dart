@@ -65,7 +65,8 @@ class HomeScreen extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-          'HomeScreen',
+          'Welcome to BOKSKLAPPS',
+          style: TextStyleUtils.kBodyText,
         ),
       ),
       floatingActionButton: FloatingActionButton(
