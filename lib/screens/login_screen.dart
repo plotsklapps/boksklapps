@@ -190,7 +190,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
+                  children: <InkWell>[
                     InkWell(
                       onTap: () {
                         Navigator.pushNamed(
@@ -208,10 +208,18 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Text>[
-                    Text(
-                      'Forgot password?',
-                      style: TextStyleUtils.kHeadline3,
+                  children: <InkWell>[
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/password_screen',
+                        );
+                      },
+                      child: const Text(
+                        'Forgot password?',
+                        style: TextStyleUtils.kHeadline3,
+                      ),
                     ),
                   ],
                 ),

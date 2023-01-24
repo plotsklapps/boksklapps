@@ -62,7 +62,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
+                  children: <InkWell>[
                     InkWell(
                       onTap: () {
                         Navigator.pushNamed(
