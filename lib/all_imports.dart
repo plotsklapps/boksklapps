@@ -32,4 +32,7 @@ export 'package:boksklapps/widgets/drawer_widget.dart';
 
 /// Screens
 export 'package:boksklapps/screens/splash_screen.dart';
+export 'package:boksklapps/screens/login_screen.dart';
+export 'package:boksklapps/screens/register_screen.dart';
+export 'package:boksklapps/screens/password_screen.dart';
 export 'package:boksklapps/screens/home_screen.dart';

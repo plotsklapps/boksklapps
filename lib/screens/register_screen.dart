@@ -1,43 +1,47 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// LoginScreen class
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   /// LoginScreen constructor
-  const LoginScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 1000) {
-      return const LoginScreenMobile();
+      return const RegisterScreenMobile();
     } else {
-      return const LoginScreenDesktop();
+      return const RegisterScreenDesktop();
     }
   }
 }
 
-/// LoginScreenMobile class
-class LoginScreenMobile extends StatefulWidget {
-  /// LoginScreenMobile constructor
-  const LoginScreenMobile({
+/// RegisterScreenMobile class
+class RegisterScreenMobile extends StatefulWidget {
+  /// RegisterScreenMobile constructor
+  const RegisterScreenMobile({
     super.key,
   });
 
   @override
-  State<LoginScreenMobile> createState() => LoginScreenMobileState();
+  State<RegisterScreenMobile> createState() => RegisterScreenMobileState();
 }
 
-/// LoginScreenMobileState class
-class LoginScreenMobileState extends State<LoginScreenMobile> {
+/// RegisterScreenMobileState class
+class RegisterScreenMobileState extends State<RegisterScreenMobile> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
   /// PasswordController
-  final TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController password1Ctrl = TextEditingController();
+
+  /// PasswordController
+  final TextEditingController password2Ctrl = TextEditingController();
 
   @override
   void dispose() {
     emailCtrl.dispose();
-    passwordCtrl.dispose();
+    password1Ctrl.dispose();
+    password2Ctrl.dispose();
     super.dispose();
   }
 
@@ -63,29 +67,11 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          '/register_screen',
+                          '/login_screen',
                         );
                       },
                       child: const Text(
-                        'Create an account',
-                        style: TextStyleUtils.kHeadline3,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/password_screen',
-                        );
-                      },
-                      child: const Text(
-                        'Forgot password?',
+                        'Back to Login',
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -99,7 +85,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
               child: Column(
                 children: [
                   const Text(
-                    'LOGIN',
+                    'REGISTER',
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
@@ -116,7 +102,21 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                   ),
                   const SizedBox(height: 12),
                   TextField(
-                    controller: passwordCtrl,
+                    controller: password1Ctrl,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    textAlign: TextAlign.center,
+                    enableSuggestions: false,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: Icon(
+                        Icons.lock_outlined,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: password2Ctrl,
                     keyboardType: TextInputType.text,
                     obscureText: true,
                     textAlign: TextAlign.center,
@@ -135,41 +135,40 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
-        },
+        onPressed: () {},
         child: IconUtils.kForward,
       ),
     );
   }
 }
 
-/// LoginScreenDesktop class
-class LoginScreenDesktop extends StatefulWidget {
-  /// LoginScreenDesktop constructor
-  const LoginScreenDesktop({
+/// RegisterScreenDesktop class
+class RegisterScreenDesktop extends StatefulWidget {
+  /// RegisterScreenDesktop constructor
+  const RegisterScreenDesktop({
     super.key,
   });
 
   @override
-  State<LoginScreenDesktop> createState() => LoginScreenDesktopState();
+  State<RegisterScreenDesktop> createState() => RegisterScreenDesktopState();
 }
 
-/// LoginScreenDesktopState class
-class LoginScreenDesktopState extends State<LoginScreenDesktop> {
+/// RegisterScreenDesktopState class
+class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
   /// PasswordController
-  final TextEditingController passwordCtrl = TextEditingController();
+  final TextEditingController password1Ctrl = TextEditingController();
+
+  /// PasswordController
+  final TextEditingController password2Ctrl = TextEditingController();
 
   @override
   void dispose() {
     emailCtrl.dispose();
-    passwordCtrl.dispose();
+    password1Ctrl.dispose();
+    password2Ctrl.dispose();
     super.dispose();
   }
 
@@ -187,6 +186,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -195,23 +195,13 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          '/register_screen',
+                          '/login_screen',
                         );
                       },
                       child: const Text(
-                        'Create an account',
+                        'Back to Login',
                         style: TextStyleUtils.kHeadline3,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Text>[
-                    Text(
-                      'Forgot password?',
-                      style: TextStyleUtils.kHeadline3,
                     ),
                   ],
                 ),
@@ -223,7 +213,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
               child: Column(
                 children: [
                   const Text(
-                    'LOGIN',
+                    'REGISTER',
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
@@ -240,7 +230,21 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                   ),
                   const SizedBox(height: 12),
                   TextField(
-                    controller: passwordCtrl,
+                    controller: password1Ctrl,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    textAlign: TextAlign.center,
+                    enableSuggestions: false,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: Icon(
+                        Icons.lock_outlined,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: password2Ctrl,
                     keyboardType: TextInputType.text,
                     obscureText: true,
                     textAlign: TextAlign.center,
@@ -259,12 +263,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
-        },
+        onPressed: () {},
         child: IconUtils.kForward,
       ),
     );

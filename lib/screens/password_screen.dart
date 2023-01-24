@@ -1,43 +1,39 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// LoginScreen class
-class LoginScreen extends StatelessWidget {
-  /// LoginScreen constructor
-  const LoginScreen({super.key});
+/// PasswordScreen class
+class PasswordScreen extends StatelessWidget {
+  /// PasswordScreen constructor
+  const PasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 1000) {
-      return const LoginScreenMobile();
+      return const PasswordScreenMobile();
     } else {
-      return const LoginScreenDesktop();
+      return const PasswordScreenDesktop();
     }
   }
 }
 
-/// LoginScreenMobile class
-class LoginScreenMobile extends StatefulWidget {
-  /// LoginScreenMobile constructor
-  const LoginScreenMobile({
+/// PasswordScreenMobile class
+class PasswordScreenMobile extends StatefulWidget {
+  /// PasswordScreenMobile constructor
+  const PasswordScreenMobile({
     super.key,
   });
 
   @override
-  State<LoginScreenMobile> createState() => LoginScreenMobileState();
+  State<PasswordScreenMobile> createState() => PasswordScreenMobileState();
 }
 
-/// LoginScreenMobileState class
-class LoginScreenMobileState extends State<LoginScreenMobile> {
+/// PasswordScreenMobileState class
+class PasswordScreenMobileState extends State<PasswordScreenMobile> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
-
-  /// PasswordController
-  final TextEditingController passwordCtrl = TextEditingController();
 
   @override
   void dispose() {
     emailCtrl.dispose();
-    passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -63,29 +59,11 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          '/register_screen',
+                          '/login_screen',
                         );
                       },
                       child: const Text(
-                        'Create an account',
-                        style: TextStyleUtils.kHeadline3,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/password_screen',
-                        );
-                      },
-                      child: const Text(
-                        'Forgot password?',
+                        'Back to Login',
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -99,7 +77,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
               child: Column(
                 children: [
                   const Text(
-                    'LOGIN',
+                    'RESET PASSWORD',
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
@@ -111,20 +89,6 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                       labelText: 'Emailaddress',
                       prefixIcon: Icon(
                         Icons.email_outlined,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: passwordCtrl,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    enableSuggestions: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
                       ),
                     ),
                   ),
@@ -147,29 +111,25 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
   }
 }
 
-/// LoginScreenDesktop class
-class LoginScreenDesktop extends StatefulWidget {
-  /// LoginScreenDesktop constructor
-  const LoginScreenDesktop({
+/// PasswordScreenDesktop class
+class PasswordScreenDesktop extends StatefulWidget {
+  /// PasswordScreenDesktop constructor
+  const PasswordScreenDesktop({
     super.key,
   });
 
   @override
-  State<LoginScreenDesktop> createState() => LoginScreenDesktopState();
+  State<PasswordScreenDesktop> createState() => PasswordScreenDesktopState();
 }
 
-/// LoginScreenDesktopState class
-class LoginScreenDesktopState extends State<LoginScreenDesktop> {
+/// PasswordScreenDesktopState class
+class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
-
-  /// PasswordController
-  final TextEditingController passwordCtrl = TextEditingController();
 
   @override
   void dispose() {
     emailCtrl.dispose();
-    passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -195,23 +155,13 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          '/register_screen',
+                          '/login_screen',
                         );
                       },
                       child: const Text(
-                        'Create an account',
+                        'Back to Login',
                         style: TextStyleUtils.kHeadline3,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Text>[
-                    Text(
-                      'Forgot password?',
-                      style: TextStyleUtils.kHeadline3,
                     ),
                   ],
                 ),
@@ -223,7 +173,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
               child: Column(
                 children: [
                   const Text(
-                    'LOGIN',
+                    'RESET PASSWORD',
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
@@ -235,20 +185,6 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                       labelText: 'Emailaddress',
                       prefixIcon: Icon(
                         Icons.email_outlined,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: passwordCtrl,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    enableSuggestions: false,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
                       ),
                     ),
                   ),

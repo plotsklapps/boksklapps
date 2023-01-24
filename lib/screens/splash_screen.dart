@@ -17,7 +17,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     timer = Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, '/home_screen');
+      Navigator.pushReplacementNamed(
+        context,
+        '/login_screen',
+      );
     });
   }
 
