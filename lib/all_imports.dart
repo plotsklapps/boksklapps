@@ -11,6 +11,9 @@ export 'package:flutter_animate/flutter_animate.dart';
 
 /// Firebase
 export 'package:firebase_core/firebase_core.dart';
+export 'package:firebase_auth/firebase_auth.dart';
+export 'package:cloud_firestore/cloud_firestore.dart';
+export 'package:firebase_analytics/firebase_analytics.dart';
 export 'firebase_options.dart';
 
 /// Navigation
@@ -25,6 +28,7 @@ export 'package:boksklapps/theme/flexcolors.dart';
 export 'package:boksklapps/providers/theme_providers.dart';
 
 /// Widgets
+export 'package:boksklapps/widgets/drawer_widget.dart';
 
 /// Screens
 export 'package:boksklapps/screens/splash_screen.dart';

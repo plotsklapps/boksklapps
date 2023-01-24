@@ -7,6 +7,23 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 1000) {
+      return const HomeScreenMobile();
+    } else {
+      return const HomeScreenDesktop();
+    }
+  }
+}
+
+/// HomeScreenMobile class
+class HomeScreenMobile extends StatelessWidget {
+  /// HomeScreenMobile constructor
+  const HomeScreenMobile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -14,60 +31,51 @@ class HomeScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            DrawerHeader(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    StringUtils.kBoks,
-                    style: TextStyleUtils.kLogo1,
-                  ),
-                  Text(
-                    StringUtils.kKlapps,
-                    style: TextStyleUtils.kLogo2,
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            ListTile(
-              title: const Text(
-                'Account',
-                style: TextStyleUtils.kBodyText,
-              ),
-              subtitle: const Text('Change credential information'),
-              trailing: const Icon(IconUtils.kAccount),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text(
-                'Settings',
-                style: TextStyleUtils.kBodyText,
-              ),
-              subtitle: const Text('Change app look & feel'),
-              trailing: const Icon(IconUtils.kSettings),
-              onTap: () {},
-            ),
-            ListTile(
-              title: const Text(
-                'Logout',
-                style: TextStyleUtils.kBodyText,
-              ),
-              subtitle: const Text('Sign out from the app'),
-              trailing: const Icon(IconUtils.kLogout),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      // Drawer hides if the screen width is less than 1000
+      drawer: const DrawerWidget(),
       body: const Center(
         child: Text(
           'Welcome to BOKSKLAPPS',
           style: TextStyleUtils.kBodyText,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: IconUtils.kForward,
+      ),
+    );
+  }
+}
+
+/// HomeScreenDesktop class
+class HomeScreenDesktop extends StatelessWidget {
+  /// HomeScreenDesktop constructor
+  const HomeScreenDesktop({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          StringUtils.kBoks + StringUtils.kKlapps,
+        ),
+        centerTitle: true,
+      ),
+      body: Row(
+        children: const [
+          // Drawer shows if the screen width is greater than 1000
+          DrawerWidget(),
+          Expanded(
+            child: Center(
+              child: Text(
+                'Welcome to BOKSKLAPPS',
+                style: TextStyleUtils.kBodyText,
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
