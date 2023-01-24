@@ -15,7 +15,6 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
-  /// Returns the [FirebaseOptions] for the current platform.
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -37,7 +36,6 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
-      // ignore: no_default_cases
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -45,7 +43,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  /// Returns the [FirebaseOptions] for the web platform.
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCCTl1JZq_JqX39VCBjq69_CsBvJFEBD6Q',
     appId: '1:186836765191:web:5604e98fa31dbdb31938a2',
@@ -56,7 +53,6 @@ class DefaultFirebaseOptions {
     measurementId: 'G-TR1L7C1MEC',
   );
 
-  /// Returns the [FirebaseOptions] for the android platform.
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCrVkdSiG7KAd9iHXqJ-7SbWXitAWM3w8I',
     appId: '1:186836765191:android:14694af496e734a81938a2',
@@ -65,27 +61,23 @@ class DefaultFirebaseOptions {
     storageBucket: 'boksklapps.appspot.com',
   );
 
-  /// Returns the [FirebaseOptions] for the iOS platform.
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAd0tv_ZwteHre2fJkh-XQi4_fnal-oYwI',
     appId: '1:186836765191:ios:111c003a9eee05b21938a2',
     messagingSenderId: '186836765191',
     projectId: 'boksklapps',
     storageBucket: 'boksklapps.appspot.com',
-    iosClientId:
-        '186836765191-shn3gcc847djr8picte08nh61992a44n.apps.googleusercontent.com',
+    iosClientId: '186836765191-shn3gcc847djr8picte08nh61992a44n.apps.googleusercontent.com',
     iosBundleId: 'nl.plotsklapps.boksklapps',
   );
 
-  /// Returns the [FirebaseOptions] for the macOS platform.
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAd0tv_ZwteHre2fJkh-XQi4_fnal-oYwI',
     appId: '1:186836765191:ios:111c003a9eee05b21938a2',
     messagingSenderId: '186836765191',
     projectId: 'boksklapps',
     storageBucket: 'boksklapps.appspot.com',
-    iosClientId:
-        '186836765191-shn3gcc847djr8picte08nh61992a44n.apps.googleusercontent.com',
+    iosClientId: '186836765191-shn3gcc847djr8picte08nh61992a44n.apps.googleusercontent.com',
     iosBundleId: 'nl.plotsklapps.boksklapps',
   );
 }
