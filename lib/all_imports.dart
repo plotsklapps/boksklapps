@@ -9,6 +9,10 @@ export 'package:google_fonts/google_fonts.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 
+/// Firebase
+export 'package:firebase_core/firebase_core.dart';
+export 'firebase_options.dart';
+
 /// Navigation
 export 'package:boksklapps/routes.dart';
 

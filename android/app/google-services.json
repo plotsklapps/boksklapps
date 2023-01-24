@@ -29,6 +29,13 @@
             {
               "client_id": "186836765191-3m0u8mqvj2490nuhgud32jlo5a66p4sk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "186836765191-shn3gcc847djr8picte08nh61992a44n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.plotsklapps.boksklapps"
+              }
             }
           ]
         }
