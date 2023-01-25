@@ -93,7 +93,13 @@ class DrawerWidget extends StatelessWidget {
             ),
             subtitle: const Text('Sign out from the app'),
             trailing: IconUtils.kLogout,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/',
+                (route) => false,
+              );
+            },
           ),
         ],
       ),
