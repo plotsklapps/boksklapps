@@ -33,11 +33,11 @@ class HomeScreenMobile extends StatelessWidget {
       ),
       // Drawer hides if the screen width is less than 1000
       drawer: const DrawerWidget(),
-      body: const Center(
-        child: Text(
-          'Welcome to BOKSKLAPPS',
-          style: TextStyleUtils.kBodyText,
-        ),
+      body: Column(
+        children: const [
+          GetShitDoneWidget(),
+          TimerWidget(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -64,15 +64,15 @@ class HomeScreenDesktop extends StatelessWidget {
         centerTitle: true,
       ),
       body: Row(
-        children: const [
+        children: [
           // Drawer shows if the screen width is greater than 1000
-          DrawerWidget(),
+          const DrawerWidget(),
           Expanded(
-            child: Center(
-              child: Text(
-                'Welcome to BOKSKLAPPS',
-                style: TextStyleUtils.kBodyText,
-              ),
+            child: Column(
+              children: const [
+                GetShitDoneWidget(),
+                TimerWidget(),
+              ],
             ),
           ),
         ],

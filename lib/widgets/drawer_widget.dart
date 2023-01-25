@@ -15,14 +15,30 @@ class DrawerWidget extends StatelessWidget {
           DrawerHeader(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  StringUtils.kBoks,
-                  style: TextStyleUtils.kLogo1,
+              children: <Animate>[
+                Animate(
+                  effects: [
+                    ScaleEffect(
+                      delay: 0.ms,
+                      duration: 800.ms,
+                    ),
+                  ],
+                  child: const Text(
+                    StringUtils.kBoks,
+                    style: TextStyleUtils.kLogo1,
+                  ),
                 ),
-                Text(
-                  StringUtils.kKlapps,
-                  style: TextStyleUtils.kLogo2,
+                Animate(
+                  effects: [
+                    ScaleEffect(
+                      delay: 800.ms,
+                      duration: 800.ms,
+                    ),
+                  ],
+                  child: const Text(
+                    StringUtils.kKlapps,
+                    style: TextStyleUtils.kLogo2,
+                  ),
                 ),
               ],
             ),
@@ -34,7 +50,7 @@ class DrawerWidget extends StatelessWidget {
               style: TextStyleUtils.kBodyText,
             ),
             subtitle: const Text('Change credential information'),
-            trailing: const Icon(IconUtils.kAccount),
+            trailing: IconUtils.kAccount,
             onTap: () {},
           ),
           ListTile(
@@ -43,7 +59,7 @@ class DrawerWidget extends StatelessWidget {
               style: TextStyleUtils.kBodyText,
             ),
             subtitle: const Text('Change app look & feel'),
-            trailing: const Icon(IconUtils.kSettings),
+            trailing: IconUtils.kSettings,
             onTap: () {},
           ),
           ListTile(
@@ -52,7 +68,7 @@ class DrawerWidget extends StatelessWidget {
               style: TextStyleUtils.kBodyText,
             ),
             subtitle: const Text('Sign out from the app'),
-            trailing: const Icon(IconUtils.kLogout),
+            trailing: IconUtils.kLogout,
             onTap: () {},
           ),
         ],

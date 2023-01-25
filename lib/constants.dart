@@ -7,6 +7,9 @@ class StringUtils {
   static const String kKlapps = 'klapps';
   static const String kSparringPartner = '- Sparring Partner -';
   static const String kCreatedBy = 'Created by plotsklapps';
+  static const String kGet = 'GET';
+  static const String kShit = 'SHIT';
+  static const String kDone = 'DONE';
 }
 
 /// TextStyle constants
@@ -39,8 +42,10 @@ class TextStyleUtils {
 
 /// Icon constants
 class IconUtils {
-  static const Icon kForward = Icon(Icons.arrow_forward_ios_outlined);
-  static const IconData kSettings = Icons.settings_outlined;
-  static const IconData kAccount = Icons.person_outlined;
-  static const IconData kLogout = Icons.logout_outlined;
+  static const Icon kForward = Icon(Icons.arrow_forward_outlined);
+  static const Icon kSettings = Icon(Icons.settings_outlined);
+  static const Icon kAccount = Icon(Icons.person_outlined);
+  static const Icon kLogout = Icon(Icons.logout_outlined);
+  static const Icon kRemove = Icon(Icons.remove_outlined);
+  static const Icon kAdd = Icon(Icons.add_outlined);
 }

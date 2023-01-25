@@ -26,9 +26,12 @@ export 'package:boksklapps/theme/flexcolors.dart';
 
 /// Providers
 export 'package:boksklapps/providers/theme_providers.dart';
+export 'package:boksklapps/providers/timer_providers.dart';
 
 /// Widgets
 export 'package:boksklapps/widgets/drawer_widget.dart';
+export 'package:boksklapps/widgets/getshitdone_widget.dart';
+export 'package:boksklapps/widgets/timer_widget.dart';
 
 /// Screens
 export 'package:boksklapps/screens/splash_screen.dart';
