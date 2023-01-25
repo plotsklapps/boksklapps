@@ -12,35 +12,59 @@ class DrawerWidget extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          DrawerHeader(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Animate>[
-                Animate(
-                  effects: [
-                    ScaleEffect(
-                      delay: 0.ms,
-                      duration: 800.ms,
-                    ),
-                  ],
-                  child: const Text(
-                    StringUtils.kBoks,
-                    style: TextStyleUtils.kLogo1,
+          SizedBox(
+            height: 220,
+            child: DrawerHeader(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Animate>[
+                      Animate(
+                        effects: [
+                          ScaleEffect(
+                            delay: 0.ms,
+                            duration: 800.ms,
+                          ),
+                        ],
+                        child: const Text(
+                          StringUtils.kBoks,
+                          style: TextStyleUtils.kLogo1,
+                        ),
+                      ),
+                      Animate(
+                        effects: [
+                          ScaleEffect(
+                            delay: 800.ms,
+                            duration: 800.ms,
+                          ),
+                        ],
+                        child: const Text(
+                          StringUtils.kKlapps,
+                          style: TextStyleUtils.kLogo2,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Animate(
-                  effects: [
-                    ScaleEffect(
-                      delay: 800.ms,
-                      duration: 800.ms,
-                    ),
-                  ],
-                  child: const Text(
-                    StringUtils.kKlapps,
-                    style: TextStyleUtils.kLogo2,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Animate>[
+                      Animate(
+                        effects: [
+                          FadeEffect(
+                            delay: 1600.ms,
+                            duration: 800.ms,
+                          ),
+                        ],
+                        child: const Text(
+                          StringUtils.kSparringPartner,
+                          style: TextStyleUtils.kHeadline2,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const Spacer(),
