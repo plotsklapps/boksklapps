@@ -135,7 +135,12 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushReplacementNamed(
+            context,
+            '/home_screen',
+          );
+        },
         child: IconUtils.kForward,
       ),
     );
@@ -263,7 +268,13 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        heroTag: 'fabRegister',
+        onPressed: () {
+          Navigator.pushReplacementNamed(
+            context,
+            '/home_screen',
+          );
+        },
         child: IconUtils.kForward,
       ),
     );

@@ -195,6 +195,7 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'fabPassword',
         onPressed: () {
           Navigator.pushReplacementNamed(
             context,

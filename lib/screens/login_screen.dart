@@ -267,6 +267,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'fabLogin',
         onPressed: () {
           Navigator.pushReplacementNamed(
             context,
