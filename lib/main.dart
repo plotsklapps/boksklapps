@@ -31,7 +31,7 @@ class MainEntry extends ConsumerWidget {
           case '/':
             return PageTransition(
               child: const SplashScreen(),
-              type: PageTransitionType.scale,
+              type: PageTransitionType.fade,
             );
           case '/home_screen':
             return PageTransition(

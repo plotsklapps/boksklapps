@@ -11,6 +11,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  /// Declare timer, use it in initState and dispose
+  /// After 5 seconds, navigate to login_screen
   Timer? timer;
 
   @override
@@ -39,6 +41,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              /// Animate BOKS part
               Animate(
                 effects: [
                   ScaleEffect(
@@ -51,6 +54,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   style: TextStyleUtils.kLogo1,
                 ),
               ),
+
+              /// Animate klapps part
               Animate(
                 effects: [
                   ScaleEffect(
@@ -68,6 +73,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              /// Animate - Sparring Partner - part
               Animate(
                 effects: [
                   FadeEffect(
@@ -83,6 +89,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ],
           ),
           const SizedBox(height: 64),
+
+          /// Show a dummy progress indicator
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
@@ -92,6 +100,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ],
           ),
           const SizedBox(height: 64),
+
+          /// What's my name?
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [

@@ -67,7 +67,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                         );
                       },
                       child: const Text(
-                        'Create an account',
+                        StringUtils.kCreateAccount,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -85,7 +85,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                         );
                       },
                       child: const Text(
-                        'Forgot password?',
+                        StringUtils.kForgotPassword,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -199,7 +199,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                         );
                       },
                       child: const Text(
-                        'Create an account',
+                        StringUtils.kCreateAccount,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -217,7 +217,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                         );
                       },
                       child: const Text(
-                        'Forgot password?',
+                        StringUtils.kForgotPassword,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -267,7 +267,6 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        heroTag: 'fabLogin',
         onPressed: () {
           Navigator.pushReplacementNamed(
             context,

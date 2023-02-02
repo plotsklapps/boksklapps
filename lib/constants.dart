@@ -10,6 +10,8 @@ class StringUtils {
   static const String kGet = 'GET';
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
+  static const String kCreateAccount = 'Create an Account';
+  static const String kForgotPassword = 'Forgot Password';
 }
 
 /// TextStyle constants
