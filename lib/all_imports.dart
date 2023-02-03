@@ -28,6 +28,7 @@ export 'package:boksklapps/providers/timer_providers.dart';
 
 /// Widgets
 export 'package:boksklapps/widgets/drawer_widget.dart';
+export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/getshitdone_widget.dart';
 export 'package:boksklapps/widgets/timer_widget.dart';
 
@@ -37,3 +38,4 @@ export 'package:boksklapps/screens/login_screen.dart';
 export 'package:boksklapps/screens/register_screen.dart';
 export 'package:boksklapps/screens/password_screen.dart';
 export 'package:boksklapps/screens/home_screen.dart';
+export 'package:boksklapps/screens/settings_screen.dart';

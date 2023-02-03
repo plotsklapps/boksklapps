@@ -15,6 +15,8 @@ class StringUtils {
   static const String kGet = 'GET';
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
+  static const String kSettings = 'Settings';
+  static const String kLightSystemDark = 'Light / System / Dark';
 }
 
 /// TextStyle constants
@@ -51,6 +53,9 @@ class IconUtils {
   static const Icon kEmailAddress = Icon(Icons.email_outlined);
   static const Icon kPassword = Icon(Icons.lock_outlined);
   static const Icon kSettings = Icon(Icons.settings_outlined);
+  static const Icon kLightMode = Icon(Icons.light_mode_outlined);
+  static const Icon kSystemMode = Icon(Icons.phone_android_outlined);
+  static const Icon kDarkMode = Icon(Icons.dark_mode_outlined);
   static const Icon kAccount = Icon(Icons.person_outlined);
   static const Icon kLogout = Icon(Icons.logout_outlined);
   static const Icon kRemove = Icon(Icons.remove_outlined);

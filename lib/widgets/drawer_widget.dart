@@ -84,7 +84,12 @@ class DrawerWidget extends StatelessWidget {
             ),
             subtitle: const Text('Change app look & feel'),
             trailing: IconUtils.kSettings,
-            onTap: () {},
+            onTap: () async {
+              await Navigator.pushNamed(
+                context,
+                '/settings_screen',
+              );
+            },
           ),
           ListTile(
             title: const Text(
@@ -93,8 +98,8 @@ class DrawerWidget extends StatelessWidget {
             ),
             subtitle: const Text('Sign out from the app'),
             trailing: IconUtils.kLogout,
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
+            onTap: () async {
+              await Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/',
                 (route) => false,

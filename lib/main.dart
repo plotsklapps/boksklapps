@@ -33,11 +33,6 @@ class MainEntry extends ConsumerWidget {
               child: const SplashScreen(),
               type: PageTransitionType.fade,
             );
-          case '/home_screen':
-            return PageTransition(
-              child: const HomeScreen(),
-              type: PageTransitionType.rightToLeft,
-            );
           case '/login_screen':
             return PageTransition(
               child: const LoginScreen(),
@@ -51,6 +46,16 @@ class MainEntry extends ConsumerWidget {
           case '/password_screen':
             return PageTransition(
               child: const PasswordScreen(),
+              type: PageTransitionType.rightToLeft,
+            );
+          case '/home_screen':
+            return PageTransition(
+              child: const HomeScreen(),
+              type: PageTransitionType.rightToLeft,
+            );
+          case '/settings_screen':
+            return PageTransition(
+              child: const SettingsScreen(),
               type: PageTransitionType.rightToLeft,
             );
           default:
