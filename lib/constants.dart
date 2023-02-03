@@ -7,11 +7,14 @@ class StringUtils {
   static const String kKlapps = 'klapps';
   static const String kSparringPartner = '- Sparring Partner -';
   static const String kCreatedBy = 'Created by plotsklapps';
+  static const String kLabelEmail = 'Emailaddress';
+  static const String kLabelPassword = 'Password';
+  static const String kCreateAccount = 'Create an Account';
+  static const String kForgotPassword = 'Forgot Password';
+  static const String kBackToLogin = 'Back to Login';
   static const String kGet = 'GET';
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
-  static const String kCreateAccount = 'Create an Account';
-  static const String kForgotPassword = 'Forgot Password';
 }
 
 /// TextStyle constants
@@ -45,6 +48,8 @@ class TextStyleUtils {
 /// Icon constants
 class IconUtils {
   static const Icon kForward = Icon(Icons.arrow_forward_outlined);
+  static const Icon kEmailAddress = Icon(Icons.email_outlined);
+  static const Icon kPassword = Icon(Icons.lock_outlined);
   static const Icon kSettings = Icon(Icons.settings_outlined);
   static const Icon kAccount = Icon(Icons.person_outlined);
   static const Icon kLogout = Icon(Icons.logout_outlined);

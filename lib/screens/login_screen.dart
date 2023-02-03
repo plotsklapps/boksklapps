@@ -108,10 +108,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
-                      labelText: 'Emailaddress',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                      ),
+                      labelText: StringUtils.kLabelEmail,
+                      prefixIcon: IconUtils.kEmailAddress,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -122,10 +120,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                      ),
+                      labelText: StringUtils.kLabelPassword,
+                      prefixIcon: IconUtils.kPassword,
                     ),
                   ),
                 ],
@@ -240,7 +236,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
-                      labelText: 'Emailaddress',
+                      labelText: StringUtils.kLabelEmail,
                       prefixIcon: Icon(
                         Icons.email_outlined,
                       ),
@@ -254,7 +250,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
+                      labelText: StringUtils.kLabelPassword,
                       prefixIcon: Icon(
                         Icons.lock_outlined,
                       ),

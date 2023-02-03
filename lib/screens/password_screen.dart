@@ -63,7 +63,7 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
                         );
                       },
                       child: const Text(
-                        'Back to Login',
+                        StringUtils.kBackToLogin,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -86,10 +86,8 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
-                      labelText: 'Emailaddress',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                      ),
+                      labelText: StringUtils.kLabelEmail,
+                      prefixIcon: IconUtils.kEmailAddress,
                     ),
                   ),
                 ],
@@ -159,7 +157,7 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
                         );
                       },
                       child: const Text(
-                        'Back to Login',
+                        StringUtils.kBackToLogin,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -182,10 +180,8 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
-                      labelText: 'Emailaddress',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                      ),
+                      labelText: StringUtils.kLabelEmail,
+                      prefixIcon: IconUtils.kEmailAddress,
                     ),
                   ),
                 ],
@@ -195,7 +191,6 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        heroTag: 'fabPassword',
         onPressed: () {
           Navigator.pushReplacementNamed(
             context,

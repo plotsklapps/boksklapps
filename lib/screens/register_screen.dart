@@ -71,7 +71,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                         );
                       },
                       child: const Text(
-                        'Back to Login',
+                        StringUtils.kBackToLogin,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -94,10 +94,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
-                      labelText: 'Emailaddress',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                      ),
+                      labelText: StringUtils.kLabelEmail,
+                      prefixIcon: IconUtils.kEmailAddress,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -108,10 +106,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                      ),
+                      labelText: StringUtils.kLabelPassword,
+                      prefixIcon: IconUtils.kPassword,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -122,10 +118,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                      ),
+                      labelText: StringUtils.kLabelPassword,
+                      prefixIcon: IconUtils.kPassword,
                     ),
                   ),
                 ],
@@ -204,7 +198,7 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
                         );
                       },
                       child: const Text(
-                        'Back to Login',
+                        StringUtils.kBackToLogin,
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ),
@@ -227,10 +221,8 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
-                      labelText: 'Emailaddress',
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                      ),
+                      labelText: StringUtils.kLabelEmail,
+                      prefixIcon: IconUtils.kEmailAddress,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -241,10 +233,8 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                      ),
+                      labelText: StringUtils.kLabelPassword,
+                      prefixIcon: IconUtils.kPassword,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -255,10 +245,8 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                      ),
+                      labelText: StringUtils.kLabelPassword,
+                      prefixIcon: IconUtils.kPassword,
                     ),
                   ),
                 ],
@@ -268,7 +256,6 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        heroTag: 'fabRegister',
         onPressed: () {
           Navigator.pushReplacementNamed(
             context,
