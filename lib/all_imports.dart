@@ -8,7 +8,6 @@ export 'package:flex_color_scheme/flex_color_scheme.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:flutter_animate/flutter_animate.dart';
-export 'package:page_transition/page_transition.dart';
 
 /// Firebase
 export 'package:firebase_core/firebase_core.dart';
@@ -21,6 +20,9 @@ export 'firebase_options.dart';
 export 'package:boksklapps/constants.dart';
 export 'package:boksklapps/theme/flextheme.dart';
 export 'package:boksklapps/theme/flexcolors.dart';
+
+/// Navigation
+export 'package:boksklapps/custom_routes.dart';
 
 /// Providers
 export 'package:boksklapps/providers/theme_providers.dart';

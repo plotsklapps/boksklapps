@@ -26,42 +26,7 @@ class MainEntry extends ConsumerWidget {
       darkTheme: ref.watch(darkThemeProvider),
       themeMode: ref.watch(themeModeProvider),
       initialRoute: '/',
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/':
-            return PageTransition(
-              child: const SplashScreen(),
-              type: PageTransitionType.fade,
-            );
-          case '/login_screen':
-            return PageTransition(
-              child: const LoginScreen(),
-              type: PageTransitionType.leftToRight,
-            );
-          case '/register_screen':
-            return PageTransition(
-              child: const RegisterScreen(),
-              type: PageTransitionType.rightToLeft,
-            );
-          case '/password_screen':
-            return PageTransition(
-              child: const PasswordScreen(),
-              type: PageTransitionType.rightToLeft,
-            );
-          case '/home_screen':
-            return PageTransition(
-              child: const HomeScreen(),
-              type: PageTransitionType.rightToLeft,
-            );
-          case '/settings_screen':
-            return PageTransition(
-              child: const SettingsScreen(),
-              type: PageTransitionType.rightToLeft,
-            );
-          default:
-            return null;
-        }
-      },
+      routes: customRoutes,
     );
   }
 }
