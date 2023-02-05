@@ -22,8 +22,8 @@ class MainEntry extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BOKSKLAPPS - Sparring Partner',
-      theme: ref.watch(lightThemeProvider),
-      darkTheme: ref.watch(darkThemeProvider),
+      theme: ref.watch(themeLightProvider),
+      darkTheme: ref.watch(themeDarkProvider),
       themeMode: ref.watch(themeModeProvider),
       initialRoute: '/',
       routes: customRoutes,

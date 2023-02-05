@@ -26,6 +26,15 @@ class SettingsScreen extends ConsumerWidget {
             ),
             trailing: const ThemeModeSwitch(),
           ),
+          ListTile(
+            title: const Text(
+              'Color Scheme',
+            ),
+            subtitle: Text(
+              ref.watch(themeColorStringProvider),
+            ),
+            trailing: const ThemeColorSwitch(),
+          ),
         ],
       ),
     );

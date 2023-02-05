@@ -18,8 +18,6 @@ export 'firebase_options.dart';
 
 /// Constants
 export 'package:boksklapps/constants.dart';
-export 'package:boksklapps/theme/flextheme.dart';
-export 'package:boksklapps/theme/flexcolors.dart';
 
 /// Navigation
 export 'package:boksklapps/custom_routes.dart';
@@ -31,6 +29,7 @@ export 'package:boksklapps/providers/timer_providers.dart';
 /// Widgets
 export 'package:boksklapps/widgets/drawer_widget.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
+export 'package:boksklapps/widgets/themecolor_switch.dart';
 export 'package:boksklapps/widgets/getshitdone_widget.dart';
 export 'package:boksklapps/widgets/timer_widget.dart';
 

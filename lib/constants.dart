@@ -56,6 +56,9 @@ class IconUtils {
   static const Icon kLightMode = Icon(Icons.light_mode_outlined);
   static const Icon kSystemMode = Icon(Icons.phone_android_outlined);
   static const Icon kDarkMode = Icon(Icons.dark_mode_outlined);
+  static const Icon kOuterSpace = Icon(Icons.rocket_launch_outlined);
+  static const Icon kGreenMoney = Icon(Icons.payments_outlined);
+  static const Icon kRedWine = Icon(Icons.wine_bar_outlined);
   static const Icon kAccount = Icon(Icons.person_outlined);
   static const Icon kLogout = Icon(Icons.logout_outlined);
   static const Icon kRemove = Icon(Icons.remove_outlined);
