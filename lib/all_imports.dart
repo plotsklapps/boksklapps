@@ -24,6 +24,8 @@ export 'package:boksklapps/custom_routes.dart';
 
 /// Providers
 export 'package:boksklapps/providers/theme_providers.dart';
+export 'package:boksklapps/providers/themecolor_providers.dart';
+export 'package:boksklapps/providers/thememode_providers.dart';
 export 'package:boksklapps/providers/timer_providers.dart';
 
 /// Widgets
