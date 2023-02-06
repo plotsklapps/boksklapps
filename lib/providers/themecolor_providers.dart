@@ -10,7 +10,7 @@ final StateNotifierProvider<ThemeColorState, FlexScheme> themeColorProvider =
 /// ThemeColorState class
 class ThemeColorState extends StateNotifier<FlexScheme> {
   /// ThemeColorState constructor
-  ThemeColorState() : super(FlexScheme.money);
+  ThemeColorState() : super(FlexScheme.outerSpace);
 
   /// setTheme method for choosing outerSpace
   void setThemeOuterSpace() {

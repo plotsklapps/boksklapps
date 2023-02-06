@@ -28,7 +28,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
           ListTile(
             title: const Text(
-              'Color Scheme',
+              StringUtils.kColorScheme,
             ),
             subtitle: Text(
               ref.watch(themeColorStringProvider),
