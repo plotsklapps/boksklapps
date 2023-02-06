@@ -37,6 +37,9 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
   /// PasswordController
   final TextEditingController password2Ctrl = TextEditingController();
 
+  /// Sets default value of passwordVisible to false
+  bool isPasswordObscured = true;
+
   @override
   void dispose() {
     emailCtrl.dispose();
@@ -51,9 +54,9 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(
           18,
-          64,
+          54,
           18,
-          56,
+          54,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,31 +65,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/login_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 0.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          StringUtils.kBackToLogin,
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
+                  children: const <Widget>[
+                    BackToLoginWidget(),
                   ],
                 ),
               ],
@@ -114,24 +94,48 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                   TextField(
                     controller: password1Ctrl,
                     keyboardType: TextInputType.text,
-                    obscureText: true,
+                    obscureText: isPasswordObscured,
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: StringUtils.kLabelPassword,
                       prefixIcon: IconUtils.kPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordObscured
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordObscured = !isPasswordObscured;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: password2Ctrl,
                     keyboardType: TextInputType.text,
-                    obscureText: true,
+                    obscureText: isPasswordObscured,
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: StringUtils.kLabelPassword,
                       prefixIcon: IconUtils.kPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordObscured
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordObscured = !isPasswordObscured;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -141,11 +145,54 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
+        onPressed: () async {
+          if (emailCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Email cannot be empty'),
+              ),
+            );
+            return;
+          } else if (password1Ctrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password cannot be empty'),
+              ),
+            );
+            return;
+          } else if (password2Ctrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password cannot be empty'),
+              ),
+            );
+            return;
+          } else if (password1Ctrl.text.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password 1 must be at least 8 characters'),
+              ),
+            );
+            return;
+          } else if (password2Ctrl.text.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password 2 must be at least 8 characters'),
+              ),
+            );
+            return;
+          } else if (password1Ctrl.text != password2Ctrl.text) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Passwords do not match'),
+              ),
+            );
+          } else {
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
+          }
         },
         child: IconUtils.kForward,
       ),
@@ -201,31 +248,8 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/login_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 0.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          StringUtils.kBackToLogin,
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
+                  children: const <Widget>[
+                    BackToLoginWidget(),
                   ],
                 ),
               ],
@@ -280,11 +304,54 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
+        onPressed: () async {
+          if (emailCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Email cannot be empty'),
+              ),
+            );
+            return;
+          } else if (password1Ctrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password 1 cannot be empty'),
+              ),
+            );
+            return;
+          } else if (password2Ctrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password 2 cannot be empty'),
+              ),
+            );
+            return;
+          } else if (password1Ctrl.text.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password 1 must be at least 8 characters'),
+              ),
+            );
+            return;
+          } else if (password2Ctrl.text.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password 2 must be at least 8 characters'),
+              ),
+            );
+            return;
+          } else if (password1Ctrl.text != password2Ctrl.text) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Passwords do not match'),
+              ),
+            );
+          } else {
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
+          }
         },
         child: IconUtils.kForward,
       ),

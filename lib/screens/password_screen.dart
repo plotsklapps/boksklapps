@@ -43,9 +43,9 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(
           18,
-          64,
+          54,
           18,
-          56,
+          54,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,11 +109,20 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
+        onPressed: () async {
+          if (emailCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Email cannot be empty'),
+              ),
+            );
+            return;
+          } else {
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
+          }
         },
         child: IconUtils.kForward,
       ),
@@ -215,11 +224,20 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
+        onPressed: () async {
+          if (emailCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Email cannot be empty'),
+              ),
+            );
+            return;
+          } else {
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
+          }
         },
         child: IconUtils.kForward,
       ),

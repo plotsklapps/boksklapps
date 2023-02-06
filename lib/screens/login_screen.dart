@@ -34,6 +34,9 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
   /// PasswordController
   final TextEditingController passwordCtrl = TextEditingController();
 
+  /// Sets default value of passwordVisible to false
+  bool isPasswordObscured = true;
+
   @override
   void dispose() {
     emailCtrl.dispose();
@@ -47,9 +50,9 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(
           18,
-          64,
+          54,
           18,
-          56,
+          54,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,12 +143,24 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                   TextField(
                     controller: passwordCtrl,
                     keyboardType: TextInputType.text,
-                    obscureText: true,
+                    obscureText: isPasswordObscured,
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: StringUtils.kLabelPassword,
                       prefixIcon: IconUtils.kPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordObscured
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordObscured = !isPasswordObscured;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -155,11 +170,34 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
+        onPressed: () async {
+          if (emailCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Email cannot be empty'),
+              ),
+            );
+            return;
+          } else if (passwordCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password cannot be empty'),
+              ),
+            );
+            return;
+          } else if (passwordCtrl.text.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password must be at least 8 characters'),
+              ),
+            );
+            return;
+          } else {
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
+          }
         },
         child: IconUtils.kForward,
       ),
@@ -287,11 +325,34 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
+        onPressed: () async {
+          if (emailCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Email cannot be empty'),
+              ),
+            );
+            return;
+          } else if (passwordCtrl.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password cannot be empty'),
+              ),
+            );
+            return;
+          } else if (passwordCtrl.text.length < 8) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Password must be at least 8 characters'),
+              ),
+            );
+            return;
+          } else {
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
+          }
         },
         child: IconUtils.kForward,
       ),
