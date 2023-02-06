@@ -70,9 +70,21 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                           '/login_screen',
                         );
                       },
-                      child: const Text(
-                        StringUtils.kBackToLogin,
-                        style: TextStyleUtils.kHeadline3,
+                      child: Animate(
+                        effects: <Effect<dynamic>>[
+                          FadeEffect(
+                            delay: 0.ms,
+                            duration: 1000.ms,
+                          ),
+                          MoveEffect(
+                            delay: 500.ms,
+                            duration: 1000.ms,
+                          ),
+                        ],
+                        child: const Text(
+                          StringUtils.kBackToLogin,
+                          style: TextStyleUtils.kHeadline3,
+                        ),
                       ),
                     ),
                   ],
@@ -197,9 +209,21 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
                           '/login_screen',
                         );
                       },
-                      child: const Text(
-                        StringUtils.kBackToLogin,
-                        style: TextStyleUtils.kHeadline3,
+                      child: Animate(
+                        effects: <Effect<dynamic>>[
+                          FadeEffect(
+                            delay: 0.ms,
+                            duration: 1000.ms,
+                          ),
+                          MoveEffect(
+                            delay: 500.ms,
+                            duration: 1000.ms,
+                          ),
+                        ],
+                        child: const Text(
+                          StringUtils.kBackToLogin,
+                          style: TextStyleUtils.kHeadline3,
+                        ),
                       ),
                     ),
                   ],
