@@ -11,9 +11,9 @@ class GetShitDoneWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        48,
-        48,
-        48,
+        32,
+        32,
+        32,
         32,
       ),
       child: Column(

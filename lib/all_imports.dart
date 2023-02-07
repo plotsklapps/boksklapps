@@ -23,6 +23,7 @@ export 'package:boksklapps/constants.dart';
 export 'package:boksklapps/custom_routes.dart';
 
 /// Providers
+export 'package:boksklapps/providers/auth_providers.dart';
 export 'package:boksklapps/providers/theme_providers.dart';
 export 'package:boksklapps/providers/themecolor_providers.dart';
 export 'package:boksklapps/providers/thememode_providers.dart';
@@ -43,3 +44,16 @@ export 'package:boksklapps/screens/register_screen.dart';
 export 'package:boksklapps/screens/password_screen.dart';
 export 'package:boksklapps/screens/home_screen.dart';
 export 'package:boksklapps/screens/settings_screen.dart';
+
+/// Screens Mobile
+export 'package:boksklapps/screens/mobile/registerscreen_mobile.dart';
+export 'package:boksklapps/screens/mobile/loginscreen_mobile.dart';
+export 'package:boksklapps/screens/mobile/passwordscreen_mobile.dart';
+export 'package:boksklapps/screens/mobile/homescreen_mobile.dart';
+export 'package:boksklapps/screens/mobile/settingsscreen_mobile.dart';
+
+/// Screens Desktop
+export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';
+export 'package:boksklapps/screens/desktop/loginscreen_desktop.dart';
+export 'package:boksklapps/screens/desktop/passwordscreen_desktop.dart';
+export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
