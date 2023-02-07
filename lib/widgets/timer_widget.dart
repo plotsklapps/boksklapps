@@ -26,10 +26,10 @@ class TimerWidget extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        48,
+        32,
         0,
-        48,
-        48,
+        32,
+        32,
       ),
       child: Column(
         children: [
