@@ -99,11 +99,14 @@ class DrawerWidget extends StatelessWidget {
             subtitle: const Text('Sign out from the app'),
             trailing: IconUtils.kLogout,
             onTap: () async {
-              await Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/',
-                (route) => false,
-              );
+              await FirebaseAuth.instance.signOut();
+              if (context.mounted) {
+                await Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/',
+                  (route) => false,
+                );
+              }
             },
           ),
         ],

@@ -173,10 +173,17 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               ),
             );
           } else {
-            await Navigator.pushReplacementNamed(
-              context,
-              '/home_screen',
-            );
+            await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+              email: emailCtrl.text,
+              password: password1Ctrl.text,
+            )
+                .then((currentUser) async {
+              await Navigator.pushReplacementNamed(
+                context,
+                '/login_screen',
+              );
+            });
           }
         },
         child: IconUtils.kForward,

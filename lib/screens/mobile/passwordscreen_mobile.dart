@@ -103,10 +103,15 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
             );
             return;
           } else {
-            await Navigator.pushReplacementNamed(
-              context,
-              '/home_screen',
+            await FirebaseAuth.instance.sendPasswordResetEmail(
+              email: emailCtrl.text,
             );
+            if (context.mounted) {
+              await Navigator.pushReplacementNamed(
+                context,
+                '/login_screen',
+              );
+            }
           }
         },
         child: IconUtils.kForward,
