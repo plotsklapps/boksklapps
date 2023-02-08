@@ -32,6 +32,7 @@ export 'package:boksklapps/providers/timer_providers.dart';
 
 /// Widgets
 export 'package:boksklapps/widgets/backtologin_widget.dart';
+export 'package:boksklapps/widgets/gotoregister_widget.dart';
 export 'package:boksklapps/widgets/drawer_widget.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/themecolor_switch.dart';
