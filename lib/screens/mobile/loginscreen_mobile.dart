@@ -226,7 +226,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text(
-                        'Invalid email address',
+                        'Emailaddress unknown, please verify',
                       ),
                       action: SnackBarAction(
                         label: 'OK',
@@ -236,24 +236,96 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                   );
                   break;
                 case 'ERROR_WRONG_PASSWORD':
-                  // Handle wrong password error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Wrong password, please verify',
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                   break;
                 case 'ERROR_USER_NOT_FOUND':
-                  // Handle user not found error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'User not found, try registering',
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                   break;
                 case 'ERROR_USER_DISABLED':
-                  // Handle user disabled error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'User disabled, please contact plotsklapps@gmail.com',
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                   break;
                 case 'ERROR_TOO_MANY_REQUESTS':
-                  // Handle too many requests error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Server busy, please try again later',
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                   break;
                 case 'ERROR_OPERATION_NOT_ALLOWED':
-                  // Handle operation not allowed error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Operation not allowed, please try again later',
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                   break;
                 default:
-                  // Handle unexpected error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Unexpected error, please try again later or contact plotsklapps@gmail.com',
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
                   break;
               }
+            } catch (error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    'Unexpected error, please try again later or contact plotsklapps@gmail.com',
+                  ),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {},
+                  ),
+                ),
+              );
             }
           }
         },
