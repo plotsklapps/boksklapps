@@ -12,17 +12,25 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   /// Declare timer, use it in initState and dispose
-  /// After 5 seconds, navigate to login_screen
+  /// After 5 seconds, navigate to home if user is known,
+  /// else navigate to login
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(
-        context,
-        '/login_screen',
-      );
+    timer = Timer(const Duration(seconds: 5), () async {
+      if (ref.watch(currentUserProvider) != null) {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/home_screen',
+        );
+      } else {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/login_screen',
+        );
+      }
     });
   }
 

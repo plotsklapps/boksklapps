@@ -2,6 +2,7 @@
 
 /// Flutter & Dart native packages
 export 'package:flutter/material.dart';
+export 'package:flutter/services.dart';
 
 /// External packages
 export 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -51,6 +52,10 @@ export 'package:boksklapps/screens/mobile/loginscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/passwordscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/homescreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/settingsscreen_mobile.dart';
+
+/// Screens Tablet
+export 'package:boksklapps/screens/tablet/registerscreen_tablet.dart';
+export 'package:boksklapps/screens/tablet/loginscreen_tablet.dart';
 
 /// Screens Desktop
 export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';

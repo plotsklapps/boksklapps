@@ -1,18 +1,18 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// LoginScreenMobile class
-class LoginScreenMobile extends StatefulWidget {
-  /// LoginScreenMobile constructor
-  const LoginScreenMobile({
+/// LoginScreenTablet class
+class LoginScreenTablet extends StatefulWidget {
+  /// LoginScreenTablet constructor
+  const LoginScreenTablet({
     super.key,
   });
 
   @override
-  State<LoginScreenMobile> createState() => LoginScreenMobileState();
+  State<LoginScreenTablet> createState() => LoginScreenTabletState();
 }
 
-/// LoginScreenMobileState class
-class LoginScreenMobileState extends State<LoginScreenMobile> {
+/// LoginScreenTabletState class
+class LoginScreenTabletState extends State<LoginScreenTablet> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -103,36 +103,6 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/home_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 2000.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 2500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          'Sneak Peek',
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
             const Spacer(),
@@ -208,53 +178,10 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
             );
             return;
           } else {
-            try {
-              await FirebaseAuth.instance
-                  .signInWithEmailAndPassword(
-                email: emailCtrl.text,
-                password: passwordCtrl.text,
-              )
-                  .then((currentUser) async {
-                await Navigator.pushReplacementNamed(
-                  context,
-                  '/home_screen',
-                );
-              });
-            } on PlatformException catch (error) {
-              switch (error.code) {
-                case 'ERROR_INVALID_EMAIL':
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        'Invalid email address',
-                      ),
-                      action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {},
-                      ),
-                    ),
-                  );
-                  break;
-                case 'ERROR_WRONG_PASSWORD':
-                  // Handle wrong password error
-                  break;
-                case 'ERROR_USER_NOT_FOUND':
-                  // Handle user not found error
-                  break;
-                case 'ERROR_USER_DISABLED':
-                  // Handle user disabled error
-                  break;
-                case 'ERROR_TOO_MANY_REQUESTS':
-                  // Handle too many requests error
-                  break;
-                case 'ERROR_OPERATION_NOT_ALLOWED':
-                  // Handle operation not allowed error
-                  break;
-                default:
-                  // Handle unexpected error
-                  break;
-              }
-            }
+            await Navigator.pushReplacementNamed(
+              context,
+              '/home_screen',
+            );
           }
         },
         child: IconUtils.kForward,
