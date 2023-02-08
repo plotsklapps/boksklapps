@@ -46,31 +46,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/register_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 0.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          StringUtils.kCreateAccount,
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
+                  children: const <Widget>[
+                    GoToRegisterWidget(),
                   ],
                 ),
                 const SizedBox(height: 24),
