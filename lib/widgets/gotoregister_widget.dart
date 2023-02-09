@@ -1,7 +1,9 @@
 import 'package:boksklapps/all_imports.dart';
 
+/// GoToRegisterWidget class
 class GoToRegisterWidget extends StatelessWidget {
-  const GoToRegisterWidget({Key? key}) : super(key: key);
+  /// GoToRegisterWidget constructor
+  const GoToRegisterWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return InkWell(

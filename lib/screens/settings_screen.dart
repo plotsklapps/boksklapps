@@ -10,7 +10,7 @@ class SettingsScreen extends StatelessWidget {
     if (MediaQuery.of(context).size.width < 1000) {
       return const SettingsScreenMobile();
     } else {
-      //TODO: Add Desktop version of SettingsScreen()
+      //TODO(plotsklapps): Add Desktop version of SettingsScreen()
       return const SettingsScreenMobile();
     }
   }

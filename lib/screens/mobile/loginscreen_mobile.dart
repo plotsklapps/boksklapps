@@ -281,7 +281,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text(
-                        'Unexpected error, please try again later or contact plotsklapps@gmail.com',
+                        'Unexpected error, please try again later or contact '
+                        'plotsklapps@gmail.com',
                       ),
                       action: SnackBarAction(
                         label: 'OK',
@@ -295,7 +296,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text(
-                    'Unexpected error, please try again later or contact plotsklapps@gmail.com',
+                    'Unexpected error, please try again later or contact '
+                    'plotsklapps@gmail.com',
                   ),
                   action: SnackBarAction(
                     label: 'OK',
