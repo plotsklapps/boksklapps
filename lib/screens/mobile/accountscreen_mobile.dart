@@ -7,7 +7,7 @@ class AccountScreenMobile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String? currentEmail = FirebaseAuth.instance.currentUser?.email;
+    final currentEmail = FirebaseAuth.instance.currentUser?.email;
 
     return Scaffold(
       appBar: AppBar(

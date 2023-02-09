@@ -2,9 +2,9 @@ import 'package:boksklapps/all_imports.dart';
 
 /// Shows a dialog to change the email address
 /// Method takes context as parameter
-void showChangeEmailDialog(BuildContext context) {
+Future<void> showChangeEmailDialog(BuildContext context) async {
   // Show the dialog
-  showDialog(
+  await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
