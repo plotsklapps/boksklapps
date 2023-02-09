@@ -126,6 +126,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 image: AssetImage(
                   'assets/plotsklappsLogo.png',
                 ),
+                width: 200,
+                height: 100,
               ),
             ],
           ),

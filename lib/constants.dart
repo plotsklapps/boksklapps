@@ -16,6 +16,7 @@ class StringUtils {
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
   static const String kAccount = 'Account';
+  static const String kNoAccount = 'Sneak Peeker';
   static const String kSettings = 'Settings';
   static const String kColorScheme = 'Color Scheme';
   static const String kLightSystemDark = 'Light / System / Dark';

@@ -7,6 +7,8 @@ class AccountScreenMobile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String? currentEmail = FirebaseAuth.instance.currentUser?.email;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -19,21 +21,45 @@ class AccountScreenMobile extends ConsumerWidget {
         children: [
           ListTile(
             title: Text(
-              ref.watch(currentEmailProvider)!,
+              currentEmail ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
-              'Emailaddress',
+              'Current User',
             ),
-            trailing: const Icon(Icons.edit_note_outlined),
+            trailing: const Icon(
+              Icons.edit_outlined,
+            ),
+            onTap: () {
+              showChangeEmailDialog(context);
+            },
           ),
           ListTile(
-            title: const Text(
-              StringUtils.kColorScheme,
+            title: Text(
+              currentEmail ?? StringUtils.kNoAccount,
             ),
-            subtitle: Text(
-              ref.watch(themeColorStringProvider),
+            subtitle: const Text(
+              'Current User',
             ),
-            trailing: const ThemeColorSwitch(),
+            trailing: const Icon(
+              Icons.edit_outlined,
+            ),
+            onTap: () {
+              showChangeEmailDialog(context);
+            },
+          ),
+          ListTile(
+            title: Text(
+              currentEmail ?? StringUtils.kNoAccount,
+            ),
+            subtitle: const Text(
+              'Current User',
+            ),
+            trailing: const Icon(
+              Icons.edit_outlined,
+            ),
+            onTap: () {
+              showChangeEmailDialog(context);
+            },
           ),
         ],
       ),

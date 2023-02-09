@@ -65,3 +65,6 @@ export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/loginscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/passwordscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
+
+/// AlertDialogs
+export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
