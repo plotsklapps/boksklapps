@@ -12,5 +12,5 @@ final currentUserProvider = StateProvider<User?>((ref) {
 
 /// Returns current user's email as String
 final currentEmailProvider = StateProvider<String?>((ref) {
-  return FirebaseAuth.instance.currentUser?.email;
+  return FirebaseAuth.instance.currentUser!.email!;
 });

@@ -75,7 +75,12 @@ class DrawerWidget extends StatelessWidget {
             ),
             subtitle: const Text('Change credential information'),
             trailing: IconUtils.kAccount,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/account_screen',
+              );
+            },
           ),
           ListTile(
             title: const Text(

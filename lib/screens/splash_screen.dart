@@ -119,6 +119,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               ),
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Image(
+                image: AssetImage(
+                  'assets/plotsklappsLogo.png',
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -45,6 +45,7 @@ export 'package:boksklapps/screens/login_screen.dart';
 export 'package:boksklapps/screens/register_screen.dart';
 export 'package:boksklapps/screens/password_screen.dart';
 export 'package:boksklapps/screens/home_screen.dart';
+export 'package:boksklapps/screens/account_screen.dart';
 export 'package:boksklapps/screens/settings_screen.dart';
 
 /// Screens Mobile
@@ -52,6 +53,7 @@ export 'package:boksklapps/screens/mobile/registerscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/loginscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/passwordscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/homescreen_mobile.dart';
+export 'package:boksklapps/screens/mobile/accountscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/settingsscreen_mobile.dart';
 
 /// Screens Tablet

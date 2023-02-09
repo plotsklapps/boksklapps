@@ -6,7 +6,7 @@ class StringUtils {
   static const String kBoks = 'BOKS';
   static const String kKlapps = 'klapps';
   static const String kSparringPartner = '- Sparring Partner -';
-  static const String kCreatedBy = 'Created by plotsklapps';
+  static const String kCreatedBy = 'Created by';
   static const String kLabelEmail = 'Emailaddress';
   static const String kLabelPassword = 'Password';
   static const String kCreateAccount = 'Create an Account';
@@ -15,6 +15,7 @@ class StringUtils {
   static const String kGet = 'GET';
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
+  static const String kAccount = 'Account';
   static const String kSettings = 'Settings';
   static const String kColorScheme = 'Color Scheme';
   static const String kLightSystemDark = 'Light / System / Dark';

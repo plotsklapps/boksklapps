@@ -17,6 +17,9 @@ Map<String, WidgetBuilder> customRoutes = {
   '/home_screen': (BuildContext context) {
     return const HomeScreen();
   },
+  '/account_screen': (BuildContext context) {
+    return const AccountScreen();
+  },
   '/settings_screen': (context) {
     return const SettingsScreen();
   },
