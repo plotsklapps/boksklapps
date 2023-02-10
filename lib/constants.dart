@@ -10,6 +10,7 @@ class StringUtils {
   static const String kLabelEmail = 'Emailaddress';
   static const String kLabelOldEmail = 'Old Emailaddress';
   static const String kLabelNewEmail = 'New Emailaddress';
+  static const String kUserName = 'Username';
   static const String kLabelPassword = 'Password';
   static const String kCreateAccount = 'Create an Account';
   static const String kForgotPassword = 'Forgot Password';
@@ -22,6 +23,10 @@ class StringUtils {
   static const String kSettings = 'Settings';
   static const String kColorScheme = 'Color Scheme';
   static const String kLightSystemDark = 'Light / System / Dark';
+  static const String kEnterInfo = 'Please provide the following information';
+  static const String kEmailAddressChanged =
+      'Emailaddress changed, please login again';
+  static const String kUsernameChanged = 'Username changed, please login again';
 }
 
 /// TextStyle constants

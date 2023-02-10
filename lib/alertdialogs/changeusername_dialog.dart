@@ -1,13 +1,10 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Shows a dialog to change the email address
+/// Shows a dialog to change the username
 /// Method takes context as parameter
-Future<void> showChangeEmailDialog(BuildContext context) async {
-  /// EmailController for old email
-  final email1Ctrl = TextEditingController();
-
-  /// EmailController for new email
-  final email2Ctrl = TextEditingController();
+Future<void> showChangeUserNameDialog(BuildContext context) async {
+  /// NameController for username
+  final nameCtrl = TextEditingController();
 
   /// PasswordController
   final passwordCtrl = TextEditingController();
@@ -18,7 +15,7 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text(
-          'Change Email Address',
+          'Change Username',
         ),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,24 +28,12 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
               height: 8,
             ),
             TextField(
-              controller: email1Ctrl,
-              keyboardType: TextInputType.emailAddress,
+              controller: nameCtrl,
+              keyboardType: TextInputType.text,
               textAlign: TextAlign.center,
               decoration: const InputDecoration(
-                labelText: StringUtils.kLabelOldEmail,
-                prefixIcon: IconUtils.kEmailAddress,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextField(
-              controller: email2Ctrl,
-              keyboardType: TextInputType.emailAddress,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                labelText: StringUtils.kLabelNewEmail,
-                prefixIcon: IconUtils.kEmailAddress,
+                labelText: StringUtils.kUserName,
+                prefixIcon: IconUtils.kAccount,
               ),
             ),
             const SizedBox(
@@ -81,18 +66,15 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
               'OK',
             ),
             onPressed: () async {
-              await FirebaseAuth.instance.currentUser!
-                  .reauthenticateWithCredential(
-                EmailAuthProvider.credential(
-                  email: email1Ctrl.text,
-                  password: passwordCtrl.text,
-                ),
-              )
+              // Update display name via Firebase
+              await FirebaseAuth.instance.currentUser
+                  ?.updateDisplayName(nameCtrl.text)
                   .then((_) {
+                // Show a SnackBar and return to login screen
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text(
-                      StringUtils.kEmailAddressChanged,
+                      StringUtils.kUsernameChanged,
                     ),
                     action: SnackBarAction(
                       label: 'OK',
@@ -101,14 +83,12 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
                   ),
                 );
               });
-              await FirebaseAuth.instance.currentUser!
-                  .updateEmail(email2Ctrl.text)
-                  .then((_) {
-                Navigator.pushReplacementNamed(
+              if (context.mounted) {
+                await Navigator.pushReplacementNamed(
                   context,
                   '/login_screen',
                 );
-              });
+              }
             },
           ),
         ],
