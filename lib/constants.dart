@@ -8,6 +8,8 @@ class StringUtils {
   static const String kSparringPartner = '- Sparring Partner -';
   static const String kCreatedBy = 'Created by';
   static const String kLabelEmail = 'Emailaddress';
+  static const String kLabelOldEmail = 'Old Emailaddress';
+  static const String kLabelNewEmail = 'New Emailaddress';
   static const String kLabelPassword = 'Password';
   static const String kCreateAccount = 'Create an Account';
   static const String kForgotPassword = 'Forgot Password';

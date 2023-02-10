@@ -19,7 +19,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
   /// PasswordController
   final TextEditingController passwordCtrl = TextEditingController();
 
-  /// Sets default value of passwordVisible to false
+  /// Sets default value of passwordVisible to true
   bool isPasswordObscured = true;
 
   @override
