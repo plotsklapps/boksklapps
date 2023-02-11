@@ -16,6 +16,9 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
+  /// UsernameController
+  final TextEditingController usernameCtrl = TextEditingController();
+
   /// PasswordController
   final TextEditingController password1Ctrl = TextEditingController();
 
@@ -28,6 +31,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
   @override
   void dispose() {
     emailCtrl.dispose();
+    usernameCtrl.dispose();
     password1Ctrl.dispose();
     password2Ctrl.dispose();
     super.dispose();
@@ -73,6 +77,18 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     decoration: const InputDecoration(
                       labelText: StringUtils.kLabelEmail,
                       prefixIcon: IconUtils.kEmailAddress,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: usernameCtrl,
+                    keyboardType: TextInputType.text,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                      prefixIcon: Icon(
+                        Icons.person_outlined,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -173,23 +189,34 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               ),
             );
           } else {
-            await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
               email: emailCtrl.text,
               password: password1Ctrl.text,
-            )
-                .then((UserCredential currentUser) async {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .collection('userData');
-              if (context.mounted) {
-                await Navigator.pushReplacementNamed(
-                  context,
-                  '/login_screen',
-                );
-              }
+            );
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .set(<String, String>{
+              'userEmail': emailCtrl.text,
+              'userName': usernameCtrl.text,
             });
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Account and Database created'),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {},
+                  ),
+                ),
+              );
+            }
+            if (context.mounted) {
+              await Navigator.pushReplacementNamed(
+                context,
+                '/login_screen',
+              );
+            }
           }
         },
         child: IconUtils.kForward,

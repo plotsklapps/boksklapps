@@ -18,12 +18,47 @@ final StateProvider<String?> currentEmailProvider =
   return FirebaseAuth.instance.currentUser!.email!;
 });
 
-/// Create firestore database for currentUser
-final StateProvider<CollectionReference> currentUserDatabaseProvider =
-    StateProvider<CollectionReference>(
-        (StateProviderRef<CollectionReference> ref) {
-  return FirebaseFirestore.instance
-      .collection('users')
-      .doc(ref.read(currentUserProvider)!.uid)
-      .collection('userData');
-});
+/// BoksklappsUser class
+class BoksklappsUser {
+  /// BoksklappsUser constructor
+  BoksklappsUser({
+    required this.userId,
+    required this.userEmail,
+    required this.userName,
+    required this.userAge,
+    required this.userHeight,
+    required this.userWeight,
+    required this.userBMI,
+  });
+
+  /// Draw data from Firestore Collection
+  factory BoksklappsUser.fromFirestore() => BoksklappsUser(
+        userId: '',
+        userEmail: '',
+        userName: '',
+        userAge: 0,
+        userHeight: 0,
+        userWeight: 0,
+        userBMI: 0.0,
+      );
+  String userId;
+  String userEmail;
+  String userName;
+  int userAge;
+  int userHeight;
+  int userWeight;
+  double userBMI;
+
+  /// Send data to Firestore Collection
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'userEmail': userEmail,
+      'userName': userName,
+      'userAge': userAge,
+      'userHeight': userHeight,
+      'userWeight': userWeight,
+      'userBMI': userBMI,
+    };
+  }
+}
