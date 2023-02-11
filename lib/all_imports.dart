@@ -69,3 +69,5 @@ export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 /// AlertDialogs
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
 export 'package:boksklapps/alertdialogs/changeusername_dialog.dart';
+export 'package:boksklapps/alertdialogs/noaccount_dialog.dart';
+export 'package:boksklapps/alertdialogs/changeageweightbmi_dialog.dart';

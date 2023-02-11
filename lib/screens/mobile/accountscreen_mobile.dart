@@ -31,7 +31,11 @@ class AccountScreenMobile extends ConsumerWidget {
               Icons.edit_outlined,
             ),
             onTap: () {
-              showChangeEmailDialog(context);
+              if (currentEmail != null) {
+                showChangeEmailDialog(context);
+              } else {
+                showNoAccountDialog(context);
+              }
             },
           ),
           ListTile(
@@ -45,7 +49,11 @@ class AccountScreenMobile extends ConsumerWidget {
               Icons.edit_outlined,
             ),
             onTap: () {
-              showChangeUserNameDialog(context);
+              if (currentEmail != null) {
+                showChangeUserNameDialog(context);
+              } else {
+                showNoAccountDialog(context);
+              }
             },
           ),
           ListTile(
@@ -53,13 +61,17 @@ class AccountScreenMobile extends ConsumerWidget {
               currentEmail ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
-              'Current User',
+              'Current Age / Weight / BMI',
             ),
             trailing: const Icon(
               Icons.edit_outlined,
             ),
             onTap: () {
-              showChangeEmailDialog(context);
+              if (currentEmail != null) {
+                showChangeAgeWeightBMI(context);
+              } else {
+                showNoAccountDialog(context);
+              }
             },
           ),
         ],
