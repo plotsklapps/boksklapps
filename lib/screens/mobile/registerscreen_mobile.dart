@@ -179,10 +179,16 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               password: password1Ctrl.text,
             )
                 .then((UserCredential currentUser) async {
-              await Navigator.pushReplacementNamed(
-                context,
-                '/login_screen',
-              );
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection('userData');
+              if (context.mounted) {
+                await Navigator.pushReplacementNamed(
+                  context,
+                  '/login_screen',
+                );
+              }
             });
           }
         },

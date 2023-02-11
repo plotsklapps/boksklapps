@@ -17,3 +17,13 @@ final StateProvider<String?> currentEmailProvider =
     StateProvider<String?>((StateProviderRef<String?> ref) {
   return FirebaseAuth.instance.currentUser!.email!;
 });
+
+/// Create firestore database for currentUser
+final StateProvider<CollectionReference> currentUserDatabaseProvider =
+    StateProvider<CollectionReference>(
+        (StateProviderRef<CollectionReference> ref) {
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(ref.read(currentUserProvider)!.uid)
+      .collection('userData');
+});
