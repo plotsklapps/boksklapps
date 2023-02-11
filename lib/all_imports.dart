@@ -29,6 +29,7 @@ export 'package:boksklapps/providers/theme_providers.dart';
 export 'package:boksklapps/providers/themecolor_providers.dart';
 export 'package:boksklapps/providers/thememode_providers.dart';
 export 'package:boksklapps/providers/timer_providers.dart';
+export 'package:boksklapps/providers/ageheightweightbmi_providers.dart';
 
 /// Widgets
 export 'package:boksklapps/widgets/backtologin_widget.dart';
@@ -70,4 +71,4 @@ export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
 export 'package:boksklapps/alertdialogs/changeusername_dialog.dart';
 export 'package:boksklapps/alertdialogs/noaccount_dialog.dart';
-export 'package:boksklapps/alertdialogs/changeageweightbmi_dialog.dart';
+export 'package:boksklapps/alertdialogs/changeageheightweight_dialog.dart';

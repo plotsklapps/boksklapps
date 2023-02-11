@@ -58,7 +58,7 @@ class AccountScreenMobile extends ConsumerWidget {
           ),
           ListTile(
             title: Text(
-              currentEmail ?? StringUtils.kNoAccount,
+              'Personal Details' ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current Age / Weight / BMI',
@@ -68,7 +68,7 @@ class AccountScreenMobile extends ConsumerWidget {
             ),
             onTap: () {
               if (currentEmail != null) {
-                showChangeAgeWeightBMI(context);
+                showChangeAgeHeightWeight(context);
               } else {
                 showNoAccountDialog(context);
               }
