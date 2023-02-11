@@ -14,14 +14,14 @@ Future<void> showNoAccountDialog(BuildContext context) async {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: const <Text>[
             Text(
               'No Account is currently active. '
               'Please sign in or create an account.',
             ),
           ],
         ),
-        actions: [
+        actions: <TextButton>[
           TextButton(
             child: const Text(
               'Cancel',

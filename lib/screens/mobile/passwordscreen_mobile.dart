@@ -34,9 +34,9 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
-              children: [
+              children: <Row>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -72,7 +72,7 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Column(
-                children: [
+                children: <Widget>[
                   const Text(
                     'RESET PASSWORD',
                     style: TextStyleUtils.kHeadline1,

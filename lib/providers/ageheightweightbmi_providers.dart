@@ -1,21 +1,25 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// Age Provider for age/height/weight alert dialog
-final ageProvider = StateProvider<int>((ref) {
+final StateProvider<int> ageProvider =
+    StateProvider<int>((StateProviderRef<int> ref) {
   return 0;
 });
 
 /// Height Provider for age/height/weight alert dialog
-final heightProvider = StateProvider<int>((ref) {
+final StateProvider<int> heightProvider =
+    StateProvider<int>((StateProviderRef<int> ref) {
   return 0;
 });
 
 /// Weight Provider for age/height/weight alert dialog
-final weightProvider = StateProvider<int>((ref) {
+final StateProvider<int> weightProvider =
+    StateProvider<int>((StateProviderRef<int> ref) {
   return 0;
 });
 
 /// BMI Provider for age/height/weight alert dialog
-final bmiProvider = StateProvider<double>((ref) {
+final StateProvider<double> bmiProvider =
+    StateProvider<double>((StateProviderRef<double> ref) {
   return 0.0;
 });

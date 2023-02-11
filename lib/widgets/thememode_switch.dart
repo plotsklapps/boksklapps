@@ -7,7 +7,7 @@ class ThemeModeSwitch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSelected = <bool>[
+    final List<bool> isSelected = <bool>[
       ref.watch(themeModeProvider) == ThemeMode.light,
       ref.watch(themeModeProvider) == ThemeMode.system,
       ref.watch(themeModeProvider) == ThemeMode.dark,

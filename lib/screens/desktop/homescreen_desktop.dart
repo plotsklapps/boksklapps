@@ -17,12 +17,12 @@ class HomeScreenDesktop extends StatelessWidget {
         centerTitle: true,
       ),
       body: Row(
-        children: [
+        children: <Widget>[
           // Drawer shows if the screen width is greater than 1000
           const DrawerWidget(),
           Expanded(
             child: Column(
-              children: const [
+              children: const <Widget>[
                 GetShitDoneWidget(),
                 TimerWidget(),
               ],

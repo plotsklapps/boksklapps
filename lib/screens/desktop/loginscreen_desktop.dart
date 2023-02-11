@@ -38,9 +38,9 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
-              children: [
+              children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <InkWell>[
@@ -82,7 +82,7 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Column(
-                children: [
+                children: <Widget>[
                   const Text(
                     'LOGIN',
                     style: TextStyleUtils.kHeadline1,

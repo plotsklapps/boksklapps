@@ -1,14 +1,16 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// ThemeMode Provider provides Light, Dark or System theme. Standard to light.
-final themeModeProvider = StateProvider<ThemeMode>((ref) {
+final StateProvider<ThemeMode> themeModeProvider =
+    StateProvider<ThemeMode>((StateProviderRef<ThemeMode> ref) {
   return ThemeMode.light;
 });
 
 /// ThemeModeString Provider provides the String which is used in the
 /// settings_screen to show the user which theme is currently active.
 final StateNotifierProvider<ThemeModeString, String> themeModeStringProvider =
-    StateNotifierProvider<ThemeModeString, String>((ref) {
+    StateNotifierProvider<ThemeModeString, String>(
+        (StateNotifierProviderRef<ThemeModeString, String> ref) {
   return ThemeModeString();
 });
 

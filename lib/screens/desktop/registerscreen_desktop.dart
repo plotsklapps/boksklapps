@@ -42,10 +42,10 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
+              children: <Row>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const <Widget>[
@@ -58,7 +58,7 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Column(
-                children: [
+                children: <Widget>[
                   const Text(
                     'REGISTER',
                     style: TextStyleUtils.kHeadline1,

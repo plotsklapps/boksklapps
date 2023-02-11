@@ -45,13 +45,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Animate>[
               /// Animate BOKS part
               Animate(
-                effects: [
+                effects: <Effect<dynamic>>[
                   ScaleEffect(
                     delay: 0.ms,
                     duration: 800.ms,
@@ -65,7 +65,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
               /// Animate klapps part
               Animate(
-                effects: [
+                effects: <Effect<dynamic>>[
                   ScaleEffect(
                     delay: 800.ms,
                     duration: 800.ms,
@@ -80,10 +80,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Animate>[
               /// Animate - Sparring Partner - part
               Animate(
-                effects: [
+                effects: <Effect<dynamic>>[
                   FadeEffect(
                     delay: 1600.ms,
                     duration: 800.ms,
@@ -101,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           /// Show a dummy progress indicator
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: const <CircularProgressIndicator>[
               CircularProgressIndicator(
                 strokeWidth: 14,
               ),
@@ -112,7 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           /// What's my name?
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: const <Text>[
               Text(
                 StringUtils.kCreatedBy,
                 style: TextStyleUtils.kBodyText,
@@ -121,7 +121,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: const <Image>[
               Image(
                 image: AssetImage(
                   'assets/plotsklappsLogo.png',

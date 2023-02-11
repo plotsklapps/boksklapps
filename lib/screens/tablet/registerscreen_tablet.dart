@@ -45,9 +45,9 @@ class RegisterScreenTabletState extends State<RegisterScreenTablet> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
-              children: [
+              children: <Row>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const <Widget>[
@@ -60,7 +60,7 @@ class RegisterScreenTabletState extends State<RegisterScreenTablet> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Column(
-                children: [
+                children: <Widget>[
                   const Text(
                     'REGISTER',
                     style: TextStyleUtils.kHeadline1,

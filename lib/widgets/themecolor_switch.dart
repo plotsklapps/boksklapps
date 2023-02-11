@@ -7,7 +7,7 @@ class ThemeColorSwitch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSelected = <bool>[
+    final List<bool> isSelected = <bool>[
       ref.watch(themeColorProvider) == FlexScheme.outerSpace,
       ref.watch(themeColorProvider) == FlexScheme.money,
       ref.watch(themeColorProvider) == FlexScheme.redWine,

@@ -3,7 +3,7 @@ import 'package:boksklapps/all_imports.dart';
 /// Light Theme Provider from FlexColorScheme. Provides global theme to the app.
 /// In the scheme parameter the color scheme is set by the themeColorProvider.
 final StateProvider<ThemeData> themeLightProvider = StateProvider<ThemeData>(
-  (ref) {
+  (StateProviderRef<ThemeData> ref) {
     return FlexThemeData.light(
       scheme: ref.watch(themeColorProvider),
       surfaceMode: FlexSurfaceMode.highScaffoldLevelSurface,
@@ -41,7 +41,7 @@ final StateProvider<ThemeData> themeLightProvider = StateProvider<ThemeData>(
 
 /// Dark Theme Provider from FlexColorScheme
 final StateProvider<ThemeData> themeDarkProvider = StateProvider<ThemeData>(
-  (ref) {
+  (StateProviderRef<ThemeData> ref) {
     return FlexThemeData.dark(
       scheme: ref.watch(themeColorProvider),
       surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,

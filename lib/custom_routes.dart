@@ -1,7 +1,7 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// Variable customRoutes used in main.dart
-Map<String, WidgetBuilder> customRoutes = {
+Map<String, WidgetBuilder> customRoutes = <String, WidgetBuilder>{
   '/': (BuildContext context) {
     return const SplashScreen();
   },
@@ -20,7 +20,7 @@ Map<String, WidgetBuilder> customRoutes = {
   '/account_screen': (BuildContext context) {
     return const AccountScreen();
   },
-  '/settings_screen': (context) {
+  '/settings_screen': (BuildContext context) {
     return const SettingsScreen();
   },
 };

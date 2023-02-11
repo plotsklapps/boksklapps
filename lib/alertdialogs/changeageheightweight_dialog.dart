@@ -3,21 +3,27 @@ import 'package:boksklapps/all_imports.dart';
 /// Shows a dialog to change the email address
 /// Method takes context as parameter
 Future<void> showChangeAgeHeightWeight(BuildContext context) async {
-  // Show the dialog
+  /// Show the dialog
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
+      /// Consumer widget to access the providers
       return Consumer(
-        builder: (context, ref, _) {
+        builder: (BuildContext context, WidgetRef ref, _) {
           /// AgeController
-          final ageCtrl = TextEditingController();
-          final heightCtrl = TextEditingController();
-          final weightCtrl = TextEditingController();
+          final TextEditingController ageCtrl = TextEditingController();
 
+          /// HeightController
+          final TextEditingController heightCtrl = TextEditingController();
+
+          /// WeightController
+          final TextEditingController weightCtrl = TextEditingController();
+
+          /// Method to calculate the BMI (returns a double)
           double calculateBMI() {
-            final height = double.parse(heightCtrl.text) / 100;
-            final weight = double.parse(weightCtrl.text);
-            final calculatedBMI = weight / (height * height);
+            final double height = double.parse(heightCtrl.text) / 100;
+            final double weight = double.parse(weightCtrl.text);
+            final double calculatedBMI = weight / (height * height);
 
             return calculatedBMI;
           }
@@ -29,14 +35,20 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
+                const Text('Age in years'),
+
+                /// Age Textfield (reads ageProvider)
                 TextField(
                   controller: ageCtrl,
+                  onChanged: (String value) {
+                    ref.read(ageProvider.notifier).state = int.parse(value);
+                  },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    labelText: 'Age',
-                    prefixIcon: Icon(
+                  decoration: InputDecoration(
+                    labelText: ref.read(ageProvider).toString(),
+                    prefixIcon: const Icon(
                       Icons.cake_outlined,
                     ),
                   ),
@@ -44,13 +56,19 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 const SizedBox(
                   height: 8,
                 ),
+                const Text('Height in cm'),
+
+                /// Height Textfield (reads heightProvider)
                 TextField(
                   controller: heightCtrl,
+                  onChanged: (String value) {
+                    ref.read(heightProvider.notifier).state = int.parse(value);
+                  },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    labelText: 'Height in CM',
-                    prefixIcon: Icon(
+                  decoration: InputDecoration(
+                    labelText: ref.read(heightProvider).toString(),
+                    prefixIcon: const Icon(
                       Icons.height_outlined,
                     ),
                   ),
@@ -58,13 +76,19 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 const SizedBox(
                   height: 8,
                 ),
+                const Text('Weight in kg'),
+
+                /// Weight Textfield (reads weightProvider)
                 TextField(
                   controller: weightCtrl,
+                  onChanged: (String value) {
+                    ref.read(weightProvider.notifier).state = int.parse(value);
+                  },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    labelText: 'Weight in KGS',
-                    prefixIcon: Icon(
+                  decoration: InputDecoration(
+                    labelText: ref.read(weightProvider).toString(),
+                    prefixIcon: const Icon(
                       Icons.monitor_weight_outlined,
                     ),
                   ),
@@ -74,8 +98,9 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     ElevatedButton(
+                      /// Press to set calculatedBMI to bmiProvider
                       onPressed: () {
                         ref.read(bmiProvider.notifier).state = calculateBMI();
                       },
@@ -84,6 +109,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                       ),
                     ),
                     Text(
+                      /// Show the newly calculated BMI
                       ref.watch(bmiProvider).toStringAsFixed(1),
                       style: TextStyleUtils.kHeadline3,
                     ),
@@ -91,7 +117,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 ),
               ],
             ),
-            actions: [
+            actions: <TextButton>[
               TextButton(
                 child: const Text(
                   'Cancel',
@@ -105,14 +131,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   'Save',
                 ),
                 onPressed: () async {
-                  ref.read(ageProvider.notifier).state = ageCtrl as int;
-                  ref.read(heightProvider.notifier).state = heightCtrl as int;
-                  ref.read(weightProvider.notifier).state = weightCtrl as int;
-                  ref.read(bmiProvider.notifier).state = ref.watch(bmiProvider);
-                  await Navigator.pushReplacementNamed(
-                    context,
-                    '/login_screen',
-                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],

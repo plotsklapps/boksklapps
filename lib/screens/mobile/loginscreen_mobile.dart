@@ -41,9 +41,9 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
-              children: [
+              children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const <Widget>[
@@ -116,7 +116,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Column(
-                children: [
+                children: <Widget>[
                   const Text(
                     'LOGIN',
                     style: TextStyleUtils.kHeadline1,
@@ -191,7 +191,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                 email: emailCtrl.text,
                 password: passwordCtrl.text,
               )
-                  .then((currentUser) async {
+                  .then((UserCredential currentUser) async {
                 await Navigator.pushReplacementNamed(
                   context,
                   '/home_screen',

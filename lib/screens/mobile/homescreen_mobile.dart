@@ -19,7 +19,7 @@ class HomeScreenMobile extends StatelessWidget {
       // Drawer hides if the screen width is less than 1000
       drawer: const DrawerWidget(),
       body: Column(
-        children: const [
+        children: const <Widget>[
           GetShitDoneWidget(),
           TimerWidget(),
         ],

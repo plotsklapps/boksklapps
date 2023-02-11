@@ -4,10 +4,10 @@ import 'package:boksklapps/all_imports.dart';
 /// Method takes context as parameter
 Future<void> showChangeUserNameDialog(BuildContext context) async {
   /// NameController for username
-  final nameCtrl = TextEditingController();
+  final TextEditingController nameCtrl = TextEditingController();
 
   /// PasswordController
-  final passwordCtrl = TextEditingController();
+  final TextEditingController passwordCtrl = TextEditingController();
 
   // Show the dialog
   await showDialog<void>(
@@ -20,7 +20,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             const Text(
               StringUtils.kEnterInfo,
             ),
@@ -52,7 +52,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
             ),
           ],
         ),
-        actions: [
+        actions: <TextButton>[
           TextButton(
             child: const Text(
               'Cancel',

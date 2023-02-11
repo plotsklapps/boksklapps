@@ -45,9 +45,9 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Column(
-              children: [
+              children: <Row>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const <Widget>[
@@ -60,7 +60,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Column(
-                children: [
+                children: <Widget>[
                   const Text(
                     'REGISTER',
                     style: TextStyleUtils.kHeadline1,
@@ -178,7 +178,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               email: emailCtrl.text,
               password: password1Ctrl.text,
             )
-                .then((currentUser) async {
+                .then((UserCredential currentUser) async {
               await Navigator.pushReplacementNamed(
                 context,
                 '/login_screen',

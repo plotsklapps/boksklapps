@@ -17,10 +17,10 @@ class GetShitDoneWidget extends StatelessWidget {
         32,
       ),
       child: Column(
-        children: [
+        children: <Row>[
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+            children: <Animate>[
               Animate(
                 effects: <Effect<dynamic>>[
                   FadeEffect(
@@ -41,7 +41,7 @@ class GetShitDoneWidget extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+            children: <Animate>[
               Animate(
                 effects: <Effect<dynamic>>[
                   FadeEffect(
@@ -62,7 +62,7 @@ class GetShitDoneWidget extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+            children: <Animate>[
               Animate(
                 effects: <Effect<dynamic>>[
                   FadeEffect(

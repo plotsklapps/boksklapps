@@ -7,8 +7,10 @@ class AccountScreenMobile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentEmail = FirebaseAuth.instance.currentUser?.email;
-    final currentUserName = FirebaseAuth.instance.currentUser?.displayName;
+    final String? currentEmail = FirebaseAuth.instance.currentUser?.email;
+    final String? currentUserName =
+        FirebaseAuth.instance.currentUser?.displayName;
+    final String currentBMI = ref.watch(bmiProvider).toStringAsFixed(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +21,7 @@ class AccountScreenMobile extends ConsumerWidget {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <ListTile>[
           ListTile(
             title: Text(
               currentEmail ?? StringUtils.kNoAccount,
@@ -58,10 +60,10 @@ class AccountScreenMobile extends ConsumerWidget {
           ),
           ListTile(
             title: Text(
-              'Personal Details' ?? StringUtils.kNoAccount,
+              currentBMI,
             ),
             subtitle: const Text(
-              'Current Age / Weight / BMI',
+              'Current BMI',
             ),
             trailing: const Icon(
               Icons.edit_outlined,

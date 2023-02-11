@@ -1,4 +1,5 @@
 import 'package:boksklapps/all_imports.dart';
+
 /// SettingsScreenMobile class
 class SettingsScreenMobile extends ConsumerWidget {
   /// SettingsScreenMobile constructor
@@ -15,7 +16,7 @@ class SettingsScreenMobile extends ConsumerWidget {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <ListTile>[
           ListTile(
             title: const Text(
               StringUtils.kLightSystemDark,

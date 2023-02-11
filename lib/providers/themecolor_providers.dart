@@ -3,7 +3,8 @@ import 'package:boksklapps/all_imports.dart';
 /// ThemeColor Provider returns a FlexScheme.something to be used in the
 /// Light and Dark Theme Providers
 final StateNotifierProvider<ThemeColorState, FlexScheme> themeColorProvider =
-    StateNotifierProvider<ThemeColorState, FlexScheme>((ref) {
+    StateNotifierProvider<ThemeColorState, FlexScheme>(
+        (StateNotifierProviderRef<ThemeColorState, FlexScheme> ref) {
   return ThemeColorState();
 });
 
@@ -31,7 +32,8 @@ class ThemeColorState extends StateNotifier<FlexScheme> {
 /// ThemeColorString Provider provides the String which is used in the
 /// settings_screen to show the user which color is currently active.
 final StateNotifierProvider<ThemeColorString, String> themeColorStringProvider =
-    StateNotifierProvider<ThemeColorString, String>((ref) {
+    StateNotifierProvider<ThemeColorString, String>(
+        (StateNotifierProviderRef<ThemeColorString, String> ref) {
   return ThemeColorString();
 });
 

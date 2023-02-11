@@ -4,13 +4,13 @@ import 'package:boksklapps/all_imports.dart';
 /// Method takes context as parameter
 Future<void> showChangeEmailDialog(BuildContext context) async {
   /// EmailController for old email
-  final email1Ctrl = TextEditingController();
+  final TextEditingController email1Ctrl = TextEditingController();
 
   /// EmailController for new email
-  final email2Ctrl = TextEditingController();
+  final TextEditingController email2Ctrl = TextEditingController();
 
   /// PasswordController
-  final passwordCtrl = TextEditingController();
+  final TextEditingController passwordCtrl = TextEditingController();
 
   // Show the dialog
   await showDialog<void>(
@@ -23,7 +23,7 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             const Text(
               StringUtils.kEnterInfo,
             ),
@@ -67,7 +67,7 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
             ),
           ],
         ),
-        actions: [
+        actions: <TextButton>[
           TextButton(
             child: const Text(
               'Cancel',

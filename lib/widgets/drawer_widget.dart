@@ -11,17 +11,17 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
-        children: [
+        children: <Widget>[
           SizedBox(
             height: 220,
             child: DrawerHeader(
               child: Column(
-                children: [
+                children: <Row>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Animate>[
                       Animate(
-                        effects: [
+                        effects: <Effect<dynamic>>[
                           ScaleEffect(
                             delay: 0.ms,
                             duration: 800.ms,
@@ -33,7 +33,7 @@ class DrawerWidget extends StatelessWidget {
                         ),
                       ),
                       Animate(
-                        effects: [
+                        effects: <Effect<dynamic>>[
                           ScaleEffect(
                             delay: 800.ms,
                             duration: 800.ms,
@@ -50,7 +50,7 @@ class DrawerWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Animate>[
                       Animate(
-                        effects: [
+                        effects: <Effect<dynamic>>[
                           FadeEffect(
                             delay: 1600.ms,
                             duration: 800.ms,
@@ -109,7 +109,7 @@ class DrawerWidget extends StatelessWidget {
                 await Navigator.pushNamedAndRemoveUntil(
                   context,
                   '/',
-                  (route) => false,
+                  (Route<dynamic> route) => false,
                 );
               }
             },

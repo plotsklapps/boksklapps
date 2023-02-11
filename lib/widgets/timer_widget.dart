@@ -10,9 +10,9 @@ class TimerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Fetch timer states
-    final totalTime = ref.watch(totalTimeProvider);
-    final setTime = ref.watch(setTimeProvider);
-    final restTime = ref.watch(restTimeProvider);
+    final Duration totalTime = ref.watch(totalTimeProvider);
+    final Duration setTime = ref.watch(setTimeProvider);
+    final Duration restTime = ref.watch(restTimeProvider);
 
     // Format the timer states
     String format(Duration d) {
@@ -20,9 +20,9 @@ class TimerWidget extends ConsumerWidget {
     }
 
     // Set formatted timer states in new variables
-    final formattedTotalTime = format(totalTime);
-    final formattedSetTime = format(setTime);
-    final formattedRestTime = format(restTime);
+    final String formattedTotalTime = format(totalTime);
+    final String formattedSetTime = format(setTime);
+    final String formattedRestTime = format(restTime);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -32,10 +32,10 @@ class TimerWidget extends ConsumerWidget {
         32,
       ),
       child: Column(
-        children: [
+        children: <Row>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Column>[
               Column(
                 children: const <Text>[
                   Text(
@@ -52,7 +52,7 @@ class TimerWidget extends ConsumerWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               ElevatedButton(
                 onPressed: () {
                   ref.read(totalTimeProvider.notifier).state -= const Duration(
@@ -89,7 +89,7 @@ class TimerWidget extends ConsumerWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Column>[
               Column(
                 children: const <Text>[
                   Text(
@@ -106,7 +106,7 @@ class TimerWidget extends ConsumerWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               ElevatedButton(
                 onPressed: () {
                   ref.read(setTimeProvider.notifier).state -= const Duration(
@@ -143,7 +143,7 @@ class TimerWidget extends ConsumerWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Column>[
               Column(
                 children: const <Text>[
                   Text(
@@ -160,7 +160,7 @@ class TimerWidget extends ConsumerWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               ElevatedButton(
                 onPressed: () {
                   ref.read(restTimeProvider.notifier).state -= const Duration(

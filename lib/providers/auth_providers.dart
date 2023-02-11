@@ -1,16 +1,19 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// Returns instance of FirebaseAuth
-final firebaseProvider = StateProvider<FirebaseAuth>((ref) {
+final StateProvider<FirebaseAuth> firebaseProvider =
+    StateProvider<FirebaseAuth>((StateProviderRef<FirebaseAuth> ref) {
   return FirebaseAuth.instance;
 });
 
 /// Returns instance of User
-final currentUserProvider = StateProvider<User?>((ref) {
+final StateProvider<User?> currentUserProvider =
+    StateProvider<User?>((StateProviderRef<User?> ref) {
   return FirebaseAuth.instance.currentUser;
 });
 
 /// Returns current user's email as String
-final currentEmailProvider = StateProvider<String?>((ref) {
+final StateProvider<String?> currentEmailProvider =
+    StateProvider<String?>((StateProviderRef<String?> ref) {
   return FirebaseAuth.instance.currentUser!.email!;
 });
