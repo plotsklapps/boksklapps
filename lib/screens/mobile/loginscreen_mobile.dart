@@ -186,6 +186,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
             return;
           } else {
             try {
+              Logger().i('Logging in with email: ${emailCtrl.text}');
               await FirebaseAuth.instance
                   .signInWithEmailAndPassword(
                 email: emailCtrl.text,

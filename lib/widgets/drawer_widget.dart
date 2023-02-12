@@ -1,14 +1,14 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// DrawerWidget class
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends ConsumerWidget {
   /// DrawerWidget constructor
   const DrawerWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -76,6 +76,7 @@ class DrawerWidget extends StatelessWidget {
             subtitle: const Text('Change credential information'),
             trailing: IconUtils.kAccount,
             onTap: () {
+              /// Navigate to account screen
               Navigator.pushNamed(
                 context,
                 '/account_screen',
@@ -90,6 +91,7 @@ class DrawerWidget extends StatelessWidget {
             subtitle: const Text('Change app look & feel'),
             trailing: IconUtils.kSettings,
             onTap: () async {
+              /// Navigate to settings screen
               await Navigator.pushNamed(
                 context,
                 '/settings_screen',
@@ -104,7 +106,13 @@ class DrawerWidget extends StatelessWidget {
             subtitle: const Text('Sign out from the app'),
             trailing: IconUtils.kLogout,
             onTap: () async {
+              /// Sign out from Firebase
               await FirebaseAuth.instance.signOut();
+
+              /// Clear the currentUserProvider
+              ref.invalidate(currentUserProvider);
+
+              /// Clear all screens and return to splash screen
               if (context.mounted) {
                 await Navigator.pushNamedAndRemoveUntil(
                   context,

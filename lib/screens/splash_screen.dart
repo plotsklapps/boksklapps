@@ -21,11 +21,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     super.initState();
     timer = Timer(const Duration(seconds: 5), () async {
       if (ref.watch(currentUserProvider) != null) {
+        /// If user is known, navigate to homescreen
         await Navigator.pushReplacementNamed(
           context,
           '/home_screen',
         );
       } else {
+        /// If user is not known, navigate to login
         await Navigator.pushReplacementNamed(
           context,
           '/login_screen',
@@ -36,6 +38,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   void dispose() {
+    /// Kill timer
     timer?.cancel();
     super.dispose();
   }

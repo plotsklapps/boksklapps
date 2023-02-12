@@ -189,16 +189,38 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
               ),
             );
           } else {
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            Logger().i(
+              'Registering new account...',
+            );
+            await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
               email: emailCtrl.text,
               password: password1Ctrl.text,
-            );
-            await FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser?.uid)
-                .set(<String, String>{
-              'userEmail': emailCtrl.text,
-              'userName': usernameCtrl.text,
+            )
+                .then((_) async {
+              Logger().i(
+                'Creating new database...',
+              );
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .set(<String, dynamic>{
+                'userName': usernameCtrl.text,
+                'userEmail': emailCtrl.text,
+                'userAge': 0,
+                'userHeight': 0,
+                'userWeight': 0,
+                'userBMI': 0,
+                'themeColor': 0,
+                'themeMode': 0,
+              }).then((_) async {
+                Logger().i(
+                  'Updating username...',
+                );
+                await FirebaseAuth.instance.currentUser!.updateDisplayName(
+                  usernameCtrl.text,
+                );
+              });
             });
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(

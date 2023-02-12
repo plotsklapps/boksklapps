@@ -10,7 +10,16 @@ class AccountScreenMobile extends ConsumerWidget {
     final String? currentEmail = FirebaseAuth.instance.currentUser?.email;
     final String? currentUserName =
         FirebaseAuth.instance.currentUser?.displayName;
-    final String currentBMI = ref.watch(bmiProvider).toStringAsFixed(1);
+
+    /// Return double 'userBMI' from Firestore
+    Future<double> getUserBMI() async {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final User? user = FirebaseAuth.instance.currentUser;
+      final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          await firestore.collection('users').doc(user?.uid).get();
+      final double userBMI = documentSnapshot.get('userBMI') as double;
+      return userBMI;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +69,7 @@ class AccountScreenMobile extends ConsumerWidget {
           ),
           ListTile(
             title: Text(
-              currentBMI,
+              getUserBMI().toString(),
             ),
             subtitle: const Text(
               'Current BMI',
