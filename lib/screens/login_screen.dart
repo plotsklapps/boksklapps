@@ -7,9 +7,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 800) {
+    final double screenwidth = MediaQuery.of(context).size.width;
+    if (screenwidth < 800) {
       return const LoginScreenMobile();
-    } else if (MediaQuery.of(context).size.width < 1200) {
+    } else if (screenwidth >= 800 && screenwidth < 1200) {
       return const LoginScreenTablet();
     } else {
       return const LoginScreenDesktop();
