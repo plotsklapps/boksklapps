@@ -25,8 +25,10 @@ Future<void> resetPassword(BuildContext context, String email) async {
 
       /// Show snackbar to user
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Reset email sent'),
+        SnackBar(
+          content: Text(
+            'Reset email sent to $email',
+          ),
         ),
       );
 

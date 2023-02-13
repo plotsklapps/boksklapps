@@ -112,8 +112,16 @@ class DrawerWidget extends ConsumerWidget {
               /// Clear the currentUserProvider
               ref.invalidate(currentUserProvider);
 
-              /// Clear all screens and return to splash screen
+              /// Clear all screens, show snackbar to user
+              /// and return to splash screen
               if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'You have been signed out',
+                    ),
+                  ),
+                );
                 await Navigator.pushNamedAndRemoveUntil(
                   context,
                   '/',
