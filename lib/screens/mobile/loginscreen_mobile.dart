@@ -43,73 +43,12 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
-                    GoToRegisterWidget(),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/password_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 1000.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 1500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          StringUtils.kForgotPassword,
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/home_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 2000.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 2500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          'Sneak Peek',
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              children: const <Widget>[
+                GoToRegisterWidget(),
+                SizedBox(height: 24),
+                ForgotPasswordWidget(),
+                SizedBox(height: 24),
+                SneakPeakWidget(),
               ],
             ),
             const Spacer(),
@@ -122,6 +61,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
+
+                  /// Email TextField
                   TextField(
                     controller: emailCtrl,
                     keyboardType: TextInputType.emailAddress,
@@ -132,6 +73,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
                     ),
                   ),
                   const SizedBox(height: 12),
+
+                  /// Password TextField
                   TextField(
                     controller: passwordCtrl,
                     keyboardType: TextInputType.text,
@@ -163,6 +106,8 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          /// Calls loginToFirebase function from firebase_login.dart and
+          /// handles all the login logic + errors
           await loginToFirebase(
             context,
             emailCtrl.text,
