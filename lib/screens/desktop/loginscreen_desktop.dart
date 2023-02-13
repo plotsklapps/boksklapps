@@ -19,6 +19,9 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
   /// PasswordController
   final TextEditingController passwordCtrl = TextEditingController();
 
+  /// Sets default value of passwordVisible to true
+  bool isPasswordObscured = true;
+
   @override
   void dispose() {
     emailCtrl.dispose();
@@ -30,87 +33,98 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.fromLTRB(
-          MediaQuery.of(context).size.width / 4,
-          64,
-          MediaQuery.of(context).size.width / 4,
-          56,
+        padding: const EdgeInsets.fromLTRB(
+          18,
+          54,
+          18,
+          54,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/register_screen',
-                        );
-                      },
-                      child: const Text(
-                        StringUtils.kCreateAccount,
-                        style: TextStyleUtils.kHeadline3,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <InkWell>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/password_screen',
-                        );
-                      },
-                      child: const Text(
-                        StringUtils.kForgotPassword,
-                        style: TextStyleUtils.kHeadline3,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+        child: Row(
+          children: <Expanded>[
+            const Expanded(
+              child: Drawer(),
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 48),
+            Expanded(
+              flex: 2,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Row>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      GetShitDoneWidget(),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const Text(
-                    'LOGIN',
-                    style: TextStyleUtils.kHeadline1,
+                  Column(
+                    children: const <Widget>[
+                      /// Create an account button
+                      GoToRegisterWidget(),
+                      SizedBox(height: 24),
+
+                      /// Forgot password button
+                      ForgotPasswordWidget(),
+                      SizedBox(height: 24),
+
+                      /// Sneak Peek button (no login)
+                      SneakPeekWidget(),
+                    ],
                   ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: emailCtrl,
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      labelText: StringUtils.kLabelEmail,
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: passwordCtrl,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    enableSuggestions: false,
-                    decoration: const InputDecoration(
-                      labelText: StringUtils.kLabelPassword,
-                      prefixIcon: Icon(
-                        Icons.lock_outlined,
-                      ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 48),
+                    child: Column(
+                      children: <Widget>[
+                        const Text(
+                          'LOGIN',
+                          style: TextStyleUtils.kHeadline1,
+                        ),
+                        const SizedBox(height: 24),
+
+                        /// Email TextField
+                        TextField(
+                          controller: emailCtrl,
+                          keyboardType: TextInputType.emailAddress,
+                          textAlign: TextAlign.center,
+                          decoration: const InputDecoration(
+                            labelText: StringUtils.kLabelEmail,
+                            prefixIcon: IconUtils.kEmailAddress,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        /// Password TextField
+                        TextField(
+                          controller: passwordCtrl,
+                          keyboardType: TextInputType.text,
+                          obscureText: isPasswordObscured,
+                          textAlign: TextAlign.center,
+                          enableSuggestions: false,
+                          decoration: InputDecoration(
+                            labelText: StringUtils.kLabelPassword,
+                            prefixIcon: IconUtils.kPassword,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isPasswordObscured
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isPasswordObscured = !isPasswordObscured;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -121,33 +135,13 @@ class LoginScreenDesktopState extends State<LoginScreenDesktop> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (emailCtrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Email cannot be empty'),
-              ),
-            );
-            return;
-          } else if (passwordCtrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password cannot be empty'),
-              ),
-            );
-            return;
-          } else if (passwordCtrl.text.length < 8) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password must be at least 8 characters'),
-              ),
-            );
-            return;
-          } else {
-            await Navigator.pushReplacementNamed(
-              context,
-              '/home_screen',
-            );
-          }
+          /// Calls loginToFirebase function from firebase_login.dart and
+          /// handles all the login logic + errors
+          await loginToFirebase(
+            context,
+            emailCtrl.text,
+            passwordCtrl.text,
+          );
         },
         child: IconUtils.kForward,
       ),
