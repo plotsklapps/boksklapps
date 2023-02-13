@@ -19,6 +19,7 @@ export 'package:firebase_analytics/firebase_analytics.dart';
 export 'firebase_options.dart';
 export 'package:boksklapps/firebase/firebase_login.dart';
 export 'package:boksklapps/firebase/firebase_register.dart';
+export 'package:boksklapps/firebase/firebase_password.dart';
 
 /// Constants
 export 'package:boksklapps/constants.dart';

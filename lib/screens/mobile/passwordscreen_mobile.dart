@@ -36,36 +36,8 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Column(
-              children: <Row>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/login_screen',
-                        );
-                      },
-                      child: Animate(
-                        effects: <Effect<dynamic>>[
-                          FadeEffect(
-                            delay: 0.ms,
-                            duration: 1000.ms,
-                          ),
-                          MoveEffect(
-                            delay: 500.ms,
-                            duration: 1000.ms,
-                          ),
-                        ],
-                        child: const Text(
-                          StringUtils.kBackToLogin,
-                          style: TextStyleUtils.kHeadline3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              children: const <Widget>[
+                BackToLoginWidget(),
               ],
             ),
             const Spacer(),
@@ -78,6 +50,8 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
+
+                  /// Email TextField
                   TextField(
                     controller: emailCtrl,
                     keyboardType: TextInputType.emailAddress,
@@ -95,24 +69,10 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (emailCtrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Email cannot be empty'),
-              ),
-            );
-            return;
-          } else {
-            await FirebaseAuth.instance.sendPasswordResetEmail(
-              email: emailCtrl.text,
-            );
-            if (context.mounted) {
-              await Navigator.pushReplacementNamed(
-                context,
-                '/login_screen',
-              );
-            }
-          }
+          await resetPassword(
+            context,
+            emailCtrl.text,
+          );
         },
         child: IconUtils.kForward,
       ),
