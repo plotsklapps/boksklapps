@@ -17,6 +17,7 @@ export 'package:firebase_auth/firebase_auth.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'firebase_options.dart';
+export 'package:boksklapps/firebase/firebase_login.dart';
 
 /// Constants
 export 'package:boksklapps/constants.dart';
