@@ -18,6 +18,7 @@ export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'firebase_options.dart';
 export 'package:boksklapps/firebase/firebase_login.dart';
+export 'package:boksklapps/firebase/firebase_register.dart';
 
 /// Constants
 export 'package:boksklapps/constants.dart';
@@ -37,7 +38,7 @@ export 'package:boksklapps/providers/ageheightweightbmi_providers.dart';
 export 'package:boksklapps/widgets/backtologin_widget.dart';
 export 'package:boksklapps/widgets/gotoregister_widget.dart';
 export 'package:boksklapps/widgets/forgotpassword_widget.dart';
-export 'package:boksklapps/widgets/sneakpeak_widget.dart';
+export 'package:boksklapps/widgets/sneakpeek_widget.dart';
 export 'package:boksklapps/widgets/drawer_widget.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/themecolor_switch.dart';

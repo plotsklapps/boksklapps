@@ -30,6 +30,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
 
   @override
   void dispose() {
+    /// Kill all controllers
     emailCtrl.dispose();
     usernameCtrl.dispose();
     password1Ctrl.dispose();
@@ -51,13 +52,9 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Column(
-              children: <Row>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
-                    BackToLoginWidget(),
-                  ],
-                ),
+              children: const <Widget>[
+                /// Back to login button
+                BackToLoginWidget(),
               ],
             ),
             const Spacer(),
@@ -70,6 +67,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     style: TextStyleUtils.kHeadline1,
                   ),
                   const SizedBox(height: 24),
+
+                  /// Email TextField
                   TextField(
                     controller: emailCtrl,
                     keyboardType: TextInputType.emailAddress,
@@ -80,6 +79,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     ),
                   ),
                   const SizedBox(height: 12),
+
+                  /// Username TextField
                   TextField(
                     controller: usernameCtrl,
                     keyboardType: TextInputType.text,
@@ -92,6 +93,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     ),
                   ),
                   const SizedBox(height: 12),
+
+                  /// Password TextField
                   TextField(
                     controller: password1Ctrl,
                     keyboardType: TextInputType.text,
@@ -116,6 +119,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     ),
                   ),
                   const SizedBox(height: 12),
+
+                  /// Confirm Password TextField
                   TextField(
                     controller: password2Ctrl,
                     keyboardType: TextInputType.text,
@@ -123,7 +128,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                     textAlign: TextAlign.center,
                     enableSuggestions: false,
                     decoration: InputDecoration(
-                      labelText: StringUtils.kLabelPassword,
+                      labelText: StringUtils.kLabelConfirmPassword,
                       prefixIcon: IconUtils.kPassword,
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -147,99 +152,15 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (emailCtrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Email cannot be empty'),
-              ),
-            );
-            return;
-          } else if (password1Ctrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password cannot be empty'),
-              ),
-            );
-            return;
-          } else if (password2Ctrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password cannot be empty'),
-              ),
-            );
-            return;
-          } else if (password1Ctrl.text.length < 8) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password 1 must be at least 8 characters'),
-              ),
-            );
-            return;
-          } else if (password2Ctrl.text.length < 8) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password 2 must be at least 8 characters'),
-              ),
-            );
-            return;
-          } else if (password1Ctrl.text != password2Ctrl.text) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Passwords do not match'),
-              ),
-            );
-          } else {
-            Logger().i(
-              'Registering new account...',
-            );
-            await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-              email: emailCtrl.text,
-              password: password1Ctrl.text,
-            )
-                .then((_) async {
-              Logger().i(
-                'Creating new database...',
-              );
-              await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .set(<String, dynamic>{
-                'userName': usernameCtrl.text,
-                'userEmail': emailCtrl.text,
-                'userAge': 0,
-                'userHeight': 0,
-                'userWeight': 0,
-                'userBMI': 0,
-                'themeColor': 0,
-                'themeMode': 0,
-              }).then((_) async {
-                Logger().i(
-                  'Updating username...',
-                );
-                await FirebaseAuth.instance.currentUser!.updateDisplayName(
-                  usernameCtrl.text,
-                );
-              });
-            });
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Account and Database created'),
-                  action: SnackBarAction(
-                    label: 'OK',
-                    onPressed: () {},
-                  ),
-                ),
-              );
-            }
-            if (context.mounted) {
-              await Navigator.pushReplacementNamed(
-                context,
-                '/login_screen',
-              );
-            }
-          }
+          /// Calls registerToFirebase function from firebase_register.dart and
+          /// handles all the registration logic + errors
+          await registerToFirebase(
+            context,
+            emailCtrl.text,
+            password1Ctrl.text,
+            password2Ctrl.text,
+            usernameCtrl.text,
+          );
         },
         child: IconUtils.kForward,
       ),

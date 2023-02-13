@@ -44,11 +44,16 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
           children: <Widget>[
             Column(
               children: const <Widget>[
+                /// Create an account button
                 GoToRegisterWidget(),
                 SizedBox(height: 24),
+
+                /// Forgot password button
                 ForgotPasswordWidget(),
                 SizedBox(height: 24),
-                SneakPeakWidget(),
+
+                /// Sneak Peek button (no login)
+                SneakPeekWidget(),
               ],
             ),
             const Spacer(),

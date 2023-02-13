@@ -1,9 +1,9 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// SneakPeakWidget class
-class SneakPeakWidget extends StatelessWidget {
+class SneakPeekWidget extends StatelessWidget {
   /// SneakPeakWidget constructor
-  const SneakPeakWidget({
+  const SneakPeekWidget({
     super.key,
   });
 

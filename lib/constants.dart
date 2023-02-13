@@ -12,6 +12,7 @@ class StringUtils {
   static const String kLabelNewEmail = 'New Emailaddress';
   static const String kUserName = 'Username';
   static const String kLabelPassword = 'Password';
+  static const String kLabelConfirmPassword = 'Confirm Password';
   static const String kCreateAccount = 'Create an Account';
   static const String kForgotPassword = 'Forgot Password';
   static const String kBackToLogin = 'Back to Login';
