@@ -66,6 +66,7 @@ export 'package:boksklapps/screens/mobile/settingsscreen_mobile.dart';
 /// Screens Tablet
 export 'package:boksklapps/screens/tablet/registerscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/loginscreen_tablet.dart';
+export 'package:boksklapps/screens/tablet/passwordscreen_tablet.dart';
 
 /// Screens Desktop
 export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';
