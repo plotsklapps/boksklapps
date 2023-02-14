@@ -16,15 +16,23 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
+  /// UsernameController
+  final TextEditingController usernameCtrl = TextEditingController();
+
   /// PasswordController
   final TextEditingController password1Ctrl = TextEditingController();
 
   /// PasswordController
   final TextEditingController password2Ctrl = TextEditingController();
 
+  /// Sets default value of passwordVisible to false
+  bool isPasswordObscured = true;
+
   @override
   void dispose() {
+    /// Kill all controllers
     emailCtrl.dispose();
+    usernameCtrl.dispose();
     password1Ctrl.dispose();
     password2Ctrl.dispose();
     super.dispose();
@@ -32,128 +40,155 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(
-          MediaQuery.of(context).size.width / 4,
-          64,
-          MediaQuery.of(context).size.width / 4,
-          56,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Row>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
-                    BackToLoginWidget(),
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            18,
+            54,
+            18,
+            54,
+          ),
+          child: Row(
+            children: <Expanded>[
+              const Expanded(
+                child: Drawer(),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Row>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        GetShitDoneWidget(),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 48),
-              child: Column(
-                children: <Widget>[
-                  const Text(
-                    'REGISTER',
-                    style: TextStyleUtils.kHeadline1,
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: emailCtrl,
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      labelText: StringUtils.kLabelEmail,
-                      prefixIcon: IconUtils.kEmailAddress,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: password1Ctrl,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    enableSuggestions: false,
-                    decoration: const InputDecoration(
-                      labelText: StringUtils.kLabelPassword,
-                      prefixIcon: IconUtils.kPassword,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: password2Ctrl,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    textAlign: TextAlign.center,
-                    enableSuggestions: false,
-                    decoration: const InputDecoration(
-                      labelText: StringUtils.kLabelPassword,
-                      prefixIcon: IconUtils.kPassword,
-                    ),
-                  ),
-                ],
               ),
-            ),
-          ],
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: const <Widget>[
+                        /// Back to login button
+                        BackToLoginWidget(),
+                      ],
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 48),
+                      child: Column(
+                        children: <Widget>[
+                          const Text(
+                            'REGISTER',
+                            style: TextStyleUtils.kHeadline1,
+                          ),
+                          const SizedBox(height: 24),
+
+                          /// Email TextField
+                          TextField(
+                            controller: emailCtrl,
+                            keyboardType: TextInputType.emailAddress,
+                            textAlign: TextAlign.center,
+                            decoration: const InputDecoration(
+                              labelText: StringUtils.kLabelEmail,
+                              prefixIcon: IconUtils.kEmailAddress,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          /// Username TextField
+                          TextField(
+                            controller: usernameCtrl,
+                            keyboardType: TextInputType.text,
+                            textAlign: TextAlign.center,
+                            decoration: const InputDecoration(
+                              labelText: 'Username',
+                              prefixIcon: Icon(
+                                Icons.person_outlined,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          /// Password TextField
+                          TextField(
+                            controller: password1Ctrl,
+                            keyboardType: TextInputType.text,
+                            obscureText: isPasswordObscured,
+                            textAlign: TextAlign.center,
+                            enableSuggestions: false,
+                            decoration: InputDecoration(
+                              labelText: StringUtils.kLabelPassword,
+                              prefixIcon: IconUtils.kPassword,
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  isPasswordObscured
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordObscured = !isPasswordObscured;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          /// Confirm Password TextField
+                          TextField(
+                            controller: password2Ctrl,
+                            keyboardType: TextInputType.text,
+                            obscureText: isPasswordObscured,
+                            textAlign: TextAlign.center,
+                            enableSuggestions: false,
+                            decoration: InputDecoration(
+                              labelText: StringUtils.kLabelConfirmPassword,
+                              prefixIcon: IconUtils.kPassword,
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  isPasswordObscured
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordObscured = !isPasswordObscured;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (emailCtrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Email cannot be empty'),
-              ),
-            );
-            return;
-          } else if (password1Ctrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password 1 cannot be empty'),
-              ),
-            );
-            return;
-          } else if (password2Ctrl.text.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password 2 cannot be empty'),
-              ),
-            );
-            return;
-          } else if (password1Ctrl.text.length < 8) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password 1 must be at least 8 characters'),
-              ),
-            );
-            return;
-          } else if (password2Ctrl.text.length < 8) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Password 2 must be at least 8 characters'),
-              ),
-            );
-            return;
-          } else if (password1Ctrl.text != password2Ctrl.text) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Passwords do not match'),
-              ),
-            );
-          } else {
-            await Navigator.pushReplacementNamed(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            /// Calls registerToFirebase function from firebase_register.dart and
+            /// handles all the registration logic + errors
+            await registerToFirebase(
               context,
-              '/home_screen',
+              emailCtrl.text,
+              password1Ctrl.text,
+              password2Ctrl.text,
+              usernameCtrl.text,
             );
-          }
-        },
-        child: IconUtils.kForward,
+          },
+          child: IconUtils.kForward,
+        ),
       ),
     );
   }
