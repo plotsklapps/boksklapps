@@ -9,7 +9,8 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 800) {
       return const RegisterScreenMobile();
-    } else if (MediaQuery.of(context).size.width < 1200) {
+    } else if (MediaQuery.of(context).size.width >= 800 &&
+        MediaQuery.of(context).size.width < 1200) {
       return const RegisterScreenTablet();
     } else {
       return const RegisterScreenDesktop();
