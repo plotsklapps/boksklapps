@@ -26,96 +26,159 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            18,
-            54,
-            18,
-            54,
-          ),
-          child: Row(
-            children: <Expanded>[
-              const Expanded(
-                child: Drawer(),
+        body: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                18,
+                54,
+                18,
+                112,
               ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Row>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        GetShitDoneWidget(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      children: <Row>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/login_screen',
-                                );
-                              },
-                              child: Animate(
-                                effects: <Effect<dynamic>>[
-                                  FadeEffect(
-                                    delay: 0.ms,
-                                    duration: 1000.ms,
+              child: Row(
+                children: <Expanded>[
+                  Expanded(
+                    child: Drawer(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 220,
+                            child: DrawerHeader(
+                              child: Column(
+                                children: <Row>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Animate>[
+                                      Animate(
+                                        effects: <Effect<dynamic>>[
+                                          ScaleEffect(
+                                            delay: 0.ms,
+                                            duration: 800.ms,
+                                          ),
+                                        ],
+                                        child: const Text(
+                                          StringUtils.kBoks,
+                                          style: TextStyleUtils.kLogo1,
+                                        ),
+                                      ),
+                                      Animate(
+                                        effects: <Effect<dynamic>>[
+                                          ScaleEffect(
+                                            delay: 800.ms,
+                                            duration: 800.ms,
+                                          ),
+                                        ],
+                                        child: const Text(
+                                          StringUtils.kKlapps,
+                                          style: TextStyleUtils.kLogo2,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  MoveEffect(
-                                    delay: 500.ms,
-                                    duration: 1000.ms,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Animate>[
+                                      Animate(
+                                        effects: <Effect<dynamic>>[
+                                          FadeEffect(
+                                            delay: 1600.ms,
+                                            duration: 800.ms,
+                                          ),
+                                        ],
+                                        child: const Text(
+                                          StringUtils.kSparringPartner,
+                                          style: TextStyleUtils.kHeadline2,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
-                                child: const Text(
-                                  StringUtils.kBackToLogin,
-                                  style: TextStyleUtils.kHeadline3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Row>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            GetShitDoneWidget(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          children: <Row>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/login_screen',
+                                    );
+                                  },
+                                  child: Animate(
+                                    effects: <Effect<dynamic>>[
+                                      FadeEffect(
+                                        delay: 0.ms,
+                                        duration: 1000.ms,
+                                      ),
+                                      MoveEffect(
+                                        delay: 500.ms,
+                                        duration: 1000.ms,
+                                      ),
+                                    ],
+                                    child: const Text(
+                                      StringUtils.kBackToLogin,
+                                      style: TextStyleUtils.kHeadline3,
+                                    ),
+                                  ),
                                 ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            const Text(
+                              'RESET PASSWORD',
+                              style: TextStyleUtils.kHeadline1,
+                            ),
+                            const SizedBox(height: 24),
+                            TextField(
+                              controller: emailCtrl,
+                              keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                labelText: StringUtils.kLabelEmail,
+                                prefixIcon: IconUtils.kEmailAddress,
                               ),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 48),
-                      child: Column(
-                        children: <Widget>[
-                          const Text(
-                            'RESET PASSWORD',
-                            style: TextStyleUtils.kHeadline1,
-                          ),
-                          const SizedBox(height: 24),
-                          TextField(
-                            controller: emailCtrl,
-                            keyboardType: TextInputType.emailAddress,
-                            textAlign: TextAlign.center,
-                            decoration: const InputDecoration(
-                              labelText: StringUtils.kLabelEmail,
-                              prefixIcon: IconUtils.kEmailAddress,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

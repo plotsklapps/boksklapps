@@ -26,65 +26,68 @@ class PasswordScreenTabletState extends State<PasswordScreenTablet> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            18,
-            54,
-            18,
-            54,
-          ),
-          child: Row(
-            children: <Expanded>[
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Row>[
-                    Row(
-                      children: const <Widget>[
-                        GetShitDoneWidget(),
-                      ],
-                    ),
-                  ],
-                ),
+        body: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                18,
+                54,
+                18,
+                112,
               ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      children: const <Widget>[
-                        BackToLoginWidget(),
+              child: Row(
+                children: <Expanded>[
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Row>[
+                        Row(
+                          children: const <Widget>[
+                            GetShitDoneWidget(),
+                          ],
+                        ),
                       ],
                     ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 48),
-                      child: Column(
-                        children: <Widget>[
-                          const Text(
-                            'RESET PASSWORD',
-                            style: TextStyleUtils.kHeadline1,
-                          ),
-                          const SizedBox(height: 24),
-
-                          /// Email TextField
-                          TextField(
-                            controller: emailCtrl,
-                            keyboardType: TextInputType.emailAddress,
-                            textAlign: TextAlign.center,
-                            decoration: const InputDecoration(
-                              labelText: StringUtils.kLabelEmail,
-                              prefixIcon: IconUtils.kEmailAddress,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          children: const <Widget>[
+                            BackToLoginWidget(),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            const Text(
+                              'RESET PASSWORD',
+                              style: TextStyleUtils.kHeadline1,
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(height: 24),
+
+                            /// Email TextField
+                            TextField(
+                              controller: emailCtrl,
+                              keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                labelText: StringUtils.kLabelEmail,
+                                prefixIcon: IconUtils.kEmailAddress,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

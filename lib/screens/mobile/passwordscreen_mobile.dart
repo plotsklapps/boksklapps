@@ -26,46 +26,50 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            18,
-            54,
-            18,
-            54,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                children: const <Widget>[
-                  BackToLoginWidget(),
+        body: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                18,
+                54,
+                18,
+                112,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    children: const <Widget>[
+                      /// Back to login button
+                      BackToLoginWidget(),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      const Text(
+                        'RESET PASSWORD',
+                        style: TextStyleUtils.kHeadline1,
+                      ),
+                      const SizedBox(height: 24),
+
+                      /// Email TextField
+                      TextField(
+                        controller: emailCtrl,
+                        keyboardType: TextInputType.emailAddress,
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                          labelText: StringUtils.kLabelEmail,
+                          prefixIcon: IconUtils.kEmailAddress,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 48),
-                child: Column(
-                  children: <Widget>[
-                    const Text(
-                      'RESET PASSWORD',
-                      style: TextStyleUtils.kHeadline1,
-                    ),
-                    const SizedBox(height: 24),
-
-                    /// Email TextField
-                    TextField(
-                      controller: emailCtrl,
-                      keyboardType: TextInputType.emailAddress,
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                        labelText: StringUtils.kLabelEmail,
-                        prefixIcon: IconUtils.kEmailAddress,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
