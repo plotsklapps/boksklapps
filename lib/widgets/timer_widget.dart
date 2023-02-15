@@ -51,7 +51,7 @@ class TimerWidget extends ConsumerWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
@@ -66,12 +66,12 @@ class TimerWidget extends ConsumerWidget {
                 },
                 child: IconUtils.kRemove,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 24),
               Text(
                 formattedTotalTime,
                 style: TextStyleUtils.kHeadline1,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 24),
               ElevatedButton(
                 onPressed: () {
                   ref.read(totalTimeProvider.notifier).state += const Duration(
@@ -105,7 +105,7 @@ class TimerWidget extends ConsumerWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
@@ -120,12 +120,12 @@ class TimerWidget extends ConsumerWidget {
                 },
                 child: IconUtils.kRemove,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 24),
               Text(
                 formattedSetTime,
                 style: TextStyleUtils.kHeadline1,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 24),
               ElevatedButton(
                 onPressed: () {
                   ref.read(setTimeProvider.notifier).state += const Duration(
@@ -159,7 +159,7 @@ class TimerWidget extends ConsumerWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
@@ -174,12 +174,12 @@ class TimerWidget extends ConsumerWidget {
                 },
                 child: IconUtils.kRemove,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 24),
               Text(
                 formattedRestTime,
                 style: TextStyleUtils.kHeadline1,
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 24),
               ElevatedButton(
                 onPressed: () {
                   ref.read(restTimeProvider.notifier).state += const Duration(
