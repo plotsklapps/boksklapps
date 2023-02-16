@@ -33,84 +33,77 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                18,
-                54,
-                18,
-                112,
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            18,
+            54,
+            18,
+            54,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                children: const <Widget>[
+                  /// Create an account button
+                  GoToRegisterWidget(),
+                  SizedBox(height: 24),
+
+                  /// Forgot password button
+                  ForgotPasswordWidget(),
+                  SizedBox(height: 24),
+
+                  /// Sneak Peek button (no login)
+                  SneakPeekWidget(),
+                ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
                 children: <Widget>[
-                  Column(
-                    children: const <Widget>[
-                      /// Create an account button
-                      GoToRegisterWidget(),
-                      SizedBox(height: 24),
-
-                      /// Forgot password button
-                      ForgotPasswordWidget(),
-                      SizedBox(height: 24),
-
-                      /// Sneak Peek button (no login)
-                      SneakPeekWidget(),
-                    ],
+                  const Text(
+                    'LOGIN',
+                    style: TextStyleUtils.kHeadline1,
                   ),
-                  Column(
-                    children: <Widget>[
-                      const Text(
-                        'LOGIN',
-                        style: TextStyleUtils.kHeadline1,
-                      ),
-                      const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                      /// Email TextField
-                      TextField(
-                        controller: emailCtrl,
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
-                          labelText: StringUtils.kLabelEmail,
-                          prefixIcon: IconUtils.kEmailAddress,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
+                  /// Email TextField
+                  TextField(
+                    controller: emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      labelText: StringUtils.kLabelEmail,
+                      prefixIcon: IconUtils.kEmailAddress,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
 
-                      /// Password TextField
-                      TextField(
-                        controller: passwordCtrl,
-                        keyboardType: TextInputType.text,
-                        obscureText: isPasswordObscured,
-                        textAlign: TextAlign.center,
-                        enableSuggestions: false,
-                        decoration: InputDecoration(
-                          labelText: StringUtils.kLabelPassword,
-                          prefixIcon: IconUtils.kPassword,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              isPasswordObscured
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                isPasswordObscured = !isPasswordObscured;
-                              });
-                            },
-                          ),
+                  /// Password TextField
+                  TextField(
+                    controller: passwordCtrl,
+                    keyboardType: TextInputType.text,
+                    obscureText: isPasswordObscured,
+                    textAlign: TextAlign.center,
+                    enableSuggestions: false,
+                    decoration: InputDecoration(
+                      labelText: StringUtils.kLabelPassword,
+                      prefixIcon: IconUtils.kPassword,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordObscured
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordObscured = !isPasswordObscured;
+                          });
+                        },
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
