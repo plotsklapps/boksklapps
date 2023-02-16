@@ -40,7 +40,7 @@ Future<void> resetPassword(BuildContext context, String email) async {
     });
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
-      print('No user found for that email.');
+      debugPrint('No user found for that email.');
     }
   }
 }
