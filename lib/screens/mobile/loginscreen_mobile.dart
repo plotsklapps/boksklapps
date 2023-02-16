@@ -45,9 +45,14 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  const Text(
-                    'LOGIN',
-                    style: TextStyleUtils.kHeadline1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const <Text>[
+                      Text(
+                        'LOGIN',
+                        style: TextStyleUtils.kHeadline1,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
 

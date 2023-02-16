@@ -60,24 +60,15 @@ class LoginScreenTabletState extends State<LoginScreenTablet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
-                      children: const <Widget>[
-                        /// Create an account button
-                        GoToRegisterWidget(),
-                        SizedBox(height: 24),
-
-                        /// Forgot password button
-                        ForgotPasswordWidget(),
-                        SizedBox(height: 24),
-
-                        /// Sneak Peek button (no login)
-                        SneakPeekWidget(),
-                      ],
-                    ),
-                    Column(
                       children: <Widget>[
-                        const Text(
-                          'LOGIN',
-                          style: TextStyleUtils.kHeadline1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const <Text>[
+                            Text(
+                              'LOGIN',
+                              style: TextStyleUtils.kHeadline1,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 24),
 
@@ -117,6 +108,20 @@ class LoginScreenTabletState extends State<LoginScreenTablet> {
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    Column(
+                      children: const <Widget>[
+                        /// Create an account button
+                        GoToRegisterWidget(),
+                        SizedBox(height: 24),
+
+                        /// Forgot password button
+                        ForgotPasswordWidget(),
+                        SizedBox(height: 24),
+
+                        /// Sneak Peek button (no login)
+                        SneakPeekWidget(),
                       ],
                     ),
                   ],
