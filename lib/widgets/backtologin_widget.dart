@@ -10,7 +10,7 @@ class BackToLoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <InkWell>[
         InkWell(
           onTap: () async {
