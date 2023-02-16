@@ -9,7 +9,6 @@ class AccountScreenMobile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String? currentEmail = ref.watch(currentUserProvider)?.email;
     final String? currentUserName = ref.watch(currentUserProvider)?.displayName;
-    final String? currentUserBMI = ref.watch(currentBMIProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +57,9 @@ class AccountScreenMobile extends ConsumerWidget {
             },
           ),
           ListTile(
-            title: Text(currentUserBMI ?? StringUtils.kNoAccount),
+            title: Text(
+              ref.watch(bmiProvider).toString(),
+            ),
             subtitle: const Text(
               'Current BMI',
             ),

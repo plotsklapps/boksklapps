@@ -25,7 +25,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
             final double weight = double.parse(weightCtrl.text);
             final double calculatedBMI = weight / (height * height);
 
-            return calculatedBMI;
+            return calculatedBMI.ceilToDouble();
           }
 
           return AlertDialog(
@@ -110,7 +110,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                     ),
                     Text(
                       /// Show the newly calculated BMI
-                      ref.watch(bmiProvider).toStringAsFixed(1),
+                      ref.watch(bmiProvider).toStringAsFixed(2),
                       style: TextStyleUtils.kHeadline3,
                     ),
                   ],
@@ -122,7 +122,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 child: const Text(
                   'Cancel',
                 ),
-                onPressed: () async {
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
@@ -130,7 +130,13 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 child: const Text(
                   'Save',
                 ),
-                onPressed: () async {
+                onPressed: () {
+                  // Add ageCtrl.text to Firestore database for current user
+                  // Add heightCtrl.text to Firestore database for current user
+                  // Add weightCtrl.text to Firestore database for current user
+                  // Add ref.watch(bmiProvider) to Firestore database for
+                  // current user
+
                   Navigator.of(context).pop();
                 },
               ),
