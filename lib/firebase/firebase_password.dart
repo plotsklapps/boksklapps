@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '/all_imports.dart';
 
 /// Extracted method to reset password with Firebase with all exception handling
 Future<void> resetPassword(BuildContext context, String email) async {

@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../../all_imports.dart';
 
 /// HomeScreenMobile class
 class HomeScreenMobile extends ConsumerWidget {
@@ -19,30 +19,15 @@ class HomeScreenMobile extends ConsumerWidget {
         ),
         // Drawer hides if the screen width is less than 1000
         drawer: const DrawerWidget(),
-        body: Column(
-          children: <Widget>[
-            const GetShitDoneWidget(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: <Text>[
-                    const Text(
-                      'Welcome to BOKSklapps',
-                      style: TextStyleUtils.kHeadline3,
-                    ),
-                    Text(
-                      ref.watch(currentUserProvider)?.displayName ??
-                          StringUtils.kNoAccount,
-                      style: TextStyleUtils.kHeadline1,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            const TimerWidget(),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.only(bottom: 48),
+          child: Column(
+            children: const <Widget>[
+              GetShitDoneWidget(),
+              Spacer(),
+              TimerWidget(),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},

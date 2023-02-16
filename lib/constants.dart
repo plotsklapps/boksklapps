@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs
-import 'package:boksklapps/all_imports.dart';
+import '/all_imports.dart';
 
 /// String constants
 class StringUtils {

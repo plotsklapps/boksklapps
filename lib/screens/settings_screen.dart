@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// SettingsScreen class
 class SettingsScreen extends StatelessWidget {
@@ -10,7 +10,6 @@ class SettingsScreen extends StatelessWidget {
     if (MediaQuery.of(context).size.width < 1000) {
       return const SettingsScreenMobile();
     } else {
-      //TODO(plotsklapps): Add Desktop version of SettingsScreen()
       return const SettingsScreenMobile();
     }
   }

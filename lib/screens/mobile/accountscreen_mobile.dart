@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../../all_imports.dart';
 
 /// AccountScreenMobile class
 class AccountScreenMobile extends ConsumerWidget {
@@ -41,11 +41,11 @@ class AccountScreenMobile extends ConsumerWidget {
             trailing: const Icon(
               Icons.edit_outlined,
             ),
-            onTap: () {
+            onTap: () async {
               if (currentEmail != null) {
-                showChangeEmailDialog(context);
+                await showChangeEmailDialog(context);
               } else {
-                showNoAccountDialog(context);
+                await showNoAccountDialog(context);
               }
             },
           ),
@@ -59,11 +59,11 @@ class AccountScreenMobile extends ConsumerWidget {
             trailing: const Icon(
               Icons.edit_outlined,
             ),
-            onTap: () {
+            onTap: () async {
               if (currentEmail != null) {
-                showChangeUserNameDialog(context);
+                await showChangeUserNameDialog(context);
               } else {
-                showNoAccountDialog(context);
+                await showNoAccountDialog(context);
               }
             },
           ),
@@ -77,11 +77,11 @@ class AccountScreenMobile extends ConsumerWidget {
             trailing: const Icon(
               Icons.edit_outlined,
             ),
-            onTap: () {
+            onTap: () async {
               if (currentEmail != null) {
-                showChangeAgeHeightWeight(context);
+                await showChangeAgeHeightWeight(context);
               } else {
-                showNoAccountDialog(context);
+                await showNoAccountDialog(context);
               }
             },
           ),

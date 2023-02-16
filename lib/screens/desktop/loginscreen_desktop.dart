@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../../all_imports.dart';
 
 /// LoginScreenDesktop class
 class LoginScreenDesktop extends StatefulWidget {

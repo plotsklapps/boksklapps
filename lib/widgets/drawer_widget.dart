@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// DrawerWidget class
 class DrawerWidget extends ConsumerWidget {
@@ -75,9 +75,9 @@ class DrawerWidget extends ConsumerWidget {
             ),
             subtitle: const Text('Change credential information'),
             trailing: IconUtils.kAccount,
-            onTap: () {
+            onTap: () async {
               /// Navigate to account screen
-              Navigator.pushNamed(
+              await Navigator.pushNamed(
                 context,
                 '/account_screen',
               );

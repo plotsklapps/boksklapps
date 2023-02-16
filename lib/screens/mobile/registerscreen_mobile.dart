@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../../all_imports.dart';
 
 /// RegisterScreenMobile class
 class RegisterScreenMobile extends StatefulWidget {
@@ -159,8 +159,8 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            /// Calls registerToFirebase function from firebase_register.dart and
-            /// handles all the registration logic + errors
+            /// Calls registerToFirebase function from firebase_register.dart
+            /// and handles all the registration logic + errors
             await registerToFirebase(
               context,
               emailCtrl.text,

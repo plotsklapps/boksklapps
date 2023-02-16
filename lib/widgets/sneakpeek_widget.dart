@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// SneakPeakWidget class
 class SneakPeekWidget extends StatelessWidget {
@@ -13,8 +13,8 @@ class SneakPeekWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <InkWell>[
         InkWell(
-          onTap: () {
-            Navigator.pushNamed(
+          onTap: () async {
+            await Navigator.pushNamed(
               context,
               '/home_screen',
             );

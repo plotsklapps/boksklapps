@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// ForgotPasswordWidget class
 class ForgotPasswordWidget extends StatelessWidget {
@@ -13,8 +13,8 @@ class ForgotPasswordWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <InkWell>[
         InkWell(
-          onTap: () {
-            Navigator.pushNamed(
+          onTap: () async {
+            await Navigator.pushNamed(
               context,
               '/password_screen',
             );

@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// ThemeMode Provider provides Light, Dark or System theme. Standard to light.
 final StateProvider<ThemeMode> themeModeProvider =

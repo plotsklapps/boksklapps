@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// HomeScreen class
 class HomeScreen extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// AccountScreen class
 class AccountScreen extends StatelessWidget {
@@ -10,7 +10,6 @@ class AccountScreen extends StatelessWidget {
     if (MediaQuery.of(context).size.width < 1000) {
       return const AccountScreenMobile();
     } else {
-      //TODO(plotsklapps): Add Desktop version of SettingsScreen()
       return const AccountScreenMobile();
     }
   }

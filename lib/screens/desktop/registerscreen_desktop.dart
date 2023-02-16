@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../../all_imports.dart';
 
 /// RegisterScreenDesktop class
 class RegisterScreenDesktop extends StatefulWidget {
@@ -240,8 +240,8 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            /// Calls registerToFirebase function from firebase_register.dart and
-            /// handles all the registration logic + errors
+            /// Calls registerToFirebase function from firebase_register.dart
+            /// and handles all the registration logic + errors
             await registerToFirebase(
               context,
               emailCtrl.text,

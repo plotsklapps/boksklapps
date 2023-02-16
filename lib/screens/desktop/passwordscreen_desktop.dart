@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '../../all_imports.dart';
 
 /// PasswordScreenDesktop class
 class PasswordScreenDesktop extends StatefulWidget {
@@ -128,8 +128,8 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
+                                  onTap: () async {
+                                    await Navigator.pushNamed(
                                       context,
                                       '/login_screen',
                                     );

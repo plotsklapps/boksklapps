@@ -1,17 +1,18 @@
-import 'package:boksklapps/all_imports.dart';
+import '../all_imports.dart';
 
 /// GoToRegisterWidget class
 class GoToRegisterWidget extends StatelessWidget {
   /// GoToRegisterWidget constructor
   const GoToRegisterWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <InkWell>[
         InkWell(
-          onTap: () {
-            Navigator.pushNamed(
+          onTap: () async {
+            await Navigator.pushNamed(
               context,
               '/register_screen',
             );

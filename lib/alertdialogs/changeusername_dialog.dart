@@ -1,4 +1,4 @@
-import 'package:boksklapps/all_imports.dart';
+import '/all_imports.dart';
 
 /// Shows a dialog to change the username
 /// Method takes context as parameter
