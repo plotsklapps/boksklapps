@@ -37,16 +37,15 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                children: const <Widget>[
-                  /// Back to login button
-                  BackToLoginWidget(),
-                ],
-              ),
-              Column(
                 children: <Widget>[
-                  const Text(
-                    'RESET PASSWORD',
-                    style: TextStyleUtils.kHeadline1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const <Text>[
+                      Text(
+                        'RESET PASSWORD',
+                        style: TextStyleUtils.kHeadline1,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
 
@@ -60,6 +59,12 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
                       prefixIcon: IconUtils.kEmailAddress,
                     ),
                   ),
+                ],
+              ),
+              Column(
+                children: const <Widget>[
+                  /// Back to login button
+                  BackToLoginWidget(),
                 ],
               ),
             ],

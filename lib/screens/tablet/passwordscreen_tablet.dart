@@ -53,15 +53,15 @@ class PasswordScreenTabletState extends State<PasswordScreenTablet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
-                      children: const <Widget>[
-                        BackToLoginWidget(),
-                      ],
-                    ),
-                    Column(
                       children: <Widget>[
-                        const Text(
-                          'RESET PASSWORD',
-                          style: TextStyleUtils.kHeadline1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const <Text>[
+                            Text(
+                              'RESET PASSWORD',
+                              style: TextStyleUtils.kHeadline1,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 24),
 
@@ -75,6 +75,11 @@ class PasswordScreenTabletState extends State<PasswordScreenTablet> {
                             prefixIcon: IconUtils.kEmailAddress,
                           ),
                         ),
+                      ],
+                    ),
+                    Column(
+                      children: const <Widget>[
+                        BackToLoginWidget(),
                       ],
                     ),
                   ],

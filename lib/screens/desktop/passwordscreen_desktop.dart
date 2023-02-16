@@ -118,43 +118,15 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
-                      children: <Row>[
+                      children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () async {
-                                await Navigator.pushNamed(
-                                  context,
-                                  '/login_screen',
-                                );
-                              },
-                              child: Animate(
-                                effects: <Effect<dynamic>>[
-                                  FadeEffect(
-                                    delay: 0.ms,
-                                    duration: 1000.ms,
-                                  ),
-                                  MoveEffect(
-                                    delay: 500.ms,
-                                    duration: 1000.ms,
-                                  ),
-                                ],
-                                child: const Text(
-                                  StringUtils.kBackToLogin,
-                                  style: TextStyleUtils.kHeadline3,
-                                ),
-                              ),
+                          children: const <Text>[
+                            Text(
+                              'RESET PASSWORD',
+                              style: TextStyleUtils.kHeadline1,
                             ),
                           ],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        const Text(
-                          'RESET PASSWORD',
-                          style: TextStyleUtils.kHeadline1,
                         ),
                         const SizedBox(height: 24),
                         TextField(
@@ -166,6 +138,11 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
                             prefixIcon: IconUtils.kEmailAddress,
                           ),
                         ),
+                      ],
+                    ),
+                    Column(
+                      children: const <Widget>[
+                        BackToLoginWidget(),
                       ],
                     ),
                   ],
