@@ -69,16 +69,15 @@ class RegisterScreenTabletState extends State<RegisterScreenTablet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
-                      children: const <Widget>[
-                        /// Back to login button
-                        BackToLoginWidget(),
-                      ],
-                    ),
-                    Column(
                       children: <Widget>[
-                        const Text(
-                          'REGISTER',
-                          style: TextStyleUtils.kHeadline1,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const <Text>[
+                            Text(
+                              'REGISTER',
+                              style: TextStyleUtils.kHeadline1,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 24),
 
@@ -158,6 +157,12 @@ class RegisterScreenTabletState extends State<RegisterScreenTablet> {
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    Column(
+                      children: const <Widget>[
+                        /// Back to login button
+                        BackToLoginWidget(),
                       ],
                     ),
                   ],

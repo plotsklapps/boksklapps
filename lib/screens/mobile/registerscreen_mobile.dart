@@ -53,19 +53,15 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                children: const <Widget>[
-                  /// Back to login button
-                  BackToLoginWidget(),
-                ],
-              ),
-              const SizedBox(
-                height: 64,
-              ),
-              Column(
                 children: <Widget>[
-                  const Text(
-                    'REGISTER',
-                    style: TextStyleUtils.kHeadline1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const <Text>[
+                      Text(
+                        'REGISTER',
+                        style: TextStyleUtils.kHeadline1,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
 
@@ -145,6 +141,12 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
                       ),
                     ),
                   ),
+                ],
+              ),
+              Column(
+                children: const <Widget>[
+                  /// Back to login button
+                  BackToLoginWidget(),
                 ],
               ),
             ],
