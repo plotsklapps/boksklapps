@@ -16,8 +16,7 @@ Future<void> fetchFirestoreData(
         userData.data()?['userName'].toString();
     ref.read(currentEmailProvider.notifier).state =
         userData.data()?['userEmail'].toString();
-    ref.read(ageProvider.notifier).state =
-        int.parse(userData.data()!['userAge'].toString());
+    ref.read(ageProvider.notifier).state = UserAgeRepository().getUserAge();
     ref.read(heightProvider.notifier).state =
         int.parse(userData.data()!['userHeight'].toString());
     ref.read(weightProvider.notifier).state =

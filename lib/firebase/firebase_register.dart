@@ -78,7 +78,7 @@ Future<void> registerToFirebase(
           );
           // Update ALL data within the database with corresponding
           // data from the providers
-          await updateFirestoreData(ref);
+          await updateFirestoreData(context, ref);
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

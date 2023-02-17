@@ -98,7 +98,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                         // corresponding Providers
                         ref.read(bmiProvider.notifier).state = calculateBMI();
                         ref.read(ageProvider.notifier).state =
-                            int.parse(ageCtrl.text);
+                            UserAgeRepository().getUserAge();
                         ref.read(heightProvider.notifier).state =
                             int.parse(heightCtrl.text);
                         ref.read(weightProvider.notifier).state =
@@ -135,22 +135,44 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   // retrieved from the corresponding Providers to the
                   // Firestore database for the current user via
                   // updateFirestoreData method
-                  await updateFirestoreData(ref).then((_) {
-                    // Show a snackbar to confirm that the values have been
-                    // updated and pop the dialog
+                  Logger().i(
+                    'Updating all Firestore data...',
+                  );
+                  try {
+                    final int age = int.parse(ageCtrl.text);
+                    await ref.read(userAgeProvider.notifier).updateUserAge(
+                          context,
+                          age,
+                        );
+                    await updateFirestoreData(context, ref).then((_) {
+                      // Show a snackbar to confirm that the values have been
+                      // updated and pop the dialog
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Age / Height / Weight / BMI updated...',
+                          ),
+                          action: SnackBarAction(
+                            label: 'OK',
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                      Navigator.of(context).pop();
+                    });
+                  } catch (error) {
+                    Logger().i(
+                      'Something went wrong... $error',
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: const Text(
-                          'Age / Height / Weight / BMI updated...',
+                        content: Text(
+                          'Something went wrong... $error',
                         ),
-                        action: SnackBarAction(
-                          label: 'OK',
-                          onPressed: () {},
-                        ),
+                        action: SnackBarAction(label: 'OK', onPressed: () {}),
                       ),
                     );
-                    Navigator.of(context).pop();
-                  });
+                  }
                 },
               ),
             ],

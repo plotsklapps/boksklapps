@@ -74,7 +74,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                       nameCtrl.text;
                   // Update display name via Firebase (official way)
                   Logger().i(
-                    'Updating Firebase official displayName',
+                    'Updating Firebase official displayName...',
                   );
                   await ref
                       .watch(firebaseProvider)
@@ -83,9 +83,9 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                       .then((_) async {
                     // Update the all Firestore database values as well
                     Logger().i(
-                      'Updating all Firestore data',
+                      'Updating all Firestore data...',
                     );
-                    await updateFirestoreData(ref);
+                    await updateFirestoreData(context, ref);
                     // Show a snackBar and return to login screen
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(

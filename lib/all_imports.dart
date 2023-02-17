@@ -36,6 +36,7 @@ export 'package:boksklapps/providers/themecolor_providers.dart';
 export 'package:boksklapps/providers/thememode_providers.dart';
 export 'package:boksklapps/providers/timer_providers.dart';
 export 'package:boksklapps/providers/ageheightweightbmi_providers.dart';
+export 'package:boksklapps/providers/userage_provider.dart';
 
 // Widgets
 export 'package:boksklapps/widgets/backtologin_widget.dart';

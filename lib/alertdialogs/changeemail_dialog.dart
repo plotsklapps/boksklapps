@@ -114,7 +114,7 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
                       .watch(currentUserProvider)!
                       .updateEmail(email2Ctrl.text)
                       .then((_) {
-                    updateFirestoreData(ref).then(
+                    updateFirestoreData(context, ref).then(
                       (_) {
                         Navigator.pushReplacementNamed(
                           context,
