@@ -17,17 +17,13 @@ class HomeScreenMobile extends ConsumerWidget {
           ),
           centerTitle: true,
         ),
-        // Drawer hides if the screen width is less than 1000
         drawer: const DrawerWidget(),
-        body: Padding(
-          padding: const EdgeInsets.only(bottom: 48),
-          child: Column(
-            children: const <Widget>[
-              GetShitDoneWidget(),
-              Spacer(),
-              TimerWidget(),
-            ],
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const <Widget>[
+            GetShitDoneWidget(),
+            TimerWidget(),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},

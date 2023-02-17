@@ -8,7 +8,7 @@ Future<void> updateFirestoreData(
   await ref
       .watch(firestoreProvider)
       .collection('users')
-      .doc(ref.watch(currentUserProvider)?.uid)
+      .doc(ref.watch(firebaseProvider).currentUser!.uid)
       .set(<String, dynamic>{
     'userName': ref.watch(currentDisplayNameProvider),
     'userEmail': ref.watch(currentEmailProvider),
