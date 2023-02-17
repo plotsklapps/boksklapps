@@ -1,7 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// TimerScreenMobile class
-
 class TimerScreenMobile extends StatelessWidget {
   /// TimerScreenMobile constructor
   const TimerScreenMobile({super.key});
@@ -16,7 +15,9 @@ class TimerScreenMobile extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: const TimerWidget(),
+        body: const Center(
+          child: TimerWidget(),
+        ),
       ),
     );
   }

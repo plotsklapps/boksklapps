@@ -22,11 +22,15 @@ class HomeScreenMobile extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const <Widget>[
             GetShitDoneWidget(),
-            TimerWidget(),
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () async {
+            await Navigator.pushNamed(
+              context,
+              '\timer_screen',
+            );
+          },
           child: IconUtils.kForward,
         ),
       ),
