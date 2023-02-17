@@ -1,18 +1,18 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// LoginScreenTablet class
-class LoginScreenTablet extends StatefulWidget {
+class LoginScreenTablet extends ConsumerStatefulWidget {
   /// LoginScreenTablet constructor
   const LoginScreenTablet({
     super.key,
   });
 
   @override
-  State<LoginScreenTablet> createState() => LoginScreenTabletState();
+  ConsumerState<LoginScreenTablet> createState() => LoginScreenTabletState();
 }
 
 /// LoginScreenTabletState class
-class LoginScreenTabletState extends State<LoginScreenTablet> {
+class LoginScreenTabletState extends ConsumerState<LoginScreenTablet> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -136,6 +136,7 @@ class LoginScreenTabletState extends State<LoginScreenTablet> {
             /// handles all the login logic + errors
             await loginToFirebase(
               context,
+              ref,
               emailCtrl.text,
               passwordCtrl.text,
             );

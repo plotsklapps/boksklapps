@@ -1,18 +1,18 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// LoginScreenMobile class
-class LoginScreenMobile extends StatefulWidget {
+class LoginScreenMobile extends ConsumerStatefulWidget {
   /// LoginScreenMobile constructor
   const LoginScreenMobile({
     super.key,
   });
 
   @override
-  State<LoginScreenMobile> createState() => LoginScreenMobileState();
+  ConsumerState<LoginScreenMobile> createState() => LoginScreenMobileState();
 }
 
 /// LoginScreenMobileState class
-class LoginScreenMobileState extends State<LoginScreenMobile> {
+class LoginScreenMobileState extends ConsumerState<LoginScreenMobile> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -117,6 +117,7 @@ class LoginScreenMobileState extends State<LoginScreenMobile> {
             /// handles all the login logic + errors
             await loginToFirebase(
               context,
+              ref,
               emailCtrl.text,
               passwordCtrl.text,
             );

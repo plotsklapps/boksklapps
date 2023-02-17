@@ -3,6 +3,7 @@ import 'package:boksklapps/all_imports.dart';
 /// Extracted method to login to Firebase with all exception handling
 Future<void> loginToFirebase(
   BuildContext context,
+  WidgetRef ref,
   String email,
   String password,
 ) async {
@@ -13,11 +14,14 @@ Future<void> loginToFirebase(
       password: password,
     )
         .then((UserCredential currentUser) async {
+      await fetchFirestoreData(ref);
       Logger().i('Logging in with email: $email');
-      await Navigator.pushReplacementNamed(
-        context,
-        '/home_screen',
-      );
+      if (context.mounted) {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/home_screen',
+        );
+      }
     });
   } on FirebaseAuthException catch (error) {
     if (error.code == 'account-exists-with-different-credential') {
