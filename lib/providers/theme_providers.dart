@@ -1,4 +1,4 @@
-import '../all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// Light Theme Provider from FlexColorScheme. Provides global theme to the app.
 /// In the scheme parameter the color scheme is set by the themeColorProvider.

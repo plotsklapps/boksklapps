@@ -1,4 +1,4 @@
-import '/all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// Variable customRoutes used in main.dart
 Map<String, WidgetBuilder> customRoutes = <String, WidgetBuilder>{

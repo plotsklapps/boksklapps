@@ -1,4 +1,4 @@
-import '../all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// Returns instance of FirebaseAuth
 final StateProvider<FirebaseAuth> firebaseProvider =
@@ -15,11 +15,23 @@ final StateProvider<FirebaseFirestore> firestoreProvider =
 /// Returns instance of User
 final StateProvider<User?> currentUserProvider =
     StateProvider<User?>((StateProviderRef<User?> ref) {
-  return FirebaseAuth.instance.currentUser;
+  return ref.watch(firebaseProvider).currentUser;
 });
 
 /// Returns current user's email as String
 final StateProvider<String?> currentEmailProvider =
     StateProvider<String?>((StateProviderRef<String?> ref) {
-  return FirebaseAuth.instance.currentUser!.email!;
+  return ref.watch(firebaseProvider).currentUser!.email!;
+});
+
+/// Returns current user's display name as String
+final StateProvider<String?> currentDisplayNameProvider =
+    StateProvider<String?>((StateProviderRef<String?> ref) {
+  return ref.watch(firebaseProvider).currentUser!.displayName!;
+});
+
+/// Return current user's UPDATED userName as String
+final StateProvider<String?> currentUserNameProvider =
+    StateProvider<String?>((StateProviderRef<String?> ref) {
+  return 'Sneak Peeker';
 });

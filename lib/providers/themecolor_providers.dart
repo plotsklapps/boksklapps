@@ -1,4 +1,4 @@
-import '../all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// ThemeColor Provider returns a FlexScheme.something to be used in the
 /// Light and Dark Theme Providers

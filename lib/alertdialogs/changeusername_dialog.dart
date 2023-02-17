@@ -1,8 +1,11 @@
-import '/all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// Shows a dialog to change the username
 /// Method takes context as parameter
-Future<void> showChangeUserNameDialog(BuildContext context) async {
+Future<void> showChangeUserNameDialog(
+  BuildContext context,
+  WidgetRef ref,
+) async {
   /// NameController for username
   final TextEditingController nameCtrl = TextEditingController();
 
@@ -27,6 +30,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
             const SizedBox(
               height: 8,
             ),
+            // Name Textfield
             TextField(
               controller: nameCtrl,
               keyboardType: TextInputType.text,
@@ -39,6 +43,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
             const SizedBox(
               height: 8,
             ),
+            // Password Textfield
             TextField(
               controller: passwordCtrl,
               keyboardType: TextInputType.text,
@@ -66,29 +71,46 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
               'OK',
             ),
             onPressed: () async {
-              // Update display name via Firebase
-              await FirebaseAuth.instance.currentUser
+              // Update display name via Firebase (official way)
+              await ref
+                  .watch(currentUserProvider)
                   ?.updateDisplayName(nameCtrl.text)
-                  .then((_) {
-                // Show a SnackBar and return to login screen
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text(
-                      StringUtils.kUsernameChanged,
+                  .then((_) async {
+                // Update the all Firestore database values as well
+                await ref
+                    .watch(firestoreProvider)
+                    .collection('users')
+                    .doc(ref.watch(currentUserProvider)!.uid)
+                    .set(<String, dynamic>{
+                  'userName': ref.watch(currentUserNameProvider),
+                  'userEmail': ref.watch(currentEmailProvider),
+                  'userAge': ref.watch(ageProvider),
+                  'userHeight': ref.watch(heightProvider),
+                  'userWeight': ref.watch(weightProvider),
+                  'userBMI': ref.watch(bmiProvider),
+                  'themeColor': 0,
+                  'themeMode': 0,
+                }).then((_) {
+                  // Show a SnackBar and return to login screen
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        StringUtils.kUsernameChanged,
+                      ),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
                     ),
-                    action: SnackBarAction(
-                      label: 'OK',
-                      onPressed: () {},
-                    ),
-                  ),
-                );
+                  );
+                });
+                if (context.mounted) {
+                  await Navigator.pushReplacementNamed(
+                    context,
+                    '/login_screen',
+                  );
+                }
               });
-              if (context.mounted) {
-                await Navigator.pushReplacementNamed(
-                  context,
-                  '/login_screen',
-                );
-              }
             },
           ),
         ],

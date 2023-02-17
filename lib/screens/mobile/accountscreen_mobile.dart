@@ -1,4 +1,4 @@
-import '../../all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// AccountScreenMobile class
 class AccountScreenMobile extends ConsumerWidget {
@@ -7,9 +7,6 @@ class AccountScreenMobile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? currentEmail = ref.watch(currentUserProvider)?.email;
-    final String? currentUserName = ref.watch(currentUserProvider)?.displayName;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -22,7 +19,7 @@ class AccountScreenMobile extends ConsumerWidget {
         children: <ListTile>[
           ListTile(
             title: Text(
-              currentEmail ?? StringUtils.kNoAccount,
+              ref.watch(currentUserProvider)?.email ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current UserEmail',
@@ -31,7 +28,9 @@ class AccountScreenMobile extends ConsumerWidget {
               Icons.edit_outlined,
             ),
             onTap: () async {
-              if (currentEmail != null) {
+              // If the user is logged in, show the dialog to change
+              // the email address
+              if (ref.watch(currentUserProvider)?.email != null) {
                 await showChangeEmailDialog(context);
               } else {
                 await showNoAccountDialog(context);
@@ -40,7 +39,8 @@ class AccountScreenMobile extends ConsumerWidget {
           ),
           ListTile(
             title: Text(
-              currentUserName ?? StringUtils.kNoAccount,
+              ref.watch(currentUserProvider)?.displayName ??
+                  StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current UserName',
@@ -49,8 +49,10 @@ class AccountScreenMobile extends ConsumerWidget {
               Icons.edit_outlined,
             ),
             onTap: () async {
-              if (currentEmail != null) {
-                await showChangeUserNameDialog(context);
+              // If the user is logged in, show the dialog to change
+              // the username
+              if (ref.watch(currentUserProvider)?.email != null) {
+                await showChangeUserNameDialog(context, ref);
               } else {
                 await showNoAccountDialog(context);
               }
@@ -67,7 +69,9 @@ class AccountScreenMobile extends ConsumerWidget {
               Icons.edit_outlined,
             ),
             onTap: () async {
-              if (currentEmail != null) {
+              // If the user is logged in, show the dialog to change
+              // the age, height, weight and calculate BMI
+              if (ref.watch(currentUserProvider)?.email != null) {
                 await showChangeAgeHeightWeight(context);
               } else {
                 await showNoAccountDialog(context);

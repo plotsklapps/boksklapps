@@ -1,4 +1,4 @@
-import '/all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// Shows a dialog to change the email address
 /// Method takes context as parameter

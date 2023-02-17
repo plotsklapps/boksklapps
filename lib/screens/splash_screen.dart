@@ -1,5 +1,5 @@
 import 'dart:async';
-import '../all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// SplashScreen class
 class SplashScreen extends ConsumerStatefulWidget {

@@ -1,4 +1,4 @@
-import '../all_imports.dart';
+import 'package:boksklapps/all_imports.dart';
 
 /// TimerWidget class
 class TimerWidget extends ConsumerWidget {
