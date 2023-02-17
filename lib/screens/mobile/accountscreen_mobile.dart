@@ -70,7 +70,7 @@ class AccountScreenMobile extends ConsumerWidget {
             onTap: () async {
               // If the user is logged in, show the dialog to change
               // the age, height, weight and calculate BMI
-              if (ref.watch(currentUserProvider)?.email != null) {
+              if (ref.watch(currentEmailProvider) != null) {
                 await showChangeAgeHeightWeight(context);
               } else {
                 await showNoAccountDialog(context);

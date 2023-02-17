@@ -26,8 +26,8 @@ class StringUtils {
   static const String kLightSystemDark = 'Light / System / Dark';
   static const String kEnterInfo = 'Please provide the following information';
   static const String kEmailAddressChanged =
-      'Emailaddress changed, please login again';
-  static const String kUsernameChanged = 'Username changed, please login again';
+      'Emailaddress changed, please login again...';
+  static const String kUsernameChanged = 'Username updated...';
 }
 
 /// TextStyle constants

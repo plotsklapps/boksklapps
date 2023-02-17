@@ -72,7 +72,6 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                   // Store new displayName to currentUserNameProvider
                   ref.read(currentDisplayNameProvider.notifier).state =
                       nameCtrl.text;
-
                   // Update display name via Firebase (official way)
                   await ref
                       .watch(currentUserProvider)
@@ -94,10 +93,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                       );
                     });
                     if (context.mounted) {
-                      await Navigator.pushReplacementNamed(
-                        context,
-                        '/login_screen',
-                      );
+                      Navigator.of(context).pop();
                     }
                   });
                 },

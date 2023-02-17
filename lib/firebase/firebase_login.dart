@@ -16,12 +16,16 @@ Future<void> loginToFirebase(
           password: password,
         )
         .then((_) async {
-      // If login was successful, go to HomeScreen()
       Logger().i('Logging in with email: $email');
-      await Navigator.pushReplacementNamed(
-        context,
-        '/home_screen',
-      );
+      await fetchFirestoreData(context, ref);
+      // If login was successful, retrieve Firestore data
+      // and go to HomeScreen()
+      if (context.mounted) {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/home_screen',
+        );
+      }
     });
   }
   // Catch all FirebaseExceptions and show snackbars to user

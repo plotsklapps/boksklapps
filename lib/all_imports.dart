@@ -82,4 +82,4 @@ export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
 export 'package:boksklapps/alertdialogs/changedisplayname_dialog.dart';
 export 'package:boksklapps/alertdialogs/noaccount_dialog.dart';
-export 'package:boksklapps/alertdialogs/changeageheightweight_dialog.dart';
+export 'package:boksklapps/alertdialogs/changebmi_dialog.dart';
