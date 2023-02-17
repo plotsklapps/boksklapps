@@ -177,15 +177,15 @@ class LoginScreenDesktopState extends ConsumerState<LoginScreenDesktop> {
                     ),
                     Column(
                       children: const <Widget>[
-                        /// Create an account button
+                        // Create an account button
                         GoToRegisterWidget(),
                         SizedBox(height: 24),
 
-                        /// Forgot password button
+                        // Forgot password button
                         ForgotPasswordWidget(),
                         SizedBox(height: 24),
 
-                        /// Sneak Peek button (no login)
+                        // Sneak Peek button (no login)
                         SneakPeekWidget(),
                       ],
                     ),
@@ -197,8 +197,8 @@ class LoginScreenDesktopState extends ConsumerState<LoginScreenDesktop> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            /// Calls loginToFirebase function from firebase_login.dart and
-            /// handles all the login logic + errors
+            // Calls loginToFirebase function from firebase_login.dart and
+            // handles all the login logic + errors
             await loginToFirebase(
               context,
               ref,

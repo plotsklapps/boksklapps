@@ -1,18 +1,19 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// PasswordScreenDesktop class
-class PasswordScreenDesktop extends StatefulWidget {
+class PasswordScreenDesktop extends ConsumerStatefulWidget {
   /// PasswordScreenDesktop constructor
   const PasswordScreenDesktop({
     super.key,
   });
 
   @override
-  State<PasswordScreenDesktop> createState() => PasswordScreenDesktopState();
+  ConsumerState<PasswordScreenDesktop> createState() =>
+      PasswordScreenDesktopState();
 }
 
 /// PasswordScreenDesktopState class
-class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
+class PasswordScreenDesktopState extends ConsumerState<PasswordScreenDesktop> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -153,19 +154,11 @@ class PasswordScreenDesktopState extends State<PasswordScreenDesktop> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            if (emailCtrl.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Email cannot be empty'),
-                ),
-              );
-              return;
-            } else {
-              await Navigator.pushReplacementNamed(
-                context,
-                '/home_screen',
-              );
-            }
+            await resetPassword(
+              context,
+              ref,
+              emailCtrl.text,
+            );
           },
           child: IconUtils.kForward,
         ),

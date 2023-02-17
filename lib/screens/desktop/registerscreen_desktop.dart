@@ -147,7 +147,7 @@ class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
                         ),
                         const SizedBox(height: 24),
 
-                        /// Email TextField
+                        // Email TextField
                         TextField(
                           controller: emailCtrl,
                           keyboardType: TextInputType.emailAddress,
@@ -159,7 +159,7 @@ class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
                         ),
                         const SizedBox(height: 12),
 
-                        /// Username TextField
+                        // Username TextField
                         TextField(
                           controller: usernameCtrl,
                           keyboardType: TextInputType.text,
@@ -173,7 +173,7 @@ class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
                         ),
                         const SizedBox(height: 12),
 
-                        /// Password TextField
+                        // Password TextField
                         TextField(
                           controller: password1Ctrl,
                           keyboardType: TextInputType.text,
@@ -199,7 +199,7 @@ class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
                         ),
                         const SizedBox(height: 12),
 
-                        /// Confirm Password TextField
+                        // Confirm Password TextField
                         TextField(
                           controller: password2Ctrl,
                           keyboardType: TextInputType.text,
@@ -227,7 +227,7 @@ class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
                     ),
                     Column(
                       children: const <Widget>[
-                        /// Back to login button
+                        // Back to login button
                         BackToLoginWidget(),
                       ],
                     ),
@@ -239,8 +239,8 @@ class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            /// Calls registerToFirebase function from firebase_register.dart
-            /// and handles all the registration logic + errors
+            // Calls registerToFirebase function from firebase_register.dart
+            // and handles all the registration logic + errors
             await registerToFirebase(
               context,
               ref,

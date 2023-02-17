@@ -66,7 +66,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
                   ),
                   const SizedBox(height: 24),
 
-                  /// Email TextField
+                  // Email TextField
                   TextField(
                     controller: emailCtrl,
                     keyboardType: TextInputType.emailAddress,
@@ -78,7 +78,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
                   ),
                   const SizedBox(height: 12),
 
-                  /// Username TextField
+                  // Username TextField
                   TextField(
                     controller: usernameCtrl,
                     keyboardType: TextInputType.text,
@@ -92,7 +92,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
                   ),
                   const SizedBox(height: 12),
 
-                  /// Password TextField
+                  // Password TextField
                   TextField(
                     controller: password1Ctrl,
                     keyboardType: TextInputType.text,
@@ -118,7 +118,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
                   ),
                   const SizedBox(height: 12),
 
-                  /// Confirm Password TextField
+                  // Confirm Password TextField
                   TextField(
                     controller: password2Ctrl,
                     keyboardType: TextInputType.text,
@@ -146,7 +146,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
               ),
               Column(
                 children: const <Widget>[
-                  /// Back to login button
+                  // Back to login button
                   BackToLoginWidget(),
                 ],
               ),
@@ -155,8 +155,8 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            /// Calls registerToFirebase function from firebase_register.dart
-            /// and handles all the registration logic + errors
+            // Calls registerToFirebase function from firebase_register.dart
+            // and handles all the registration logic + errors
             await registerToFirebase(
               context,
               ref,
