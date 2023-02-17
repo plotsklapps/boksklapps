@@ -8,6 +8,7 @@ Future<void> loginToFirebase(
   String password,
 ) async {
   try {
+    // Call Firebase method to signIn() user
     await ref
         .watch(firebaseProvider)
         .signInWithEmailAndPassword(
@@ -15,13 +16,16 @@ Future<void> loginToFirebase(
           password: password,
         )
         .then((_) async {
+      // If login was successful, go to HomeScreen()
       Logger().i('Logging in with email: $email');
       await Navigator.pushReplacementNamed(
         context,
         '/home_screen',
       );
     });
-  } on FirebaseAuthException catch (error) {
+  }
+  // Catch all FirebaseExceptions and show snackbars to user
+  on FirebaseAuthException catch (error) {
     if (error.code == 'account-exists-with-different-credential') {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -310,6 +314,9 @@ Future<void> loginToFirebase(
         ),
       );
     } else {
+      Logger().i(
+        'Something went wrong... $error',
+      );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -323,6 +330,9 @@ Future<void> loginToFirebase(
       );
     }
   } catch (error) {
+    Logger().i(
+      'Something went wrong... $error',
+    );
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(

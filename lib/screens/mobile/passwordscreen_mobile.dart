@@ -1,18 +1,19 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// PasswordScreenMobile class
-class PasswordScreenMobile extends StatefulWidget {
+class PasswordScreenMobile extends ConsumerStatefulWidget {
   /// PasswordScreenMobile constructor
   const PasswordScreenMobile({
     super.key,
   });
 
   @override
-  State<PasswordScreenMobile> createState() => PasswordScreenMobileState();
+  ConsumerState<PasswordScreenMobile> createState() =>
+      PasswordScreenMobileState();
 }
 
 /// PasswordScreenMobileState class
-class PasswordScreenMobileState extends State<PasswordScreenMobile> {
+class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -74,6 +75,7 @@ class PasswordScreenMobileState extends State<PasswordScreenMobile> {
           onPressed: () async {
             await resetPassword(
               context,
+              ref,
               emailCtrl.text,
             );
           },
