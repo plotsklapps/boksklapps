@@ -1,18 +1,19 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// PasswordScreenTablet class
-class PasswordScreenTablet extends StatefulWidget {
+class PasswordScreenTablet extends ConsumerStatefulWidget {
   /// PasswordScreenTablet constructor
   const PasswordScreenTablet({
     super.key,
   });
 
   @override
-  State<PasswordScreenTablet> createState() => PasswordScreenTabletState();
+  ConsumerState<PasswordScreenTablet> createState() =>
+      PasswordScreenTabletState();
 }
 
 /// PasswordScreenTabletState class
-class PasswordScreenTabletState extends State<PasswordScreenTablet> {
+class PasswordScreenTabletState extends ConsumerState<PasswordScreenTablet> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -92,6 +93,7 @@ class PasswordScreenTabletState extends State<PasswordScreenTablet> {
           onPressed: () async {
             await resetPassword(
               context,
+              ref,
               emailCtrl.text,
             );
           },
