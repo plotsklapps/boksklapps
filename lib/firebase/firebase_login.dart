@@ -13,15 +13,12 @@ Future<void> loginToFirebase(
       email: email,
       password: password,
     )
-        .then((UserCredential currentUser) async {
-      await fetchFirestoreData(ref);
+        .then((_) async {
       Logger().i('Logging in with email: $email');
-      if (context.mounted) {
-        await Navigator.pushReplacementNamed(
-          context,
-          '/home_screen',
-        );
-      }
+      await Navigator.pushReplacementNamed(
+        context,
+        '/home_screen',
+      );
     });
   } on FirebaseAuthException catch (error) {
     if (error.code == 'account-exists-with-different-credential') {

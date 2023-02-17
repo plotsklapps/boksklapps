@@ -8,12 +8,12 @@ Future<void> fetchFirestoreData(
   final DocumentSnapshot<Map<String, dynamic>> userData = await ref
       .watch(firestoreProvider)
       .collection('users')
-      .doc(ref.watch(currentUserProvider)?.uid)
+      .doc(ref.watch(firebaseProvider).currentUser?.uid)
       .get();
   ref.read(currentDisplayNameProvider.notifier).state =
-      userData.data()!['userName'].toString();
+      userData.data()?['userName'].toString();
   ref.read(currentEmailProvider.notifier).state =
-      userData.data()!['userEmail'].toString();
+      userData.data()?['userEmail'].toString();
   ref.read(ageProvider.notifier).state =
       int.parse(userData.data()!['userAge'].toString());
   ref.read(heightProvider.notifier).state =

@@ -9,11 +9,14 @@ Future<void> registerToFirebase(
   String password2,
   String username,
 ) async {
-  if (email.isEmpty || password1.isEmpty || password2.isEmpty) {
+  if (email.isEmpty ||
+      !email.contains('@') ||
+      password1.isEmpty ||
+      password2.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text(
-          'There seem to be empty fields...',
+          'There seem to be empty fields, or email is invalid...',
         ),
         action: SnackBarAction(
           label: 'OK',
@@ -22,11 +25,11 @@ Future<void> registerToFirebase(
       ),
     );
     return;
-  } else if (password1.length < 8 || password2.length < 8) {
+  } else if (password1.length < 6 || password2.length < 6) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text(
-          'Password 1 must be at least 8 characters',
+          'Password must be at least 6 characters',
         ),
         action: SnackBarAction(
           label: 'OK',
@@ -45,10 +48,6 @@ Future<void> registerToFirebase(
     Logger().i(
       'Registering new account...',
     );
-    // Store the chosen username and email in their corresponding providers
-    ref.read(currentDisplayNameProvider.notifier).state = username;
-    ref.read(currentEmailProvider.notifier).state = email;
-
     await ref
         .watch(firebaseProvider)
         .createUserWithEmailAndPassword(
@@ -57,39 +56,43 @@ Future<void> registerToFirebase(
         )
         .then((_) async {
       Logger().i(
-        'Creating new database...',
+        'Updating displayname...',
       );
-      // Update ALL data within the database with corresponding
-      // data from the providers
-      await updateFirestoreData(ref).then((_) async {
+      // Update the displayName for Firebase the official way
+      await ref
+          .watch(firebaseProvider)
+          .currentUser!
+          .updateDisplayName(
+            username,
+          )
+          .then((_) async {
         Logger().i(
-          'Updating displayname...',
+          'Creating new database...',
         );
-        // Update the displayName for Firebase the official way
-        await ref.watch(currentUserProvider)!.updateDisplayName(
-              username,
-            );
+        // Update ALL data within the database with corresponding
+        // data from the providers
+        await updateFirestoreData(ref);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Account and Database created... Thank you for joining! '
+                'Please log in now.',
+              ),
+              action: SnackBarAction(
+                label: 'OK',
+                onPressed: () {},
+              ),
+            ),
+          );
+        }
+        if (context.mounted) {
+          await Navigator.pushReplacementNamed(
+            context,
+            '/login_screen',
+          );
+        }
       });
     });
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Account and Database created... Thank you for joining! '
-            'Please log in now.',
-          ),
-          action: SnackBarAction(
-            label: 'OK',
-            onPressed: () {},
-          ),
-        ),
-      );
-    }
-    if (context.mounted) {
-      await Navigator.pushReplacementNamed(
-        context,
-        '/login_screen',
-      );
-    }
   }
 }

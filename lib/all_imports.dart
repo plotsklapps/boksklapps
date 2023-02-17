@@ -3,7 +3,6 @@
 // Flutter & Dart native packages
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
-export 'package:stack_trace/stack_trace.dart';
 
 // External packages
 export 'package:flex_color_scheme/flex_color_scheme.dart';
