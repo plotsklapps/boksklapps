@@ -1,6 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Shows a dialog to change the email address
+/// Shows a dialog to change the age, height, weight and BMI
 /// Method takes context as parameter
 Future<void> showChangeAgeHeightWeight(BuildContext context) async {
   /// Show the dialog
@@ -38,16 +38,13 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
               children: <Widget>[
                 const Text('Age in years'),
 
-                /// Age Textfield (reads ageProvider)
+                // Age Textfield (stores value to ageProvider)
                 TextField(
                   controller: ageCtrl,
-                  onChanged: (String age) {
-                    ref.read(ageProvider.notifier).state = int.parse(age);
-                  },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.read(ageProvider).toString(),
+                    labelText: ref.watch(ageProvider).toString(),
                     prefixIcon: const Icon(
                       Icons.cake_outlined,
                     ),
@@ -58,16 +55,13 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 ),
                 const Text('Height in cm'),
 
-                /// Height Textfield (reads heightProvider)
+                // Height Textfield (stores value to heightProvider)
                 TextField(
                   controller: heightCtrl,
-                  onChanged: (String height) {
-                    ref.read(heightProvider.notifier).state = int.parse(height);
-                  },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.read(heightProvider).toString(),
+                    labelText: ref.watch(heightProvider).toString(),
                     prefixIcon: const Icon(
                       Icons.height_outlined,
                     ),
@@ -78,16 +72,13 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                 ),
                 const Text('Weight in kg'),
 
-                // Weight Textfield (updates weightProvider)
+                // Weight Textfield (stores value to weightProvider)
                 TextField(
                   controller: weightCtrl,
-                  onChanged: (String weight) {
-                    ref.read(weightProvider.notifier).state = int.parse(weight);
-                  },
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.read(weightProvider).toString(),
+                    labelText: ref.watch(weightProvider).toString(),
                     prefixIcon: const Icon(
                       Icons.monitor_weight_outlined,
                     ),
@@ -103,7 +94,15 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                       // Press to set value calculated in calculatedBMI
                       // to bmiProvider
                       onPressed: () {
+                        // Store the values from the TextFields to the
+                        // corresponding Providers
                         ref.read(bmiProvider.notifier).state = calculateBMI();
+                        ref.read(ageProvider.notifier).state =
+                            int.parse(ageCtrl.text);
+                        ref.read(heightProvider.notifier).state =
+                            int.parse(heightCtrl.text);
+                        ref.read(weightProvider.notifier).state =
+                            int.parse(weightCtrl.text);
                       },
                       child: const Text(
                         'Calculate BMI',
@@ -132,31 +131,17 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   'Save',
                 ),
                 onPressed: () async {
-                  // Store the age, height, weight and bmi values  retrieved
-                  // from the corresponding Providers in the Firestore
-                  // database for the current user
-                  final String? userUID = ref.watch(currentUserProvider)?.uid;
-                  final int age = ref.watch(ageProvider);
-                  final int height = ref.watch(heightProvider);
-                  final int weight = ref.watch(weightProvider);
-                  final double bmi = ref.watch(bmiProvider) ?? 0.0;
-
-                  await ref
-                      .watch(firestoreProvider)
-                      .collection('users')
-                      .doc(userUID)
-                      .set(<String, dynamic>{
-                    'userAge': age,
-                    'userHeight': height,
-                    'userWeight': weight,
-                    'userBMI': bmi,
-                  }).then((_) {
+                  // Store the age, height, weight and BMI values
+                  // retrieved from the corresponding Providers to the
+                  // Firestore database for the current user via
+                  // updateFirestoreData method
+                  await updateFirestoreData(ref).then((_) {
                     // Show a snackbar to confirm that the values have been
                     // updated and pop the dialog
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: const Text(
-                          'Age / Height / Weight / BMI updated',
+                          'Age / Height / Weight / BMI updated...',
                         ),
                         action: SnackBarAction(
                           label: 'OK',

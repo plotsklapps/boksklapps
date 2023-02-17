@@ -106,19 +106,23 @@ class DrawerWidget extends ConsumerWidget {
             subtitle: const Text('Sign out from the app'),
             trailing: IconUtils.kLogout,
             onTap: () async {
-              /// Sign out from Firebase
+              // Sign out from Firebase
               await FirebaseAuth.instance.signOut();
 
-              /// Clear the currentUserProvider
+              // Clear the currentUserProvider
               ref.invalidate(currentUserProvider);
 
-              /// Clear all screens, show snackbar to user
-              /// and return to splash screen
+              // Clear all screens, show snackbar to user
+              // and return to splash screen
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'You have been signed out',
+                  SnackBar(
+                    content: const Text(
+                      'You have been signed out...',
+                    ),
+                    action: SnackBarAction(
+                      label: 'OK',
+                      onPressed: () {},
                     ),
                   ),
                 );

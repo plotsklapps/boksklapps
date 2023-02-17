@@ -1,18 +1,19 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// RegisterScreenDesktop class
-class RegisterScreenDesktop extends StatefulWidget {
+class RegisterScreenDesktop extends ConsumerStatefulWidget {
   /// RegisterScreenDesktop constructor
   const RegisterScreenDesktop({
     super.key,
   });
 
   @override
-  State<RegisterScreenDesktop> createState() => RegisterScreenDesktopState();
+  ConsumerState<RegisterScreenDesktop> createState() =>
+      RegisterScreenDesktopState();
 }
 
 /// RegisterScreenDesktopState class
-class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
+class RegisterScreenDesktopState extends ConsumerState<RegisterScreenDesktop> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -242,6 +243,7 @@ class RegisterScreenDesktopState extends State<RegisterScreenDesktop> {
             /// and handles all the registration logic + errors
             await registerToFirebase(
               context,
+              ref,
               emailCtrl.text,
               password1Ctrl.text,
               password2Ctrl.text,

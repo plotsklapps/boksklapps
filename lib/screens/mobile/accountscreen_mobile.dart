@@ -19,7 +19,7 @@ class AccountScreenMobile extends ConsumerWidget {
         children: <ListTile>[
           ListTile(
             title: Text(
-              ref.watch(currentUserProvider)?.email ?? StringUtils.kNoAccount,
+              ref.watch(currentEmailProvider) ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current UserEmail',
@@ -30,7 +30,7 @@ class AccountScreenMobile extends ConsumerWidget {
             onTap: () async {
               // If the user is logged in, show the dialog to change
               // the email address
-              if (ref.watch(currentUserProvider)?.email != null) {
+              if (ref.watch(currentEmailProvider) != null) {
                 await showChangeEmailDialog(context);
               } else {
                 await showNoAccountDialog(context);
@@ -39,8 +39,7 @@ class AccountScreenMobile extends ConsumerWidget {
           ),
           ListTile(
             title: Text(
-              ref.watch(currentUserProvider)?.displayName ??
-                  StringUtils.kNoAccount,
+              ref.watch(currentDisplayNameProvider) ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current UserName',
@@ -51,8 +50,8 @@ class AccountScreenMobile extends ConsumerWidget {
             onTap: () async {
               // If the user is logged in, show the dialog to change
               // the username
-              if (ref.watch(currentUserProvider)?.email != null) {
-                await showChangeUserNameDialog(context, ref);
+              if (ref.watch(currentEmailProvider) != null) {
+                await showChangeUserNameDialog(context);
               } else {
                 await showNoAccountDialog(context);
               }
@@ -60,7 +59,7 @@ class AccountScreenMobile extends ConsumerWidget {
           ),
           ListTile(
             title: Text(
-              ref.watch(bmiProvider).toString(),
+              ref.watch(bmiProvider).toStringAsFixed(1),
             ),
             subtitle: const Text(
               'Current BMI',

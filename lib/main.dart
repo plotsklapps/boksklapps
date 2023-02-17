@@ -5,6 +5,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is Trace) {
+      return stack.vmTrace;
+    }
+    if (stack is Chain) {
+      return stack.toTrace().vmTrace;
+    }
+    return stack;
+  };
   runApp(
     const ProviderScope(
       child: MainEntry(),

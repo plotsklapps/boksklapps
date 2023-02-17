@@ -3,6 +3,7 @@
 // Flutter & Dart native packages
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
+export 'package:stack_trace/stack_trace.dart';
 
 // External packages
 export 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -20,6 +21,8 @@ export 'firebase_options.dart';
 export 'package:boksklapps/firebase/firebase_login.dart';
 export 'package:boksklapps/firebase/firebase_register.dart';
 export 'package:boksklapps/firebase/firebase_password.dart';
+export 'package:boksklapps/firebase/firestore_update.dart';
+export 'package:boksklapps/firebase/firestore_fetch.dart';
 
 // Constants
 export 'package:boksklapps/constants.dart';
@@ -76,6 +79,6 @@ export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 
 // AlertDialogs
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
-export 'package:boksklapps/alertdialogs/changeusername_dialog.dart';
+export 'package:boksklapps/alertdialogs/changedisplayname_dialog.dart';
 export 'package:boksklapps/alertdialogs/noaccount_dialog.dart';
 export 'package:boksklapps/alertdialogs/changeageheightweight_dialog.dart';

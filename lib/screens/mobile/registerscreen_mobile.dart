@@ -1,18 +1,19 @@
 import 'package:boksklapps/all_imports.dart';
 
 /// RegisterScreenMobile class
-class RegisterScreenMobile extends StatefulWidget {
+class RegisterScreenMobile extends ConsumerStatefulWidget {
   /// RegisterScreenMobile constructor
   const RegisterScreenMobile({
     super.key,
   });
 
   @override
-  State<RegisterScreenMobile> createState() => RegisterScreenMobileState();
+  ConsumerState<RegisterScreenMobile> createState() =>
+      RegisterScreenMobileState();
 }
 
 /// RegisterScreenMobileState class
-class RegisterScreenMobileState extends State<RegisterScreenMobile> {
+class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
   /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
@@ -158,6 +159,7 @@ class RegisterScreenMobileState extends State<RegisterScreenMobile> {
             /// and handles all the registration logic + errors
             await registerToFirebase(
               context,
+              ref,
               emailCtrl.text,
               password1Ctrl.text,
               password2Ctrl.text,
