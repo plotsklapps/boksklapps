@@ -121,6 +121,9 @@ class DrawerWidget extends ConsumerWidget {
                   // Clear all screens, show snackbar to user
                   // and return to splash screen
                   if (context.mounted) {
+                    Logger().i(
+                      'User has been signed out of Firebase...',
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: const Text(

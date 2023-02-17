@@ -73,13 +73,21 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                   ref.read(currentDisplayNameProvider.notifier).state =
                       nameCtrl.text;
                   // Update display name via Firebase (official way)
+                  Logger().i(
+                    'Updating Firebase official displayName',
+                  );
                   await ref
-                      .watch(currentUserProvider)
+                      .watch(firebaseProvider)
+                      .currentUser
                       ?.updateDisplayName(nameCtrl.text)
                       .then((_) async {
                     // Update the all Firestore database values as well
-                    await updateFirestoreData(ref).then((_) {
-                      // Show a snackBar and return to login screen
+                    Logger().i(
+                      'Updating all Firestore data',
+                    );
+                    await updateFirestoreData(ref);
+                    // Show a snackBar and return to login screen
+                    if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: const Text(
@@ -91,8 +99,6 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                           ),
                         ),
                       );
-                    });
-                    if (context.mounted) {
                       Navigator.of(context).pop();
                     }
                   });

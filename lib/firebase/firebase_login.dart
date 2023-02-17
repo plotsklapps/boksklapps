@@ -16,10 +16,13 @@ Future<void> loginToFirebase(
           password: password,
         )
         .then((_) async {
-      Logger().i('Logging in with email: $email');
-      await fetchFirestoreData(context, ref);
       // If login was successful, retrieve Firestore data
       // and go to HomeScreen()
+      Logger().i('Logging in with email: $email');
+      await fetchFirestoreData(context, ref);
+      Logger().i(
+        'UserData fetched from Firestore',
+      );
       if (context.mounted) {
         await Navigator.pushReplacementNamed(
           context,
