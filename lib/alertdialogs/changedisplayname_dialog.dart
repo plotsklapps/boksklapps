@@ -2,7 +2,7 @@ import 'package:boksklapps/all_imports.dart';
 
 /// Shows a dialog to change the displayName to Firebase
 /// Method takes context as parameter
-Future<void> showChangeUserNameDialog(BuildContext context) async {
+Future<void> showChangeUserDisplayNameDialog(BuildContext context) async {
   // Show the dialog
   await showDialog<void>(
     context: context,
@@ -69,38 +69,34 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                   'OK',
                 ),
                 onPressed: () async {
-                  // Store new displayName to currentUserNameProvider
-                  ref.read(currentDisplayNameProvider.notifier).state =
-                      nameCtrl.text;
-                  // Update display name via Firebase (official way)
-                  Logger().i(
-                    'Updating Firebase official displayName...',
-                  );
+                  Logger().i('Updating displayName');
+                  // Store new displayName to userDisplayName provider
                   await ref
-                      .watch(firebaseProvider)
-                      .currentUser
-                      ?.updateDisplayName(nameCtrl.text)
+                      .read(userDisplayNameProvider.notifier)
+                      .updateUserDisplayName(
+                        context,
+                        nameCtrl.text,
+                      )
                       .then((_) async {
                     // Update the all Firestore database values as well
                     Logger().i(
                       'Updating all Firestore data...',
                     );
                     await updateFirestoreData(context, ref);
+                  }).then((_) {
                     // Show a snackBar and return to login screen
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            StringUtils.kUsernameChanged,
-                          ),
-                          action: SnackBarAction(
-                            label: 'OK',
-                            onPressed: () {},
-                          ),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          StringUtils.kUsernameChanged,
                         ),
-                      );
-                      Navigator.of(context).pop();
-                    }
+                        action: SnackBarAction(
+                          label: 'OK',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                    Navigator.of(context).pop();
                   });
                 },
               ),

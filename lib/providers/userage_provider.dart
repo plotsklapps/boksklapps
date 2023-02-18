@@ -1,12 +1,16 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// StateNotifierProvider to return user age from Firestore database
-final userAgeProvider =
-    StateNotifierProvider<UserAgeNotifier, int>((ref) => UserAgeNotifier());
+/// StateNotifierProvider to return user age as String
+/// for easier process from Firestore database
+final StateNotifierProvider<UserAgeNotifier, String> userAgeProvider =
+    StateNotifierProvider<UserAgeNotifier, String>(
+  (StateNotifierProviderRef<UserAgeNotifier, String> ref) => UserAgeNotifier(),
+);
 
 /// UserAgeNotifier class
-class UserAgeNotifier extends StateNotifier<int> {
-  UserAgeNotifier() : super(0);
+class UserAgeNotifier extends StateNotifier<String> {
+  /// UserAgeNotifier constructor (default: 0)
+  UserAgeNotifier() : super('0');
 
   /// Method to get user's age
   Future<void> getUserAge() async {
@@ -14,8 +18,16 @@ class UserAgeNotifier extends StateNotifier<int> {
   }
 
   /// Method to update user's age
-  Future<void> updateUserAge(BuildContext context, int newAge) async {
-    await UserAgeRepository().updateUserAge(context, newAge);
+  Future<void> updateUserAge(
+    BuildContext context,
+    WidgetRef ref,
+    String newAge,
+  ) async {
+    await UserAgeRepository().updateUserAge(
+      context,
+      ref,
+      newAge,
+    );
     state = newAge;
   }
 }
@@ -23,21 +35,27 @@ class UserAgeNotifier extends StateNotifier<int> {
 /// UserAgeRepository class
 class UserAgeRepository {
   /// Method to get user's age from Firestore
-  Future<int> getUserAge() async {
-    final userAgeDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .get();
-    return int.tryParse(userAgeDoc.data()?['userAge']?.toString() ?? '0') ?? 0;
+  Future<String> getUserAge() async {
+    final DocumentSnapshot<Map<String, dynamic>> getUserAgeDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
+    return getUserAgeDoc.data()!['userAge'].toString();
   }
 
   /// Method to update user's age to Firestore
-  Future<void> updateUserAge(BuildContext context, int newAge) async {
+  Future<void> updateUserAge(
+    BuildContext context,
+    WidgetRef ref,
+    String newAge,
+  ) async {
     try {
-      await FirebaseFirestore.instance
+      await ref
+          .watch(firestoreProvider)
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser?.uid)
-          .update({'userAge': newAge});
+          .update(<String, String>{'userAge': newAge});
     } catch (error) {
       // Handle errors here
       Logger().i('Error updating user age: $error');

@@ -85,37 +85,42 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
                   'OK',
                 ),
                 onPressed: () async {
-                  // Store new email value to currentEmailProvider
-                  ref.read(currentEmailProvider.notifier).state =
-                      email2Ctrl.text;
-
-                  await ref
-                      .watch(currentUserProvider)!
+                  // Reauthenticate for security reasons
+                  await FirebaseAuth.instance.currentUser!
                       .reauthenticateWithCredential(
-                        EmailAuthProvider.credential(
-                          email: email1Ctrl.text,
-                          password: passwordCtrl.text,
-                        ),
-                      )
-                      .then((_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          StringUtils.kEmailAddressChanged,
-                        ),
-                        action: SnackBarAction(
-                          label: 'OK',
-                          onPressed: () {},
-                        ),
-                      ),
+                    EmailAuthProvider.credential(
+                      email: email1Ctrl.text,
+                      password: passwordCtrl.text,
+                    ),
+                  )
+                      .then((_) async {
+                    Logger().i(
+                      'Email address changed to ${email2Ctrl.text}',
                     );
-                  });
-                  await ref
-                      .watch(currentUserProvider)!
-                      .updateEmail(email2Ctrl.text)
-                      .then((_) {
-                    updateFirestoreData(context, ref).then(
+                    // Update userEmailProvider value
+                    await ref.watch(userEmailProvider.notifier).updateUserEmail(
+                          context,
+                          email2Ctrl.text,
+                        );
+                  }).then((_) async {
+                    // Update the all Firestore database values as well
+                    Logger().i(
+                      'Updating all Firestore data...',
+                    );
+                    await updateFirestoreData(context, ref).then(
                       (_) {
+                        // Show snackbar to user and return to LoginScreen()
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              StringUtils.kEmailAddressChanged,
+                            ),
+                            action: SnackBarAction(
+                              label: 'OK',
+                              onPressed: () {},
+                            ),
+                          ),
+                        );
                         Navigator.pushReplacementNamed(
                           context,
                           '/login_screen',

@@ -11,21 +11,3 @@ final StateProvider<FirebaseFirestore> firestoreProvider =
     StateProvider<FirebaseFirestore>((StateProviderRef<FirebaseFirestore> ref) {
   return FirebaseFirestore.instance;
 });
-
-/// Returns instance of User
-final StateProvider<User?> currentUserProvider =
-    StateProvider<User?>((StateProviderRef<User?> ref) {
-  return FirebaseAuth.instance.currentUser;
-});
-
-/// Returns current user's email as String
-final StateProvider<String?> currentEmailProvider =
-    StateProvider<String?>((StateProviderRef<String?> ref) {
-  return FirebaseAuth.instance.currentUser?.email;
-});
-
-/// Returns current user's display name as String
-final StateProvider<String?> currentDisplayNameProvider =
-    StateProvider<String?>((StateProviderRef<String?> ref) {
-  return FirebaseAuth.instance.currentUser?.displayName;
-});
