@@ -19,14 +19,6 @@ Future<void> showChangeUserBMIDialog(BuildContext context) async {
           /// WeightController
           final TextEditingController weightCtrl = TextEditingController();
 
-          @override
-          void dispose() {
-            ageCtrl.dispose();
-            heightCtrl.dispose();
-            weightCtrl.dispose();
-            dispose();
-          }
-
           return AlertDialog(
             title: const Text(
               'Age / Height / Weight',
@@ -104,6 +96,7 @@ Future<void> showChangeUserBMIDialog(BuildContext context) async {
                             .read(userAgeProvider.notifier)
                             .updateUserAge(
                               context,
+                              ref,
                               ageCtrl.text,
                             )
                             .then((_) async {

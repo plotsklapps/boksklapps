@@ -2,8 +2,10 @@ import 'package:boksklapps/all_imports.dart';
 
 /// StateNotifierProvider to return user weight as String
 /// for easier process from Firestore database
-final userWeightProvider = StateNotifierProvider<UserWeightNotifier, String>(
-  (ref) => UserWeightNotifier(),
+final StateNotifierProvider<UserWeightNotifier, String> userWeightProvider =
+    StateNotifierProvider<UserWeightNotifier, String>(
+  (StateNotifierProviderRef<UserWeightNotifier, String> ref) =>
+      UserWeightNotifier(),
 );
 
 /// UserWeightNotifier class
@@ -27,10 +29,11 @@ class UserWeightNotifier extends StateNotifier<String> {
 class UserWeightRepository {
   /// Method to get user's weight from Firestore
   Future<String> getUserWeight() async {
-    final userWeightDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .get();
+    final DocumentSnapshot<Map<String, dynamic>> userWeightDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
     return userWeightDoc.data()!['userWeight'].toString();
   }
 

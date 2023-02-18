@@ -2,8 +2,10 @@ import 'package:boksklapps/all_imports.dart';
 
 /// StateNotifierProvider to return user email as String
 /// for easier process from Firestore database
-final userEmailProvider = StateNotifierProvider<UserEmailNotifier, String>(
-  (ref) => UserEmailNotifier(),
+final StateNotifierProvider<UserEmailNotifier, String> userEmailProvider =
+    StateNotifierProvider<UserEmailNotifier, String>(
+  (StateNotifierProviderRef<UserEmailNotifier, String> ref) =>
+      UserEmailNotifier(),
 );
 
 /// UserEmailNotifier class
@@ -27,10 +29,11 @@ class UserEmailNotifier extends StateNotifier<String> {
 class UserEmailRepository {
   /// Method to get user's email from Firestore
   Future<String> getUserEmail() async {
-    final userEmailDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .get();
+    final DocumentSnapshot<Map<String, dynamic>> userEmailDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
     return userEmailDoc.data()!['userEmail'].toString();
   }
 

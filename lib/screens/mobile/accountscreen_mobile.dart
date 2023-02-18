@@ -1,4 +1,3 @@
-import 'package:boksklapps/alertdialogs/changebmi_dialog.dart';
 import 'package:boksklapps/all_imports.dart';
 
 /// AccountScreenMobile class

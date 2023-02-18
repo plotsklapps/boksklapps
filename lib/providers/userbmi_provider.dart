@@ -2,8 +2,9 @@ import 'package:boksklapps/all_imports.dart';
 
 /// StateNotifierProvider to return user BMI as String
 /// for easier process from Firestore database
-final userBMIProvider = StateNotifierProvider<UserBMINotifier, String>(
-  (ref) => UserBMINotifier(),
+final StateNotifierProvider<UserBMINotifier, String> userBMIProvider =
+    StateNotifierProvider<UserBMINotifier, String>(
+  (StateNotifierProviderRef<UserBMINotifier, String> ref) => UserBMINotifier(),
 );
 
 /// UserBMINotifier class
@@ -27,10 +28,11 @@ class UserBMINotifier extends StateNotifier<String> {
 class UserBMIRepository {
   /// Method to get user's BMI from Firestore
   Future<String> getUserBMI() async {
-    final userBMIDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .get();
+    final DocumentSnapshot<Map<String, dynamic>> userBMIDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
     final double userBMI =
         double.parse(userBMIDoc.data()!['userBMI'].toString());
     return userBMI.toStringAsFixed(2);
@@ -49,6 +51,7 @@ class UserBMIRepository {
     }
   }
 
+  /// Method to calculate user's BMI according to height and weight
   String calculateUserBMI(String height, String weight) {
     final double userHeight = double.parse(height) / 100;
     final double userWeight = double.parse(weight);

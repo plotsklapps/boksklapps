@@ -2,8 +2,10 @@ import 'package:boksklapps/all_imports.dart';
 
 /// StateNotifierProvider to return user height as String
 /// for easier process from Firestore database
-final userHeightProvider = StateNotifierProvider<UserHeightNotifier, String>(
-  (ref) => UserHeightNotifier(),
+final StateNotifierProvider<UserHeightNotifier, String> userHeightProvider =
+    StateNotifierProvider<UserHeightNotifier, String>(
+  (StateNotifierProviderRef<UserHeightNotifier, String> ref) =>
+      UserHeightNotifier(),
 );
 
 /// UserHeightNotifier class
@@ -27,10 +29,11 @@ class UserHeightNotifier extends StateNotifier<String> {
 class UserHeightRepository {
   /// Method to get user's height from Firestore
   Future<String> getUserHeight() async {
-    final userHeightDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .get();
+    final DocumentSnapshot<Map<String, dynamic>> userHeightDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
     return userHeightDoc.data()!['userHeight'].toString();
   }
 
