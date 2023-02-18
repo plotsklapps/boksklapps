@@ -116,7 +116,7 @@ class DrawerWidget extends ConsumerWidget {
                   await ref.read(firebaseProvider).signOut();
 
                   // Clear the currentUserProvider
-                  ref.invalidate(currentUserProvider);
+                  ref.invalidate(userDisplayNameProvider);
 
                   // Clear all screens, show snackbar to user
                   // and return to splash screen

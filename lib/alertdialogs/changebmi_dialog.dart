@@ -19,13 +19,12 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
           /// WeightController
           final TextEditingController weightCtrl = TextEditingController();
 
-          /// Method to calculate the BMI (returns a double)
-          double calculateBMI() {
-            final double height = double.parse(heightCtrl.text) / 100;
-            final double weight = double.parse(weightCtrl.text);
-            final double calculatedBMI = weight / (height * height);
-
-            return calculatedBMI;
+          @override
+          void dispose() {
+            ageCtrl.dispose();
+            heightCtrl.dispose();
+            weightCtrl.dispose();
+            dispose();
           }
 
           return AlertDialog(
@@ -44,7 +43,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.watch(userAgeProvider).toString(),
+                    labelText: ref.watch(userAgeProvider),
                     prefixIcon: const Icon(
                       Icons.cake_outlined,
                     ),
@@ -61,7 +60,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.watch(heightProvider).toString(),
+                    labelText: ref.watch(userHeightProvider),
                     prefixIcon: const Icon(
                       Icons.height_outlined,
                     ),
@@ -78,7 +77,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.watch(weightProvider).toString(),
+                    labelText: ref.watch(userWeightProvider),
                     prefixIcon: const Icon(
                       Icons.monitor_weight_outlined,
                     ),
@@ -91,22 +90,32 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ElevatedButton(
-                      // Press to set value calculated in calculatedBMI
-                      // to bmiProvider
                       onPressed: () {
-                        // Store the values from the TextFields to the
-                        // corresponding Providers
-                        ref.read(bmiProvider.notifier).state = calculateBMI();
+                        // Press to set value calculated in calculatedBMI
+                        // to bmiProvider
+                        final String userBMI =
+                            UserBMIRepository().calculateUserBMI(
+                          heightCtrl.text,
+                          weightCtrl.text,
+                        );
+                        // Store the values from the TextFields and
+                        // calculated BMI to the corresponding Providers
                         ref.read(userAgeProvider.notifier).updateUserAge(
                               context,
-                              int.parse(
-                                ageCtrl.text,
-                              ),
+                              ageCtrl.text,
                             );
-                        ref.read(heightProvider.notifier).state =
-                            int.parse(heightCtrl.text);
-                        ref.read(weightProvider.notifier).state =
-                            int.parse(weightCtrl.text);
+                        ref.read(userHeightProvider.notifier).updateUserHeight(
+                              context,
+                              heightCtrl.text,
+                            );
+                        ref.read(userWeightProvider.notifier).updateUserWeight(
+                              context,
+                              weightCtrl.text,
+                            );
+                        ref.read(userBMIProvider.notifier).updateUserBMI(
+                              context,
+                              userBMI,
+                            );
                       },
                       child: const Text(
                         'Calculate BMI',
@@ -114,7 +123,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                     ),
                     Text(
                       // Show the newly calculated BMI in the dialog
-                      ref.watch(bmiProvider).toStringAsFixed(2),
+                      ref.watch(userBMIProvider),
                       style: TextStyleUtils.kHeadline3,
                     ),
                   ],
@@ -143,10 +152,15 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                     'Updating all Firestore data...',
                   );
                   try {
-                    final int age = int.parse(ageCtrl.text);
                     await ref.read(userAgeProvider.notifier).updateUserAge(
                           context,
-                          age,
+                          ageCtrl.text,
+                        );
+                    await ref
+                        .read(userHeightProvider.notifier)
+                        .updateUserHeight(
+                          context,
+                          heightCtrl.text,
                         );
                     await updateFirestoreData(context, ref).then((_) {
                       // Show a snackbar to confirm that the values have been

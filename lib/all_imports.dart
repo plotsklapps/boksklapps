@@ -35,8 +35,12 @@ export 'package:boksklapps/providers/theme_providers.dart';
 export 'package:boksklapps/providers/themecolor_providers.dart';
 export 'package:boksklapps/providers/thememode_providers.dart';
 export 'package:boksklapps/providers/timer_providers.dart';
-export 'package:boksklapps/providers/ageheightweightbmi_providers.dart';
+export 'package:boksklapps/providers/useremail_provider.dart';
+export 'package:boksklapps/providers/username_provider.dart';
 export 'package:boksklapps/providers/userage_provider.dart';
+export 'package:boksklapps/providers/userheight_provider.dart';
+export 'package:boksklapps/providers/userweight_provider.dart';
+export 'package:boksklapps/providers/userbmi_provider.dart';
 
 // Widgets
 export 'package:boksklapps/widgets/backtologin_widget.dart';

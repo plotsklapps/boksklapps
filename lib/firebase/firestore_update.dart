@@ -11,12 +11,12 @@ Future<void> updateFirestoreData(
       .collection('users')
       .doc(ref.watch(firebaseProvider).currentUser!.uid)
       .set(<String, dynamic>{
-    'userName': ref.watch(currentDisplayNameProvider),
-    'userEmail': ref.watch(currentEmailProvider),
+    'userName': ref.watch(userDisplayNameProvider),
+    'userEmail': ref.watch(userEmailProvider),
     'userAge': ref.watch(userAgeProvider),
-    'userHeight': ref.watch(heightProvider),
-    'userWeight': ref.watch(weightProvider),
-    'userBMI': ref.watch(bmiProvider),
+    'userHeight': ref.watch(userHeightProvider),
+    'userWeight': ref.watch(userWeightProvider),
+    'userBMI': ref.watch(userBMIProvider),
     'themeColor': 0,
     'themeMode': 0,
   });

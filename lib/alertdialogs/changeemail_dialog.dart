@@ -85,19 +85,28 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
                   'OK',
                 ),
                 onPressed: () async {
-                  // Store new email value to currentEmailProvider
-                  ref.read(currentEmailProvider.notifier).state =
-                      email2Ctrl.text;
-
-                  await ref
-                      .watch(currentUserProvider)!
+                  await FirebaseAuth.instance.currentUser!
                       .reauthenticateWithCredential(
-                        EmailAuthProvider.credential(
-                          email: email1Ctrl.text,
-                          password: passwordCtrl.text,
-                        ),
-                      )
-                      .then((_) {
+                    EmailAuthProvider.credential(
+                      email: email1Ctrl.text,
+                      password: passwordCtrl.text,
+                    ),
+                  )
+                      .then((_) async {
+                    await ref.watch(userEmailProvider.notifier).updateUserEmail(
+                          context,
+                          email2Ctrl.text,
+                        );
+                  }).then((_) {
+                    updateFirestoreData(context, ref).then(
+                      (_) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          '/login_screen',
+                        );
+                      },
+                    );
+                  }).then((_) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: const Text(
@@ -108,19 +117,6 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
                           onPressed: () {},
                         ),
                       ),
-                    );
-                  });
-                  await ref
-                      .watch(currentUserProvider)!
-                      .updateEmail(email2Ctrl.text)
-                      .then((_) {
-                    updateFirestoreData(context, ref).then(
-                      (_) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/login_screen',
-                        );
-                      },
                     );
                   });
                 },

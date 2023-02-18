@@ -19,7 +19,7 @@ class AccountScreenMobile extends ConsumerWidget {
         children: <ListTile>[
           ListTile(
             title: Text(
-              ref.watch(currentEmailProvider) ?? StringUtils.kNoAccount,
+              ref.watch(userEmailProvider) ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current UserEmail',
@@ -30,16 +30,16 @@ class AccountScreenMobile extends ConsumerWidget {
             onTap: () async {
               // If the user is logged in, show the dialog to change
               // the email address
-              if (ref.watch(currentEmailProvider) != null) {
-                await showChangeEmailDialog(context);
-              } else {
+              if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
+              } else {
+                await showChangeEmailDialog(context);
               }
             },
           ),
           ListTile(
             title: Text(
-              ref.watch(currentDisplayNameProvider) ?? StringUtils.kNoAccount,
+              ref.watch(userDisplayNameProvider) ?? StringUtils.kNoAccount,
             ),
             subtitle: const Text(
               'Current UserName',
@@ -50,16 +50,16 @@ class AccountScreenMobile extends ConsumerWidget {
             onTap: () async {
               // If the user is logged in, show the dialog to change
               // the username
-              if (ref.watch(currentEmailProvider) != null) {
-                await showChangeUserNameDialog(context);
-              } else {
+              if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
+              } else {
+                await showChangeEmailDialog(context);
               }
             },
           ),
           ListTile(
             title: Text(
-              ref.watch(bmiProvider).toStringAsFixed(1),
+              ref.watch(userBMIProvider),
             ),
             subtitle: const Text(
               'Current BMI',
@@ -70,10 +70,10 @@ class AccountScreenMobile extends ConsumerWidget {
             onTap: () async {
               // If the user is logged in, show the dialog to change
               // the age, height, weight and calculate BMI
-              if (ref.watch(currentEmailProvider) != null) {
-                await showChangeAgeHeightWeight(context);
-              } else {
+              if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
+              } else {
+                await showChangeEmailDialog(context);
               }
             },
           ),

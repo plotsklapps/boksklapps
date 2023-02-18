@@ -7,22 +7,12 @@ Future<void> fetchFirestoreData(
   WidgetRef ref,
 ) async {
   try {
-    final DocumentSnapshot<Map<String, dynamic>> userData = await ref
-        .watch(firestoreProvider)
-        .collection('users')
-        .doc(ref.watch(firebaseProvider).currentUser?.uid)
-        .get();
-    ref.read(currentDisplayNameProvider.notifier).state =
-        userData.data()?['userName'].toString();
-    ref.read(currentEmailProvider.notifier).state =
-        userData.data()?['userEmail'].toString();
+    await ref.read(userEmailProvider.notifier).getUserEmail();
+    await ref.read(userDisplayNameProvider.notifier).getUserDisplayName();
     await ref.read(userAgeProvider.notifier).getUserAge();
-    ref.read(heightProvider.notifier).state =
-        int.parse(userData.data()!['userHeight'].toString());
-    ref.read(weightProvider.notifier).state =
-        int.parse(userData.data()!['userWeight'].toString());
-    ref.read(bmiProvider.notifier).state =
-        double.parse(userData.data()!['userBMI'].toString());
+    await ref.read(userHeightProvider.notifier).getUserHeight();
+    await ref.read(userWeightProvider.notifier).getUserWeight();
+    await ref.read(userBMIProvider.notifier).getUserBMI();
   } catch (error) {
     Logger().i(
       'Something went wrong... $error',
