@@ -31,7 +31,9 @@ class UserBMIRepository {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .get();
-    return userBMIDoc.data()!['userBMI'].toString();
+    final double userBMI =
+        double.parse(userBMIDoc.data()!['userBMI'].toString());
+    return userBMI.toStringAsFixed(2);
   }
 
   /// Method to update user's BMI to Firestore

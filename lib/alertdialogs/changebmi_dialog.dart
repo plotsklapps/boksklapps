@@ -2,7 +2,7 @@ import 'package:boksklapps/all_imports.dart';
 
 /// Shows a dialog to change the age, height, weight and BMI
 /// Method takes context as parameter
-Future<void> showChangeAgeHeightWeight(BuildContext context) async {
+Future<void> showChangeUserBMIDialog(BuildContext context) async {
   /// Show the dialog
   await showDialog<void>(
     context: context,
@@ -90,7 +90,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Press to set value calculated in calculatedBMI
                         // to bmiProvider
                         final String userBMI =
@@ -100,22 +100,34 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                         );
                         // Store the values from the TextFields and
                         // calculated BMI to the corresponding Providers
-                        ref.read(userAgeProvider.notifier).updateUserAge(
+                        await ref
+                            .read(userAgeProvider.notifier)
+                            .updateUserAge(
                               context,
                               ageCtrl.text,
-                            );
-                        ref.read(userHeightProvider.notifier).updateUserHeight(
-                              context,
-                              heightCtrl.text,
-                            );
-                        ref.read(userWeightProvider.notifier).updateUserWeight(
-                              context,
-                              weightCtrl.text,
-                            );
-                        ref.read(userBMIProvider.notifier).updateUserBMI(
-                              context,
-                              userBMI,
-                            );
+                            )
+                            .then((_) async {
+                          await ref
+                              .read(userHeightProvider.notifier)
+                              .updateUserHeight(
+                                context,
+                                heightCtrl.text,
+                              );
+                        }).then((_) async {
+                          await ref
+                              .read(userWeightProvider.notifier)
+                              .updateUserWeight(
+                                context,
+                                weightCtrl.text,
+                              );
+                        }).then((_) async {
+                          await ref
+                              .read(userBMIProvider.notifier)
+                              .updateUserBMI(
+                                context,
+                                userBMI,
+                              );
+                        });
                       },
                       child: const Text(
                         'Calculate BMI',
@@ -148,20 +160,10 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   // retrieved from the corresponding Providers to the
                   // Firestore database for the current user via
                   // updateFirestoreData method
-                  Logger().i(
-                    'Updating all Firestore data...',
-                  );
                   try {
-                    await ref.read(userAgeProvider.notifier).updateUserAge(
-                          context,
-                          ageCtrl.text,
-                        );
-                    await ref
-                        .read(userHeightProvider.notifier)
-                        .updateUserHeight(
-                          context,
-                          heightCtrl.text,
-                        );
+                    Logger().i(
+                      'Updating all Firestore data...',
+                    );
                     await updateFirestoreData(context, ref).then((_) {
                       // Show a snackbar to confirm that the values have been
                       // updated and pop the dialog

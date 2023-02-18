@@ -1,3 +1,4 @@
+import 'package:boksklapps/alertdialogs/changebmi_dialog.dart';
 import 'package:boksklapps/all_imports.dart';
 
 /// AccountScreenMobile class
@@ -53,7 +54,7 @@ class AccountScreenMobile extends ConsumerWidget {
               if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
               } else {
-                await showChangeEmailDialog(context);
+                await showChangeUserDisplayNameDialog(context);
               }
             },
           ),
@@ -73,7 +74,7 @@ class AccountScreenMobile extends ConsumerWidget {
               if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
               } else {
-                await showChangeEmailDialog(context);
+                await showChangeUserBMIDialog(context);
               }
             },
           ),

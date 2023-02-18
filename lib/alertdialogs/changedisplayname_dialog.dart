@@ -2,7 +2,7 @@ import 'package:boksklapps/all_imports.dart';
 
 /// Shows a dialog to change the displayName to Firebase
 /// Method takes context as parameter
-Future<void> showChangeUserNameDialog(BuildContext context) async {
+Future<void> showChangeUserDisplayNameDialog(BuildContext context) async {
   // Show the dialog
   await showDialog<void>(
     context: context,
@@ -69,6 +69,7 @@ Future<void> showChangeUserNameDialog(BuildContext context) async {
                   'OK',
                 ),
                 onPressed: () async {
+                  Logger().i('Updating displayName');
                   // Store new displayName to userDisplayName provider
                   await ref
                       .read(userDisplayNameProvider.notifier)
