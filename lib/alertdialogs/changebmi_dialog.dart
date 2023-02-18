@@ -44,7 +44,7 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: ref.watch(ageProvider).toString(),
+                    labelText: ref.watch(userAgeProvider).toString(),
                     prefixIcon: const Icon(
                       Icons.cake_outlined,
                     ),
@@ -97,8 +97,12 @@ Future<void> showChangeAgeHeightWeight(BuildContext context) async {
                         // Store the values from the TextFields to the
                         // corresponding Providers
                         ref.read(bmiProvider.notifier).state = calculateBMI();
-                        ref.read(ageProvider.notifier).state =
-                            UserAgeRepository().getUserAge();
+                        ref.read(userAgeProvider.notifier).updateUserAge(
+                              context,
+                              int.parse(
+                                ageCtrl.text,
+                              ),
+                            );
                         ref.read(heightProvider.notifier).state =
                             int.parse(heightCtrl.text);
                         ref.read(weightProvider.notifier).state =

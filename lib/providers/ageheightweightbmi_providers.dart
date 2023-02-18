@@ -1,13 +1,5 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Age Provider for age/height/weight alert dialog
-
-final ageProvider = StateProvider<Future<int>>((ref) {
-  return UserAgeRepository().getUserAge().then((userAge) {
-    return userAge;
-  });
-});
-
 /// Height Provider for age/height/weight alert dialog
 final StateProvider<int> heightProvider =
     StateProvider<int>((StateProviderRef<int> ref) {

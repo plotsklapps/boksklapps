@@ -13,7 +13,7 @@ Future<void> updateFirestoreData(
       .set(<String, dynamic>{
     'userName': ref.watch(currentDisplayNameProvider),
     'userEmail': ref.watch(currentEmailProvider),
-    'userAge': ref.watch(ageProvider),
+    'userAge': ref.watch(userAgeProvider),
     'userHeight': ref.watch(heightProvider),
     'userWeight': ref.watch(weightProvider),
     'userBMI': ref.watch(bmiProvider),
