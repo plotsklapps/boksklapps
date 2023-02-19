@@ -1,7 +1,7 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// This method should be called every time a user changes any of the
-/// Firestore Data, so that the all data is updated in the Firestore.
+// This method should be called every time a user changes any of the
+// Firestore Data, so that the all data is updated in the Firestore.
 Future<void> updateFirestoreData(
   BuildContext context,
   WidgetRef ref,
@@ -11,12 +11,12 @@ Future<void> updateFirestoreData(
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .set(<String, dynamic>{
     'userName': ref.watch(userDisplayNameProvider),
-    'userEmail': ref.watch(userEmailProvider),
+    'userEmail': ref.watch(userThemeModeNotifier),
     'userAge': ref.watch(userAgeProvider),
     'userHeight': ref.watch(userHeightProvider),
     'userWeight': ref.watch(userWeightProvider),
     'userBMI': ref.watch(userBMIProvider),
-    'themeColor': 0,
-    'themeMode': 0,
+    'themeColor': ref.watch(userThemeColorNotifier),
+    'themeMode': ref.watch(userThemeModeNotifier),
   });
 }

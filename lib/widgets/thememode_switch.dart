@@ -21,22 +21,29 @@ class ThemeModeSwitch extends ConsumerWidget {
       //The length of isSelected has to match
       //the length of the children list.
       isSelected: isSelected,
-      onPressed: (int newIndex) {
+      onPressed: (int newIndex) async {
+        // Set the state of themeModeProvider to state of int and
+        // set the String of themeModeStringProvider state of int
+        // as well and update the user's preference for theme mode
+        // in Firestore database
         if (newIndex == 0) {
-          //Set the state of themeModeProvider to ThemeMode.light
-          //and set the String of themeModeStringProvider
-          ref.read(themeModeProvider.notifier).state = ThemeMode.light;
-          ref.read(themeModeStringProvider.notifier).setThemeModeStringLight();
+          await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
+                context,
+                ref,
+                0,
+              );
         } else if (newIndex == 1) {
-          //Set the state of themeModeProvider to ThemeMode.system
-          //and set the String of themeModeStringProvider
-          ref.read(themeModeProvider.notifier).state = ThemeMode.system;
-          ref.read(themeModeStringProvider.notifier).setThemeModeStringSystem();
+          await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
+                context,
+                ref,
+                1,
+              );
         } else {
-          //Set the state of themeModeProvider to ThemeMode.dark
-          //and set the String of themeModeStringProvider
-          ref.read(themeModeProvider.notifier).state = ThemeMode.dark;
-          ref.read(themeModeStringProvider.notifier).setThemeModeStringDark();
+          await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
+                context,
+                ref,
+                2,
+              );
         }
       },
       children: const <Icon>[

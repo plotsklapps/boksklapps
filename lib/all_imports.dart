@@ -30,10 +30,9 @@ export 'package:boksklapps/constants.dart';
 export 'package:boksklapps/custom_routes.dart';
 
 // Providers
-export 'package:boksklapps/providers/firebase_providers.dart';
-export 'package:boksklapps/providers/theme_providers.dart';
-export 'package:boksklapps/providers/themecolor_providers.dart';
-export 'package:boksklapps/providers/thememode_providers.dart';
+export 'package:boksklapps/providers/flextheme_provider.dart';
+export 'package:boksklapps/providers/userthememode_provider.dart';
+export 'package:boksklapps/providers/userthemecolor_provider.dart';
 export 'package:boksklapps/providers/timer_providers.dart';
 export 'package:boksklapps/providers/useremail_provider.dart';
 export 'package:boksklapps/providers/username_provider.dart';

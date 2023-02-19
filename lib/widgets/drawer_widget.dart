@@ -115,8 +115,17 @@ class DrawerWidget extends ConsumerWidget {
                   // Sign out from Firebase
                   await FirebaseAuth.instance.signOut();
 
-                  // Clear the currentUserProvider
+                  // Clear all used Providers
                   ref.invalidate(userDisplayNameProvider);
+                  ref.invalidate(userEmailProvider);
+                  ref.invalidate(themeModeProvider);
+                  ref.invalidate(themeModeStringProvider);
+                  ref.invalidate(themeColorProvider);
+                  ref.invalidate(themeColorStringProvider);
+                  ref.invalidate(userAgeProvider);
+                  ref.invalidate(userHeightProvider);
+                  ref.invalidate(userWeightProvider);
+                  ref.invalidate(userBMIProvider);
 
                   // Clear all screens, show snackbar to user
                   // and return to splash screen

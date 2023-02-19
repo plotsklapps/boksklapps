@@ -1,8 +1,8 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// SettingsScreenMobile class
+// SettingsScreenMobile class
 class SettingsScreenMobile extends ConsumerWidget {
-  /// SettingsScreenMobile constructor
+  // SettingsScreenMobile constructor
   const SettingsScreenMobile({super.key});
 
   @override

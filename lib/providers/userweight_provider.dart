@@ -1,33 +1,32 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// StateNotifierProvider to return user weight as String
-/// for easier process from Firestore database
+// StateNotifierProvider to return users weight as String
+// for easier process from Firestore database
 final StateNotifierProvider<UserWeightNotifier, String> userWeightProvider =
     StateNotifierProvider<UserWeightNotifier, String>(
   (StateNotifierProviderRef<UserWeightNotifier, String> ref) =>
       UserWeightNotifier(),
 );
 
-/// UserWeightNotifier class
+// UserWeightNotifier class
 class UserWeightNotifier extends StateNotifier<String> {
-  /// UserWeightNotifier constructor (default: 0)
   UserWeightNotifier() : super('0');
 
-  /// Method to get user's weight
+  // Method to get users weight
   Future<void> getUserWeight() async {
     state = await UserWeightRepository().getUserWeight();
   }
 
-  /// Method to update user's weight
+  // Method to update users weight
   Future<void> updateUserWeight(BuildContext context, String newWeight) async {
     await UserWeightRepository().updateUserWeight(context, newWeight);
     state = newWeight;
   }
 }
 
-/// UserWeightRepository class
+// UserWeightRepository class
 class UserWeightRepository {
-  /// Method to get user's weight from Firestore
+  // Method to get users weight from Firestore
   Future<String> getUserWeight() async {
     final DocumentSnapshot<Map<String, dynamic>> userWeightDoc =
         await FirebaseFirestore.instance
@@ -37,7 +36,7 @@ class UserWeightRepository {
     return userWeightDoc.data()!['userWeight'].toString();
   }
 
-  /// Method to update user's weight to Firestore
+  // Method to update users weight to Firestore
   Future<void> updateUserWeight(BuildContext context, String newWeight) async {
     try {
       await FirebaseFirestore.instance

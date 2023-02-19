@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:boksklapps/all_imports.dart';
 
-/// SplashScreen class
+// SplashScreen class
 class SplashScreen extends ConsumerStatefulWidget {
-  /// SplashScreen constructor
+  // SplashScreen constructor
   const SplashScreen({super.key});
 
   @override
@@ -21,13 +21,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     super.initState();
     timer = Timer(const Duration(seconds: 5), () async {
       if (ref.watch(userDisplayNameProvider) != null) {
-        /// If user is known, navigate to homescreen
+        // If user is known, navigate to homescreen
         await Navigator.pushReplacementNamed(
           context,
           '/home_screen',
         );
       } else {
-        /// If user is not known, navigate to login
+        // If user is not known, navigate to login
         await Navigator.pushReplacementNamed(
           context,
           '/login_screen',
@@ -38,7 +38,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   void dispose() {
-    /// Kill timer
+    // Kill timer
     timer?.cancel();
     super.dispose();
   }
@@ -52,7 +52,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Animate>[
-              /// Animate BOKS part
+              // Animate BOKS part
               Animate(
                 effects: <Effect<dynamic>>[
                   ScaleEffect(
@@ -66,7 +66,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 ),
               ),
 
-              /// Animate klapps part
+              // Animate klapps part
               Animate(
                 effects: <Effect<dynamic>>[
                   ScaleEffect(
@@ -84,7 +84,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Animate>[
-              /// Animate - Sparring Partner - part
+              // Animate - Sparring Partner - part
               Animate(
                 effects: <Effect<dynamic>>[
                   FadeEffect(
@@ -101,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
           const SizedBox(height: 64),
 
-          /// Show a dummy progress indicator
+          // Show a dummy progress indicator
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const <CircularProgressIndicator>[
@@ -112,7 +112,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
           const SizedBox(height: 64),
 
-          /// What's my name?
+          // What's my name?
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const <Text>[

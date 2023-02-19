@@ -10,7 +10,8 @@ final StateNotifierProvider<UserEmailNotifier, String> userEmailProvider =
 
 /// UserEmailNotifier class
 class UserEmailNotifier extends StateNotifier<String> {
-  /// UserEmailNotifier constructor (default: 0)
+  /// UserEmailNotifier constructor (default: 'Sneak Peeker' if user
+  /// is unknown)
   UserEmailNotifier() : super('Sneak Peeker');
 
   /// Method to get user's email
