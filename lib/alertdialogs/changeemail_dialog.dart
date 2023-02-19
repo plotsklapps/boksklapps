@@ -82,7 +82,7 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
               ),
               TextButton(
                 child: const Text(
-                  'OK',
+                  'Save',
                 ),
                 onPressed: () async {
                   // Reauthenticate for security reasons
@@ -97,37 +97,32 @@ Future<void> showChangeEmailDialog(BuildContext context) async {
                     Logger().i(
                       'Email address changed to ${email2Ctrl.text}',
                     );
-                    // Update userEmailProvider value
+                    // Update userEmailProvider value and store to
+                    // Firestore database
                     await ref.watch(userEmailProvider.notifier).updateUserEmail(
                           context,
                           email2Ctrl.text,
                         );
-                  }).then((_) async {
-                    // Update the all Firestore database values as well
-                    Logger().i(
-                      'Updating all Firestore data...',
-                    );
-                    await updateFirestoreData(context, ref).then(
-                      (_) {
-                        // Show snackbar to user and return to LoginScreen()
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              StringUtils.kEmailAddressChanged,
-                            ),
-                            action: SnackBarAction(
-                              label: 'OK',
-                              onPressed: () {},
-                            ),
+                  }).then(
+                    (_) {
+                      // Show snackbar to user and return to LoginScreen()
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            StringUtils.kEmailAddressChanged,
                           ),
-                        );
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/login_screen',
-                        );
-                      },
-                    );
-                  });
+                          action: SnackBarAction(
+                            label: 'OK',
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                      Navigator.pushReplacementNamed(
+                        context,
+                        '/login_screen',
+                      );
+                    },
+                  );
                 },
               ),
             ],

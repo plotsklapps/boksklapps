@@ -1,23 +1,20 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// StateNotifierProvider to return user age as String
-/// for easier process from Firestore database
+// StateNotifierProvider to return user age as String
+// for easier process from Firestore database
 final StateNotifierProvider<UserAgeNotifier, String> userAgeProvider =
     StateNotifierProvider<UserAgeNotifier, String>(
-  (StateNotifierProviderRef<UserAgeNotifier, String> ref) => UserAgeNotifier(),
-);
+        (StateNotifierProviderRef<UserAgeNotifier, String> ref) {
+  return UserAgeNotifier();
+});
 
-/// UserAgeNotifier class
 class UserAgeNotifier extends StateNotifier<String> {
-  /// UserAgeNotifier constructor (default: 0)
   UserAgeNotifier() : super('0');
 
-  /// Method to get user's age
   Future<void> getUserAge() async {
     state = await UserAgeRepository().getUserAge();
   }
 
-  /// Method to update user's age
   Future<void> updateUserAge(
     BuildContext context,
     WidgetRef ref,
@@ -39,7 +36,7 @@ class UserAgeRepository {
     final DocumentSnapshot<Map<String, dynamic>> getUserAgeDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
     return getUserAgeDoc.data()!['userAge'].toString();
   }
@@ -53,7 +50,7 @@ class UserAgeRepository {
     try {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update(<String, String>{'userAge': newAge});
     } catch (error) {
       // Handle errors here

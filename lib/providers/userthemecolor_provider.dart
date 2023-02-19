@@ -2,8 +2,9 @@ import 'package:boksklapps/all_imports.dart';
 
 // ThemeColor Provider returns a FlexScheme.'something' to be used in the
 // Light and Dark Theme Providers
-final themeColorProvider =
-    StateNotifierProvider<ThemeColorState, FlexScheme>((ref) {
+final StateNotifierProvider<ThemeColorState, FlexScheme> themeColorProvider =
+    StateNotifierProvider<ThemeColorState, FlexScheme>(
+        (StateNotifierProviderRef<ThemeColorState, FlexScheme> ref) {
   return ThemeColorState();
 });
 
@@ -16,8 +17,9 @@ class ThemeColorState extends StateNotifier<FlexScheme> {
   }
 }
 
-final userThemeColorNotifier =
-    StateNotifierProvider<UserThemeColorNotifier, int>((ref) {
+final StateNotifierProvider<UserThemeColorNotifier, int>
+    userThemeColorNotifier = StateNotifierProvider<UserThemeColorNotifier, int>(
+        (StateNotifierProviderRef<UserThemeColorNotifier, int> ref) {
   // Returns instance of type int (default: 0)
   return UserThemeColorNotifier();
 });
@@ -85,7 +87,7 @@ class UserThemeColorRepository {
     final DocumentSnapshot<Map<String, dynamic>> userThemeColorDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
     return int.parse(
       userThemeColorDoc.data()!['themeColor'].toString(),
@@ -128,7 +130,7 @@ class UserThemeColorRepository {
       );
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update(<String, int>{'themeColor': newThemeColor});
     } catch (error) {
       // Handle errors here

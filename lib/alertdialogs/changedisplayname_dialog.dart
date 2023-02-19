@@ -66,24 +66,21 @@ Future<void> showChangeUserDisplayNameDialog(BuildContext context) async {
               ),
               TextButton(
                 child: const Text(
-                  'OK',
+                  'Save',
                 ),
                 onPressed: () async {
-                  Logger().i('Updating displayName');
+                  Logger().i(
+                    'Updating displayName to Firestore database...',
+                  );
                   // Store new displayName to userDisplayName provider
+                  // and store to Firestore database
                   await ref
                       .read(userDisplayNameProvider.notifier)
                       .updateUserDisplayName(
                         context,
                         nameCtrl.text,
                       )
-                      .then((_) async {
-                    // Update the all Firestore database values as well
-                    Logger().i(
-                      'Updating all Firestore data...',
-                    );
-                    await updateFirestoreData(context, ref);
-                  }).then((_) {
+                      .then((_) {
                     // Show a snackBar and return to login screen
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

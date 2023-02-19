@@ -20,17 +20,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     timer = Timer(const Duration(seconds: 5), () async {
-      if (ref.watch(userDisplayNameProvider) != null) {
-        // If user is known, navigate to homescreen
-        await Navigator.pushReplacementNamed(
-          context,
-          '/home_screen',
-        );
-      } else {
+      if (ref.watch(userDisplayNameProvider) == 'Sneak Peeker') {
         // If user is not known, navigate to login
         await Navigator.pushReplacementNamed(
           context,
           '/login_screen',
+        );
+      } else {
+        // If user is known, navigate to homescreen
+        await Navigator.pushReplacementNamed(
+          context,
+          '/home_screen',
         );
       }
     });

@@ -4,9 +4,9 @@ import 'package:boksklapps/all_imports.dart';
 // for easier process from Firestore database
 final StateNotifierProvider<UserWeightNotifier, String> userWeightProvider =
     StateNotifierProvider<UserWeightNotifier, String>(
-  (StateNotifierProviderRef<UserWeightNotifier, String> ref) =>
-      UserWeightNotifier(),
-);
+        (StateNotifierProviderRef<UserWeightNotifier, String> ref) {
+  return UserWeightNotifier();
+});
 
 // UserWeightNotifier class
 class UserWeightNotifier extends StateNotifier<String> {
@@ -31,7 +31,7 @@ class UserWeightRepository {
     final DocumentSnapshot<Map<String, dynamic>> userWeightDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
     return userWeightDoc.data()!['userWeight'].toString();
   }
@@ -41,7 +41,7 @@ class UserWeightRepository {
     try {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update(<String, String>{'userWeight': newWeight});
     } catch (error) {
       // Handle errors here

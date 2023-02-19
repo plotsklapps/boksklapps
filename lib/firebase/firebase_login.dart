@@ -1,6 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Method to login to Firebase with all exception handling
+// Method to login to Firebase with all exception handling
 Future<void> loginToFirebase(
   BuildContext context,
   WidgetRef ref,
@@ -15,12 +15,19 @@ Future<void> loginToFirebase(
       password: password,
     )
         .then((_) async {
+      Logger().i('Logging in with email: $email');
       // If login was successful, retrieve Firestore data
       // and go to HomeScreen()
-      Logger().i('Logging in with email: $email');
-      await fetchFirestoreData(context, ref);
+      await ref.read(userEmailProvider.notifier).getUserEmail();
+      await ref.read(userDisplayNameProvider.notifier).getUserDisplayName();
+      await ref.read(userThemeModeNotifier.notifier).getUserThemeMode(ref);
+      await ref.read(userThemeColorNotifier.notifier).getUserThemeColor(ref);
+      await ref.read(userAgeProvider.notifier).getUserAge();
+      await ref.read(userHeightProvider.notifier).getUserHeight();
+      await ref.read(userWeightProvider.notifier).getUserWeight();
+      await ref.read(userBMIProvider.notifier).getUserBMI();
       Logger().i(
-        'UserData fetched from Firestore',
+        'UserData fetched from Firestore...',
       );
       if (context.mounted) {
         await Navigator.pushReplacementNamed(

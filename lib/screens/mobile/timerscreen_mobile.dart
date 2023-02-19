@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// TimerScreenMobile class
 class TimerScreenMobile extends StatelessWidget {
-  /// TimerScreenMobile constructor
   const TimerScreenMobile({super.key});
 
   @override

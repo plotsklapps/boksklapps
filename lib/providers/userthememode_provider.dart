@@ -80,7 +80,7 @@ class UserThemeModeRepository {
     final DocumentSnapshot<Map<String, dynamic>> userThemeModeDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
     return int.parse(
       userThemeModeDoc.data()!['themeMode'].toString(),
@@ -116,7 +116,7 @@ class UserThemeModeRepository {
       );
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .update(<String, int>{'themeMode': newThemeMode});
     } catch (error) {
       // Handle errors here

@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// AccountScreenMobile class
 class AccountScreenMobile extends ConsumerWidget {
-  /// AccountScreenMobile constructor
   const AccountScreenMobile({super.key});
 
   @override
@@ -19,7 +17,7 @@ class AccountScreenMobile extends ConsumerWidget {
         children: <ListTile>[
           ListTile(
             title: Text(
-              ref.watch(userEmailProvider) ?? StringUtils.kNoAccount,
+              ref.watch(userEmailProvider),
             ),
             subtitle: const Text(
               'Current UserEmail',

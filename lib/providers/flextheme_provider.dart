@@ -1,7 +1,7 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Light Theme Provider from FlexColorScheme. Provides global theme to the app.
-/// In the scheme parameter the color scheme is set by the themeColorProvider.
+// Light Theme Provider from FlexColorScheme. Provides global theme to the app.
+// In the scheme parameter the color scheme is set by the themeColorProvider.
 final StateProvider<ThemeData> themeLightProvider = StateProvider<ThemeData>(
   (StateProviderRef<ThemeData> ref) {
     return FlexThemeData.light(
@@ -34,12 +34,14 @@ final StateProvider<ThemeData> themeLightProvider = StateProvider<ThemeData>(
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
+      // Sets entire app to use Bebas Neue font.
       fontFamily: GoogleFonts.bebasNeue().fontFamily,
     );
   },
 );
 
-/// Dark Theme Provider from FlexColorScheme
+// Dark Theme Provider from FlexColorScheme. Provides global theme to the app.
+// In the scheme parameter the color scheme is set by the themeColorProvider.
 final StateProvider<ThemeData> themeDarkProvider = StateProvider<ThemeData>(
   (StateProviderRef<ThemeData> ref) {
     return FlexThemeData.dark(
@@ -71,6 +73,7 @@ final StateProvider<ThemeData> themeDarkProvider = StateProvider<ThemeData>(
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
+      // Sets entire app to use Bebas Neue font.
       fontFamily: GoogleFonts.bebasNeue().fontFamily,
     );
   },

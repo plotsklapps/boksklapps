@@ -1,22 +1,17 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Shows a dialog to change the age, height, weight and BMI
-/// Method takes context as parameter
+// Shows a dialog to change the age, height, weight and BMI
+// Method takes context as parameter
 Future<void> showChangeUserBMIDialog(BuildContext context) async {
-  /// Show the dialog
+  // Show the dialog
   await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      /// Consumer widget to access the providers
+      // Consumer widget to access the providers
       return Consumer(
         builder: (BuildContext context, WidgetRef ref, _) {
-          /// AgeController
           final TextEditingController ageCtrl = TextEditingController();
-
-          /// HeightController
           final TextEditingController heightCtrl = TextEditingController();
-
-          /// WeightController
           final TextEditingController weightCtrl = TextEditingController();
 
           return AlertDialog(
@@ -91,7 +86,8 @@ Future<void> showChangeUserBMIDialog(BuildContext context) async {
                           weightCtrl.text,
                         );
                         // Store the values from the TextFields and
-                        // calculated BMI to the corresponding Providers
+                        // calculated BMI to the corresponding Providers and
+                        // Firestore database
                         await ref
                             .read(userAgeProvider.notifier)
                             .updateUserAge(
@@ -149,43 +145,23 @@ Future<void> showChangeUserBMIDialog(BuildContext context) async {
                   'Save',
                 ),
                 onPressed: () async {
-                  // Store the age, height, weight and BMI values
-                  // retrieved from the corresponding Providers to the
-                  // Firestore database for the current user via
-                  // updateFirestoreData method
-                  try {
-                    Logger().i(
-                      'Updating all Firestore data...',
-                    );
-                    await updateFirestoreData(context, ref).then((_) {
-                      // Show a snackbar to confirm that the values have been
-                      // updated and pop the dialog
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text(
-                            'Age / Height / Weight / BMI updated...',
-                          ),
-                          action: SnackBarAction(
-                            label: 'OK',
-                            onPressed: () {},
-                          ),
-                        ),
-                      );
-                      Navigator.of(context).pop();
-                    });
-                  } catch (error) {
-                    Logger().i(
-                      'Something went wrong... $error',
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Something went wrong... $error',
-                        ),
-                        action: SnackBarAction(label: 'OK', onPressed: () {}),
+                  Logger().i(
+                    'User clicked to save data...',
+                  );
+                  // Show a snackbar to confirm that the values have been
+                  // updated and pop the dialog
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Age / Height / Weight / BMI updated...',
                       ),
-                    );
-                  }
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
+                  Navigator.of(context).pop();
                 },
               ),
             ],

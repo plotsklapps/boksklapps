@@ -20,8 +20,6 @@ export 'firebase_options.dart';
 export 'package:boksklapps/firebase/firebase_login.dart';
 export 'package:boksklapps/firebase/firebase_register.dart';
 export 'package:boksklapps/firebase/firebase_password.dart';
-export 'package:boksklapps/firebase/firestore_update.dart';
-export 'package:boksklapps/firebase/firestore_fetch.dart';
 
 // Constants
 export 'package:boksklapps/constants.dart';
@@ -35,7 +33,7 @@ export 'package:boksklapps/providers/userthememode_provider.dart';
 export 'package:boksklapps/providers/userthemecolor_provider.dart';
 export 'package:boksklapps/providers/timer_providers.dart';
 export 'package:boksklapps/providers/useremail_provider.dart';
-export 'package:boksklapps/providers/username_provider.dart';
+export 'package:boksklapps/providers/userdiplayname_provider.dart';
 export 'package:boksklapps/providers/userage_provider.dart';
 export 'package:boksklapps/providers/userheight_provider.dart';
 export 'package:boksklapps/providers/userweight_provider.dart';

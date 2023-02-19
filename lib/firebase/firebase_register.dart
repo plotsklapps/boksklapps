@@ -64,39 +64,67 @@ Future<void> registerToFirebase(
         Logger().i(
           'Updating displayname...',
         );
-        // Update the displayName for Firebase the official way
         await FirebaseAuth.instance.currentUser!
             .updateDisplayName(
           username,
         )
             .then((_) async {
+          await ref
+              .read(userDisplayNameProvider.notifier)
+              .updateUserDisplayName(
+                context,
+                username,
+              );
+        }).then((_) async {
           Logger().i(
-            'Creating new database...',
+            'Updating email...',
           );
-          // Update ALL data within the database with corresponding
-          // data from the providers
-          await updateFirestoreData(context, ref);
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text(
-                  'Account and Database created. Thank you for joining! '
-                  'Please log in now...',
-                ),
-                action: SnackBarAction(
-                  label: 'OK',
-                  onPressed: () {},
-                ),
-              ),
-            );
-          }
-          // Now when all is done... go to LoginScreen()
-          if (context.mounted) {
-            await Navigator.pushReplacementNamed(
-              context,
-              '/login_screen',
-            );
-          }
+          final String? userEmail = FirebaseAuth.instance.currentUser!.email;
+          await ref
+              .read(userEmailProvider.notifier)
+              .updateUserEmail(
+                context,
+                userEmail!,
+              )
+              .then(
+            (_) async {
+              Logger().i(
+                'Creating new database...',
+              );
+              // Update ALL data within the database with corresponding
+              // data from the providers
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .set(<String, dynamic>{
+                'userEmail': ref.watch(userEmailProvider),
+                'userName': ref.watch(userDisplayNameProvider),
+                'userAge': ref.watch(userAgeProvider),
+                'userHeight': ref.watch(userHeightProvider),
+                'userWeight': ref.watch(userWeightProvider),
+                'userBMI': ref.watch(userBMIProvider),
+                'themeColor': ref.watch(userThemeColorNotifier),
+                'themeMode': ref.watch(userThemeModeNotifier),
+              }).then((_) async {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text(
+                      'Account and Database created. Thank you for joining! '
+                      'Please log in now...',
+                    ),
+                    action: SnackBarAction(
+                      label: 'OK',
+                      onPressed: () {},
+                    ),
+                  ),
+                );
+                await Navigator.pushReplacementNamed(
+                  context,
+                  '/login_screen',
+                );
+              });
+            },
+          );
         });
       });
     }

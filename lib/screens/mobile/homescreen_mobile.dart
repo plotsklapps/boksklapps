@@ -28,7 +28,7 @@ class HomeScreenMobile extends ConsumerWidget {
           onPressed: () async {
             await Navigator.pushNamed(
               context,
-              '\timer_screen',
+              '/timer_screen',
             );
           },
           child: IconUtils.kForward,
