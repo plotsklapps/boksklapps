@@ -6,10 +6,9 @@ Future<void> updateFirestoreData(
   BuildContext context,
   WidgetRef ref,
 ) async {
-  await ref
-      .watch(firestoreProvider)
+  await FirebaseFirestore.instance
       .collection('users')
-      .doc(ref.watch(firebaseProvider).currentUser!.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .set(<String, dynamic>{
     'userName': ref.watch(userDisplayNameProvider),
     'userEmail': ref.watch(userEmailProvider),

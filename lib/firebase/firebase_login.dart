@@ -9,12 +9,11 @@ Future<void> loginToFirebase(
 ) async {
   try {
     // Call Firebase method to signIn() user
-    await ref
-        .watch(firebaseProvider)
+    await FirebaseAuth.instance
         .signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        )
+      email: email,
+      password: password,
+    )
         .then((_) async {
       // If login was successful, retrieve Firestore data
       // and go to HomeScreen()

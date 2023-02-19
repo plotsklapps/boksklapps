@@ -113,7 +113,7 @@ class DrawerWidget extends ConsumerWidget {
                 trailing: IconUtils.kLogout,
                 onTap: () async {
                   // Sign out from Firebase
-                  await ref.read(firebaseProvider).signOut();
+                  await FirebaseAuth.instance.signOut();
 
                   // Clear the currentUserProvider
                   ref.invalidate(userDisplayNameProvider);

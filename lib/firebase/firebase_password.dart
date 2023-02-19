@@ -22,11 +22,10 @@ Future<void> resetPassword(
       );
     }
     // Firebase method to send a reset email to user
-    await ref
-        .watch(firebaseProvider)
+    await FirebaseAuth.instance
         .sendPasswordResetEmail(
-          email: email,
-        )
+      email: email,
+    )
         .then((_) {
       // Show snackbar to user and return to LoginScreen()
       Logger().i(

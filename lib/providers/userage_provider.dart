@@ -51,8 +51,7 @@ class UserAgeRepository {
     String newAge,
   ) async {
     try {
-      await ref
-          .watch(firestoreProvider)
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser?.uid)
           .update(<String, String>{'userAge': newAge});

@@ -55,23 +55,20 @@ Future<void> registerToFirebase(
         'Registering new account...',
       );
       // Call Firebase method to create new user
-      await ref
-          .watch(firebaseProvider)
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-            email: email,
-            password: password1,
-          )
+        email: email,
+        password: password1,
+      )
           .then((_) async {
         Logger().i(
           'Updating displayname...',
         );
         // Update the displayName for Firebase the official way
-        await ref
-            .watch(firebaseProvider)
-            .currentUser!
+        await FirebaseAuth.instance.currentUser!
             .updateDisplayName(
-              username,
-            )
+          username,
+        )
             .then((_) async {
           Logger().i(
             'Creating new database...',
