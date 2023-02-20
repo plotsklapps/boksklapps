@@ -27,48 +27,53 @@ class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            18,
-            54,
-            18,
-            54,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              18,
+              54,
+              18,
+              54,
+            ),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const <Text>[
-                      Text(
-                        'RESET PASSWORD',
-                        style: TextStyleUtils.kHeadline1,
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const <Text>[
+                          Text(
+                            'RESET PASSWORD',
+                            style: TextStyleUtils.kHeadline1,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      /// Email TextField
+                      TextField(
+                        controller: emailCtrl,
+                        keyboardType: TextInputType.emailAddress,
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                          labelText: StringUtils.kLabelEmail,
+                          prefixIcon: IconUtils.kEmailAddress,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
-
-                  /// Email TextField
-                  TextField(
-                    controller: emailCtrl,
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      labelText: StringUtils.kLabelEmail,
-                      prefixIcon: IconUtils.kEmailAddress,
-                    ),
+                  Column(
+                    children: const <Widget>[
+                      /// Back to login button
+                      BackToLoginWidget(),
+                    ],
                   ),
                 ],
               ),
-              Column(
-                children: const <Widget>[
-                  /// Back to login button
-                  BackToLoginWidget(),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
