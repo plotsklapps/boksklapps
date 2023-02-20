@@ -82,7 +82,6 @@ class AccountScreenMobile extends ConsumerWidget {
                   } else {
                     await showChangeUserBMIDialog(
                       context,
-                      ref,
                     );
                   }
                 },
