@@ -1,19 +1,20 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// Method to register to Firebase with all exception handling
+// Method to register to Firebase with all exception handling
+//
 Future<void> registerToFirebase(
   BuildContext context,
   WidgetRef ref,
-  String email,
+  String userEmail,
+  String displayName,
   String password1,
   String password2,
-  String username,
 ) async {
   try {
     // Check if email or passwords are empty and if email
     // contains '@'
-    if (email.isEmpty ||
-        !email.contains('@') ||
+    if (userEmail.isEmpty ||
+        !userEmail.contains('@') ||
         password1.isEmpty ||
         password2.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,60 +58,54 @@ Future<void> registerToFirebase(
       // Call Firebase method to create new user
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-        email: email,
+        email: userEmail,
         password: password1,
       )
           .then((_) async {
         Logger().i(
           'Updating displayname...',
         );
+        //Update displayName official Firebase way
         await FirebaseAuth.instance.currentUser!
             .updateDisplayName(
-          username,
+          displayName,
         )
             .then((_) async {
+          //Update displayName in Firestore database
           await ref
               .read(userDisplayNameProvider.notifier)
               .updateUserDisplayName(
                 context,
-                username,
+                displayName,
               );
         }).then((_) async {
           Logger().i(
             'Updating email...',
           );
-          final String? userEmail = FirebaseAuth.instance.currentUser!.email;
+          // Update userEmail in Firestore database
           await ref
               .read(userEmailProvider.notifier)
               .updateUserEmail(
                 context,
-                userEmail!,
+                userEmail,
               )
               .then(
             (_) async {
               Logger().i(
-                'Creating new database...',
+                'Creating Firestore document...',
               );
-              // Update ALL data within the database with corresponding
-              // data from the providers
-              await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .set(<String, dynamic>{
-                'userEmail': ref.watch(userEmailProvider),
-                'userName': ref.watch(userDisplayNameProvider),
-                'userAge': ref.watch(userAgeProvider),
-                'userHeight': ref.watch(userHeightProvider),
-                'userWeight': ref.watch(userWeightProvider),
-                'userBMI': ref.watch(userBMIProvider),
-                'themeColor': ref.watch(userThemeColorNotifier),
-                'themeMode': ref.watch(userThemeModeNotifier),
-              }).then((_) async {
+              // Create Firestore database document
+              await createFirestoreData(
+                context,
+                ref,
+                userEmail,
+                displayName,
+              ).then((_) async {
+                // Show snackbar to user and return to LoginScreen()
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text(
-                      'Account and Database created. Thank you for joining! '
-                      'Please log in now...',
+                      'Account and Database created. Thank you for joining!\nPlease sign in...',
                     ),
                     action: SnackBarAction(
                       label: 'OK',

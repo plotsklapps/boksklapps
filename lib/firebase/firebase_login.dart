@@ -8,6 +8,7 @@ Future<void> loginToFirebase(
   String password,
 ) async {
   try {
+    Logger().i('Logging in with email: $email');
     // Call Firebase method to signIn() user
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(
@@ -15,26 +16,17 @@ Future<void> loginToFirebase(
       password: password,
     )
         .then((_) async {
-      Logger().i('Logging in with email: $email');
-      // If login was successful, retrieve Firestore data
-      // and go to HomeScreen()
-      await ref.read(userEmailProvider.notifier).getUserEmail();
-      await ref.read(userDisplayNameProvider.notifier).getUserDisplayName();
-      await ref.read(userThemeModeNotifier.notifier).getUserThemeMode(ref);
-      await ref.read(userThemeColorNotifier.notifier).getUserThemeColor(ref);
-      await ref.read(userAgeProvider.notifier).getUserAge();
-      await ref.read(userHeightProvider.notifier).getUserHeight();
-      await ref.read(userWeightProvider.notifier).getUserWeight();
-      await ref.read(userBMIProvider.notifier).getUserBMI();
       Logger().i(
         'UserData fetched from Firestore...',
       );
-      if (context.mounted) {
+      // If login was successful, retrieve Firestore data
+      // and go to HomeScreen()
+      await getFirestoreData(context, ref).then((_) async {
         await Navigator.pushReplacementNamed(
           context,
           '/home_screen',
         );
-      }
+      });
     });
   }
   // Catch all FirebaseExceptions and show snackbars to user
