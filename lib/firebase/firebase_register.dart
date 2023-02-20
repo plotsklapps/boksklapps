@@ -76,6 +76,7 @@ Future<void> registerToFirebase(
               .read(userDisplayNameProvider.notifier)
               .updateUserDisplayName(
                 context,
+                ref,
                 displayName,
               );
         }).then((_) async {
@@ -87,6 +88,7 @@ Future<void> registerToFirebase(
               .read(userEmailProvider.notifier)
               .updateUserEmail(
                 context,
+                ref,
                 userEmail,
               )
               .then(

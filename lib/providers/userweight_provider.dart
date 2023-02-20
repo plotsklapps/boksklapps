@@ -18,8 +18,16 @@ class UserWeightNotifier extends StateNotifier<String> {
   }
 
   // Method to update users weight
-  Future<void> updateUserWeight(BuildContext context, String newWeight) async {
-    await UserWeightRepository().updateUserWeight(context, newWeight);
+  Future<void> updateUserWeight(
+    BuildContext context,
+    WidgetRef ref,
+    String newWeight,
+  ) async {
+    await UserWeightRepository().updateUserWeight(
+      context,
+      ref,
+      newWeight,
+    );
     state = newWeight;
   }
 }
@@ -37,7 +45,11 @@ class UserWeightRepository {
   }
 
   // Method to update users weight to Firestore
-  Future<void> updateUserWeight(BuildContext context, String newWeight) async {
+  Future<void> updateUserWeight(
+    BuildContext context,
+    WidgetRef ref,
+    String newWeight,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')

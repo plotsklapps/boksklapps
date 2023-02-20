@@ -15,8 +15,16 @@ class UserHeightNotifier extends StateNotifier<String> {
     state = await UserHeightRepository().getUserHeight();
   }
 
-  Future<void> updateUserHeight(BuildContext context, String newHeight) async {
-    await UserHeightRepository().updateUserHeight(context, newHeight);
+  Future<void> updateUserHeight(
+    BuildContext context,
+    WidgetRef ref,
+    String newHeight,
+  ) async {
+    await UserHeightRepository().updateUserHeight(
+      context,
+      ref,
+      newHeight,
+    );
     state = newHeight;
   }
 }
@@ -31,7 +39,11 @@ class UserHeightRepository {
     return userHeightDoc.data()!['userHeight'].toString();
   }
 
-  Future<void> updateUserHeight(BuildContext context, String newHeight) async {
+  Future<void> updateUserHeight(
+    BuildContext context,
+    WidgetRef ref,
+    String newHeight,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')

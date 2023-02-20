@@ -17,8 +17,16 @@ class UserEmailNotifier extends StateNotifier<String> {
   }
 
   // Method to update users email
-  Future<void> updateUserEmail(BuildContext context, String newEmail) async {
-    await UserEmailRepository().updateUserEmail(context, newEmail);
+  Future<void> updateUserEmail(
+    BuildContext context,
+    WidgetRef ref,
+    String newEmail,
+  ) async {
+    await UserEmailRepository().updateUserEmail(
+      context,
+      ref,
+      newEmail,
+    );
     state = newEmail;
   }
 }
@@ -35,7 +43,11 @@ class UserEmailRepository {
   }
 
   // Method to update user's email to Firestore
-  Future<void> updateUserEmail(BuildContext context, String newEmail) async {
+  Future<void> updateUserEmail(
+    BuildContext context,
+    WidgetRef ref,
+    String newEmail,
+  ) async {
     try {
       await FirebaseAuth.instance.currentUser?.updateEmail(newEmail);
       await FirebaseFirestore.instance

@@ -19,12 +19,14 @@ Future<void> getFirestoreData(
           .read(userDisplayNameProvider.notifier)
           .updateUserDisplayName(
             context,
+            ref,
             displayName!,
           )
           .then((_) async {
         // Set the userEmail to the one known from Firebase
         await ref.read(userEmailProvider.notifier).updateUserEmail(
               context,
+              ref,
               userEmail!,
             );
       }).then((_) async {

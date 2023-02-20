@@ -8,14 +8,22 @@ final StateNotifierProvider<UserBMINotifier, String> userBMIProvider =
 );
 
 class UserBMINotifier extends StateNotifier<String> {
-  UserBMINotifier() : super('BMI not yet calculated');
+  UserBMINotifier() : super('0.0');
 
   Future<void> getUserBMI() async {
     state = await UserBMIRepository().getUserBMI();
   }
 
-  Future<void> updateUserBMI(BuildContext context, String newBMI) async {
-    await UserBMIRepository().updateUserBMI(context, newBMI);
+  Future<void> updateUserBMI(
+    BuildContext context,
+    WidgetRef ref,
+    String newBMI,
+  ) async {
+    await UserBMIRepository().updateUserBMI(
+      context,
+      ref,
+      newBMI,
+    );
     state = newBMI;
   }
 }
@@ -31,7 +39,11 @@ class UserBMIRepository {
   }
 
   /// Method to update user's BMI to Firestore
-  Future<void> updateUserBMI(BuildContext context, String newBMI) async {
+  Future<void> updateUserBMI(
+    BuildContext context,
+    WidgetRef ref,
+    String newBMI,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')

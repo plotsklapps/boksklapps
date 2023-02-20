@@ -31,7 +31,10 @@ class AccountScreenMobile extends ConsumerWidget {
               if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
               } else {
-                await showChangeEmailDialog(context);
+                await showChangeEmailDialog(
+                  context,
+                  ref,
+                );
               }
             },
           ),
@@ -51,7 +54,10 @@ class AccountScreenMobile extends ConsumerWidget {
               if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
               } else {
-                await showChangeUserDisplayNameDialog(context);
+                await showChangeUserDisplayNameDialog(
+                  context,
+                  ref,
+                );
               }
             },
           ),
@@ -71,7 +77,10 @@ class AccountScreenMobile extends ConsumerWidget {
               if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
                 await showNoAccountDialog(context);
               } else {
-                await showChangeUserBMIDialog(context);
+                await showChangeUserBMIDialog(
+                  context,
+                  ref,
+                );
               }
             },
           ),
