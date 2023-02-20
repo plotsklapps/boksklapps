@@ -79,17 +79,40 @@ Future<void> showChangeUserBMIDialog(
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () async {
-                    // Call the method to calculate BMI
-                    // and store the value to the corresponding
-                    // Provider and Firestore database
-                    await ref.read(userBMIProvider.notifier).updateUserBMI(
+                    // Need to store height and weight to
+                    // their corresponding Providers first
+                    // before calculating BMI
+                    await ref
+                        .read(userHeightProvider.notifier)
+                        .updateUserHeight(
                           context,
                           ref,
-                          UserBMIRepository().calculateUserBMI(
-                            heightCtrl.text,
+                          heightCtrl.text,
+                        )
+                        .then((_) async {
+                      await ref
+                          .read(userWeightProvider.notifier)
+                          .updateUserWeight(
+                            context,
+                            ref,
                             weightCtrl.text,
-                          ),
+                          )
+                          .then((_) async {
+                        // Call the method to calculate BMI
+                        // and store the value to the corresponding
+                        // Provider and Firestore database
+                        final String userBMI =
+                            UserBMIRepository().calculateUserBMI(
+                          ref.watch(userHeightProvider),
+                          ref.watch(userWeightProvider),
                         );
+                        await ref.read(userBMIProvider.notifier).updateUserBMI(
+                              context,
+                              ref,
+                              userBMI,
+                            );
+                      });
+                    });
                   },
                   child: const Text(
                     'Calculate BMI',

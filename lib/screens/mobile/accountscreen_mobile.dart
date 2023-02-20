@@ -12,79 +12,84 @@ class AccountScreenMobile extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <ListTile>[
-          ListTile(
-            title: Text(
-              ref.watch(userEmailProvider),
-            ),
-            subtitle: const Text(
-              'Current UserEmail',
-            ),
-            trailing: const Icon(
-              Icons.edit_outlined,
-            ),
-            onTap: () async {
-              // If the user is logged in, show the dialog to change
-              // the email address
-              if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
-                await showNoAccountDialog(context);
-              } else {
-                await showChangeEmailDialog(
-                  context,
-                  ref,
-                );
-              }
-            },
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <ListTile>[
+              ListTile(
+                title: Text(
+                  ref.watch(userEmailProvider),
+                ),
+                subtitle: const Text(
+                  'Current UserEmail',
+                ),
+                trailing: const Icon(
+                  Icons.edit_outlined,
+                ),
+                onTap: () async {
+                  // If the user is logged in, show the dialog to change
+                  // the email address
+                  if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
+                    await showNoAccountDialog(context);
+                  } else {
+                    await showChangeEmailDialog(
+                      context,
+                      ref,
+                    );
+                  }
+                },
+              ),
+              ListTile(
+                title: Text(
+                  ref.watch(userDisplayNameProvider) ?? StringUtils.kNoAccount,
+                ),
+                subtitle: const Text(
+                  'Current UserName',
+                ),
+                trailing: const Icon(
+                  Icons.edit_outlined,
+                ),
+                onTap: () async {
+                  // If the user is logged in, show the dialog to change
+                  // the username
+                  if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
+                    await showNoAccountDialog(context);
+                  } else {
+                    await showChangeUserDisplayNameDialog(
+                      context,
+                      ref,
+                    );
+                  }
+                },
+              ),
+              ListTile(
+                title: Text(
+                  ref.watch(userBMIProvider),
+                ),
+                subtitle: const Text(
+                  'Current BMI',
+                ),
+                trailing: const Icon(
+                  Icons.edit_outlined,
+                ),
+                onTap: () async {
+                  // If the user is logged in, show the dialog to change
+                  // the age, height, weight and calculate BMI
+                  if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
+                    await showNoAccountDialog(context);
+                  } else {
+                    await showChangeUserBMIDialog(
+                      context,
+                      ref,
+                    );
+                  }
+                },
+              ),
+            ],
           ),
-          ListTile(
-            title: Text(
-              ref.watch(userDisplayNameProvider) ?? StringUtils.kNoAccount,
-            ),
-            subtitle: const Text(
-              'Current UserName',
-            ),
-            trailing: const Icon(
-              Icons.edit_outlined,
-            ),
-            onTap: () async {
-              // If the user is logged in, show the dialog to change
-              // the username
-              if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
-                await showNoAccountDialog(context);
-              } else {
-                await showChangeUserDisplayNameDialog(
-                  context,
-                  ref,
-                );
-              }
-            },
-          ),
-          ListTile(
-            title: Text(
-              ref.watch(userBMIProvider),
-            ),
-            subtitle: const Text(
-              'Current BMI',
-            ),
-            trailing: const Icon(
-              Icons.edit_outlined,
-            ),
-            onTap: () async {
-              // If the user is logged in, show the dialog to change
-              // the age, height, weight and calculate BMI
-              if (ref.watch(userEmailProvider) == 'Sneak Peeker') {
-                await showNoAccountDialog(context);
-              } else {
-                await showChangeUserBMIDialog(
-                  context,
-                  ref,
-                );
-              }
-            },
-          ),
-        ],
+        ),
       ),
     );
   }

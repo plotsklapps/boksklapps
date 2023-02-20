@@ -8,7 +8,6 @@ final StateNotifierProvider<UserWeightNotifier, String> userWeightProvider =
   return UserWeightNotifier();
 });
 
-// UserWeightNotifier class
 class UserWeightNotifier extends StateNotifier<String> {
   UserWeightNotifier() : super('0');
 
@@ -32,7 +31,6 @@ class UserWeightNotifier extends StateNotifier<String> {
   }
 }
 
-// UserWeightRepository class
 class UserWeightRepository {
   // Method to get users weight from Firestore
   Future<String> getUserWeight() async {

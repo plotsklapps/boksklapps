@@ -4,8 +4,9 @@ import 'package:boksklapps/all_imports.dart';
 // for easier process from Firestore database
 final StateNotifierProvider<UserBMINotifier, String> userBMIProvider =
     StateNotifierProvider<UserBMINotifier, String>(
-  (StateNotifierProviderRef<UserBMINotifier, String> ref) => UserBMINotifier(),
-);
+        (StateNotifierProviderRef<UserBMINotifier, String> ref) {
+  return UserBMINotifier();
+});
 
 class UserBMINotifier extends StateNotifier<String> {
   UserBMINotifier() : super('0.0');
@@ -38,7 +39,7 @@ class UserBMIRepository {
     return userBMIDoc.data()!['userBMI'].toString();
   }
 
-  /// Method to update user's BMI to Firestore
+  // Method to update users BMI to Firestore
   Future<void> updateUserBMI(
     BuildContext context,
     WidgetRef ref,
@@ -55,7 +56,7 @@ class UserBMIRepository {
     }
   }
 
-  /// Method to calculate user's BMI according to height and weight
+  // Method to calculate users BMI according to height and weight
   String calculateUserBMI(String height, String weight) {
     final double userHeight = double.parse(height) / 100;
     final double userWeight = double.parse(weight);
