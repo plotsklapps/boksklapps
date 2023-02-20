@@ -20,6 +20,8 @@ export 'firebase_options.dart';
 export 'package:boksklapps/firebase/firebase_login.dart';
 export 'package:boksklapps/firebase/firebase_register.dart';
 export 'package:boksklapps/firebase/firebase_password.dart';
+export 'package:boksklapps/firebase/firestore_get.dart';
+export 'package:boksklapps/firebase/firestore_create.dart';
 
 // Constants
 export 'package:boksklapps/constants.dart';
