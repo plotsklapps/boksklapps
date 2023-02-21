@@ -1,16 +1,8 @@
 import 'package:boksklapps/all_imports.dart';
 
-// setTimerProvider watches setTimerNotifier, to have
-// access to current state, but also be able to edit it
-// in TimerWidget() via + and - buttons
-final StateProvider<Duration> setTimerProvider =
-    StateProvider<Duration>((StateProviderRef<Duration> ref) {
-  return ref.watch(setTimerNotifier);
-});
-
 // StateNotifierProvider to return setTimer duration as
 // Duration for easier process in UI in TimerWidget()
-final StateNotifierProvider<SetTimerNotifier, Duration> setTimerNotifier =
+final StateNotifierProvider<SetTimerNotifier, Duration> setTimerProvider =
     StateNotifierProvider<SetTimerNotifier, Duration>(
   (StateNotifierProviderRef<SetTimerNotifier, Duration> ref) {
     return SetTimerNotifier();
@@ -41,7 +33,7 @@ class SetTimerNotifier extends StateNotifier<Duration> {
 
     // Set formatted timer states in new variables
     final String formattedSetTime = format(
-      ref.watch(setTimerNotifier),
+      ref.watch(setTimerProvider),
     );
 
     // update formattedSetTime to setTimerDuration field
@@ -65,7 +57,7 @@ class SetTimerRepository {
 
     // Store value retrieved from Firestore into String setTimerString
     final String setTimerString =
-        setTimerDoc.data()!['setTimerDuration'].toString().substring(0, 7);
+        setTimerDoc.data()!['setTimer'].toString().substring(0, 7);
 
     // Convert String setTimerString to a Duration() as requested by
     // Future<Duration>
@@ -86,7 +78,7 @@ class SetTimerRepository {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update(<String, String>{
-      'setTimerDuration': formattedSetTime,
+      'setTimer': formattedSetTime,
     });
   }
 }
