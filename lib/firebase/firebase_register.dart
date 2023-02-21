@@ -63,51 +63,49 @@ Future<void> registerToFirebase(
       )
           .then((_) async {
         Logger().i(
-          'Updating displayname...',
+          'Creating Firestore document...',
         );
-        //Update displayName official Firebase way
-        await FirebaseAuth.instance.currentUser!
-            .updateDisplayName(
+        // Create Firestore database document
+        await createFirestoreData(
+          context,
+          ref,
+          userEmail,
           displayName,
-        )
-            .then((_) async {
-          //Update displayName in Firestore database
-          await ref
-              .read(userDisplayNameProvider.notifier)
-              .updateUserDisplayName(
-                context,
-                ref,
-                displayName,
-              );
-        }).then((_) async {
+        ).then((_) async {
           Logger().i(
-            'Updating email...',
+            'Updating displayname...',
           );
-          // Update userEmail in Firestore database
-          await ref
-              .read(userEmailProvider.notifier)
-              .updateUserEmail(
-                context,
-                ref,
-                userEmail,
-              )
+          //Update displayName official Firebase way
+          await FirebaseAuth.instance.currentUser!
+              .updateDisplayName(
+            displayName,
+          )
               .then(
             (_) async {
-              Logger().i(
-                'Creating Firestore document...',
-              );
-              // Create Firestore database document
-              await createFirestoreData(
-                context,
-                ref,
-                userEmail,
-                displayName,
-              ).then((_) async {
+              //Update displayName in Firestore database
+              await ref
+                  .read(userDisplayNameProvider.notifier)
+                  .updateUserDisplayName(
+                    context,
+                    ref,
+                    displayName,
+                  )
+                  .then((_) async {
+                Logger().i(
+                  'Updating email...',
+                );
+                // Update userEmail in Firestore database
+                await ref.read(userEmailProvider.notifier).updateUserEmail(
+                      context,
+                      ref,
+                      userEmail,
+                    );
+              }).then((_) async {
                 // Show snackbar to user and return to LoginScreen()
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text(
-                      'Account and Database created. Thank you for joining!\nPlease sign in...',
+                      'Thank you for joining! Please sign in...',
                     ),
                     action: SnackBarAction(
                       label: 'OK',
