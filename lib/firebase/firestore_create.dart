@@ -29,8 +29,5 @@ Future<void> createFirestoreData(
     'userBMI': ref.watch(userBMIProvider),
     'themeColor': ref.watch(userThemeColorNotifier),
     'themeMode': ref.watch(userThemeModeNotifier),
-    'totalTimer': ref.watch(totalTimerProvider),
-    'setTimer': ref.watch(setTimerProvider),
-    'restTimer': ref.watch(restTimerProvider),
   });
 }

@@ -24,179 +24,171 @@ class TimerWidget extends ConsumerWidget {
     final String formattedSetTime = format(setTime);
     final String formattedRestTime = format(restTime);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        32,
-        0,
-        32,
-        32,
-      ),
-      child: Column(
-        children: <Row>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Column>[
-              Column(
-                children: const <Text>[
-                  Text(
-                    'TOTAL TIME',
-                    style: TextStyleUtils.kHeadline3,
-                  ),
-                  Text(
-                    'in minutes',
-                    style: TextStyleUtils.kBodyText,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(totalTimerProvider.notifier).state -= const Duration(
-                    minutes: 1,
-                  );
-                },
-                onLongPress: () {
-                  ref.read(totalTimerProvider.notifier).state -= const Duration(
-                    minutes: 10,
-                  );
-                },
-                child: IconUtils.kRemove,
-              ),
-              const SizedBox(width: 24),
-              Text(
-                formattedTotalTime,
-                style: TextStyleUtils.kHeadline1,
-              ),
-              const SizedBox(width: 24),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(totalTimerProvider.notifier).state += const Duration(
-                    minutes: 1,
-                  );
-                },
-                onLongPress: () {
-                  ref.read(totalTimerProvider.notifier).state += const Duration(
-                    minutes: 10,
-                  );
-                },
-                child: IconUtils.kAdd,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Column>[
-              Column(
-                children: const <Text>[
-                  Text(
-                    'SET TIME',
-                    style: TextStyleUtils.kHeadline3,
-                  ),
-                  Text(
-                    'in minutes',
-                    style: TextStyleUtils.kBodyText,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(setTimerProvider.notifier).state -= const Duration(
-                    minutes: 1,
-                  );
-                },
-                onLongPress: () {
-                  ref.read(setTimerProvider.notifier).state -= const Duration(
-                    minutes: 5,
-                  );
-                },
-                child: IconUtils.kRemove,
-              ),
-              const SizedBox(width: 24),
-              Text(
-                formattedSetTime,
-                style: TextStyleUtils.kHeadline1,
-              ),
-              const SizedBox(width: 24),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(setTimerProvider.notifier).state += const Duration(
-                    minutes: 1,
-                  );
-                },
-                onLongPress: () {
-                  ref.read(setTimerProvider.notifier).state += const Duration(
-                    minutes: 5,
-                  );
-                },
-                child: IconUtils.kAdd,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Column>[
-              Column(
-                children: const <Text>[
-                  Text(
-                    'REST TIME',
-                    style: TextStyleUtils.kHeadline3,
-                  ),
-                  Text(
-                    'in seconds',
-                    style: TextStyleUtils.kBodyText,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(restTimerProvider.notifier).state -= const Duration(
-                    seconds: 5,
-                  );
-                },
-                onLongPress: () {
-                  ref.read(restTimerProvider.notifier).state -= const Duration(
-                    seconds: 20,
-                  );
-                },
-                child: IconUtils.kRemove,
-              ),
-              const SizedBox(width: 24),
-              Text(
-                formattedRestTime,
-                style: TextStyleUtils.kHeadline1,
-              ),
-              const SizedBox(width: 24),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(restTimerProvider.notifier).state += const Duration(
-                    seconds: 5,
-                  );
-                },
-                onLongPress: () {
-                  ref.read(restTimerProvider.notifier).state += const Duration(
-                    seconds: 20,
-                  );
-                },
-                child: IconUtils.kAdd,
-              ),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      children: <Row>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Column>[
+            Column(
+              children: const <Text>[
+                Text(
+                  'TOTAL TIME',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+                Text(
+                  'in minutes',
+                  style: TextStyleUtils.kBodyText,
+                ),
+              ],
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                ref.read(totalTimerProvider.notifier).state -= const Duration(
+                  minutes: 1,
+                );
+              },
+              onLongPress: () {
+                ref.read(totalTimerProvider.notifier).state -= const Duration(
+                  minutes: 10,
+                );
+              },
+              child: IconUtils.kRemove,
+            ),
+            const SizedBox(width: 24),
+            Text(
+              formattedTotalTime,
+              style: TextStyleUtils.kHeadline1,
+            ),
+            const SizedBox(width: 24),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(totalTimerProvider.notifier).state += const Duration(
+                  minutes: 1,
+                );
+              },
+              onLongPress: () {
+                ref.read(totalTimerProvider.notifier).state += const Duration(
+                  minutes: 10,
+                );
+              },
+              child: IconUtils.kAdd,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Column>[
+            Column(
+              children: const <Text>[
+                Text(
+                  'SET TIME',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+                Text(
+                  'in minutes',
+                  style: TextStyleUtils.kBodyText,
+                ),
+              ],
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                ref.read(setTimerProvider.notifier).state -= const Duration(
+                  minutes: 1,
+                );
+              },
+              onLongPress: () {
+                ref.read(setTimerProvider.notifier).state -= const Duration(
+                  minutes: 5,
+                );
+              },
+              child: IconUtils.kRemove,
+            ),
+            const SizedBox(width: 24),
+            Text(
+              formattedSetTime,
+              style: TextStyleUtils.kHeadline1,
+            ),
+            const SizedBox(width: 24),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(setTimerProvider.notifier).state += const Duration(
+                  minutes: 1,
+                );
+              },
+              onLongPress: () {
+                ref.read(setTimerProvider.notifier).state += const Duration(
+                  minutes: 5,
+                );
+              },
+              child: IconUtils.kAdd,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Column>[
+            Column(
+              children: const <Text>[
+                Text(
+                  'REST TIME',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+                Text(
+                  'in seconds',
+                  style: TextStyleUtils.kBodyText,
+                ),
+              ],
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                ref.read(restTimerProvider.notifier).state -= const Duration(
+                  seconds: 5,
+                );
+              },
+              onLongPress: () {
+                ref.read(restTimerProvider.notifier).state -= const Duration(
+                  seconds: 20,
+                );
+              },
+              child: IconUtils.kRemove,
+            ),
+            const SizedBox(width: 24),
+            Text(
+              formattedRestTime,
+              style: TextStyleUtils.kHeadline1,
+            ),
+            const SizedBox(width: 24),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(restTimerProvider.notifier).state += const Duration(
+                  seconds: 5,
+                );
+              },
+              onLongPress: () {
+                ref.read(restTimerProvider.notifier).state += const Duration(
+                  seconds: 20,
+                );
+              },
+              child: IconUtils.kAdd,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
