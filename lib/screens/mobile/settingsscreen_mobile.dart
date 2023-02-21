@@ -45,9 +45,7 @@ class SettingsScreenMobile extends ConsumerWidget {
             trailing: const Icon(
               Icons.edit_outlined,
             ),
-            onTap: () async {
-              await showChangeTimersDialog(context);
-            },
+            onTap: () async {},
           ),
         ],
       ),
