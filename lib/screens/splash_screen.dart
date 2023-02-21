@@ -11,26 +11,31 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
-  /// Declare timer, use it in initState and dispose
-  /// After 5 seconds, navigate to home if user is known,
-  /// else navigate to login
+  // Declare timer, use it in initState and dispose
+  // After 5 seconds, navigate to home if user is known,
+  // else navigate to login
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
     timer = Timer(const Duration(seconds: 5), () async {
-      if (ref.watch(userDisplayNameProvider) == 'Sneak Peeker') {
-        // If user is not known, navigate to login
+      if (FirebaseAuth.instance.currentUser != null) {
+        Logger().i(
+          'UserData fetched from Firestore...',
+        );
+        // If user is NOT null, retrieve Firestore data
+        // and go to HomeScreen()
+        await getFirestoreData(context, ref).then((_) async {
+          await Navigator.pushReplacementNamed(
+            context,
+            '/home_screen',
+          );
+        });
+      } else {
         await Navigator.pushReplacementNamed(
           context,
           '/login_screen',
-        );
-      } else {
-        // If user is known, navigate to homescreen
-        await Navigator.pushReplacementNamed(
-          context,
-          '/home_screen',
         );
       }
     });

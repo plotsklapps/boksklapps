@@ -34,7 +34,7 @@ Future<void> showChangeUserDisplayNameDialog(
               keyboardType: TextInputType.text,
               textAlign: TextAlign.center,
               decoration: const InputDecoration(
-                labelText: StringUtils.kUserName,
+                labelText: StringUtils.kNewUserName,
                 prefixIcon: IconUtils.kAccount,
               ),
             ),

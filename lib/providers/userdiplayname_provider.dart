@@ -5,9 +5,9 @@ import 'package:boksklapps/all_imports.dart';
 final StateNotifierProvider<UserDisplayNameNotifier, String>
     userDisplayNameProvider =
     StateNotifierProvider<UserDisplayNameNotifier, String>(
-  (StateNotifierProviderRef<UserDisplayNameNotifier, String> ref) =>
-      UserDisplayNameNotifier(),
-);
+        (StateNotifierProviderRef<UserDisplayNameNotifier, String> ref) {
+  return UserDisplayNameNotifier();
+});
 
 class UserDisplayNameNotifier extends StateNotifier<String> {
   UserDisplayNameNotifier() : super('Sneak Peeker');

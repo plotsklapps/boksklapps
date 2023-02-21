@@ -13,9 +13,6 @@ Future<void> getFirestoreData(
   final String? userEmail = FirebaseAuth.instance.currentUser!.email;
   try {
     if (context.mounted) {
-      Logger().i(
-        'Fetching displayName from Firebase...',
-      );
       // Set the displayName to the one known from Firebase
       await ref
           .read(userDisplayNameProvider.notifier)
@@ -25,9 +22,6 @@ Future<void> getFirestoreData(
             displayName!,
           )
           .then((_) async {
-        Logger().i(
-          'Fetching userEmail from Firebase...',
-        );
         // Set the userEmail to the one known from Firebase
         await ref.read(userEmailProvider.notifier).updateUserEmail(
               context,
@@ -35,9 +29,6 @@ Future<void> getFirestoreData(
               userEmail!,
             );
       }).then((_) async {
-        Logger().i(
-          'Fetching all other data from Firestore...',
-        );
         // Get the rest via their respective Providers and notifiers
         await ref.read(userThemeModeNotifier.notifier).getUserThemeMode(ref);
         await ref.read(userThemeColorNotifier.notifier).getUserThemeColor(ref);
@@ -45,6 +36,9 @@ Future<void> getFirestoreData(
         await ref.read(userHeightProvider.notifier).getUserHeight();
         await ref.read(userWeightProvider.notifier).getUserWeight();
         await ref.read(userBMIProvider.notifier).getUserBMI();
+        await ref.read(totalTimerProvider.notifier).getTotalTimer();
+        await ref.read(setTimerProvider.notifier).getSetTimer();
+        await ref.read(restTimerProvider.notifier).getRestTimer();
       });
     }
   } catch (error) {

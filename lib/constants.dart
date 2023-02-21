@@ -10,6 +10,7 @@ class StringUtils {
   static const String kLabelEmail = 'Emailaddress';
   static const String kLabelOldEmail = 'Old Emailaddress';
   static const String kLabelNewEmail = 'New Emailaddress';
+  static const String kNewUserName = 'New Username';
   static const String kUserName = 'Username';
   static const String kLabelPassword = 'Password';
   static const String kLabelConfirmPassword = 'Confirm Password';
@@ -19,6 +20,7 @@ class StringUtils {
   static const String kGet = 'GET';
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
+  static const String kStartBeastMode = 'Start Beast Mode';
   static const String kAccount = 'Account';
   static const String kNoAccount = 'Sneak Peeker';
   static const String kSettings = 'Settings';
@@ -74,4 +76,5 @@ class IconUtils {
   static const Icon kLogout = Icon(Icons.logout_outlined);
   static const Icon kRemove = Icon(Icons.remove_outlined);
   static const Icon kAdd = Icon(Icons.add_outlined);
+  static const Icon kBoxing = Icon(Icons.sports_mma_outlined);
 }

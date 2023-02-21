@@ -24,14 +24,18 @@ class HomeScreenMobile extends ConsumerWidget {
             GetShitDoneWidget(),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             await Navigator.pushNamed(
               context,
               '/timer_screen',
             );
           },
-          child: IconUtils.kForward,
+          label: const Text(
+            'Start Beast Mode',
+            style: TextStyleUtils.kHeadline2,
+          ),
+          icon: IconUtils.kBoxing,
         ),
       ),
     );

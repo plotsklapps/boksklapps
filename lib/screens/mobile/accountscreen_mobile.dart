@@ -23,7 +23,7 @@ class AccountScreenMobile extends ConsumerWidget {
                   ref.watch(userEmailProvider),
                 ),
                 subtitle: const Text(
-                  'Current UserEmail',
+                  'UserEmail',
                 ),
                 trailing: const Icon(
                   Icons.edit_outlined,
@@ -46,7 +46,7 @@ class AccountScreenMobile extends ConsumerWidget {
                   ref.watch(userDisplayNameProvider) ?? StringUtils.kNoAccount,
                 ),
                 subtitle: const Text(
-                  'Current UserName',
+                  'UserName',
                 ),
                 trailing: const Icon(
                   Icons.edit_outlined,
@@ -69,7 +69,7 @@ class AccountScreenMobile extends ConsumerWidget {
                   ref.watch(userBMIProvider),
                 ),
                 subtitle: const Text(
-                  'Current BMI',
+                  'BMI',
                 ),
                 trailing: const Icon(
                   Icons.edit_outlined,
