@@ -1,16 +1,8 @@
 import 'package:boksklapps/all_imports.dart';
 
-// totalTimerProvider watches totalTimerNotifier, to have
-// access to current state, but also be able to edit it
-// in TimerWidget() via + and - buttons
-final StateProvider<Duration> totalTimerProvider =
-    StateProvider<Duration>((StateProviderRef<Duration> ref) {
-  return ref.watch(totalTimerNotifier);
-});
-
 // StateNotifierProvider to return totalTimer duration as
 // Duration for easier process in UI in TimerWidget()
-final StateNotifierProvider<TotalTimerNotifier, Duration> totalTimerNotifier =
+final StateNotifierProvider<TotalTimerNotifier, Duration> totalTimerProvider =
     StateNotifierProvider<TotalTimerNotifier, Duration>(
   (StateNotifierProviderRef<TotalTimerNotifier, Duration> ref) {
     return TotalTimerNotifier();
@@ -41,7 +33,7 @@ class TotalTimerNotifier extends StateNotifier<Duration> {
 
     // Set formatted timer states in new variables
     final String formattedTotalTime = format(
-      ref.watch(totalTimerNotifier),
+      ref.watch(totalTimerProvider),
     );
 
     // update formattedTotalTime to totalTimerDuration field
@@ -65,7 +57,7 @@ class TotalTimerRepository {
 
     // Store value retrieved from Firestore into String totalTimerString
     final String totalTimerString =
-        totalTimerDoc.data()!['totalTimerDuration'].toString().substring(0, 7);
+        totalTimerDoc.data()!['totalTimer'].toString().substring(0, 7);
 
     // Convert String totalTimerString to a Duration() as requested by
     // Future<Duration>
@@ -80,13 +72,23 @@ class TotalTimerRepository {
     return totalTimerDuration;
   }
 
+  Future<String> getTotalTimerString() async {
+    final DocumentSnapshot<Map<String, dynamic>> totalTimerDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
+
+    return totalTimerDoc.data()!['totalTimer'].toString().substring(0, 7);
+  }
+
   // Method to set totalTimerDuration and store it to Firestore database
   Future<void> updateTotalTimerDuration(String formattedTotalTime) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update(<String, String>{
-      'totalTimerDuration': formattedTotalTime,
+      'totalTimer': formattedTotalTime,
     });
   }
 }

@@ -1,16 +1,8 @@
 import 'package:boksklapps/all_imports.dart';
 
-// restTimerProvider watches restTimerNotifier, to have
-// access to current state, but also be able to edit it
-// in TimerWidget() via + and - buttons
-final StateProvider<Duration> restTimerProvider =
-    StateProvider<Duration>((StateProviderRef<Duration> ref) {
-  return ref.watch(restTimerNotifier);
-});
-
 // StateNotifierProvider to return restTimer duration as
 // Duration for easier process in UI in TimerWidget()
-final StateNotifierProvider<RestTimerNotifier, Duration> restTimerNotifier =
+final StateNotifierProvider<RestTimerNotifier, Duration> restTimerProvider =
     StateNotifierProvider<RestTimerNotifier, Duration>(
   (StateNotifierProviderRef<RestTimerNotifier, Duration> ref) {
     return RestTimerNotifier();
@@ -19,7 +11,7 @@ final StateNotifierProvider<RestTimerNotifier, Duration> restTimerNotifier =
 
 class RestTimerNotifier extends StateNotifier<Duration> {
   // Set default for restTimerNotifier to 30 minutes
-  RestTimerNotifier() : super(const Duration(minutes: 3));
+  RestTimerNotifier() : super(const Duration(seconds: 3));
 
   // Method to get restTimerDuration from Firestore database
   Future<void> getRestTimerDuration() async {
@@ -41,7 +33,7 @@ class RestTimerNotifier extends StateNotifier<Duration> {
 
     // Set formatted timer states in new variables
     final String formattedRestTime = format(
-      ref.watch(restTimerNotifier),
+      ref.watch(restTimerProvider),
     );
 
     // update formattedRestTime to restTimerDuration field
@@ -65,7 +57,7 @@ class RestTimerRepository {
 
     // Store value retrieved from Firestore into String restTimerString
     final String restTimerString =
-        restTimerDoc.data()!['restTimerDuration'].toString().substring(0, 7);
+        restTimerDoc.data()!['restTimer'].toString().substring(0, 7);
 
     // Convert String restTimerString to a Duration() as requested by
     // Future<Duration>
@@ -86,7 +78,7 @@ class RestTimerRepository {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update(<String, String>{
-      'restTimerDuration': formattedRestTime,
+      'restTimer': formattedRestTime,
     });
   }
 }
