@@ -9,17 +9,17 @@ class TimerWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Fetch timer states
-    final Duration totalTime = ref.watch(totalTimeProvider);
-    final Duration setTime = ref.watch(setTimeProvider);
-    final Duration restTime = ref.watch(restTimeProvider);
+    // Fetch timer states as Duration()
+    final Duration totalTime = ref.watch(totalTimerProvider);
+    final Duration setTime = ref.watch(setTimerProvider);
+    final Duration restTime = ref.watch(restTimerProvider);
 
     // Format the timer states
-    String format(Duration d) {
-      return d.toString().split('.').first.padLeft(8, '0');
+    String format(Duration totalTime) {
+      return totalTime.toString().split('.').first.padLeft(8, '0');
     }
 
-    // Set formatted timer states in new variables
+    // Set formatted timer states as String in new variables
     final String formattedTotalTime = format(totalTime);
     final String formattedSetTime = format(setTime);
     final String formattedRestTime = format(restTime);
@@ -55,12 +55,12 @@ class TimerWidget extends ConsumerWidget {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  ref.read(totalTimeProvider.notifier).state -= const Duration(
+                  ref.read(totalTimerProvider.notifier).state -= const Duration(
                     minutes: 1,
                   );
                 },
                 onLongPress: () {
-                  ref.read(totalTimeProvider.notifier).state -= const Duration(
+                  ref.read(totalTimerProvider.notifier).state -= const Duration(
                     minutes: 10,
                   );
                 },
@@ -74,12 +74,12 @@ class TimerWidget extends ConsumerWidget {
               const SizedBox(width: 24),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(totalTimeProvider.notifier).state += const Duration(
+                  ref.read(totalTimerProvider.notifier).state += const Duration(
                     minutes: 1,
                   );
                 },
                 onLongPress: () {
-                  ref.read(totalTimeProvider.notifier).state += const Duration(
+                  ref.read(totalTimerProvider.notifier).state += const Duration(
                     minutes: 10,
                   );
                 },
@@ -109,12 +109,12 @@ class TimerWidget extends ConsumerWidget {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  ref.read(setTimeProvider.notifier).state -= const Duration(
+                  ref.read(setTimerProvider.notifier).state -= const Duration(
                     minutes: 1,
                   );
                 },
                 onLongPress: () {
-                  ref.read(setTimeProvider.notifier).state -= const Duration(
+                  ref.read(setTimerProvider.notifier).state -= const Duration(
                     minutes: 5,
                   );
                 },
@@ -128,12 +128,12 @@ class TimerWidget extends ConsumerWidget {
               const SizedBox(width: 24),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(setTimeProvider.notifier).state += const Duration(
+                  ref.read(setTimerProvider.notifier).state += const Duration(
                     minutes: 1,
                   );
                 },
                 onLongPress: () {
-                  ref.read(setTimeProvider.notifier).state += const Duration(
+                  ref.read(setTimerProvider.notifier).state += const Duration(
                     minutes: 5,
                   );
                 },
@@ -163,12 +163,12 @@ class TimerWidget extends ConsumerWidget {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  ref.read(restTimeProvider.notifier).state -= const Duration(
+                  ref.read(restTimerProvider.notifier).state -= const Duration(
                     seconds: 5,
                   );
                 },
                 onLongPress: () {
-                  ref.read(restTimeProvider.notifier).state -= const Duration(
+                  ref.read(restTimerProvider.notifier).state -= const Duration(
                     seconds: 20,
                   );
                 },
@@ -182,12 +182,12 @@ class TimerWidget extends ConsumerWidget {
               const SizedBox(width: 24),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(restTimeProvider.notifier).state += const Duration(
+                  ref.read(restTimerProvider.notifier).state += const Duration(
                     seconds: 5,
                   );
                 },
                 onLongPress: () {
-                  ref.read(restTimeProvider.notifier).state += const Duration(
+                  ref.read(restTimerProvider.notifier).state += const Duration(
                     seconds: 20,
                   );
                 },
