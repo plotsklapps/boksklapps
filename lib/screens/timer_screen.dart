@@ -12,9 +12,10 @@ class TimerScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const TimerScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
+      //TODO: Next up: tablet mode!
       return const TimerScreenMobile();
     } else {
-      return const TimerScreenMobile();
+      return const TimerScreenDesktop();
     }
   }
 }
