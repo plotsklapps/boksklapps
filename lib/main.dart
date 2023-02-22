@@ -6,15 +6,14 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
+    // ProviderScope gives global access to Providers
     const ProviderScope(
       child: MainEntry(),
     ),
   );
 }
 
-/// MainEntry class
 class MainEntry extends ConsumerWidget {
-  /// MainEntry constructor
   const MainEntry({super.key});
 
   @override
@@ -22,10 +21,12 @@ class MainEntry extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BOKSKLAPPS - Sparring Partner',
+      // Get themes and themeMode from their respective Providers
       theme: ref.watch(themeLightProvider),
       darkTheme: ref.watch(themeDarkProvider),
       themeMode: ref.watch(themeModeProvider),
       initialRoute: '/',
+      // Get custom routes from custom_routes.dart
       routes: customRoutes,
     );
   }

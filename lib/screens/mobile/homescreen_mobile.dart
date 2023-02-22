@@ -16,11 +16,16 @@ class HomeScreenMobile extends ConsumerWidget {
           centerTitle: true,
         ),
         drawer: const DrawerWidget(),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const <Widget>[
-            GetShitDoneWidget(),
-          ],
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.85,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const <Widget>[
+                GetShitDoneWidget(),
+              ],
+            ),
+          ),
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {

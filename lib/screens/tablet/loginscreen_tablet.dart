@@ -47,7 +47,7 @@ class LoginScreenTabletState extends ConsumerState<LoginScreenTablet> {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: <Row>[
                         Row(
                           children: const <Widget>[
                             GetShitDoneWidget(),
