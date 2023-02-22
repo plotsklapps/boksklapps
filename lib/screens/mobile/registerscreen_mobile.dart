@@ -81,7 +81,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
                         keyboardType: TextInputType.text,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
-                          labelText: 'Username',
+                          labelText: StringUtils.kUserName,
                           prefixIcon: Icon(
                             Icons.person_outlined,
                           ),
