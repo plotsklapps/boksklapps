@@ -15,7 +15,7 @@ class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
 
   @override
   void dispose() {
-    //Kill all controllers
+    // Kill all controllers
     emailCtrl.dispose();
     super.dispose();
   }
