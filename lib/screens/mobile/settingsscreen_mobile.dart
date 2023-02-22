@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-// SettingsScreenMobile class
 class SettingsScreenMobile extends ConsumerWidget {
-  // SettingsScreenMobile constructor
   const SettingsScreenMobile({super.key});
 
   @override
@@ -14,28 +12,33 @@ class SettingsScreenMobile extends ConsumerWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <ListTile>[
-          ListTile(
-            title: const Text(
-              StringUtils.kLightSystemDark,
-            ),
-            subtitle: Text(
-              ref.watch(themeModeStringProvider),
-            ),
-            trailing: const ThemeModeSwitch(),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <ListTile>[
+              ListTile(
+                title: const Text(
+                  StringUtils.kLightSystemDark,
+                ),
+                subtitle: Text(
+                  ref.watch(themeModeStringProvider),
+                ),
+                trailing: const ThemeModeSwitch(),
+              ),
+              ListTile(
+                title: const Text(
+                  StringUtils.kColorScheme,
+                ),
+                subtitle: Text(
+                  ref.watch(themeColorStringProvider),
+                ),
+                trailing: const ThemeColorSwitch(),
+              ),
+            ],
           ),
-          ListTile(
-            title: const Text(
-              StringUtils.kColorScheme,
-            ),
-            subtitle: Text(
-              ref.watch(themeColorStringProvider),
-            ),
-            trailing: const ThemeColorSwitch(),
-          ),
-        ],
+        ),
       ),
     );
   }

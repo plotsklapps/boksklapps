@@ -12,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const SettingsScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      return const SettingsScreenMobile();
+      return const SettingsScreenTablet();
     } else {
       return const SettingsScreenMobile();
     }
