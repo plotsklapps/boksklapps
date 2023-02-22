@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// HomeScreenDesktop class
 class HomeScreenDesktop extends StatelessWidget {
-  /// HomeScreenDesktop constructor
   const HomeScreenDesktop({
     super.key,
   });
@@ -16,23 +14,42 @@ class HomeScreenDesktop extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Row(
-        children: <Widget>[
-          // Drawer shows if the screen width is greater than 1000
-          const DrawerWidget(),
-          Expanded(
-            child: Column(
-              children: const <Widget>[
-                GetShitDoneWidget(),
-                TimerWidget(),
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          child: Row(
+            children: <Widget>[
+              // Drawer shows if the screen width is greater than 1000
+              const DrawerWidget(),
+              Expanded(
+                child: Column(
+                  children: const <Widget>[
+                    GetShitDoneWidget(),
+                    TimerWidget(),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: IconUtils.kForward,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          await Navigator.pushNamed(
+            context,
+            '/timer_screen',
+          );
+        },
+        label: Row(
+          children: const <Widget>[
+            Text(
+              'Start Beast Mode',
+              style: TextStyleUtils.kHeadline2,
+            ),
+            SizedBox(width: 10.0),
+            IconUtils.kForward,
+          ],
+        ),
       ),
     );
   }

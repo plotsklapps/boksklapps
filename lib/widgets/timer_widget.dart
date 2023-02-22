@@ -11,8 +11,9 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     final double totalTimer = ref.watch(totalTimerProvider);
-    double setTimer = ref.watch(setTimerProvider);
-    double restTimer = ref.watch(restTimerProvider);
+    final double setTimer = ref.watch(setTimerProvider);
+    final double restTimer = ref.watch(restTimerProvider);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -29,8 +30,8 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
           min: 10.0,
           max: 90.0,
           divisions: 8,
-          onChanged: (double newTotalTime) {
-            ref
+          onChanged: (double newTotalTime) async {
+            await ref
                 .read(totalTimerProvider.notifier)
                 .updateTotalTimer(newTotalTime);
           },
@@ -48,8 +49,10 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
           min: 1.0,
           max: 10.0,
           divisions: 9,
-          onChanged: (double newSetTime) {
-            ref.read(setTimerProvider.notifier).updateSetTimer(newSetTime);
+          onChanged: (double newSetTime) async {
+            await ref
+                .read(setTimerProvider.notifier)
+                .updateSetTimer(newSetTime);
           },
         ),
         const Text(
@@ -65,8 +68,10 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
           min: 10.0,
           max: 120.0,
           divisions: 11,
-          onChanged: (double newRestTime) {
-            ref.read(restTimerProvider.notifier).updateRestTimer(newRestTime);
+          onChanged: (double newRestTime) async {
+            await ref
+                .read(restTimerProvider.notifier)
+                .updateRestTimer(newRestTime);
           },
         ),
       ],
