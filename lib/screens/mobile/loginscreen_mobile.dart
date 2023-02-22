@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// LoginScreenMobile class
 class LoginScreenMobile extends ConsumerStatefulWidget {
-  /// LoginScreenMobile constructor
   const LoginScreenMobile({
     super.key,
   });
@@ -11,19 +9,16 @@ class LoginScreenMobile extends ConsumerStatefulWidget {
   ConsumerState<LoginScreenMobile> createState() => LoginScreenMobileState();
 }
 
-/// LoginScreenMobileState class
 class LoginScreenMobileState extends ConsumerState<LoginScreenMobile> {
-  /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
-
-  /// PasswordController
   final TextEditingController passwordCtrl = TextEditingController();
 
-  /// Sets default value of passwordVisible to true
+  // Sets default value of passwordVisible to true
   bool isPasswordObscured = true;
 
   @override
   void dispose() {
+    // Kill all controllers
     emailCtrl.dispose();
     passwordCtrl.dispose();
     super.dispose();
@@ -41,8 +36,12 @@ class LoginScreenMobileState extends ConsumerState<LoginScreenMobile> {
               18,
               54,
             ),
+            // Wrap the Column() in a SizedBox() to set the total height
+            // at 85% of the screen height so that the SingleChildScrollView()
+            // won't affect any of the widgets inside the Column()
+            // and the keyboard can easily pop up without any issues
             child: SizedBox(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * 0.85,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -52,14 +51,14 @@ class LoginScreenMobileState extends ConsumerState<LoginScreenMobile> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: const <Text>[
                           Text(
-                            'LOGIN',
+                            StringUtils.kSignIn,
                             style: TextStyleUtils.kHeadline1,
                           ),
                         ],
                       ),
                       const SizedBox(height: 24),
 
-                      /// Email TextField
+                      // Email TextField
                       TextField(
                         controller: emailCtrl,
                         keyboardType: TextInputType.emailAddress,
@@ -71,7 +70,7 @@ class LoginScreenMobileState extends ConsumerState<LoginScreenMobile> {
                       ),
                       const SizedBox(height: 12),
 
-                      /// Password TextField
+                      // Password TextField
                       TextField(
                         controller: passwordCtrl,
                         keyboardType: TextInputType.text,

@@ -35,18 +35,6 @@ class SettingsScreenMobile extends ConsumerWidget {
             ),
             trailing: const ThemeColorSwitch(),
           ),
-          ListTile(
-            title: const Text(
-              'Timers',
-            ),
-            subtitle: const Text(
-              'Adjust boxing timers',
-            ),
-            trailing: const Icon(
-              Icons.edit_outlined,
-            ),
-            onTap: () async {},
-          ),
         ],
       ),
     );

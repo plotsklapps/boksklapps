@@ -7,6 +7,9 @@ class StringUtils {
   static const String kKlapps = 'klapps';
   static const String kSparringPartner = '- Sparring Partner -';
   static const String kCreatedBy = 'Created by';
+  static const String kSignIn = 'SIGN IN';
+  static const String kSignUp = 'SIGN UP';
+  static const String kResetPassword = 'RESET PASSWORD';
   static const String kLabelEmail = 'Emailaddress';
   static const String kLabelOldEmail = 'Old Emailaddress';
   static const String kLabelNewEmail = 'New Emailaddress';

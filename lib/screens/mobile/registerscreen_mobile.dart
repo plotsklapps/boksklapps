@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// RegisterScreenMobile class
 class RegisterScreenMobile extends ConsumerStatefulWidget {
-  /// RegisterScreenMobile constructor
   const RegisterScreenMobile({
     super.key,
   });
@@ -12,26 +10,18 @@ class RegisterScreenMobile extends ConsumerStatefulWidget {
       RegisterScreenMobileState();
 }
 
-/// RegisterScreenMobileState class
 class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
-  /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
-
-  /// UsernameController
   final TextEditingController usernameCtrl = TextEditingController();
-
-  /// PasswordController
   final TextEditingController password1Ctrl = TextEditingController();
-
-  /// PasswordController
   final TextEditingController password2Ctrl = TextEditingController();
 
-  /// Sets default value of passwordVisible to false
+  // Sets default value of passwordVisible to false
   bool isPasswordObscured = true;
 
   @override
   void dispose() {
-    /// Kill all controllers
+    // Kill all controllers
     emailCtrl.dispose();
     usernameCtrl.dispose();
     password1Ctrl.dispose();
@@ -51,8 +41,12 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
               18,
               54,
             ),
+            // Wrap the Column() in a SizedBox() to set the total height
+            // at 85% of the screen height so that the SingleChildScrollView()
+            // won't affect any of the widgets inside the Column()
+            // and the keyboard can easily pop up without any issues
             child: SizedBox(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * 0.85,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -62,7 +56,7 @@ class RegisterScreenMobileState extends ConsumerState<RegisterScreenMobile> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: const <Text>[
                           Text(
-                            'REGISTER',
+                            StringUtils.kSignUp,
                             style: TextStyleUtils.kHeadline1,
                           ),
                         ],

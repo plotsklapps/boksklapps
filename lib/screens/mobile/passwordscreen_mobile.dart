@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// PasswordScreenMobile class
 class PasswordScreenMobile extends ConsumerStatefulWidget {
-  /// PasswordScreenMobile constructor
   const PasswordScreenMobile({
     super.key,
   });
@@ -12,13 +10,12 @@ class PasswordScreenMobile extends ConsumerStatefulWidget {
       PasswordScreenMobileState();
 }
 
-/// PasswordScreenMobileState class
 class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
-  /// EmailController
   final TextEditingController emailCtrl = TextEditingController();
 
   @override
   void dispose() {
+    //Kill all controllers
     emailCtrl.dispose();
     super.dispose();
   }
@@ -35,8 +32,12 @@ class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
               18,
               54,
             ),
+            // Wrap the Column() in a SizedBox() to set the total height
+            // at 85% of the screen height so that the SingleChildScrollView()
+            // won't affect any of the widgets inside the Column()
+            // and the keyboard can easily pop up without any issues
             child: SizedBox(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * 0.85,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -46,14 +47,14 @@ class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: const <Text>[
                           Text(
-                            'RESET PASSWORD',
+                            StringUtils.kForgotPassword,
                             style: TextStyleUtils.kHeadline1,
                           ),
                         ],
                       ),
                       const SizedBox(height: 24),
 
-                      /// Email TextField
+                      // Email TextField
                       TextField(
                         controller: emailCtrl,
                         keyboardType: TextInputType.emailAddress,
@@ -67,7 +68,7 @@ class PasswordScreenMobileState extends ConsumerState<PasswordScreenMobile> {
                   ),
                   Column(
                     children: const <Widget>[
-                      /// Back to login button
+                      // Back to login button
                       BackToLoginWidget(),
                     ],
                   ),
