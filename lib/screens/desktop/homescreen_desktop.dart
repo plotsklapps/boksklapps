@@ -16,6 +16,10 @@ class HomeScreenDesktop extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: SizedBox(
+          // Wrap the Row() in a SizedBox() to set the total height
+          // at 85% of the screen height so that the SingleChildScrollView()
+          // won't affect any of the widgets inside the Row()
+          // and the keyboard can easily pop up without any issues
           height: MediaQuery.of(context).size.height * 0.85,
           child: Row(
             children: <Widget>[
@@ -23,10 +27,17 @@ class HomeScreenDesktop extends StatelessWidget {
               const DrawerWidget(),
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: const <Widget>[
                     GetShitDoneWidget(),
-                    TimerWidget(),
                   ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[],
                 ),
               ),
             ],

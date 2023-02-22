@@ -27,6 +27,7 @@ export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/loginscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/passwordscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';
+export 'package:boksklapps/screens/desktop/settingsscreen_desktop.dart';
 export 'package:boksklapps/screens/home_screen.dart';
 export 'package:boksklapps/screens/login_screen.dart';
 export 'package:boksklapps/screens/mobile/accountscreen_mobile.dart';
