@@ -27,7 +27,7 @@ final StateNotifierProvider<UserThemeModeNotifier, int> userThemeModeNotifier =
 class UserThemeModeNotifier extends StateNotifier<int> {
   UserThemeModeNotifier() : super(0);
 
-  // Method to GET user's preference for theme mode. According to
+  // Method to GET users preference for theme mode. According to
   // the int value, the themeModeProvider and themeModeStringProvider
   // are set to the correct ThemeMode and String value via their
   // respective Providers.
@@ -54,7 +54,7 @@ class UserThemeModeNotifier extends StateNotifier<int> {
     }
   }
 
-  // Method to UPDATE user's preference for theme mode. It reads the
+  // Method to UPDATE users preference for theme mode. It reads the
   // int from newThemeMode sets the themeMode and themeModeString
   // accordingly.
   Future<void> updateUserThemeMode(
@@ -71,9 +71,9 @@ class UserThemeModeNotifier extends StateNotifier<int> {
 }
 
 // Repository class for UserThemeModeNotifier to use to fetch and set
-// user's preferred ThemeMode from and to Firestore database
+// users preferred ThemeMode from and to Firestore database
 class UserThemeModeRepository {
-  // Method to get user's preferred ThemeMode from Firestore as int
+  // Method to get users preferred ThemeMode from Firestore as int
   Future<int> getUserThemeMode(
     WidgetRef ref,
   ) async {
@@ -87,13 +87,18 @@ class UserThemeModeRepository {
     );
   }
 
-  // Method to update user's preferred ThemeMode in Firestore as int
+  // Method to update users preferred ThemeMode in Firestore as int
   // and set the themeModeProvider and themeModeStringProvider to the
   // correct ThemeMode and String value
   Future<void> updateUserThemeMode(
     WidgetRef ref,
     int newThemeMode,
   ) async {
+    // If user is NOT signed in to Firebase only update the
+    // themeModeProvider and themeModeStringProvider locally
+    Logger().i(
+      'Updating user themeMode locally to $newThemeMode (Sneak Peeker)',
+    );
     if (newThemeMode == 0) {
       ref.read(themeModeProvider.notifier).state = ThemeMode.light;
       await ref.read(themeModeStringProvider.notifier).setThemeModeString(
@@ -111,13 +116,19 @@ class UserThemeModeRepository {
           );
     }
     try {
-      Logger().i(
-        'Updating user themeMode to $newThemeMode to Firestore database',
-      );
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update(<String, int>{'themeMode': newThemeMode});
+      // If user IS signed in to Firebase update the themeMode
+      // in Firestore database as well
+      if (FirebaseAuth.instance.currentUser != null) {
+        Logger().i(
+          'Updating user themeMode to $newThemeMode to Firestore database',
+        );
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(<String, int>{'themeMode': newThemeMode});
+      } else {
+        return;
+      }
     } catch (error) {
       // Handle errors here
       Logger().i('Error updating user themeMode: $error');

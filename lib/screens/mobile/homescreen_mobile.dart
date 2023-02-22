@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// HomeScreenMobile class
 class HomeScreenMobile extends ConsumerWidget {
-  /// HomeScreenMobile constructor
   const HomeScreenMobile({
     super.key,
   });
@@ -31,11 +29,16 @@ class HomeScreenMobile extends ConsumerWidget {
               '/timer_screen',
             );
           },
-          label: const Text(
-            'Start Beast Mode',
-            style: TextStyleUtils.kHeadline2,
+          label: Row(
+            children: const <Widget>[
+              Text(
+                'Start Beast Mode',
+                style: TextStyleUtils.kHeadline2,
+              ),
+              SizedBox(width: 10.0),
+              IconUtils.kForward,
+            ],
           ),
-          icon: IconUtils.kBoxing,
         ),
       ),
     );

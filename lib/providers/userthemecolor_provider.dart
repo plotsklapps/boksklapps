@@ -1,6 +1,16 @@
 import 'package:boksklapps/all_imports.dart';
 
-// ThemeColor Provider returns a FlexScheme.'something' to be used in the
+// ThemeColor setting is done in the settings_screen.dart. User
+// can choose between 3 different colors. All ThemeColor providers
+// are set to FlexScheme.outerSpace (int == 0) by default.
+// Firestore only accepts Strings and int as values, so the
+// userThemeColorNotifier sets and returns the int value of the
+// themeColor field in the user document in Firestore database.
+// With getUserThemeColor() method, the int value is translated
+// a FlexScheme and String value and put in the themeColorProvider
+// and themeModeStringProvider.
+
+// themeColorProvider returns a FlexScheme.'something' to be used in the
 // Light and Dark Theme Providers
 final StateNotifierProvider<ThemeColorState, FlexScheme> themeColorProvider =
     StateNotifierProvider<ThemeColorState, FlexScheme>(
@@ -102,6 +112,11 @@ class UserThemeColorRepository {
     WidgetRef ref,
     int newThemeColor,
   ) async {
+    // If user is NOT signed in to Firebase only update the
+    // themeModeProvider and themeModeStringProvider locally
+    Logger().i(
+      'Updating user themeMode locally to $newThemeColor (Sneak Peeker)',
+    );
     if (newThemeColor == 0) {
       await ref.read(themeColorProvider.notifier).setThemeColor(
             FlexScheme.outerSpace,
@@ -125,13 +140,19 @@ class UserThemeColorRepository {
           );
     }
     try {
-      Logger().i(
-        'Updating user themeColor to $newThemeColor to Firestore database',
-      );
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update(<String, int>{'themeColor': newThemeColor});
+      // If user IS signed in to Firebase update the themeMode
+      // in Firestore database as well
+      if (FirebaseAuth.instance.currentUser != null) {
+        Logger().i(
+          'Updating user themeColor to $newThemeColor to Firestore database',
+        );
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(<String, int>{'themeColor': newThemeColor});
+      } else {
+        return;
+      }
     } catch (error) {
       // Handle errors here
       Logger().i('Error updating user themeColor: $error');
