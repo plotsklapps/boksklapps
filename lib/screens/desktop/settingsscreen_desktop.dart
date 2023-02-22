@@ -11,12 +11,30 @@ class SettingsScreenDesktop extends ConsumerWidget {
           StringUtils.kSettings,
         ),
         centerTitle: true,
+        actions: <IconButton>[
+          IconButton(
+            onPressed: () async {
+              await Navigator.pushNamed(
+                context,
+                '/home_screen',
+              );
+            },
+            icon: const Icon(
+              Icons.home_outlined,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: SizedBox(
+          // Wrap the Row() in a SizedBox() to set the total height
+          // at 85% of the screen height so that the SingleChildScrollView()
+          // won't affect any of the widgets inside the Row()
+          // and the keyboard can easily pop up without any issues
           height: MediaQuery.of(context).size.height * 0.85,
           child: Row(
             children: <Widget>[
+              const DrawerWidget(),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

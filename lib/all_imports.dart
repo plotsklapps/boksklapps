@@ -23,6 +23,7 @@ export 'package:boksklapps/providers/userthemecolor_provider.dart';
 export 'package:boksklapps/providers/userthememode_provider.dart';
 export 'package:boksklapps/providers/userweight_provider.dart';
 export 'package:boksklapps/screens/account_screen.dart';
+export 'package:boksklapps/screens/desktop/accountscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/loginscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/passwordscreen_desktop.dart';
