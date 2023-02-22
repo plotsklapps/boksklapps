@@ -37,31 +37,14 @@ class HomeScreenDesktop extends StatelessWidget {
                 flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[],
+                  children: [],
                 ),
               ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          await Navigator.pushNamed(
-            context,
-            '/timer_screen',
-          );
-        },
-        label: Row(
-          children: const <Widget>[
-            Text(
-              'Start Beast Mode',
-              style: TextStyleUtils.kHeadline2,
-            ),
-            SizedBox(width: 10.0),
-            IconUtils.kForward,
-          ],
-        ),
-      ),
+      floatingActionButton: const StartBeastModeWidget(),
     );
   }
 }

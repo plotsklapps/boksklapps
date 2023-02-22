@@ -43,81 +43,13 @@ class LoginScreenDesktopState extends ConsumerState<LoginScreenDesktop> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.85,
               child: Row(
-                children: <Expanded>[
+                children: <Widget>[
+                  const DrawerWidget(),
                   Expanded(
-                    child: Drawer(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 220,
-                            child: DrawerHeader(
-                              child: Column(
-                                children: <Row>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Animate>[
-                                      Animate(
-                                        effects: <Effect<dynamic>>[
-                                          ScaleEffect(
-                                            delay: 0.ms,
-                                            duration: 800.ms,
-                                          ),
-                                        ],
-                                        child: const Text(
-                                          StringUtils.kBoks,
-                                          style: TextStyleUtils.kLogo1,
-                                        ),
-                                      ),
-                                      Animate(
-                                        effects: <Effect<dynamic>>[
-                                          ScaleEffect(
-                                            delay: 800.ms,
-                                            duration: 800.ms,
-                                          ),
-                                        ],
-                                        child: const Text(
-                                          StringUtils.kKlapps,
-                                          style: TextStyleUtils.kLogo2,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Animate>[
-                                      Animate(
-                                        effects: <Effect<dynamic>>[
-                                          FadeEffect(
-                                            delay: 1600.ms,
-                                            duration: 800.ms,
-                                          ),
-                                        ],
-                                        child: const Text(
-                                          StringUtils.kSparringPartner,
-                                          style: TextStyleUtils.kHeadline2,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Row>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            GetShitDoneWidget(),
-                          ],
-                        ),
+                      children: const <Widget>[
+                        GetShitDoneWidget(),
                       ],
                     ),
                   ),

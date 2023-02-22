@@ -40,24 +40,7 @@ class HomeScreenTablet extends ConsumerWidget {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            await Navigator.pushNamed(
-              context,
-              '/timer_screen',
-            );
-          },
-          label: Row(
-            children: const <Widget>[
-              Text(
-                'Start Beast Mode',
-                style: TextStyleUtils.kHeadline2,
-              ),
-              SizedBox(width: 10.0),
-              IconUtils.kForward,
-            ],
-          ),
-        ),
+        floatingActionButton: const StartBeastModeWidget(),
       ),
     );
   }
