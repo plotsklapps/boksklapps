@@ -17,10 +17,9 @@ class StartBeastModeWidget extends StatelessWidget {
       label: Row(
         children: const <Widget>[
           Text(
-            'Start Beast Mode',
-            style: TextStyleUtils.kHeadline2,
+            'Start BeastMode',
+            style: TextStyleUtils.kHeadline3,
           ),
-          SizedBox(width: 10.0),
           Image(
             image: AssetImage(
               'assets/boxer.gif',
