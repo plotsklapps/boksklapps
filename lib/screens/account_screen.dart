@@ -12,7 +12,7 @@ class AccountScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const AccountScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      return const AccountScreenMobile();
+      return const AccountScreenTablet();
     } else {
       return const AccountScreenMobile();
     }

@@ -24,12 +24,8 @@ class HomeScreenTablet extends ConsumerWidget {
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Row>[
-                      Row(
-                        children: const <Widget>[
-                          GetShitDoneWidget(),
-                        ],
-                      ),
+                    children: const <Widget>[
+                      GetShitDoneWidget(),
                     ],
                   ),
                 ),
@@ -37,9 +33,7 @@ class HomeScreenTablet extends ConsumerWidget {
                   flex: 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const <Widget>[
-                      GetShitDoneWidget(),
-                    ],
+                    children: const <Widget>[],
                   ),
                 ),
               ],

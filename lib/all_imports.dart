@@ -1,21 +1,15 @@
-// ignore_for_file: directives_ordering
-
-// AlertDialogs
 export 'package:boksklapps/alertdialogs/changebmi_dialog.dart';
 export 'package:boksklapps/alertdialogs/changedisplayname_dialog.dart';
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
 export 'package:boksklapps/alertdialogs/changetimers_dialog.dart';
 export 'package:boksklapps/alertdialogs/noaccount_dialog.dart';
-// Constants
 export 'package:boksklapps/constants.dart';
-// Navigation
 export 'package:boksklapps/custom_routes.dart';
 export 'package:boksklapps/firebase/firebase_login.dart';
 export 'package:boksklapps/firebase/firebase_password.dart';
 export 'package:boksklapps/firebase/firebase_register.dart';
 export 'package:boksklapps/firebase/firestore_create.dart';
 export 'package:boksklapps/firebase/firestore_get.dart';
-// Providers
 export 'package:boksklapps/providers/flextheme_provider.dart';
 export 'package:boksklapps/providers/resttimer_provider.dart';
 export 'package:boksklapps/providers/settimer_provider.dart';
@@ -28,19 +22,13 @@ export 'package:boksklapps/providers/userheight_provider.dart';
 export 'package:boksklapps/providers/userthemecolor_provider.dart';
 export 'package:boksklapps/providers/userthememode_provider.dart';
 export 'package:boksklapps/providers/userweight_provider.dart';
-
-// Screens
 export 'package:boksklapps/screens/account_screen.dart';
-
-// Screens Desktop
 export 'package:boksklapps/screens/desktop/homescreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/loginscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/passwordscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';
 export 'package:boksklapps/screens/home_screen.dart';
 export 'package:boksklapps/screens/login_screen.dart';
-
-// Screens Mobile
 export 'package:boksklapps/screens/mobile/accountscreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/homescreen_mobile.dart';
 export 'package:boksklapps/screens/mobile/loginscreen_mobile.dart';
@@ -52,14 +40,12 @@ export 'package:boksklapps/screens/password_screen.dart';
 export 'package:boksklapps/screens/register_screen.dart';
 export 'package:boksklapps/screens/settings_screen.dart';
 export 'package:boksklapps/screens/splash_screen.dart';
-
-// Screens Tablet
+export 'package:boksklapps/screens/tablet/accountscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/homescreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/loginscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/passwordscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/registerscreen_tablet.dart';
 export 'package:boksklapps/screens/timer_screen.dart';
-// Widgets
 export 'package:boksklapps/widgets/backtologin_widget.dart';
 export 'package:boksklapps/widgets/drawer_widget.dart';
 export 'package:boksklapps/widgets/forgotpassword_widget.dart';
@@ -70,12 +56,9 @@ export 'package:boksklapps/widgets/themecolor_switch.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/timer_widget.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
-export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:flex_color_scheme/flex_color_scheme.dart';
-
-// Flutter & Dart native packages
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'package:flutter_animate/flutter_animate.dart';
@@ -83,5 +66,4 @@ export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:logger/logger.dart';
 
-// External packages
 export 'firebase_options.dart';
