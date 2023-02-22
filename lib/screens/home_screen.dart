@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const HomeScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      return const HomeScreenMobile();
+      return const HomeScreenTablet();
     } else {
       return const HomeScreenDesktop();
     }
