@@ -34,7 +34,7 @@ class HomeScreenDesktop extends StatelessWidget {
                 flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [],
+                  children: const <Widget>[],
                 ),
               ),
             ],

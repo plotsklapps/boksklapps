@@ -29,7 +29,12 @@ class TimerScreenMobile extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {},
+          onPressed: () async {
+            await Navigator.pushNamed(
+              context,
+              '/punches_screen',
+            );
+          },
           child: IconUtils.kForward,
         ),
       ),
