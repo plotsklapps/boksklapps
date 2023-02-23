@@ -42,13 +42,25 @@ final StateProvider<bool> punch6Provider = StateProvider<bool>(
   },
 );
 
-final StateProvider<bool> punch7Provider = StateProvider<bool>(
+final StateProvider<bool> punch1BProvider = StateProvider<bool>(
   (StateProviderRef<bool> ref) {
     return false;
   },
 );
 
-final StateProvider<bool> punch8Provider = StateProvider<bool>(
+final StateProvider<bool> punch2BProvider = StateProvider<bool>(
+  (StateProviderRef<bool> ref) {
+    return false;
+  },
+);
+
+final StateProvider<bool> punch3BProvider = StateProvider<bool>(
+  (StateProviderRef<bool> ref) {
+    return false;
+  },
+);
+
+final StateProvider<bool> punch4BProvider = StateProvider<bool>(
   (StateProviderRef<bool> ref) {
     return false;
   },
