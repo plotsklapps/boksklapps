@@ -6,11 +6,8 @@ class AccountScreenTablet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          StringUtils.kAccount,
-        ),
-        centerTitle: true,
+      appBar: const AppBarWidget(
+        title: StringUtils.kAccount,
       ),
       body: SingleChildScrollView(
         child: SizedBox(

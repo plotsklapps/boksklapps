@@ -7,11 +7,8 @@ class TimerScreenTablet extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            StringUtils.kBoks + StringUtils.kKlapps,
-          ),
-          centerTitle: true,
+        appBar: const AppBarWidget(
+          title: StringUtils.kTimers,
         ),
         body: SingleChildScrollView(
           child: Padding(

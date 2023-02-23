@@ -20,19 +20,21 @@ class StringUtils {
   static const String kCreateAccount = 'Create an Account';
   static const String kForgotPassword = 'Forgot Password';
   static const String kBackToLogin = 'Back to Login';
+  static const String kHome = 'HOME';
   static const String kGet = 'GET';
   static const String kShit = 'SHIT';
   static const String kDone = 'DONE';
   static const String kStartBeastMode = 'Start Beast Mode';
-  static const String kAccount = 'Account';
+  static const String kAccount = 'ACCOUNT';
   static const String kNoAccount = 'Sneak Peeker';
-  static const String kSettings = 'Settings';
+  static const String kSettings = 'SETTINGS';
   static const String kColorScheme = 'Color Scheme';
   static const String kLightSystemDark = 'Light / System / Dark';
   static const String kEnterInfo = 'Please provide the following information';
   static const String kEmailAddressChanged =
       'Emailaddress changed, please login again...';
   static const String kUsernameChanged = 'Username updated...';
+  static const String kTimers = 'TIMERS';
 }
 
 /// TextStyle constants
@@ -79,5 +81,6 @@ class IconUtils {
   static const Icon kLogout = Icon(Icons.logout_outlined);
   static const Icon kRemove = Icon(Icons.remove_outlined);
   static const Icon kAdd = Icon(Icons.add_outlined);
+  static const Icon kHome = Icon(Icons.home_outlined);
   static const Icon kBoxing = Icon(Icons.sports_mma_outlined);
 }

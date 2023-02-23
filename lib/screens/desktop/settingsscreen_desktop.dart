@@ -6,24 +6,8 @@ class SettingsScreenDesktop extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          StringUtils.kSettings,
-        ),
-        centerTitle: true,
-        actions: <IconButton>[
-          IconButton(
-            onPressed: () async {
-              await Navigator.pushNamed(
-                context,
-                '/home_screen',
-              );
-            },
-            icon: const Icon(
-              Icons.home_outlined,
-            ),
-          ),
-        ],
+      appBar: const AppBarWidget(
+        title: StringUtils.kSettings,
       ),
       body: SingleChildScrollView(
         child: SizedBox(

@@ -8,11 +8,8 @@ class HomeScreenDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          StringUtils.kBoks + StringUtils.kKlapps,
-        ),
-        centerTitle: true,
+      appBar: const AppBarWidget(
+        title: StringUtils.kHome,
       ),
       body: SingleChildScrollView(
         child: SizedBox(

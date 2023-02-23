@@ -6,11 +6,8 @@ class SettingsScreenMobile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          StringUtils.kSettings,
-        ),
-        centerTitle: true,
+      appBar: const AppBarWidget(
+        title: StringUtils.kSettings,
       ),
       body: SingleChildScrollView(
         child: SizedBox(

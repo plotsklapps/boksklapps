@@ -9,11 +9,8 @@ class HomeScreenTablet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            StringUtils.kBoks + StringUtils.kKlapps,
-          ),
-          centerTitle: true,
+        appBar: const AppBarWidget(
+          title: StringUtils.kHome,
         ),
         drawer: const DrawerWidget(),
         body: SingleChildScrollView(
