@@ -9,6 +9,43 @@ class PunchesScreenMobile extends ConsumerStatefulWidget {
 }
 
 class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
+  Color buttonColor = Colors.green;
+
+  Color onButtonPressed() {
+    if (ref.watch(themeModeProvider) == ThemeMode.light &&
+        ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
+      setState(() {
+        buttonColor = FlexColor.outerSpaceLightPrimary;
+      });
+    } else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+        ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
+      setState(() {
+        buttonColor = FlexColor.outerSpaceDarkPrimary;
+      });
+    } else if (ref.watch(themeModeProvider) == ThemeMode.light &&
+        ref.watch(themeColorProvider) == FlexScheme.money) {
+      setState(() {
+        buttonColor = FlexColor.moneyLightPrimary;
+      });
+    } else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+        ref.watch(themeColorProvider) == FlexScheme.money) {
+      setState(() {
+        buttonColor = FlexColor.moneyDarkPrimary;
+      });
+    } else if (ref.watch(themeModeProvider) == ThemeMode.light &&
+        ref.watch(themeColorProvider) == FlexScheme.redWine) {
+      setState(() {
+        buttonColor = FlexColor.redWineLightPrimary;
+      });
+    } else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+        ref.watch(themeColorProvider) == FlexScheme.redWine) {
+      setState(() {
+        buttonColor = FlexColor.redWineDarkPrimary;
+      });
+    }
+    return Colors.green;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,11 +100,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                             },
                             //If button is selected, change color
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: ref.watch(punch1Provider)
-                                  ? (ThemeMode == ThemeMode.dark
-                                      ? FlexColor.greenDarkPrimary
-                                      : FlexColor.redDarkPrimary)
-                                  : null,
+                              backgroundColor: buttonColor,
                             ),
                             child: const Text(
                               '1',
