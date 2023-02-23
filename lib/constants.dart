@@ -35,6 +35,7 @@ class StringUtils {
       'Emailaddress changed, please login again...';
   static const String kUsernameChanged = 'Username updated...';
   static const String kTimers = 'TIMERS';
+  static const String kPunches = 'PUNCHES';
 }
 
 /// TextStyle constants

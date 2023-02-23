@@ -51,7 +51,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarWidget(
-          title: StringUtils.kTimers,
+          title: StringUtils.kPunches,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -76,7 +76,6 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              changeButtonColor();
                               setState(() {
                                 //Every punchProvider has a number, corresponding to
                                 //original boxing methods (Jab = 1, Cross = 2, etc.).
@@ -98,6 +97,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                                       .remove(1);
                                 }
                               });
+                              changeButtonColor();
                             },
                             //If button is selected, change color
                             style: ElevatedButton.styleFrom(
