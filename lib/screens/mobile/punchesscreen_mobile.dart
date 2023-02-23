@@ -9,9 +9,9 @@ class PunchesScreenMobile extends ConsumerStatefulWidget {
 }
 
 class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
-  Color buttonColor = Colors.green;
+  Color buttonColor = Colors.grey;
 
-  Color onButtonPressed() {
+  Color changeButtonColor() {
     if (ref.watch(themeModeProvider) == ThemeMode.light &&
         ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
       setState(() {
@@ -43,7 +43,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
         buttonColor = FlexColor.redWineDarkPrimary;
       });
     }
-    return Colors.green;
+    return Colors.grey;
   }
 
   @override
@@ -76,6 +76,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              changeButtonColor();
                               setState(() {
                                 //Every punchProvider has a number, corresponding to
                                 //original boxing methods (Jab = 1, Cross = 2, etc.).
