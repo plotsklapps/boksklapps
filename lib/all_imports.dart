@@ -60,6 +60,7 @@ export 'package:boksklapps/widgets/drawer_widget.dart';
 export 'package:boksklapps/widgets/forgotpassword_widget.dart';
 export 'package:boksklapps/widgets/getshitdone_widget.dart';
 export 'package:boksklapps/widgets/gotoregister_widget.dart';
+export 'package:boksklapps/widgets/punchbutton_widgets.dart';
 export 'package:boksklapps/widgets/sneakpeek_widget.dart';
 export 'package:boksklapps/widgets/startbeastmode_widget.dart';
 export 'package:boksklapps/widgets/themecolor_switch.dart';
