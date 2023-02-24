@@ -24,7 +24,7 @@ class HomeScreenMobile extends ConsumerWidget {
             ),
           ),
         ),
-        floatingActionButton: const SetTimerFAB(),
+        floatingActionButton: const SetTimersFAB(),
       ),
     );
   }
