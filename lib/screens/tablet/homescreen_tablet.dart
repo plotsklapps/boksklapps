@@ -37,7 +37,7 @@ class HomeScreenTablet extends ConsumerWidget {
             ),
           ),
         ),
-        floatingActionButton: const StartBeastModeFAB(),
+        floatingActionButton: const SetTimersFAB(),
       ),
     );
   }

@@ -9,8 +9,6 @@ class PunchesScreenMobile extends ConsumerStatefulWidget {
 }
 
 class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
-  bool resetButtonVisible = false;
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -93,34 +91,28 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                 const SizedBox(
                   height: 24.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      ElevatedButton(
-                        onPressed: () {
-                          ref.invalidate(punchListProvider);
-                          ref.invalidate(punch1Provider);
-                          ref.invalidate(punch2Provider);
-                          ref.invalidate(punch3Provider);
-                          ref.invalidate(punch4Provider);
-                          ref.invalidate(punch5Provider);
-                          ref.invalidate(punch6Provider);
-                          ref.invalidate(punch1BProvider);
-                          ref.invalidate(punch2BProvider);
-                          ref.invalidate(punch3BProvider);
-                          ref.invalidate(punch4BProvider);
-                          resetButtonVisible = false;
-                        },
-                        child: const Text(
-                          'RESET',
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {
+                        ref.invalidate(punchListProvider);
+                        ref.invalidate(punch1Provider);
+                        ref.invalidate(punch2Provider);
+                        ref.invalidate(punch3Provider);
+                        ref.invalidate(punch4Provider);
+                        ref.invalidate(punch5Provider);
+                        ref.invalidate(punch6Provider);
+                        ref.invalidate(punch1BProvider);
+                        ref.invalidate(punch2BProvider);
+                        ref.invalidate(punch3BProvider);
+                        ref.invalidate(punch4BProvider);
+                      },
+                      child: const Text(
+                        'RESET',
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

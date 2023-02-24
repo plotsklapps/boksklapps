@@ -12,11 +12,9 @@ class PunchesScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const PunchesScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      //TODO: Add a tablet version
-      return const PunchesScreenMobile();
+      return const PunchesScreenTablet();
     } else {
-      //TODO: Add a desktop version
-      return const PunchesScreenMobile();
+      return const PunchesScreenDesktop();
     }
   }
 }

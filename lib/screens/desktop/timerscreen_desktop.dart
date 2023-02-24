@@ -37,10 +37,7 @@ class TimerScreenDesktop extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {},
-          child: IconUtils.kForward,
-        ),
+        floatingActionButton: const SetPunchesFAB(),
       ),
     );
   }
