@@ -126,7 +126,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
             ),
           ),
         ),
-        floatingActionButton: const StartBeastModeFAB(),
+        floatingActionButton: const SetTempoFAB(),
       ),
     );
   }
