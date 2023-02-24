@@ -41,7 +41,7 @@ class HomeScreenDesktop extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: const StartBeastModeWidget(),
+      floatingActionButton: const StartBeastModeFAB(),
     );
   }
 }

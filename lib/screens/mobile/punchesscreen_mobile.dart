@@ -126,10 +126,7 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {},
-          child: IconUtils.kForward,
-        ),
+        floatingActionButton: const StartBeastModeFAB(),
       ),
     );
   }

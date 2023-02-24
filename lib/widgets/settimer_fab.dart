@@ -1,7 +1,7 @@
 import 'package:boksklapps/all_imports.dart';
 
-class StartBeastModeWidget extends StatelessWidget {
-  const StartBeastModeWidget({
+class SetTimerFAB extends StatelessWidget {
+  const SetTimerFAB({
     super.key,
   });
 
@@ -17,13 +17,15 @@ class StartBeastModeWidget extends StatelessWidget {
       label: Row(
         children: const <Widget>[
           Text(
-            'Start BeastMode',
+            'Set Timers',
             style: TextStyleUtils.kHeadline3,
           ),
           Image(
             image: AssetImage(
-              'assets/boxer.gif',
+              'assets/hourglass.gif',
             ),
+            width: 100,
+            height: 100,
           ),
         ],
       ),
