@@ -9,6 +9,8 @@ class PunchesScreenMobile extends ConsumerStatefulWidget {
 }
 
 class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
+  bool nopeStartOver = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,7 +23,32 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
             height: MediaQuery.of(context).size.height * 0.85,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Row>[
+              children: <Widget>[
+                SizedBox(
+                  height: kMinInteractiveDimension,
+                  child: Visibility(
+                    visible: nopeStartOver,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ref.invalidate(punchListProvider);
+                        ref.invalidate(punch1Provider);
+                        ref.invalidate(punch2Provider);
+                        ref.invalidate(punch3Provider);
+                        ref.invalidate(punch4Provider);
+                        ref.invalidate(punch5Provider);
+                        ref.invalidate(punch6Provider);
+                        ref.invalidate(punch1BProvider);
+                        ref.invalidate(punch2BProvider);
+                        ref.invalidate(punch3BProvider);
+                        ref.invalidate(punch4BProvider);
+                        nopeStartOver = false;
+                      },
+                      child: const Text(
+                        'NOPE. Start over.',
+                      ),
+                    ),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -87,6 +114,45 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                       ref: ref,
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 25.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Text>[
+                    Text(
+                      'Punches to throw',
+                      style: TextStyleUtils.kHeadline3,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25.0,
+                ),
+                SizedBox(
+                  height: 50.0,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: ref.watch(punchListProvider).length,
+                    itemBuilder: (BuildContext context, int index) {
+                      nopeStartOver = true;
+                      final String punchString =
+                          ref.watch(punchListProvider)[index];
+                      return Row(
+                        children: <Widget>[
+                          Text(
+                            punchString,
+                            style: TextStyleUtils.kHeadline2,
+                          ),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
