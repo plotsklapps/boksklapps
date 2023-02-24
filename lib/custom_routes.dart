@@ -28,5 +28,8 @@ Map<String, WidgetBuilder> customRoutes = <String, WidgetBuilder>{
   },
   '/punches_screen': (BuildContext context) {
     return const PunchesScreen();
+  },
+  '/tempo_screen': (BuildContext context) {
+    return const TempoScreen();
   }
 };
