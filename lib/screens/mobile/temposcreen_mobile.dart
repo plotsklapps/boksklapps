@@ -8,8 +8,6 @@ class TempoScreenMobile extends ConsumerStatefulWidget {
 }
 
 class _PunchesScreenMobileState extends ConsumerState<TempoScreenMobile> {
-  double sliderValue = 5.0;
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,25 +22,28 @@ class _PunchesScreenMobileState extends ConsumerState<TempoScreenMobile> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Column(
-                  children: [
-                    Text(
-                      'TEMPO',
+                  children: <Widget>[
+                    const Text(
+                      'PUNCHING TEMPO',
                       style: TextStyleUtils.kHeadline3,
                     ),
-                    Text(
-                      'Speed of punches',
-                      style: TextStyleUtils.kBodyText,
-                    ),
                     Slider(
-                      value: sliderValue,
+                      value: ref.watch(tempoDoubleProvider),
                       min: 1.0,
-                      max: 10.0,
-                      divisions: 9,
-                      onChanged: (newValue) {
-                        setState(() {
-                          sliderValue = newValue;
-                        });
+                      max: 4.0,
+                      divisions: 3,
+                      onChanged: (double newValue) async {
+                        await ref
+                            .read(tempoDoubleProvider.notifier)
+                            .setTempoDouble(
+                              newValue,
+                              ref,
+                            );
                       },
+                    ),
+                    Text(
+                      ref.watch(tempoStringProvider),
+                      style: TextStyleUtils.kHeadline3,
                     ),
                   ],
                 ),

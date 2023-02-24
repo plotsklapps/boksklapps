@@ -14,6 +14,7 @@ export 'package:boksklapps/providers/flextheme_provider.dart';
 export 'package:boksklapps/providers/punches_provider.dart';
 export 'package:boksklapps/providers/resttimer_provider.dart';
 export 'package:boksklapps/providers/settimer_provider.dart';
+export 'package:boksklapps/providers/tempo_provider.dart';
 export 'package:boksklapps/providers/totaltimer_provider.dart';
 export 'package:boksklapps/providers/userage_provider.dart';
 export 'package:boksklapps/providers/userbmi_provider.dart';
