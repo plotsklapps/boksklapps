@@ -78,24 +78,50 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     bool isOn,
     WidgetRef ref,
   ) {
+    // ThemeMode.light + FlexScheme.outerSpace
     if (ref.watch(themeModeProvider) == ThemeMode.light &&
         ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
       return isOn ? FlexColor.outerSpaceLightPrimaryContainer : Colors.grey;
-    } else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+    }
+    // ThemeMode.system + FlexScheme.outerSpace
+    else if (ref.watch(themeModeProvider) == ThemeMode.system &&
         ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
-      return isOn ? FlexColor.outerSpaceDarkPrimary : Colors.grey;
-    } else if (ref.watch(themeModeProvider) == ThemeMode.light &&
+      return isOn ? FlexColor.outerSpaceDarkPrimaryContainer : Colors.grey;
+    }
+    // ThemeMode.dark + FlexScheme.outerSpace
+    else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+        ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
+      return isOn ? FlexColor.outerSpaceDarkPrimaryContainer : Colors.grey;
+    }
+    // ThemeMode.light + FlexScheme.money
+    else if (ref.watch(themeModeProvider) == ThemeMode.light &&
         ref.watch(themeColorProvider) == FlexScheme.money) {
       return isOn ? FlexColor.moneyLightPrimaryContainer : Colors.grey;
-    } else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+    }
+    // ThemeMode.system + FlexScheme.money
+    else if (ref.watch(themeModeProvider) == ThemeMode.system &&
         ref.watch(themeColorProvider) == FlexScheme.money) {
-      return isOn ? FlexColor.moneyDarkPrimary : Colors.grey;
-    } else if (ref.watch(themeModeProvider) == ThemeMode.light &&
+      return isOn ? FlexColor.moneyDarkPrimaryContainer : Colors.grey;
+    }
+    // ThemeMode.dark + FlexScheme.money
+    else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+        ref.watch(themeColorProvider) == FlexScheme.money) {
+      return isOn ? FlexColor.moneyDarkPrimaryContainer : Colors.grey;
+    }
+    // ThemeMode.light + FlexScheme.redWine
+    else if (ref.watch(themeModeProvider) == ThemeMode.light &&
         ref.watch(themeColorProvider) == FlexScheme.redWine) {
       return isOn ? FlexColor.redWineLightPrimaryContainer : Colors.grey;
-    } else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+    }
+    // ThemeMode.system + FlexScheme.redWine
+    else if (ref.watch(themeModeProvider) == ThemeMode.system &&
         ref.watch(themeColorProvider) == FlexScheme.redWine) {
-      return isOn ? FlexColor.redWineDarkPrimary : Colors.grey;
+      return isOn ? FlexColor.redWineDarkPrimaryContainer : Colors.grey;
+    }
+    // ThemeMode.dark + FlexScheme.redWine
+    else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
+        ref.watch(themeColorProvider) == FlexScheme.redWine) {
+      return isOn ? FlexColor.redWineDarkPrimaryContainer : Colors.grey;
     }
     return Colors.grey;
   }
