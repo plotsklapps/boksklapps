@@ -1,7 +1,7 @@
 import 'package:boksklapps/all_imports.dart';
 
-class SetTimerFAB extends StatelessWidget {
-  const SetTimerFAB({
+class SetTimersFAB extends StatelessWidget {
+  const SetTimersFAB({
     super.key,
   });
 
@@ -22,10 +22,8 @@ class SetTimerFAB extends StatelessWidget {
           ),
           Image(
             image: AssetImage(
-              'assets/hourglass.gif',
+              'assets/boxer.gif',
             ),
-            width: 100,
-            height: 100,
           ),
         ],
       ),
