@@ -36,17 +36,25 @@ class RestTimerRepository {
     return double.parse(restTimerDoc.data()!['restTimer'].toString());
   }
 
-  // Future method updateSetTimer that updates the setTimer in the
+  // Future method updateRestTimer that updates the restTimer in the
   // Firestore database with a new String, parsed from a double from the
-  // parameter
+  // parameter newRestTime
   Future<void> updateRestTimer(
     double newRestTime,
   ) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update(
-      <String, String>{'restTimer': newRestTime.toStringAsFixed(2)},
-    );
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(
+          <String, String>{'restTimer': newRestTime.toStringAsFixed(2)},
+        );
+      }
+    } catch (error) {
+      Logger().i(
+        'Something went wrong: $error...',
+      );
+    }
   }
 }

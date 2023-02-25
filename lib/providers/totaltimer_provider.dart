@@ -38,13 +38,23 @@ class TotalTimerRepository {
 
   // Future method updateTotalTimer that updates the totalTimer in the
   // Firestore database with a new String, parsed from a double from the
-  // parameter
+  // parameter newTotalTime
   Future<void> updateTotalTimer(double newTotalTime) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update(
-      <String, String>{'totalTimer': newTotalTime.toStringAsFixed(2)},
-    );
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(
+          <String, String>{'totalTimer': newTotalTime.toStringAsFixed(2)},
+        );
+      } else {
+        return;
+      }
+    } catch (error) {
+      Logger().i(
+        'Something went wrong: $error...',
+      );
+    }
   }
 }

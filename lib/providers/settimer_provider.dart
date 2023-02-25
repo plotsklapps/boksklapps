@@ -38,15 +38,23 @@ class SetTimerRepository {
 
   // Future method updateSetTimer that updates the setTimer in the
   // Firestore database with a new String, parsed from a double from the
-  // parameter
+  // parameter newSetTime
   Future<void> updateSetTimer(
     double newSetTime,
   ) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update(
-      <String, String>{'setTimer': newSetTime.toStringAsFixed(2)},
-    );
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(
+          <String, String>{'setTimer': newSetTime.toStringAsFixed(2)},
+        );
+      }
+    } catch (error) {
+      Logger().i(
+        'Something went wrong: $error...',
+      );
+    }
   }
 }

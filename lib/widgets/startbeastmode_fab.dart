@@ -11,13 +11,14 @@ class StartBeastModeFAB extends StatelessWidget {
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: const Text(
-                'Work in progress... Please come back later!',
-              ),
-              action: SnackBarAction(
-                label: 'OK',
-                onPressed: () {},
-              )),
+            content: const Text(
+              'Work in progress... Please come back later!',
+            ),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+            ),
+          ),
         );
       },
       label: Row(

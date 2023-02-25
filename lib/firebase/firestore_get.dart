@@ -39,6 +39,7 @@ Future<void> getFirestoreData(
         await ref.read(totalTimerProvider.notifier).getTotalTimer();
         await ref.read(setTimerProvider.notifier).getSetTimer();
         await ref.read(restTimerProvider.notifier).getRestTimer();
+        await ref.read(userTempoProvider.notifier).getUserTempo();
       });
     }
   } catch (error) {

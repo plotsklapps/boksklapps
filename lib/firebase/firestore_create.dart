@@ -29,5 +29,6 @@ Future<void> createFirestoreData(
     'totalTimer': ref.watch(totalTimerProvider),
     'setTimer': ref.watch(setTimerProvider),
     'restTimer': ref.watch(restTimerProvider),
+    'userTempo': ref.watch(userTempoProvider),
   });
 }

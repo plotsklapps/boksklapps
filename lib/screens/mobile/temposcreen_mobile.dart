@@ -10,6 +10,10 @@ class TempoScreenMobile extends ConsumerStatefulWidget {
 class _PunchesScreenMobileState extends ConsumerState<TempoScreenMobile> {
   @override
   Widget build(BuildContext context) {
+    final String tempoString = ref.watch(userTempoProvider);
+    final double tempoDouble = UserTempoRepository().convertTempoStringToDouble(
+      tempoString,
+    );
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarWidget(
@@ -34,21 +38,22 @@ class _PunchesScreenMobileState extends ConsumerState<TempoScreenMobile> {
                         style: TextStyleUtils.kHeadline3,
                       ),
                       Slider(
-                        value: ref.watch(tempoDoubleProvider),
+                        value: tempoDouble,
                         min: 1.0,
                         max: 4.0,
                         divisions: 3,
-                        onChanged: (double newValue) async {
+                        onChanged: (double newTempo) async {
                           await ref
-                              .read(tempoDoubleProvider.notifier)
-                              .setTempoDouble(
-                                newValue,
+                              .read(userTempoProvider.notifier)
+                              .updateUserTempo(
+                                context,
                                 ref,
+                                newTempo.toStringAsFixed(1),
                               );
                         },
                       ),
                       Text(
-                        ref.watch(tempoStringProvider),
+                        ref.watch(userTempoProvider),
                         style: TextStyleUtils.kHeadline3,
                       ),
                     ],
