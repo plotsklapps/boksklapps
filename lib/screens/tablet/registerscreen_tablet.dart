@@ -179,9 +179,9 @@ class RegisterScreenTabletState extends ConsumerState<RegisterScreenTablet> {
               context,
               ref,
               emailCtrl.text,
+              usernameCtrl.text,
               password1Ctrl.text,
               password2Ctrl.text,
-              usernameCtrl.text,
             );
           },
           child: IconUtils.kForward,
