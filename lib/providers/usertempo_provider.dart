@@ -13,7 +13,11 @@ class UserTempoNotifier extends StateNotifier<String> {
 
   // Method to get users tempo from Firestore and change state
   Future<void> getUserTempo() async {
+    // First fetch tempo from Firestore or set to default
     final String tempoString = await UserTempoRepository().getUserTempo();
+    // Then convert tempo from String to double and back to String
+    // to make sure it is in the correct format (e.g. 'Moderate'
+    // instead of '2.0')
     state = UserTempoRepository().convertTempoDoubleToString(
       UserTempoRepository().convertTempoStringToDouble(
         tempoString,
@@ -28,9 +32,11 @@ class UserTempoNotifier extends StateNotifier<String> {
     String newTempo,
   ) async {
     try {
+      // First convert tempo from double to String
       final String newTempoString = UserTempoRepository()
           .convertTempoStringToDouble(newTempo)
           .toStringAsFixed(1);
+      // Then update tempo in Firestore if user is logged in
       if (FirebaseAuth.instance.currentUser != null) {
         await UserTempoRepository().updateUserTempo(
           context,
@@ -38,7 +44,9 @@ class UserTempoNotifier extends StateNotifier<String> {
           newTempoString,
         );
       }
+      // Finally change state to new tempo
       state = newTempo;
+      // Return new tempo to be used in other methods
       return newTempo;
     } catch (error) {
       // Handle errors here
@@ -78,6 +86,8 @@ class UserTempoRepository {
   ) async {
     try {
       // Only update tempo if user is logged in
+      // Tempo is stored as a String in Firestore
+      // as '2.0' instead of 'Moderate' for example
       if (FirebaseAuth.instance.currentUser != null) {
         await FirebaseFirestore.instance
             .collection('users')
@@ -91,6 +101,7 @@ class UserTempoRepository {
     }
   }
 
+  // Method to convert tempo from double to formatted String
   String convertTempoDoubleToString(double tempoDouble) {
     if (tempoDouble == 1.0) {
       return 'Easy';
@@ -103,6 +114,7 @@ class UserTempoRepository {
     }
   }
 
+  // Method to convert tempo from formatted String to double
   double convertTempoStringToDouble(String tempoString) {
     if (tempoString == 'Easy') {
       return 1.0;
