@@ -12,7 +12,7 @@ class TimerScreenMobile extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             // Wrap the Column() in a SizedBox() to set the total height
             // at 85% of the screen height so that the SingleChildScrollView()
             // won't affect any of the widgets inside the Column()

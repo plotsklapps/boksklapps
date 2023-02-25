@@ -36,6 +36,7 @@ class StringUtils {
   static const String kUsernameChanged = 'Username updated...';
   static const String kTimers = 'TIMERS';
   static const String kPunches = 'PUNCHES';
+  static const String kTempo = 'TEMPO';
 }
 
 /// TextStyle constants
