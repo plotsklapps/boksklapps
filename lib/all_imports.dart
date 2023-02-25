@@ -71,6 +71,7 @@ export 'package:boksklapps/widgets/settempo_fab.dart';
 export 'package:boksklapps/widgets/settimer_fab.dart';
 export 'package:boksklapps/widgets/sneakpeek_widget.dart';
 export 'package:boksklapps/widgets/startbeastmode_fab.dart';
+export 'package:boksklapps/widgets/tempo_widget.dart';
 export 'package:boksklapps/widgets/themecolor_switch.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/timer_widget.dart';

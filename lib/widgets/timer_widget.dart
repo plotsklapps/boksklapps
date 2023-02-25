@@ -1,15 +1,12 @@
 import 'package:boksklapps/all_imports.dart';
 
-class TimerWidget extends ConsumerStatefulWidget {
-  const TimerWidget({super.key});
+class TimerWidget extends ConsumerWidget {
+  const TimerWidget({
+    super.key,
+  });
 
   @override
-  TimerWidgetState createState() => TimerWidgetState();
-}
-
-class TimerWidgetState extends ConsumerState<TimerWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final double totalTimer = ref.watch(totalTimerProvider);
     final double setTimer = ref.watch(setTimerProvider);
     final double restTimer = ref.watch(restTimerProvider);
