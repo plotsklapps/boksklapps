@@ -52,12 +52,8 @@ class RegisterScreenTabletState extends ConsumerState<RegisterScreenTablet> {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Row>[
-                        Row(
-                          children: const <Widget>[
-                            GetShitDoneWidget(),
-                          ],
-                        ),
+                      children: const <Widget>[
+                        GetShitDoneWidget(),
                       ],
                     ),
                   ),

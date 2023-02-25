@@ -43,12 +43,8 @@ class PasswordScreenTabletState extends ConsumerState<PasswordScreenTablet> {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Row>[
-                        Row(
-                          children: const <Widget>[
-                            GetShitDoneWidget(),
-                          ],
-                        ),
+                      children: const <Widget>[
+                        GetShitDoneWidget(),
                       ],
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:boksklapps/all_imports.dart';
+import 'package:boksklapps/screens/tablet/temposcreen_tablet.dart';
 
 /// TempoScreen class
 class TempoScreen extends StatelessWidget {
@@ -12,11 +13,9 @@ class TempoScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const TempoScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      //TODO: Create tablet version
-      return const TempoScreenMobile();
+      return const TempoScreenTablet();
     } else {
-      //TODO: Create desktop version
-      return const TempoScreenMobile();
+      return const TempoScreenDesktop();
     }
   }
 }

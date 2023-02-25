@@ -7,10 +7,7 @@ class TempoWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String tempoString = ref.watch(userTempoProvider);
-    final double tempoDouble = UserTempoRepository().convertTempoStringToDouble(
-      tempoString,
-    );
+    final String userTempo = ref.watch(userTempoProvider);
     return Column(
       children: <Widget>[
         const Text(
@@ -18,7 +15,13 @@ class TempoWidget extends ConsumerWidget {
           style: TextStyleUtils.kHeadline3,
         ),
         Slider(
-          value: tempoDouble,
+          value: userTempo == 'Easy'
+              ? 1.0
+              : userTempo == 'Moderate'
+                  ? 2.0
+                  : userTempo == 'Fast'
+                      ? 3.0
+                      : 4.0,
           min: 1.0,
           max: 4.0,
           divisions: 3,
@@ -26,12 +29,12 @@ class TempoWidget extends ConsumerWidget {
             await ref.read(userTempoProvider.notifier).updateUserTempo(
                   context,
                   ref,
-                  newTempo.toStringAsFixed(1),
+                  UserTempoRepository().convertTempoDoubleToString(newTempo),
                 );
           },
         ),
         Text(
-          ref.watch(userTempoProvider),
+          userTempo,
           style: TextStyleUtils.kHeadline3,
         ),
       ],
