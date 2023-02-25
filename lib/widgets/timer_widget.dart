@@ -31,9 +31,25 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
           max: 90.0,
           divisions: 8,
           onChanged: (double newTotalTime) async {
-            await ref
-                .read(totalTimerProvider.notifier)
-                .updateTotalTimer(newTotalTime);
+            // User is known, change timer and update Firestore
+            if (FirebaseAuth.instance.currentUser != null) {
+              await ref
+                  .read(totalTimerProvider.notifier)
+                  .updateTotalTimer(newTotalTime);
+            } else {
+              // User is NOT known, show snackbar to user
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    'Sneak Peekers cannot change timers...',
+                  ),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {},
+                  ),
+                ),
+              );
+            }
           },
         ),
         const Text(
@@ -50,9 +66,25 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
           max: 10.0,
           divisions: 9,
           onChanged: (double newSetTime) async {
-            await ref
-                .read(setTimerProvider.notifier)
-                .updateSetTimer(newSetTime);
+            // User is known, change timer and update Firestore
+            if (FirebaseAuth.instance.currentUser != null) {
+              await ref
+                  .read(setTimerProvider.notifier)
+                  .updateSetTimer(newSetTime);
+            } else {
+              // User is NOT known, show snackbar to user
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    'Sneak Peekers cannot change timers...',
+                  ),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {},
+                  ),
+                ),
+              );
+            }
           },
         ),
         const Text(
@@ -69,9 +101,25 @@ class TimerWidgetState extends ConsumerState<TimerWidget> {
           max: 120.0,
           divisions: 11,
           onChanged: (double newRestTime) async {
-            await ref
-                .read(restTimerProvider.notifier)
-                .updateRestTimer(newRestTime);
+            // User is known, change timer and update Firestore
+            if (FirebaseAuth.instance.currentUser != null) {
+              await ref
+                  .read(restTimerProvider.notifier)
+                  .updateRestTimer(newRestTime);
+            } else {
+              // User is NOT known, show snackbar to user
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    'Sneak Peekers cannot change timers...',
+                  ),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {},
+                  ),
+                ),
+              );
+            }
           },
         ),
       ],
