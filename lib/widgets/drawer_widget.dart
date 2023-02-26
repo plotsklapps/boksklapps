@@ -129,6 +129,7 @@ class DrawerWidget extends ConsumerWidget {
                   ref.invalidate(totalTimerProvider);
                   ref.invalidate(setTimerProvider);
                   ref.invalidate(restTimerProvider);
+                  ref.invalidate(userTempoProvider);
 
                   // Clear all screens, show snackbar to user
                   // and return to splash screen
