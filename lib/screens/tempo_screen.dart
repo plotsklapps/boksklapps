@@ -1,5 +1,4 @@
 import 'package:boksklapps/all_imports.dart';
-import 'package:boksklapps/screens/tablet/temposcreen_tablet.dart';
 
 /// TempoScreen class
 class TempoScreen extends StatelessWidget {

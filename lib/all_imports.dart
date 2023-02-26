@@ -57,6 +57,7 @@ export 'package:boksklapps/screens/tablet/passwordscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/punchesscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/registerscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/settingsscreen_tablet.dart';
+export 'package:boksklapps/screens/tablet/temposcreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/timerscreen_tablet.dart';
 export 'package:boksklapps/screens/tempo_screen.dart';
 export 'package:boksklapps/screens/timer_screen.dart';
