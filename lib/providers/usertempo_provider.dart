@@ -1,5 +1,11 @@
 import 'package:boksklapps/all_imports.dart';
 
+// TODO: Start over. This is not the way to do it.
+// Now I'm converting from String to double and back to String
+// to make sure it is in the correct format
+// (e.g. 'Moderate' instead of '2.0'). I should just use
+// double and convert to String when I need to.s
+
 // StateNotifiierProvider to return user tempo as String
 // for easier process from Firestore database
 final StateNotifierProvider<UserTempoNotifier, String> userTempoProvider =
@@ -89,6 +95,9 @@ class UserTempoRepository {
       // Tempo is stored as a String in Firestore
       // as '2.0' instead of 'Moderate' for example
       if (FirebaseAuth.instance.currentUser != null) {
+        Logger().i(
+          'Updating user tempo to Firestore: $newTempo',
+        );
         await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
