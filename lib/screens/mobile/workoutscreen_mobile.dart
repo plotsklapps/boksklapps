@@ -53,14 +53,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   }
 
   void startSetTimer() {
-    setTimerDuration = ref.watch(setTimerDurationProvider);
     setTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       return setTimerCountdown();
     });
   }
 
   void startRestTimer() {
-    restTimerDuration = ref.watch(restTimerDurationProvider);
     restTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       return restTimerCountdown();
     });
@@ -71,8 +69,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() {
       final int totalTimerSeconds =
           totalTimerDuration.inSeconds - reduceSecondsBy;
-      if (totalTimerSeconds == 0) {
+      if (totalTimerSeconds < 0) {
+        // Kill the timer
         totalTimer.cancel();
+        // Reset totalTimerDuration to original users value
+        totalTimerDuration = ref.watch(totalTimerDurationProvider);
+        // Show CONFETTI ofcourse
       } else {
         totalTimerDuration = Duration(seconds: totalTimerSeconds);
       }
@@ -84,8 +86,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
+        // Kill the timer
         setTimer.cancel();
+        // Start rest
         startRestTimer();
+        // Reset setTimerDuration to original users value
+        setTimerDuration = ref.watch(setTimerDurationProvider);
       } else {
         setTimerDuration = Duration(seconds: setTimerSeconds);
       }
@@ -98,8 +104,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
       if (restTimerSeconds < 0) {
+        // Kill the timer
         restTimer.cancel();
+        // Start set
         startSetTimer();
+        // Reset restTimerDuration to original users value
+        restTimerDuration = ref.watch(restTimerDurationProvider);
       } else {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
@@ -117,6 +127,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
 
   @override
   Widget build(BuildContext context) {
+    // Looong piece of code to prettify Duration to String
     final String totalTimerString =
         '${totalTimerDuration.inMinutes.toString().padLeft(2, '0')}:'
         '${(totalTimerDuration.inSeconds % 60).toString().padLeft(2, '0')}';
