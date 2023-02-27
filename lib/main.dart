@@ -25,7 +25,7 @@ class MainEntry extends ConsumerWidget {
       theme: ref.watch(themeLightProvider),
       darkTheme: ref.watch(themeDarkProvider),
       themeMode: ref.watch(themeModeProvider),
-      initialRoute: '/',
+      initialRoute: '/workout_screen',
       // Get custom routes from custom_routes.dart
       routes: customRoutes,
     );
