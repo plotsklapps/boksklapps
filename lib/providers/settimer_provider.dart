@@ -6,7 +6,8 @@ final StateNotifierProvider<SetTimerNotifier, double> setTimerProvider =
   return SetTimerNotifier();
 });
 
-// Provider that returns a Duration in minutes
+// Provider that returns a Duration in minutes which is altered
+// in a timer in workout_screen
 final StateProvider<Duration> setTimerDurationProvider =
     StateProvider<Duration>((StateProviderRef<Duration> ref) {
   final double setTimer = ref.watch(setTimerProvider);

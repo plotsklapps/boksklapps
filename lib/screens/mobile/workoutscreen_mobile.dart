@@ -12,9 +12,6 @@ class WorkoutScreenMobile extends ConsumerStatefulWidget {
 class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   // Create different durations and timers for each purpose
   late Duration totalTimerDuration;
-  // originalSetTimerDuration stays the same the whole workout
-  late Duration originalSetTimerDuration;
-  // setTimerDuration goes to 0 and resets to originalSetTimerDuration
   late Duration setTimerDuration;
   late Duration restTimerDuration;
   late Timer totalTimer;
@@ -29,7 +26,6 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     super.initState();
     // Initialize the durations
     totalTimerDuration = ref.read(totalTimerDurationProvider);
-    originalSetTimerDuration = ref.read(setTimerDurationProvider);
     setTimerDuration = ref.read(setTimerDurationProvider);
     restTimerDuration = ref.read(restTimerDurationProvider);
     // Start the timers, but NOT the restTimer!
@@ -57,12 +53,14 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   }
 
   void startSetTimer() {
+    setTimerDuration = ref.watch(setTimerDurationProvider);
     setTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       return setTimerCountdown();
     });
   }
 
   void startRestTimer() {
+    restTimerDuration = ref.watch(restTimerDurationProvider);
     restTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       return restTimerCountdown();
     });
@@ -101,8 +99,6 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
           restTimerDuration.inSeconds - reduceSecondsBy;
       if (restTimerSeconds < 0) {
         restTimer.cancel();
-        ref.read(setTimerDurationProvider.notifier).state =
-            originalSetTimerDuration;
         startSetTimer();
       } else {
         restTimerDuration = Duration(seconds: restTimerSeconds);
