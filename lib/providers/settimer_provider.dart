@@ -7,8 +7,8 @@ final StateNotifierProvider<SetTimerNotifier, double> setTimerProvider =
 });
 
 // Provider that returns a Duration in minutes
-final Provider<Duration> setTimerDurationProvider =
-    Provider<Duration>((ProviderRef<Duration> ref) {
+final StateProvider<Duration> setTimerDurationProvider =
+    StateProvider<Duration>((StateProviderRef<Duration> ref) {
   final double setTimer = ref.watch(setTimerProvider);
   final int setTimerInMinutes = setTimer.toInt();
   return Duration(minutes: setTimerInMinutes);
