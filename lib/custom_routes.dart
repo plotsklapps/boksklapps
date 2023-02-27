@@ -31,5 +31,8 @@ Map<String, WidgetBuilder> customRoutes = <String, WidgetBuilder>{
   },
   '/tempo_screen': (BuildContext context) {
     return const TempoScreen();
-  }
+  },
+  '/workout_screen': (BuildContext context) {
+    return const WorkoutScreen();
+  },
 };

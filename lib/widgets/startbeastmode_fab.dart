@@ -8,17 +8,10 @@ class StartBeastModeFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text(
-              'Work in progress... Please come back later!',
-            ),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {},
-            ),
-          ),
+      onPressed: () async {
+        await Navigator.pushNamed(
+          context,
+          '/workout_screen',
         );
       },
       label: Row(

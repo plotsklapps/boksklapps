@@ -1,9 +1,18 @@
 import 'package:boksklapps/all_imports.dart';
 
+// StateNotifierProvider that returns a double
 final StateNotifierProvider<TotalTimerNotifier, double> totalTimerProvider =
     StateNotifierProvider<TotalTimerNotifier, double>(
         (StateNotifierProviderRef<TotalTimerNotifier, double> ref) {
   return TotalTimerNotifier();
+});
+
+// Provider that returns a Duration in minutes
+final Provider<Duration> totalTimerDurationProvider =
+    Provider<Duration>((ProviderRef<Duration> ref) {
+  final double totalTimer = ref.watch(totalTimerProvider);
+  final int totalTimerInMinutes = (totalTimer * 60).toInt();
+  return Duration(minutes: totalTimerInMinutes);
 });
 
 class TotalTimerNotifier extends StateNotifier<double> {
