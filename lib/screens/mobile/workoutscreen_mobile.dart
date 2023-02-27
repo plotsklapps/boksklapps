@@ -33,7 +33,10 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     startTotalTimer();
     startSetTimer();
     // periodicTimer pulsates the punch container
-    periodicTimer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+    periodicTimer = Timer.periodic(
+        const Duration(
+          milliseconds: 500,
+        ), (Timer timer) {
       setState(() {
         isVisible = !isVisible;
       });
@@ -194,19 +197,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
                   const SizedBox(height: 20),
                   AnimatedOpacity(
                     opacity: isVisible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 500),
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          '1',
-                          style: TextStyleUtils.kHeadline1,
-                        ),
+                    duration: const Duration(
+                      milliseconds: 250,
+                    ),
+                    child: const Image(
+                      image: AssetImage(
+                        'assets/boxingglove.png',
                       ),
                     ),
                   ),
