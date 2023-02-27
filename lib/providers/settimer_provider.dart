@@ -6,6 +6,14 @@ final StateNotifierProvider<SetTimerNotifier, double> setTimerProvider =
   return SetTimerNotifier();
 });
 
+// Provider that returns a Duration in minutes
+final Provider<Duration> setTimerDurationProvider =
+    Provider<Duration>((ProviderRef<Duration> ref) {
+  final double setTimer = ref.watch(setTimerProvider);
+  final int setTimerInMinutes = setTimer.toInt();
+  return Duration(minutes: setTimerInMinutes);
+});
+
 class SetTimerNotifier extends StateNotifier<double> {
   SetTimerNotifier() : super(3.0);
 

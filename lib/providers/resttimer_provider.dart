@@ -6,6 +6,14 @@ final StateNotifierProvider<RestTimerNotifier, double> restTimerProvider =
   return RestTimerNotifier();
 });
 
+// Provider that returns a Duration in seconds
+final Provider<Duration> restTimerDurationProvider =
+    Provider<Duration>((ProviderRef<Duration> ref) {
+  final double restTimer = ref.watch(restTimerProvider);
+  final int restTimerInSeconds = restTimer.toInt();
+  return Duration(seconds: restTimerInSeconds);
+});
+
 class RestTimerNotifier extends StateNotifier<double> {
   RestTimerNotifier() : super(30.0);
 

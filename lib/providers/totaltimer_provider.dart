@@ -11,7 +11,7 @@ final StateNotifierProvider<TotalTimerNotifier, double> totalTimerProvider =
 final Provider<Duration> totalTimerDurationProvider =
     Provider<Duration>((ProviderRef<Duration> ref) {
   final double totalTimer = ref.watch(totalTimerProvider);
-  final int totalTimerInMinutes = (totalTimer * 60).toInt();
+  final int totalTimerInMinutes = totalTimer.toInt();
   return Duration(minutes: totalTimerInMinutes);
 });
 
