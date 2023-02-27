@@ -200,10 +200,22 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
                     duration: const Duration(
                       milliseconds: 250,
                     ),
-                    child: const Image(
-                      image: AssetImage(
-                        'assets/boxingglove.png',
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const <Widget>[
+                        Image(
+                          image: AssetImage(
+                            'assets/punch_cross.png',
+                          ),
+                        ),
+                        Text(
+                          '2',
+                          style: TextStyle(
+                            fontSize: 64.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
