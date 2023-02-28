@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:boksklapps/all_imports.dart';
 
+// StateProvider that returns a List of Strings with the punches
+// that the user has selected in the PunchesScreen()
 final StateProvider<List<String>> punchListProvider =
     StateProvider<List<String>>(
   (StateProviderRef<List<String>> ref) {
@@ -15,51 +17,93 @@ final StateNotifierProvider<BoxingGloveNotifier, String> boxingGloveProvider =
   return BoxingGloveNotifier();
 });
 
-// TODO: Add all the other punches!
 class BoxingGloveNotifier extends StateNotifier<String> {
   BoxingGloveNotifier() : super('assets/punch_jab.png');
 
   void changeBoxingGlove(WidgetRef ref) {
-    final List<String> punchList = ref.watch(punchListProvider);
-    final int randomIndex = Random().nextInt(punchList.length);
+    // Picks a random index from the punchList which is provided by
+    // the randomIntProvider
+    final int randomIndex =
+        Random().nextInt(ref.watch(punchListProvider).length);
+    debugPrint('randomIndex: $randomIndex');
     String newGloveImage;
-    switch (punchList[randomIndex]) {
-      case '1':
-        newGloveImage = 'assets/punch_jab.png';
-        break;
-      case '2':
-        newGloveImage = 'assets/punch_cross.png';
-        break;
-      case '3':
-        newGloveImage = 'assets/punch_leadhook.png';
-        break;
-      case '4':
-        newGloveImage = 'assets/punch_rearhook.png';
-        break;
-      default:
-        newGloveImage = 'assets/punch_jab.png';
-        break;
+    // Set what image to use based on the randomIndex
+    if (randomIndex == 0) {
+      newGloveImage = 'assets/punch_jab.png';
+    } else if (randomIndex == 1) {
+      newGloveImage = 'assets/punch_cross.png';
+    } else if (randomIndex == 2) {
+      newGloveImage = 'assets/punch_leadhook.png';
+    } else if (randomIndex == 3) {
+      newGloveImage = 'assets/punch_rearhook.png';
+    } else if (randomIndex == 4) {
+      newGloveImage = 'assets/punch_leaduppercut.png';
+    } else if (randomIndex == 5) {
+      newGloveImage = 'assets/punch_rearuppercut.png';
+    } else if (randomIndex == 6) {
+      newGloveImage = 'assets/punch_bodyjab.png';
+    } else if (randomIndex == 7) {
+      newGloveImage = 'assets/punch_bodycross.png';
+    } else if (randomIndex == 8) {
+      newGloveImage = 'assets/punch_leadbodyhook.png';
+    } else if (randomIndex == 9) {
+      newGloveImage = 'assets/punch_rearbodyhook.png';
+    } else {
+      Logger().i(
+        'Something went wrong in changeBoxingGlove...',
+      );
+      newGloveImage = 'assets/punch_jab.png';
     }
-
-    // Change the state of the provider with a delay
-    Future<void>.delayed(const Duration(milliseconds: 1000), () {
-      state = newGloveImage;
-    });
+    // Change the state of the provider
+    state = newGloveImage;
   }
 }
 
-final StateProvider<String> boxingNumberProvider =
-    StateProvider<String>((StateProviderRef<String> ref) {
-  final List<String> punchList = ref.watch(punchListProvider);
-  final String boxingGloveImage = ref.watch(boxingGloveProvider);
-  final int punchIndex = <String>[
-    'assets/punch_jab.png',
-    'assets/punch_cross.png',
-    'assets/punch_leadhook.png',
-    'assets/punch_rearhook.png',
-  ].indexOf(boxingGloveImage);
-  return punchList[punchIndex];
+final StateNotifierProvider<BoxingNumberNotifier, String> boxingNumberProvider =
+    StateNotifierProvider<BoxingNumberNotifier, String>(
+        (StateNotifierProviderRef<BoxingNumberNotifier, String> ref) {
+  return BoxingNumberNotifier();
 });
+
+class BoxingNumberNotifier extends StateNotifier<String> {
+  BoxingNumberNotifier() : super('1');
+
+  void changeBoxingNumber(WidgetRef ref) {
+    // Watch the boxingGloveProvider and get the current state
+    // as a String
+    final String boxingGloveImage = ref.watch(boxingGloveProvider);
+    String newGloveNumber;
+    if (boxingGloveImage == 'assets/punch_jab.png') {
+      newGloveNumber = '1';
+    } else if (boxingGloveImage == 'assets/punch_cross.png') {
+      newGloveNumber = '2';
+    } else if (boxingGloveImage == 'assets/punch_leadhook.png') {
+      newGloveNumber = '3';
+    } else if (boxingGloveImage == 'assets/punch_rearhook.png') {
+      newGloveNumber = '4';
+    } else if (boxingGloveImage == 'assets/punch_leaduppercut.png') {
+      newGloveNumber = '5';
+    } else if (boxingGloveImage == 'assets/punch_rearuppercut.png') {
+      newGloveNumber = '6';
+    } else if (boxingGloveImage == 'assets/punch_bodyjab.png') {
+      newGloveNumber = '1B';
+    } else if (boxingGloveImage == 'assets/punch_bodycross.png') {
+      newGloveNumber = '2B';
+    } else if (boxingGloveImage == 'assets/punch_leadbodyhook.png') {
+      newGloveNumber = '3B';
+    } else if (boxingGloveImage == 'assets/punch_rearbodyhook.png') {
+      newGloveNumber = '4B';
+    } else {
+      Logger().i(
+        'Something went wrong in changeBoxingNumber...',
+      );
+      newGloveNumber = '1';
+    }
+
+    // Change the state of the provider
+    state = newGloveNumber;
+  }
+}
 
 final StateNotifierProvider<ButtonStateNotifier, ButtonState> punch1Provider =
     StateNotifierProvider<ButtonStateNotifier, ButtonState>(

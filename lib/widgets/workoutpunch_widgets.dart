@@ -17,14 +17,15 @@ class WorkoutPunchWidget extends ConsumerWidget {
       // If the widget is visible, animate to 0.0 (invisible).
       opacity: isVisible ? 1.0 : 0.0,
       duration: const Duration(
-        // TODO: Duration is set according to the userTempoProvider
+        // TODO: Duration should be set according to the userTempoProvider
         milliseconds: 500,
       ),
       onEnd: () {
         // Change the boxingGlove only if the widget is visible
         // Otherwise the animation 'stutters'
-        if (isVisible == true) {
+        if (isVisible == false) {
           ref.read(boxingGloveProvider.notifier).changeBoxingGlove(ref);
+          ref.read(boxingNumberProvider.notifier).changeBoxingNumber(ref);
         }
       },
       child: Row(
@@ -34,11 +35,13 @@ class WorkoutPunchWidget extends ConsumerWidget {
             image: AssetImage(
               boxingGloveImage,
             ),
+            height: 125.0,
+            width: 125.0,
           ),
           Text(
             boxingNumber,
             style: const TextStyle(
-              fontSize: 150.0,
+              fontSize: 96.0,
               fontWeight: FontWeight.bold,
             ),
           ),
