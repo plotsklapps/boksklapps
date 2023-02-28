@@ -20,7 +20,8 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   late Timer periodicTimer;
   // Create bool to show punch or not
   bool isVisible = true;
-  // Fixing restTimer bug
+  // Fixing restTimer bug (if it's not started,
+  // it can't be cancelled)
   bool isRestTimerStarted = false;
 
   @override
