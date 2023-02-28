@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:boksklapps/all_imports.dart';
 
 final StateProvider<List<String>> punchListProvider =
@@ -6,6 +8,57 @@ final StateProvider<List<String>> punchListProvider =
     return <String>[];
   },
 );
+
+final StateNotifierProvider<BoxingGloveNotifier, String> boxingGloveProvider =
+    StateNotifierProvider<BoxingGloveNotifier, String>(
+        (StateNotifierProviderRef<BoxingGloveNotifier, String> ref) {
+  return BoxingGloveNotifier();
+});
+
+class BoxingGloveNotifier extends StateNotifier<String> {
+  BoxingGloveNotifier() : super('assets/punch_jab.png');
+
+  void changeBoxingGlove(WidgetRef ref) {
+    final List<String> punchList = ref.watch(punchListProvider);
+    final int randomIndex = Random().nextInt(punchList.length);
+    String newGloveImage;
+    switch (punchList[randomIndex]) {
+      case '1':
+        newGloveImage = 'assets/punch_jab.png';
+        break;
+      case '2':
+        newGloveImage = 'assets/punch_cross.png';
+        break;
+      case '3':
+        newGloveImage = 'assets/punch_leadhook.png';
+        break;
+      case '4':
+        newGloveImage = 'assets/punch_rearhook.png';
+        break;
+      default:
+        newGloveImage = 'assets/punch_jab.png';
+        break;
+    }
+
+    // Change the state of the provider with a delay
+    Future<void>.delayed(const Duration(milliseconds: 100), () {
+      state = newGloveImage;
+    });
+  }
+}
+
+final StateProvider<String> boxingNumberProvider =
+    StateProvider<String>((StateProviderRef<String> ref) {
+  final List<String> punchList = ref.watch(punchListProvider);
+  final String boxingGloveImage = ref.watch(boxingGloveProvider);
+  final int punchIndex = <String>[
+    'assets/punch_jab.png',
+    'assets/punch_cross.png',
+    'assets/punch_leadhook.png',
+    'assets/punch_rearhook.png',
+  ].indexOf(boxingGloveImage);
+  return punchList[punchIndex];
+});
 
 final StateNotifierProvider<ButtonStateNotifier, ButtonState> punch1Provider =
     StateNotifierProvider<ButtonStateNotifier, ButtonState>(
