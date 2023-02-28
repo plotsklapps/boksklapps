@@ -20,6 +20,8 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   late Timer periodicTimer;
   // Create bool to show punch or not
   bool isVisible = true;
+  // Fixing restTimer bug
+  bool isRestTimerStarted = false;
 
   @override
   void initState() {
@@ -35,7 +37,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     // periodicTimer pulsates the punch container
     periodicTimer = Timer.periodic(
         const Duration(
-          milliseconds: 500,
+          milliseconds: 200,
         ), (Timer timer) {
       setState(() {
         isVisible = !isVisible;
@@ -103,6 +105,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
 
   void restTimerCountdown() {
     const int reduceSecondsBy = 1;
+    isRestTimerStarted = true;
     setState(() {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
@@ -123,7 +126,9 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   void dispose() {
     totalTimer.cancel();
     setTimer.cancel();
-    restTimer.cancel();
+    if (isRestTimerStarted) {
+      restTimer.cancel();
+    }
     periodicTimer.cancel();
     super.dispose();
   }
@@ -150,6 +155,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
             padding: const EdgeInsets.all(
               24.0,
             ),
+
             // Wrap the Column() in a SizedBox() to set the total height
             // at 85% of the screen height so that the SingleChildScrollView()
             // won't affect any of the widgets inside the Column()
@@ -195,28 +201,8 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  AnimatedOpacity(
-                    opacity: isVisible ? 1.0 : 0.0,
-                    duration: const Duration(
-                      milliseconds: 250,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const <Widget>[
-                        Image(
-                          image: AssetImage(
-                            'assets/punch_cross.png',
-                          ),
-                        ),
-                        Text(
-                          '2',
-                          style: TextStyle(
-                            fontSize: 64.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                  WorkoutPunchWidget(
+                    isVisible: isVisible,
                   ),
                 ],
               ),

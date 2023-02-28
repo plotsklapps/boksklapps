@@ -79,6 +79,7 @@ export 'package:boksklapps/widgets/tempo_widget.dart';
 export 'package:boksklapps/widgets/themecolor_switch.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/timer_widget.dart';
+export 'package:boksklapps/widgets/workoutpunch_widgets.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';
