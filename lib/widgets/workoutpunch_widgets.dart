@@ -14,11 +14,15 @@ class WorkoutPunchWidget extends ConsumerWidget {
     final String boxingNumber = ref.watch(boxingNumberProvider);
 
     return AnimatedOpacity(
+      // If the widget is visible, animate to 0.0 (invisible).
       opacity: isVisible ? 1.0 : 0.0,
       duration: const Duration(
+        // TODO: Duration is set according to the userTempoProvider
         milliseconds: 500,
       ),
       onEnd: () {
+        // Change the boxingGlove only if the widget is visible
+        // Otherwise the animation 'stutters'
         if (isVisible == true) {
           ref.read(boxingGloveProvider.notifier).changeBoxingGlove(ref);
         }

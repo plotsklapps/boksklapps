@@ -15,6 +15,7 @@ final StateNotifierProvider<BoxingGloveNotifier, String> boxingGloveProvider =
   return BoxingGloveNotifier();
 });
 
+// TODO: Add all the other punches!
 class BoxingGloveNotifier extends StateNotifier<String> {
   BoxingGloveNotifier() : super('assets/punch_jab.png');
 
