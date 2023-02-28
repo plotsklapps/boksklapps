@@ -16,10 +16,10 @@ class WorkoutPunchWidget extends ConsumerWidget {
     return AnimatedOpacity(
       opacity: isVisible ? 1.0 : 0.0,
       duration: const Duration(
-        milliseconds: 100,
+        milliseconds: 500,
       ),
       onEnd: () {
-        if (isVisible) {
+        if (isVisible == true) {
           ref.read(boxingGloveProvider.notifier).changeBoxingGlove(ref);
         }
       },

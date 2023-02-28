@@ -41,7 +41,7 @@ class BoxingGloveNotifier extends StateNotifier<String> {
     }
 
     // Change the state of the provider with a delay
-    Future<void>.delayed(const Duration(milliseconds: 100), () {
+    Future<void>.delayed(const Duration(milliseconds: 1000), () {
       state = newGloveImage;
     });
   }
