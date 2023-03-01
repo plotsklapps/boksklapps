@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:boksklapps/all_imports.dart';
 
-// StateProvider that returns a List of Strings with the punches
-// that the user has selected in the PunchesScreen()
+// StateProvider that returns a List of Strings, provided by user
 final StateProvider<List<String>> punchListProvider =
     StateProvider<List<String>>(
   (StateProviderRef<List<String>> ref) {
@@ -11,159 +8,55 @@ final StateProvider<List<String>> punchListProvider =
   },
 );
 
-final StateNotifierProvider<BoxingGloveNotifier, String> boxingGloveProvider =
-    StateNotifierProvider<BoxingGloveNotifier, String>(
-        (StateNotifierProviderRef<BoxingGloveNotifier, String> ref) {
-  return BoxingGloveNotifier();
-});
+// List that returns boxingGloveImages as String
+final List<String> boxingGloveImages = <String>[
+  'assets/PNG/punch_jab.png',
+  'assets/PNG/punch_cross.png',
+  'assets/PNG/punch_leadhook.png',
+  'assets/PNG/punch_rearhook.png',
+  'assets/PNG/punch_leaduppercut.png',
+  'assets/PNG/punch_rearuppercut.png',
+  'assets/PNG/punch_bodyjab.png',
+  'assets/PNG/punch_bodycross.png',
+  'assets/PNG/punch_leadbodyhook.png',
+  'assets/PNG/punch_rearbodyhook.png',
+];
 
-class BoxingGloveNotifier extends StateNotifier<String> {
-  BoxingGloveNotifier() : super('assets/PNG/punch_jab.png');
-
-  void changeBoxingGlove(WidgetRef ref) {
-    // Picks a random index from the punchList which is provided by
-    // the randomIntProvider
-    final int randomIndex =
-        Random().nextInt(ref.watch(punchListProvider).length);
-    debugPrint('randomIndex: $randomIndex');
-    String newGloveImage;
-    // Set what image to use based on the randomIndex
-    if (randomIndex == 0) {
-      newGloveImage = 'assets/PNG/punch_jab.png';
-    } else if (randomIndex == 1) {
-      newGloveImage = 'assets/PNG/punch_cross.png';
-    } else if (randomIndex == 2) {
-      newGloveImage = 'assets/PNG/punch_leadhook.png';
-    } else if (randomIndex == 3) {
-      newGloveImage = 'assets/PNG/punch_rearhook.png';
-    } else if (randomIndex == 4) {
-      newGloveImage = 'assets/PNG/punch_leaduppercut.png';
-    } else if (randomIndex == 5) {
-      newGloveImage = 'assets/PNG/punch_rearuppercut.png';
-    } else if (randomIndex == 6) {
-      newGloveImage = 'assets/PNG/punch_bodyjab.png';
-    } else if (randomIndex == 7) {
-      newGloveImage = 'assets/PNG/punch_bodycross.png';
-    } else if (randomIndex == 8) {
-      newGloveImage = 'assets/PNG/punch_leadbodyhook.png';
-    } else if (randomIndex == 9) {
-      newGloveImage = 'assets/PNG/punch_rearbodyhook.png';
-    } else {
-      Logger().i(
-        'Something went wrong in changeBoxingGlove...',
-      );
-      newGloveImage = 'assets/PNG/punch_jab.png';
-    }
-    // Change the state of the provider
-    state = newGloveImage;
+// Method that returns a boxingGloveImage as String, depending
+// on the punch that is passed as a String
+String getBoxingGloveImage(String punch) {
+  if (punch == '1') {
+    return 'assets/PNG/punch_jab.png';
+  } else if (punch == '2') {
+    return 'assets/PNG/punch_cross.png';
+  } else if (punch == '3') {
+    return 'assets/PNG/punch_leadhook.png';
+  } else if (punch == '4') {
+    return 'assets/PNG/punch_rearhook.png';
+  } else if (punch == '5') {
+    return 'assets/PNG/punch_leaduppercut.png';
+  } else if (punch == '6') {
+    return 'assets/PNG/punch_rearuppercut.png';
+  } else if (punch == '1B') {
+    return 'assets/PNG/punch_bodyjab.png';
+  } else if (punch == '2B') {
+    return 'assets/PNG/punch_bodycross.png';
+  } else if (punch == '3B') {
+    return 'assets/PNG/punch_leadbodyhook.png';
+  } else if (punch == '4B') {
+    return 'assets/PNG/punch_rearbodyhook.png';
+  } else {
+    throw Exception('Invalid punch: $punch');
   }
 }
 
-final StateNotifierProvider<BoxingNumberNotifier, String> boxingNumberProvider =
-    StateNotifierProvider<BoxingNumberNotifier, String>(
-        (StateNotifierProviderRef<BoxingNumberNotifier, String> ref) {
-  return BoxingNumberNotifier();
+final boxingGloveProvider = Provider<List<String>>((ref) {
+  // Map each punch to the corresponding boxing glove image
+  final List<String> gloves =
+      ref.watch(punchListProvider).map(getBoxingGloveImage).toList();
+
+  return gloves;
 });
-
-class BoxingNumberNotifier extends StateNotifier<String> {
-  BoxingNumberNotifier() : super('1');
-
-  void changeBoxingNumber(WidgetRef ref) {
-    // Watch the boxingGloveProvider and get the current state
-    // as a String
-    final String boxingGloveImage = ref.watch(boxingGloveProvider);
-    String newGloveNumber;
-    if (boxingGloveImage == 'assets/punch_jab.png') {
-      newGloveNumber = '1';
-    } else if (boxingGloveImage == 'assets/PNG/punch_cross.png') {
-      newGloveNumber = '2';
-    } else if (boxingGloveImage == 'assets/PNG/punch_leadhook.png') {
-      newGloveNumber = '3';
-    } else if (boxingGloveImage == 'assets/PNG/punch_rearhook.png') {
-      newGloveNumber = '4';
-    } else if (boxingGloveImage == 'assets/PNG/punch_leaduppercut.png') {
-      newGloveNumber = '5';
-    } else if (boxingGloveImage == 'assets/PNG/punch_rearuppercut.png') {
-      newGloveNumber = '6';
-    } else if (boxingGloveImage == 'assets/PNG/punch_bodyjab.png') {
-      newGloveNumber = '1B';
-    } else if (boxingGloveImage == 'assets/PNG/punch_bodycross.png') {
-      newGloveNumber = '2B';
-    } else if (boxingGloveImage == 'assets/PNG/punch_leadbodyhook.png') {
-      newGloveNumber = '3B';
-    } else if (boxingGloveImage == 'assets/PNG/punch_rearbodyhook.png') {
-      newGloveNumber = '4B';
-    } else {
-      Logger().i(
-        'Something went wrong in changeBoxingNumber...',
-      );
-      newGloveNumber = '1';
-    }
-
-    // Change the state of the provider
-    state = newGloveNumber;
-  }
-}
-
-final StateNotifierProvider<BoxingSoundNotifier, String> boxingAudioProvider =
-    StateNotifierProvider<BoxingSoundNotifier, String>(
-        (StateNotifierProviderRef<BoxingSoundNotifier, String> ref) {
-  return BoxingSoundNotifier();
-});
-
-class BoxingSoundNotifier extends StateNotifier<String> {
-  BoxingSoundNotifier()
-      : super(
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-0.wav',
-        );
-
-  Future<void> changeBoxingAudio(WidgetRef ref) async {
-    // Watch the boxingGloveProvider and get the current state
-    // as a String
-    final String boxingGloveImage = ref.watch(boxingGloveProvider);
-    String newGloveSound;
-    if (boxingGloveImage == 'assets/punch_jab.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-1.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_cross.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-2.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_leadhook.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-3.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_rearhook.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-4.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_leaduppercut.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-5.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_rearuppercut.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-6.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_bodyjab.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-7.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_bodycross.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-8.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_leadbodyhook.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-9.wav';
-    } else if (boxingGloveImage == 'assets/PNG/punch_rearbodyhook.png') {
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-0.wav';
-    } else {
-      Logger().i(
-        'Something went wrong in playBoxingSound...',
-      );
-      newGloveSound =
-          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-0.wav';
-    }
-
-    // Change the state of the provider
-    state = newGloveSound;
-  }
-}
 
 final StateNotifierProvider<ButtonStateNotifier, ButtonState> punch1Provider =
     StateNotifierProvider<ButtonStateNotifier, ButtonState>(

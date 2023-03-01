@@ -25,8 +25,9 @@ class WorkoutPunchWidget extends ConsumerWidget {
         // Change the boxingGlove only if the widget is visible
         // Otherwise the animation 'stutters'
         if (isVisible == false) {
-          ref.read(boxingGloveProvider.notifier).changeBoxingGlove(ref);
-          ref.read(boxingNumberProvider.notifier).changeBoxingNumber(ref);
+          ref
+              .read(boxingGloveProvider.notifier)
+              .changeBoxingGlove(ref, boxingGloveImage);
           await ref
               .read(boxingAudioProvider.notifier)
               .changeBoxingAudio(ref)
