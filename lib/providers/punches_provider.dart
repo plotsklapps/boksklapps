@@ -1,62 +1,29 @@
 import 'package:boksklapps/all_imports.dart';
 
+class Punch {
+  final String punchNumber;
+  final String gloveImage;
+  final String punchAudio;
+
+  const Punch({
+    required this.punchNumber,
+    required this.gloveImage,
+    required this.punchAudio,
+  });
+}
+
 // StateProvider that returns a List of Strings, provided by user
-final StateProvider<List<String>> punchListProvider =
-    StateProvider<List<String>>(
-  (StateProviderRef<List<String>> ref) {
-    return <String>[];
+final StateProvider<List<Punch>> punchListProvider = StateProvider<List<Punch>>(
+  (StateProviderRef<List<Punch>> ref) {
+    return <Punch>[];
   },
 );
 
-// List that returns boxingGloveImages as String
-final List<String> boxingGloveImages = <String>[
-  'assets/PNG/punch_jab.png',
-  'assets/PNG/punch_cross.png',
-  'assets/PNG/punch_leadhook.png',
-  'assets/PNG/punch_rearhook.png',
-  'assets/PNG/punch_leaduppercut.png',
-  'assets/PNG/punch_rearuppercut.png',
-  'assets/PNG/punch_bodyjab.png',
-  'assets/PNG/punch_bodycross.png',
-  'assets/PNG/punch_leadbodyhook.png',
-  'assets/PNG/punch_rearbodyhook.png',
-];
-
-// Method that returns a boxingGloveImage as String, depending
-// on the punch that is passed as a String
-String getBoxingGloveImage(String punch) {
-  if (punch == '1') {
-    return 'assets/PNG/punch_jab.png';
-  } else if (punch == '2') {
-    return 'assets/PNG/punch_cross.png';
-  } else if (punch == '3') {
-    return 'assets/PNG/punch_leadhook.png';
-  } else if (punch == '4') {
-    return 'assets/PNG/punch_rearhook.png';
-  } else if (punch == '5') {
-    return 'assets/PNG/punch_leaduppercut.png';
-  } else if (punch == '6') {
-    return 'assets/PNG/punch_rearuppercut.png';
-  } else if (punch == '1B') {
-    return 'assets/PNG/punch_bodyjab.png';
-  } else if (punch == '2B') {
-    return 'assets/PNG/punch_bodycross.png';
-  } else if (punch == '3B') {
-    return 'assets/PNG/punch_leadbodyhook.png';
-  } else if (punch == '4B') {
-    return 'assets/PNG/punch_rearbodyhook.png';
-  } else {
-    throw Exception('Invalid punch: $punch');
-  }
-}
-
-final boxingGloveProvider = Provider<List<String>>((ref) {
-  // Map each punch to the corresponding boxing glove image
-  final List<String> gloves =
-      ref.watch(punchListProvider).map(getBoxingGloveImage).toList();
-
-  return gloves;
-});
+final StateProvider<int> punchIndexProvider = StateProvider<int>(
+  (StateProviderRef<int> ref) {
+    return 0;
+  },
+);
 
 final StateNotifierProvider<ButtonStateNotifier, ButtonState> punch1Provider =
     StateNotifierProvider<ButtonStateNotifier, ButtonState>(
@@ -118,6 +85,13 @@ final StateNotifierProvider<ButtonStateNotifier, ButtonState> punch4BProvider =
   return ButtonStateNotifier();
 });
 
+class ButtonState {
+  final bool isOn;
+  final Color color;
+
+  ButtonState(this.isOn, this.color);
+}
+
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
   ButtonStateNotifier() : super(ButtonState(false, Colors.grey));
 
@@ -176,11 +150,104 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     }
     return Colors.grey;
   }
-}
 
-class ButtonState {
-  final bool isOn;
-  final Color color;
+  void addPunch1ToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '1',
+            gloveImage: 'assets/PNG/punch_jab.png',
+            punchAudio: 'assets/WAV/dtmf-1.mp3',
+          ),
+        );
+  }
 
-  ButtonState(this.isOn, this.color);
+  void addPunch2ToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '2',
+            gloveImage: 'assets/PNG/punch_cross.png',
+            punchAudio: 'assets/WAV/dtmf-2.mp3',
+          ),
+        );
+  }
+
+  void addPunch3ToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '3',
+            gloveImage: 'assets/PNG/punch_leadhook.png',
+            punchAudio: 'assets/WAV/dtmf-3.mp3',
+          ),
+        );
+  }
+
+  void addPunch4ToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '4',
+            gloveImage: 'assets/PNG/punch_rearhook.png',
+            punchAudio: 'assets/WAV/dtmf-4.mp3',
+          ),
+        );
+  }
+
+  void addPunch5ToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '5',
+            gloveImage: 'assets/PNG/punch_leaduppercut.png',
+            punchAudio: 'assets/WAV/dtmf-5.mp3',
+          ),
+        );
+  }
+
+  void addPunch6ToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '6',
+            gloveImage: 'assets/PNG/punch_rearuppercut.png',
+            punchAudio: 'assets/WAV/dtmf-6.mp3',
+          ),
+        );
+  }
+
+  void addPunch1BToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '1B',
+            gloveImage: 'assets/PNG/punch_bodyjab.png',
+            punchAudio: 'assets/WAV/dtmf-7.mp3',
+          ),
+        );
+  }
+
+  void addPunch2BToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '2B',
+            gloveImage: 'assets/PNG/punch_bodycross.png',
+            punchAudio: 'assets/WAV/dtmf-8.mp3',
+          ),
+        );
+  }
+
+  void addPunch3BToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '3B',
+            gloveImage: 'assets/PNG/punch_leadbodyhook.png',
+            punchAudio: 'assets/WAV/dtmf-9.mp3',
+          ),
+        );
+  }
+
+  void addPunch4BToList(WidgetRef ref) {
+    ref.read(punchListProvider.notifier).state.add(
+          const Punch(
+            punchNumber: '4B',
+            gloveImage: 'assets/PNG/punch_rearbodyhook.png',
+            punchAudio: 'assets/WAV/dtmf-0.mp3',
+          ),
+        );
+  }
 }

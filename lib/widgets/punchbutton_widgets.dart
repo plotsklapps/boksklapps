@@ -18,18 +18,21 @@ class Punch4BButtonWidget extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            //Every punchProvider has a number, corresponding to
-            //original boxing methods (Jab = 1, Cross = 2, etc.).
-            //If user selects a number, the punchProvider will set
-            //to 'true' and if it's 'true', it should add the
-            //corresponding punch number to the punchListProvider
-            //and vice versa AND change the color of the button according
-            //to the current chosen themeMode and themeColor
+            // Every punchProvider has a number, corresponding to
+            // original boxing methods (Jab = 1, Cross = 2, etc.).
+            // If user selects a number, the punchProvider's
+            // ButtonStateNotifier will set it the button
+            // to 'true' and if it's 'true', it should add the
+            // corresponding Punch to the punchListProvider
+            // and vice versa AND change the color of the button according
+            // to the current chosen themeMode and themeColor
             ref.read(punch4BProvider.notifier).toggle(ref);
             if (ref.watch(punch4BProvider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add('4B');
+              ref.read(punch4BProvider.notifier).addPunch4BToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove('4B');
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '4B',
+                  );
             }
           },
           //If button is selected, change color according
@@ -76,9 +79,11 @@ class Punch2BButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch2BProvider.notifier).toggle(ref);
             if (ref.watch(punch2BProvider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add('2B');
+              ref.read(punch2BProvider.notifier).addPunch2BToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove('2B');
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '2B',
+                  );
             }
           },
           //If button is selected, change color according
@@ -125,9 +130,11 @@ class Punch1BButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch1BProvider.notifier).toggle(ref);
             if (ref.watch(punch1BProvider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add('1B');
+              ref.read(punch1BProvider.notifier).addPunch1BToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove('1B');
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '1B',
+                  );
             }
           },
           //If button is selected, change color according
@@ -174,9 +181,11 @@ class Punch3BButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch3BProvider.notifier).toggle(ref);
             if (ref.watch(punch3BProvider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add('3B');
+              ref.read(punch3BProvider.notifier).addPunch3BToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove('3B');
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '3B',
+                  );
             }
           },
           //If button is selected, change color according
@@ -223,9 +232,11 @@ class Punch6ButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch6Provider.notifier).toggle(ref);
             if (ref.watch(punch6Provider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add(6.toString());
+              ref.read(punch6Provider.notifier).addPunch6ToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove(6.toString());
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '6',
+                  );
             }
           },
           //If button is selected, change color according
@@ -272,9 +283,11 @@ class Punch5ButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch5Provider.notifier).toggle(ref);
             if (ref.watch(punch5Provider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add(5.toString());
+              ref.read(punch5Provider.notifier).addPunch5ToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove(5.toString());
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '5',
+                  );
             }
           },
           //If button is selected, change color according
@@ -321,9 +334,11 @@ class Punch4ButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch4Provider.notifier).toggle(ref);
             if (ref.watch(punch4Provider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add(4.toString());
+              ref.read(punch4Provider.notifier).addPunch4ToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove(4.toString());
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '4',
+                  );
             }
           },
           //If button is selected, change color according
@@ -370,9 +385,11 @@ class Punch2ButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch2Provider.notifier).toggle(ref);
             if (ref.watch(punch2Provider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add(2.toString());
+              ref.read(punch2Provider.notifier).addPunch2ToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove(2.toString());
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '2',
+                  );
             }
           },
           //If button is selected, change color according
@@ -419,9 +436,11 @@ class Punch1ButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch1Provider.notifier).toggle(ref);
             if (ref.watch(punch1Provider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add(1.toString());
+              ref.read(punch1Provider.notifier).addPunch1ToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove(1.toString());
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '1',
+                  );
             }
           },
           //If button is selected, change color according
@@ -468,9 +487,11 @@ class Punch3ButtonWidget extends StatelessWidget {
             //to the current chosen themeMode and themeColor
             ref.read(punch3Provider.notifier).toggle(ref);
             if (ref.watch(punch3Provider).isOn == true) {
-              ref.read(punchListProvider.notifier).state.add(3.toString());
+              ref.read(punch3Provider.notifier).addPunch3ToList(ref);
             } else {
-              ref.read(punchListProvider.notifier).state.remove(3.toString());
+              ref.read(punchListProvider.notifier).state.removeWhere(
+                    (Punch punch) => punch.punchNumber == '3',
+                  );
             }
           },
           //If button is selected, change color according

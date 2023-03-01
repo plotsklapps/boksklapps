@@ -1,4 +1,5 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'dart:math';
+
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutPunchWidget extends ConsumerWidget {
@@ -11,52 +12,64 @@ class WorkoutPunchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String boxingGloveImage = ref.watch(boxingGloveProvider);
-    final String boxingNumber = ref.watch(boxingNumberProvider);
-
     return AnimatedOpacity(
-      // If the widget is visible, animate to 0.0 (invisible).
+      // If the widget is visible, animate to 0.0 (invisible)
       opacity: isVisible ? 1.0 : 0.0,
-      duration: const Duration(
-        // TODO: Duration should be set according to the userTempoProvider
-        milliseconds: 500,
-      ),
-      onEnd: () async {
-        // Change the boxingGlove only if the widget is visible
-        // Otherwise the animation 'stutters'
-        if (isVisible == false) {
-          ref
-              .read(boxingGloveProvider.notifier)
-              .changeBoxingGlove(ref, boxingGloveImage);
-          await ref
-              .read(boxingAudioProvider.notifier)
-              .changeBoxingAudio(ref)
-              .then((_) async {
-            final String boxingAudio = ref.watch(boxingAudioProvider);
-            await AudioPlayer().play(UrlSource(boxingAudio));
-          });
+      duration: ref.watch(userTempoProvider.notifier).getTempoDuration(ref),
+      onEnd: () {
+        // When isVisible turns false, we set a new randomIndex from
+        // the punchListProvider and give it to the PunchImage(punchIndex)
+        // widget
+        if (!isVisible) {
+          final int maxInt = ref.watch(punchListProvider).length - 1;
+          final int randomIndex = Random().nextInt(maxInt + 1);
+          ref.read(punchIndexProvider.notifier).state = randomIndex;
         }
       },
 
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Image(
-            image: AssetImage(
-              boxingGloveImage,
-            ),
-            height: 125.0,
-            width: 125.0,
-          ),
-          Text(
-            boxingNumber,
-            style: const TextStyle(
-              fontSize: 96.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+      child: PunchImage(
+        // punchIndex will have a new random value every time the
+        // isVisible boolean from the AnimatedOpacity widget turns false
+        punchIndex: ref.watch(punchIndexProvider),
       ),
+    );
+  }
+}
+
+class PunchImage extends ConsumerWidget {
+  final int punchIndex; // the index of the punch you want to retrieve
+
+  const PunchImage({super.key, required this.punchIndex});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // First, retrieve the punchList (List<Punch>)
+    final List<Punch> punchList = ref.watch(punchListProvider);
+
+    // Then, retrieve the Strings for the specific punchIndex
+    // given to this widget
+    final String gloveImage = punchList[punchIndex].gloveImage;
+    final String punchNumber = punchList[punchIndex].punchNumber;
+    // final String punchAudio = punchList[punchIndex].punchAudio;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Image(
+          image: AssetImage(
+            gloveImage,
+          ),
+          height: 125.0,
+          width: 125.0,
+        ),
+        Text(
+          punchNumber,
+          style: const TextStyle(
+            fontSize: 96.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -34,6 +34,21 @@ class UserTempoNotifier extends StateNotifier<double> {
     state = newUserTempo;
     return newUserTempo;
   }
+
+  // Get users tempo to set as Duration for the AnimatedOpacity widget
+  Duration getTempoDuration(WidgetRef ref) {
+    // Define a map that maps tempo values to Duration
+    final Map<double, Duration> tempoDurations = <double, Duration>{
+      1.0: const Duration(milliseconds: 900),
+      2.0: const Duration(milliseconds: 600),
+      3.0: const Duration(milliseconds: 300),
+      4.0: const Duration(milliseconds: 150),
+    };
+
+    // Return the corresponding Duration for the tempo value
+    return tempoDurations[ref.watch(userTempoProvider)] ??
+        const Duration(milliseconds: 500);
+  }
 }
 
 class UserTempoRepository {
