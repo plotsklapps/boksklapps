@@ -160,7 +160,7 @@ class Punch3BButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'REAR BODY HOOK',
+          'LEAD BODY HOOK',
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(

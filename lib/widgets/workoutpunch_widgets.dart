@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutPunchWidget extends ConsumerWidget {
@@ -20,14 +21,22 @@ class WorkoutPunchWidget extends ConsumerWidget {
         // TODO: Duration should be set according to the userTempoProvider
         milliseconds: 500,
       ),
-      onEnd: () {
+      onEnd: () async {
         // Change the boxingGlove only if the widget is visible
         // Otherwise the animation 'stutters'
         if (isVisible == false) {
           ref.read(boxingGloveProvider.notifier).changeBoxingGlove(ref);
           ref.read(boxingNumberProvider.notifier).changeBoxingNumber(ref);
+          await ref
+              .read(boxingAudioProvider.notifier)
+              .changeBoxingAudio(ref)
+              .then((_) async {
+            final String boxingAudio = ref.watch(boxingAudioProvider);
+            await AudioPlayer().play(UrlSource(boxingAudio));
+          });
         }
       },
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[

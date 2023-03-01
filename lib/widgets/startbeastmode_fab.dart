@@ -22,7 +22,7 @@ class StartBeastModeFAB extends StatelessWidget {
           ),
           Image(
             image: AssetImage(
-              'assets/boxer.gif',
+              'assets/GIF/boxer.gif',
             ),
           ),
         ],

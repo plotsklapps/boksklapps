@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:boksklapps/all_imports.dart';
 
 // SplashScreen class
@@ -132,7 +133,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             children: const <Image>[
               Image(
                 image: AssetImage(
-                  'assets/plotsklappsLogo.png',
+                  'assets/PNG/plotsklappsLogo.png',
                 ),
                 width: 200,
                 height: 100,

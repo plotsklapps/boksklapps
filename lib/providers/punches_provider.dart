@@ -18,7 +18,7 @@ final StateNotifierProvider<BoxingGloveNotifier, String> boxingGloveProvider =
 });
 
 class BoxingGloveNotifier extends StateNotifier<String> {
-  BoxingGloveNotifier() : super('assets/punch_jab.png');
+  BoxingGloveNotifier() : super('assets/PNG/punch_jab.png');
 
   void changeBoxingGlove(WidgetRef ref) {
     // Picks a random index from the punchList which is provided by
@@ -29,30 +29,30 @@ class BoxingGloveNotifier extends StateNotifier<String> {
     String newGloveImage;
     // Set what image to use based on the randomIndex
     if (randomIndex == 0) {
-      newGloveImage = 'assets/punch_jab.png';
+      newGloveImage = 'assets/PNG/punch_jab.png';
     } else if (randomIndex == 1) {
-      newGloveImage = 'assets/punch_cross.png';
+      newGloveImage = 'assets/PNG/punch_cross.png';
     } else if (randomIndex == 2) {
-      newGloveImage = 'assets/punch_leadhook.png';
+      newGloveImage = 'assets/PNG/punch_leadhook.png';
     } else if (randomIndex == 3) {
-      newGloveImage = 'assets/punch_rearhook.png';
+      newGloveImage = 'assets/PNG/punch_rearhook.png';
     } else if (randomIndex == 4) {
-      newGloveImage = 'assets/punch_leaduppercut.png';
+      newGloveImage = 'assets/PNG/punch_leaduppercut.png';
     } else if (randomIndex == 5) {
-      newGloveImage = 'assets/punch_rearuppercut.png';
+      newGloveImage = 'assets/PNG/punch_rearuppercut.png';
     } else if (randomIndex == 6) {
-      newGloveImage = 'assets/punch_bodyjab.png';
+      newGloveImage = 'assets/PNG/punch_bodyjab.png';
     } else if (randomIndex == 7) {
-      newGloveImage = 'assets/punch_bodycross.png';
+      newGloveImage = 'assets/PNG/punch_bodycross.png';
     } else if (randomIndex == 8) {
-      newGloveImage = 'assets/punch_leadbodyhook.png';
+      newGloveImage = 'assets/PNG/punch_leadbodyhook.png';
     } else if (randomIndex == 9) {
-      newGloveImage = 'assets/punch_rearbodyhook.png';
+      newGloveImage = 'assets/PNG/punch_rearbodyhook.png';
     } else {
       Logger().i(
         'Something went wrong in changeBoxingGlove...',
       );
-      newGloveImage = 'assets/punch_jab.png';
+      newGloveImage = 'assets/PNG/punch_jab.png';
     }
     // Change the state of the provider
     state = newGloveImage;
@@ -75,23 +75,23 @@ class BoxingNumberNotifier extends StateNotifier<String> {
     String newGloveNumber;
     if (boxingGloveImage == 'assets/punch_jab.png') {
       newGloveNumber = '1';
-    } else if (boxingGloveImage == 'assets/punch_cross.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_cross.png') {
       newGloveNumber = '2';
-    } else if (boxingGloveImage == 'assets/punch_leadhook.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_leadhook.png') {
       newGloveNumber = '3';
-    } else if (boxingGloveImage == 'assets/punch_rearhook.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_rearhook.png') {
       newGloveNumber = '4';
-    } else if (boxingGloveImage == 'assets/punch_leaduppercut.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_leaduppercut.png') {
       newGloveNumber = '5';
-    } else if (boxingGloveImage == 'assets/punch_rearuppercut.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_rearuppercut.png') {
       newGloveNumber = '6';
-    } else if (boxingGloveImage == 'assets/punch_bodyjab.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_bodyjab.png') {
       newGloveNumber = '1B';
-    } else if (boxingGloveImage == 'assets/punch_bodycross.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_bodycross.png') {
       newGloveNumber = '2B';
-    } else if (boxingGloveImage == 'assets/punch_leadbodyhook.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_leadbodyhook.png') {
       newGloveNumber = '3B';
-    } else if (boxingGloveImage == 'assets/punch_rearbodyhook.png') {
+    } else if (boxingGloveImage == 'assets/PNG/punch_rearbodyhook.png') {
       newGloveNumber = '4B';
     } else {
       Logger().i(
@@ -102,6 +102,66 @@ class BoxingNumberNotifier extends StateNotifier<String> {
 
     // Change the state of the provider
     state = newGloveNumber;
+  }
+}
+
+final StateNotifierProvider<BoxingSoundNotifier, String> boxingAudioProvider =
+    StateNotifierProvider<BoxingSoundNotifier, String>(
+        (StateNotifierProviderRef<BoxingSoundNotifier, String> ref) {
+  return BoxingSoundNotifier();
+});
+
+class BoxingSoundNotifier extends StateNotifier<String> {
+  BoxingSoundNotifier()
+      : super(
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-0.wav',
+        );
+
+  Future<void> changeBoxingAudio(WidgetRef ref) async {
+    // Watch the boxingGloveProvider and get the current state
+    // as a String
+    final String boxingGloveImage = ref.watch(boxingGloveProvider);
+    String newGloveSound;
+    if (boxingGloveImage == 'assets/punch_jab.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-1.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_cross.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-2.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_leadhook.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-3.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_rearhook.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-4.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_leaduppercut.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-5.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_rearuppercut.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-6.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_bodyjab.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-7.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_bodycross.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-8.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_leadbodyhook.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-9.wav';
+    } else if (boxingGloveImage == 'assets/PNG/punch_rearbodyhook.png') {
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-0.wav';
+    } else {
+      Logger().i(
+        'Something went wrong in playBoxingSound...',
+      );
+      newGloveSound =
+          'https://evolution.voxeo.com/library/audio/prompts/dtmf/Dtmf-0.wav';
+    }
+
+    // Change the state of the provider
+    state = newGloveSound;
   }
 }
 

@@ -22,7 +22,7 @@ class SetPunchesFAB extends StatelessWidget {
           ),
           Image(
             image: AssetImage(
-              'assets/boxer.gif',
+              'assets/GIF/boxer.gif',
             ),
           ),
         ],
