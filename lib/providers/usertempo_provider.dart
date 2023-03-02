@@ -39,15 +39,15 @@ class UserTempoNotifier extends StateNotifier<double> {
   Duration getTempoDuration(WidgetRef ref) {
     // Define a map that maps tempo values to Duration
     final Map<double, Duration> tempoDurations = <double, Duration>{
-      1.0: const Duration(milliseconds: 900),
-      2.0: const Duration(milliseconds: 600),
-      3.0: const Duration(milliseconds: 300),
-      4.0: const Duration(milliseconds: 150),
+      1.0: const Duration(milliseconds: 1500), //1.5 seconds
+      2.0: const Duration(milliseconds: 1000), //1.0 seconds
+      3.0: const Duration(milliseconds: 800), // 0.8 seconds
+      4.0: const Duration(milliseconds: 500), // 0.5 seconds
     };
 
     // Return the corresponding Duration for the tempo value
     return tempoDurations[ref.watch(userTempoProvider)] ??
-        const Duration(milliseconds: 500);
+        const Duration(milliseconds: 1500);
   }
 }
 

@@ -14,10 +14,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   late Duration totalTimerDuration;
   late Duration setTimerDuration;
   late Duration restTimerDuration;
+  late Duration periodicTimerDuration;
   late Timer totalTimer;
   late Timer setTimer;
   late Timer restTimer;
   late Timer periodicTimer;
+  // late Timer periodicTimer;
   // Create bool to show punch or not
   bool isVisible = true;
   // Fixing restTimer bug (if it's not started,
@@ -31,14 +33,13 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     totalTimerDuration = ref.read(totalTimerDurationProvider);
     setTimerDuration = ref.read(setTimerDurationProvider);
     restTimerDuration = ref.read(restTimerDurationProvider);
+    periodicTimerDuration = const Duration(milliseconds: 1000);
     // Start the timers, but NOT the restTimer!
     // This is started within the setTimer
     startTotalTimer();
     startSetTimer();
     // periodicTimer pulsates the punch container
-    periodicTimer = Timer.periodic(
-        ref.watch(userTempoProvider.notifier).getTempoDuration(ref),
-        (Timer timer) {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (Timer timer) {
       setState(() {
         isVisible = !isVisible;
       });
