@@ -46,83 +46,6 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     });
   }
 
-  void startTotalTimer() {
-    // Total time and set time should start at the same time
-    // (AFTER prepare time is over, which is a TODO).
-    // Set time should be reset when rest time starts.
-    // Rest time should start when set time ends.
-    // Set time should reset and start when rest time ends.
-    // Repeat until total time is up.
-    totalTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      return totalTimerCountdown();
-    });
-  }
-
-  void startSetTimer() {
-    setTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      return setTimerCountdown();
-    });
-  }
-
-  void startRestTimer() {
-    restTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      return restTimerCountdown();
-    });
-  }
-
-  void totalTimerCountdown() {
-    const int reduceSecondsBy = 1;
-    setState(() {
-      final int totalTimerSeconds =
-          totalTimerDuration.inSeconds - reduceSecondsBy;
-      if (totalTimerSeconds < 0) {
-        // Kill the timer
-        totalTimer.cancel();
-        // Reset totalTimerDuration to original users value
-        totalTimerDuration = ref.watch(totalTimerDurationProvider);
-        // Show CONFETTI ofcourse
-      } else {
-        totalTimerDuration = Duration(seconds: totalTimerSeconds);
-      }
-    });
-  }
-
-  void setTimerCountdown() {
-    const int reduceSecondsBy = 1;
-    setState(() {
-      final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
-      if (setTimerSeconds < 0) {
-        // Kill the timer
-        setTimer.cancel();
-        // Start rest
-        startRestTimer();
-        // Reset setTimerDuration to original users value
-        setTimerDuration = ref.watch(setTimerDurationProvider);
-      } else {
-        setTimerDuration = Duration(seconds: setTimerSeconds);
-      }
-    });
-  }
-
-  void restTimerCountdown() {
-    const int reduceSecondsBy = 1;
-    isRestTimerStarted = true;
-    setState(() {
-      final int restTimerSeconds =
-          restTimerDuration.inSeconds - reduceSecondsBy;
-      if (restTimerSeconds < 0) {
-        // Kill the timer
-        restTimer.cancel();
-        // Start set
-        startSetTimer();
-        // Reset restTimerDuration to original users value
-        restTimerDuration = ref.watch(restTimerDurationProvider);
-      } else {
-        restTimerDuration = Duration(seconds: restTimerSeconds);
-      }
-    });
-  }
-
   @override
   void dispose() {
     totalTimer.cancel();
@@ -212,5 +135,82 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         ),
       ),
     );
+  }
+
+  void startTotalTimer() {
+    // Total time and set time should start at the same time
+    // (AFTER prepare time is over, which is a TODO).
+    // Set time should be reset when rest time starts.
+    // Rest time should start when set time ends.
+    // Set time should reset and start when rest time ends.
+    // Repeat until total time is up.
+    totalTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      return totalTimerCountdown();
+    });
+  }
+
+  void totalTimerCountdown() {
+    const int reduceSecondsBy = 1;
+    setState(() {
+      final int totalTimerSeconds =
+          totalTimerDuration.inSeconds - reduceSecondsBy;
+      if (totalTimerSeconds < 0) {
+        // Kill the timer
+        totalTimer.cancel();
+        // Reset totalTimerDuration to original users value
+        totalTimerDuration = ref.watch(totalTimerDurationProvider);
+        // Show CONFETTI ofcourse
+      } else {
+        totalTimerDuration = Duration(seconds: totalTimerSeconds);
+      }
+    });
+  }
+
+  void startSetTimer() {
+    setTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      return setTimerCountdown();
+    });
+  }
+
+  void setTimerCountdown() {
+    const int reduceSecondsBy = 1;
+    setState(() {
+      final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
+      if (setTimerSeconds < 0) {
+        // Kill the timer
+        setTimer.cancel();
+        // Start rest
+        startRestTimer();
+        // Reset setTimerDuration to original users value
+        setTimerDuration = ref.watch(setTimerDurationProvider);
+      } else {
+        setTimerDuration = Duration(seconds: setTimerSeconds);
+      }
+    });
+  }
+
+  void startRestTimer() {
+    restTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      return restTimerCountdown();
+    });
+  }
+
+  void restTimerCountdown() {
+    const int reduceSecondsBy = 1;
+    isRestTimerStarted = true;
+    setState(() {
+      final int restTimerSeconds =
+          restTimerDuration.inSeconds - reduceSecondsBy;
+      if (restTimerSeconds < 0) {
+        // Kill the timer
+        restTimer.cancel();
+        // Start set
+        startSetTimer();
+        // Reset restTimerDuration to original users value
+        restTimerDuration = ref.watch(restTimerDurationProvider);
+      } else {
+        restTimerDuration = Duration(seconds: restTimerSeconds);
+      }
+    });
   }
 }
