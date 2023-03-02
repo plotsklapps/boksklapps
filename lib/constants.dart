@@ -37,6 +37,9 @@ class StringUtils {
   static const String kTimers = 'TIMERS';
   static const String kPunches = 'PUNCHES';
   static const String kTempo = 'TEMPO';
+  static const String kTotalTime = 'Total Time';
+  static const String kSetTime = 'Set Time';
+  static const String kRestTime = 'Rest Time';
 }
 
 /// TextStyle constants

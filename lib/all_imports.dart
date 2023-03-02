@@ -34,6 +34,8 @@ export 'package:boksklapps/screens/desktop/registerscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/settingsscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/temposcreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/timerscreen_desktop.dart';
+export 'package:boksklapps/screens/desktop/workoutscreen_desktop.dart';
+
 export 'package:boksklapps/screens/home_screen.dart';
 export 'package:boksklapps/screens/login_screen.dart';
 export 'package:boksklapps/screens/mobile/accountscreen_mobile.dart';
@@ -60,6 +62,7 @@ export 'package:boksklapps/screens/tablet/registerscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/settingsscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/temposcreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/timerscreen_tablet.dart';
+export 'package:boksklapps/screens/tablet/workoutscreen_tablet.dart';
 export 'package:boksklapps/screens/tempo_screen.dart';
 export 'package:boksklapps/screens/timer_screen.dart';
 export 'package:boksklapps/screens/workout_screen.dart';
