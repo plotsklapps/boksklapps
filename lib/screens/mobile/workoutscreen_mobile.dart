@@ -33,7 +33,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     totalTimerDuration = ref.read(totalTimerDurationProvider);
     setTimerDuration = ref.read(setTimerDurationProvider);
     restTimerDuration = ref.read(restTimerDurationProvider);
-    periodicTimerDuration = const Duration(milliseconds: 1000);
+    periodicTimerDuration = ref.read(userTempoDurationProvider);
     // Start the timers, but NOT the restTimer!
     // This is started within the setTimer
     startTotalTimer();

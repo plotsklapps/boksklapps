@@ -1,5 +1,14 @@
 import 'package:boksklapps/all_imports.dart';
 
+// Provider that returns a Duration in minutes which is altered
+// in a timer in workout_screen
+final StateProvider<Duration> userTempoDurationProvider =
+    StateProvider<Duration>((StateProviderRef<Duration> ref) {
+  final double tempoDurationDouble = ref.watch(userTempoProvider);
+  final int tempoDurationInt = tempoDurationDouble.toInt();
+  return Duration(seconds: tempoDurationInt);
+});
+
 // StateNotifierProvider for the users tempo returning a double
 final StateNotifierProvider<UserTempoNotifier, double> userTempoProvider =
     StateNotifierProvider<UserTempoNotifier, double>(
