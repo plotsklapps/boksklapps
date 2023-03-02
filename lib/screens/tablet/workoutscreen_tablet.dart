@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:boksklapps/all_imports.dart';
 
-class WorkoutScreenMobile extends ConsumerStatefulWidget {
-  const WorkoutScreenMobile({super.key});
+class WorkoutScreenTablet extends ConsumerStatefulWidget {
+  const WorkoutScreenTablet({super.key});
 
   @override
-  WorkoutScreenMobileState createState() => WorkoutScreenMobileState();
+  WorkoutScreenTabletState createState() => WorkoutScreenTabletState();
 }
 
-class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
+class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
   // Create different durations and timers for each purpose
   late Duration totalTimerDuration;
   late Duration setTimerDuration;
@@ -90,47 +90,62 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
             // and the keyboard can easily pop up without any issues
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.85,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Column>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text(
-                            StringUtils.kTotalTime,
-                            style: TextStyleUtils.kBodyText,
-                          ),
-                          Text(
-                            totalTimerString,
-                            style: TextStyleUtils.kHeadline3,
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            StringUtils.kSetTime,
-                            style: TextStyleUtils.kBodyText,
-                          ),
-                          Text(
-                            setTimerString,
-                            style: TextStyleUtils.kHeadline3,
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            StringUtils.kRestTime,
-                            style: TextStyleUtils.kBodyText,
-                          ),
-                          Text(
-                            restTimerString,
-                            style: TextStyleUtils.kHeadline3,
-                          ),
-                        ],
-                      ),
-                    ],
+              child: Row(
+                children: <Expanded>[
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        GetShitDoneWidget(),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  WorkoutPunchWidget(
-                    isVisible: isVisible,
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Column>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                const Text(
+                                  StringUtils.kTotalTime,
+                                  style: TextStyleUtils.kBodyText,
+                                ),
+                                Text(
+                                  totalTimerString,
+                                  style: TextStyleUtils.kHeadline2,
+                                ),
+                                const SizedBox(height: 20),
+                                const Text(
+                                  StringUtils.kSetTime,
+                                  style: TextStyleUtils.kBodyText,
+                                ),
+                                Text(
+                                  setTimerString,
+                                  style: TextStyleUtils.kHeadline2,
+                                ),
+                                const SizedBox(height: 20),
+                                const Text(
+                                  StringUtils.kRestTime,
+                                  style: TextStyleUtils.kBodyText,
+                                ),
+                                Text(
+                                  restTimerString,
+                                  style: TextStyleUtils.kHeadline2,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        WorkoutPunchWidget(
+                          isVisible: isVisible,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -12,7 +12,7 @@ class WorkoutScreen extends StatelessWidget {
       return const WorkoutScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
       // TODO: Create tablet version
-      return const WorkoutScreenMobile();
+      return const WorkoutScreenTablet();
     } else {
       // TODO: Create desktop version
       return const WorkoutScreenMobile();
