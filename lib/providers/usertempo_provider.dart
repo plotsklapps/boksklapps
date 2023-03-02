@@ -4,9 +4,16 @@ import 'package:boksklapps/all_imports.dart';
 // in a timer in workout_screen
 final StateProvider<Duration> userTempoDurationProvider =
     StateProvider<Duration>((StateProviderRef<Duration> ref) {
-  final double tempoDurationDouble = ref.watch(userTempoProvider);
-  final int tempoDurationInt = tempoDurationDouble.toInt();
-  return Duration(seconds: tempoDurationInt);
+  final double tempoDuration = ref.watch(userTempoProvider);
+  if (tempoDuration == 1.0) {
+    return const Duration(milliseconds: 1500);
+  } else if (tempoDuration == 2.0) {
+    return const Duration(milliseconds: 1000);
+  } else if (tempoDuration == 3.0) {
+    return const Duration(milliseconds: 750);
+  } else {
+    return const Duration(milliseconds: 500);
+  }
 });
 
 // StateNotifierProvider for the users tempo returning a double
