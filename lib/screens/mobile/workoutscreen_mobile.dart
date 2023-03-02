@@ -37,9 +37,8 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     startSetTimer();
     // periodicTimer pulsates the punch container
     periodicTimer = Timer.periodic(
-        const Duration(
-          milliseconds: 1000,
-        ), (Timer timer) {
+        ref.watch(userTempoProvider.notifier).getTempoDuration(ref),
+        (Timer timer) {
       setState(() {
         isVisible = !isVisible;
       });
