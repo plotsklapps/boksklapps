@@ -40,11 +40,11 @@ class Punch4BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4BProvider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -112,11 +112,11 @@ class Punch2BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch2BProvider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -184,11 +184,11 @@ class Punch1BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch1BProvider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -256,11 +256,11 @@ class Punch3BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch3BProvider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -328,11 +328,11 @@ class Punch6ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch6Provider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -400,11 +400,11 @@ class Punch5ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch5Provider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -472,11 +472,11 @@ class Punch4ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4Provider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -544,11 +544,11 @@ class Punch2ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch2Provider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -616,11 +616,11 @@ class Punch1ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch1Provider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
@@ -688,11 +688,11 @@ class Punch3ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch3Provider).color,
             maximumSize: const Size(
-              SizeUtils.kPunchButtonHeight,
               SizeUtils.kPunchButtonWidth,
+              SizeUtils.kPunchButtonHeight,
             ),
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: const <Widget>[
