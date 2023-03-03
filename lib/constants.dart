@@ -123,5 +123,5 @@ class IconUtils {
 // Height / Width constants
 class SizeUtils {
   static const double kPunchButtonHeight = 125.0;
-  static const double kPunchButtonWidth = 125.0;
+  static const double kPunchButtonWidth = 100.0;
 }
