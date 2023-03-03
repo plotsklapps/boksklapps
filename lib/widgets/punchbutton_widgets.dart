@@ -39,6 +39,10 @@ class Punch4BButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4BProvider).color,
+            maximumSize: const Size(
+              150,
+              150,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -52,12 +56,13 @@ class Punch4BButtonWidget extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
+              SizedBox(
+                width: 8.0,
+              ),
               Flexible(
                 child: Text(
                   '4B',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyleUtils.kHeadline3,
                 ),
               ),
             ],
