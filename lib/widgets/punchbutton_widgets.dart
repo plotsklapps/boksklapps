@@ -40,11 +40,27 @@ class Punch4BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4BProvider).color,
           ),
-          child: const Text(
-            '4B',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_rearbodyhook.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  '4B',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

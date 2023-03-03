@@ -5,15 +5,17 @@ import 'package:boksklapps/all_imports.dart';
 final StateProvider<Duration> userTempoDurationProvider =
     StateProvider<Duration>((StateProviderRef<Duration> ref) {
   final double tempoDuration = ref.watch(userTempoProvider);
-  if (tempoDuration == 1.0) {
-    return const Duration(milliseconds: 1500);
-  } else if (tempoDuration == 2.0) {
-    return const Duration(milliseconds: 1000);
-  } else if (tempoDuration == 3.0) {
-    return const Duration(milliseconds: 750);
-  } else {
-    return const Duration(milliseconds: 500);
-  }
+
+  final Map<double, Duration> tempoDurations = <double, Duration>{
+    1.0: const Duration(milliseconds: 1500), //1.5 seconds
+    2.0: const Duration(milliseconds: 1000), //1.0 seconds
+    3.0: const Duration(milliseconds: 750), // 0.8 seconds
+    4.0: const Duration(milliseconds: 500), // 0.5 seconds
+  };
+
+  // Return the corresponding Duration for the tempo value
+  return tempoDurations[ref.watch(userTempoProvider)] ??
+      const Duration(milliseconds: 1000);
 });
 
 // StateNotifierProvider for the users tempo returning a double
@@ -49,21 +51,6 @@ class UserTempoNotifier extends StateNotifier<double> {
     );
     state = newUserTempo;
     return newUserTempo;
-  }
-
-  // Get users tempo to set as Duration for the AnimatedOpacity widget
-  Duration getTempoDuration(WidgetRef ref) {
-    // Define a map that maps tempo values to Duration
-    final Map<double, Duration> tempoDurations = <double, Duration>{
-      1.0: const Duration(milliseconds: 1500), //1.5 seconds
-      2.0: const Duration(milliseconds: 1000), //1.0 seconds
-      3.0: const Duration(milliseconds: 800), // 0.8 seconds
-      4.0: const Duration(milliseconds: 500), // 0.5 seconds
-    };
-
-    // Return the corresponding Duration for the tempo value
-    return tempoDurations[ref.watch(userTempoProvider)] ??
-        const Duration(milliseconds: 1500);
   }
 }
 
