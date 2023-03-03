@@ -40,6 +40,36 @@ class StringUtils {
   static const String kTotalTime = 'Total Time';
   static const String kSetTime = 'Set Time';
   static const String kRestTime = 'Rest Time';
+  static const String kRearBodyHook = 'REAR BODY HOOK';
+  static const String k4B = '4B';
+  static const String kRearBodyHookPath = 'assets/PNG/punch_rearbodyhook.png';
+  static const String kBodyCross = 'BODY CROSS';
+  static const String k2B = '2B';
+  static const String kBodyCrossPath = 'assets/PNG/punch_bodycross.png';
+  static const String kBodyJab = 'BODY JAB';
+  static const String k1B = '1B';
+  static const String kBodyJabPath = 'assets/PNG/punch_bodyjab.png';
+  static const String kLeadBodyHook = 'LEAD BODY HOOK';
+  static const String k3B = '3B';
+  static const String kLeadBodyHookPath = 'assets/PNG/punch_leadbodyhook.png';
+  static const String kRearUppercut = 'REAR UPPERCUT';
+  static const String k6 = '6';
+  static const String kRearUppercutPath = 'assets/PNG/punch_rearuppercut.png';
+  static const String kLeadUppercut = 'LEAD UPPERCUT';
+  static const String k5 = '5';
+  static const String kLeadUppercutPath = 'assets/PNG/punch_leaduppercut.png';
+  static const String kRearHook = 'REAR HOOK';
+  static const String k4 = '4';
+  static const String kRearHookPath = 'assets/PNG/punch_rearhook.png';
+  static const String kCross = 'CROSS';
+  static const String k2 = '2';
+  static const String kCrossPath = 'assets/PNG/punch_cross.png';
+  static const String kJab = 'JAB';
+  static const String k1 = '1';
+  static const String kJabPath = 'assets/PNG/punch_jab.png';
+  static const String kLeadHook = 'LEAD HOOK';
+  static const String k3 = '3';
+  static const String kLeadHookPath = 'assets/PNG/punch_leadhook.png';
 }
 
 /// TextStyle constants
@@ -88,4 +118,10 @@ class IconUtils {
   static const Icon kAdd = Icon(Icons.add_outlined);
   static const Icon kHome = Icon(Icons.home_outlined);
   static const Icon kBoxing = Icon(Icons.sports_mma_outlined);
+}
+
+// Height / Width constants
+class SizeUtils {
+  static const double kPunchButtonHeight = 125.0;
+  static const double kPunchButtonWidth = 125.0;
 }

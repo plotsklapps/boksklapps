@@ -13,7 +13,7 @@ class Punch4BButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'REAR BODY HOOK',
+          StringUtils.kRearBodyHook,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -31,17 +31,17 @@ class Punch4BButtonWidget extends StatelessWidget {
               ref.read(punch4BProvider.notifier).addPunch4BToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '4B',
+                    (Punch punch) => punch.punchNumber == StringUtils.k4B,
                   );
             }
           },
-          //If button is selected, change color according
-          //to the current chosen themeMode and themeColor
+          // If button is selected, change color according
+          // to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4BProvider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -51,7 +51,7 @@ class Punch4BButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_rearbodyhook.png',
+                    StringUtils.kRearBodyHookPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -61,7 +61,7 @@ class Punch4BButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '4B',
+                  StringUtils.k4B,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -86,7 +86,7 @@ class Punch2BButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'BODY CROSS',
+          StringUtils.kBodyCross,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -103,7 +103,7 @@ class Punch2BButtonWidget extends StatelessWidget {
               ref.read(punch2BProvider.notifier).addPunch2BToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '2B',
+                    (Punch punch) => punch.punchNumber == StringUtils.k2B,
                   );
             }
           },
@@ -112,8 +112,8 @@ class Punch2BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch2BProvider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -123,7 +123,7 @@ class Punch2BButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_bodycross.png',
+                    StringUtils.kBodyCrossPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -133,7 +133,7 @@ class Punch2BButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '2B',
+                  StringUtils.k2B,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -158,7 +158,7 @@ class Punch1BButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'BODY JAB',
+          StringUtils.kBodyJab,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -175,7 +175,7 @@ class Punch1BButtonWidget extends StatelessWidget {
               ref.read(punch1BProvider.notifier).addPunch1BToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '1B',
+                    (Punch punch) => punch.punchNumber == StringUtils.k1B,
                   );
             }
           },
@@ -184,8 +184,8 @@ class Punch1BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch1BProvider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -195,7 +195,7 @@ class Punch1BButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_bodyjab.png',
+                    StringUtils.kBodyJabPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -205,7 +205,7 @@ class Punch1BButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '1B',
+                  StringUtils.k1B,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -230,7 +230,7 @@ class Punch3BButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'LEAD BODY HOOK',
+          StringUtils.kLeadBodyHook,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -247,7 +247,7 @@ class Punch3BButtonWidget extends StatelessWidget {
               ref.read(punch3BProvider.notifier).addPunch3BToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '3B',
+                    (Punch punch) => punch.punchNumber == StringUtils.k3B,
                   );
             }
           },
@@ -256,8 +256,8 @@ class Punch3BButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch3BProvider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -267,7 +267,7 @@ class Punch3BButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_leadbodyhook.png',
+                    StringUtils.kLeadBodyHookPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -277,7 +277,7 @@ class Punch3BButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '3B',
+                  StringUtils.k3B,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -302,7 +302,7 @@ class Punch6ButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'REAR UPPERCUT',
+          StringUtils.kRearUppercut,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -319,7 +319,7 @@ class Punch6ButtonWidget extends StatelessWidget {
               ref.read(punch6Provider.notifier).addPunch6ToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '6',
+                    (Punch punch) => punch.punchNumber == StringUtils.k6,
                   );
             }
           },
@@ -328,8 +328,8 @@ class Punch6ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch6Provider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -339,7 +339,7 @@ class Punch6ButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_rearuppercut.png',
+                    StringUtils.kRearUppercutPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -349,7 +349,7 @@ class Punch6ButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '6',
+                  StringUtils.k6,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -374,7 +374,7 @@ class Punch5ButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'LEAD UPPERCUT',
+          StringUtils.kLeadUppercut,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -391,7 +391,7 @@ class Punch5ButtonWidget extends StatelessWidget {
               ref.read(punch5Provider.notifier).addPunch5ToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '5',
+                    (Punch punch) => punch.punchNumber == StringUtils.k5,
                   );
             }
           },
@@ -400,8 +400,8 @@ class Punch5ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch5Provider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -411,7 +411,7 @@ class Punch5ButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_leaduppercut.png',
+                    StringUtils.kLeadUppercutPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -421,7 +421,7 @@ class Punch5ButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '5',
+                  StringUtils.k5,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -446,7 +446,7 @@ class Punch4ButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'REAR HOOK',
+          StringUtils.kRearHook,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -463,7 +463,7 @@ class Punch4ButtonWidget extends StatelessWidget {
               ref.read(punch4Provider.notifier).addPunch4ToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '4',
+                    (Punch punch) => punch.punchNumber == StringUtils.k4,
                   );
             }
           },
@@ -472,8 +472,8 @@ class Punch4ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4Provider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -483,7 +483,7 @@ class Punch4ButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_rearhook.png',
+                    StringUtils.kRearHookPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -493,7 +493,7 @@ class Punch4ButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '4',
+                  StringUtils.k4,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -518,7 +518,7 @@ class Punch2ButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'CROSS',
+          StringUtils.kCross,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -535,7 +535,7 @@ class Punch2ButtonWidget extends StatelessWidget {
               ref.read(punch2Provider.notifier).addPunch2ToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '2',
+                    (Punch punch) => punch.punchNumber == StringUtils.k2,
                   );
             }
           },
@@ -544,8 +544,8 @@ class Punch2ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch2Provider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -555,7 +555,7 @@ class Punch2ButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_cross.png',
+                    StringUtils.kCrossPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -565,7 +565,7 @@ class Punch2ButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '2',
+                  StringUtils.k2,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -590,7 +590,7 @@ class Punch1ButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'JAB',
+          StringUtils.kJab,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -607,7 +607,7 @@ class Punch1ButtonWidget extends StatelessWidget {
               ref.read(punch1Provider.notifier).addPunch1ToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '1',
+                    (Punch punch) => punch.punchNumber == StringUtils.k1,
                   );
             }
           },
@@ -616,8 +616,8 @@ class Punch1ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch1Provider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -627,7 +627,7 @@ class Punch1ButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_jab.png',
+                    StringUtils.kJabPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -637,7 +637,7 @@ class Punch1ButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '1',
+                  StringUtils.k1,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
@@ -662,7 +662,7 @@ class Punch3ButtonWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         const Text(
-          'LEAD HOOK',
+          StringUtils.kLeadHook,
           style: TextStyleUtils.kBodyText,
         ),
         ElevatedButton(
@@ -679,7 +679,7 @@ class Punch3ButtonWidget extends StatelessWidget {
               ref.read(punch3Provider.notifier).addPunch3ToList(ref);
             } else {
               ref.read(punchListProvider.notifier).state.removeWhere(
-                    (Punch punch) => punch.punchNumber == '3',
+                    (Punch punch) => punch.punchNumber == StringUtils.k3,
                   );
             }
           },
@@ -688,8 +688,8 @@ class Punch3ButtonWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch3Provider).color,
             maximumSize: const Size(
-              150,
-              150,
+              SizeUtils.kPunchButtonHeight,
+              SizeUtils.kPunchButtonWidth,
             ),
           ),
           child: Row(
@@ -699,7 +699,7 @@ class Punch3ButtonWidget extends StatelessWidget {
               Flexible(
                 child: Image(
                   image: AssetImage(
-                    'assets/PNG/punch_leadhook.png',
+                    StringUtils.kLeadHookPath,
                   ),
                   fit: BoxFit.contain,
                 ),
@@ -709,7 +709,7 @@ class Punch3ButtonWidget extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '3',
+                  StringUtils.k3,
                   style: TextStyleUtils.kHeadline3,
                 ),
               ),
