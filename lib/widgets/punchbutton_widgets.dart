@@ -111,12 +111,33 @@ class Punch2BButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch2BProvider).color,
-          ),
-          child: const Text(
-            '2B',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_bodycross.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '2B',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -162,12 +183,33 @@ class Punch1BButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch1BProvider).color,
-          ),
-          child: const Text(
-            '1B',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_bodyjab.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '1B',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -213,12 +255,33 @@ class Punch3BButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch3BProvider).color,
-          ),
-          child: const Text(
-            '3B',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_leadbodyhook.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '3B',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -264,12 +327,33 @@ class Punch6ButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch6Provider).color,
-          ),
-          child: const Text(
-            '6',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_rearuppercut.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '6',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -315,12 +399,33 @@ class Punch5ButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch5Provider).color,
-          ),
-          child: const Text(
-            '5',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_leaduppercut.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '5',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -366,12 +471,33 @@ class Punch4ButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch4Provider).color,
-          ),
-          child: const Text(
-            '4',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_rearhook.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '4',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -417,12 +543,33 @@ class Punch2ButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch2Provider).color,
-          ),
-          child: const Text(
-            '2',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_cross.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '2',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -468,12 +615,33 @@ class Punch1ButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch1Provider).color,
-          ),
-          child: const Text(
-            '1',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_jab.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '1',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -519,12 +687,33 @@ class Punch3ButtonWidget extends StatelessWidget {
           //to the current chosen themeMode and themeColor
           style: ElevatedButton.styleFrom(
             backgroundColor: ref.watch(punch3Provider).color,
-          ),
-          child: const Text(
-            '3',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+            maximumSize: const Size(
+              150,
+              150,
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
+              Flexible(
+                child: Image(
+                  image: AssetImage(
+                    'assets/PNG/punch_leadhook.png',
+                  ),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                width: 8.0,
+              ),
+              Flexible(
+                child: Text(
+                  '3',
+                  style: TextStyleUtils.kHeadline3,
+                ),
+              ),
+            ],
           ),
         ),
       ],
