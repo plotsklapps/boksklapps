@@ -96,6 +96,44 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () {
+                        // Toggle all the punches and add them to the
+                        // punchListProvider
+                        ref.read(punch1Provider.notifier).toggle(ref);
+                        ref.read(punch1Provider.notifier).addPunch1ToList(ref);
+                        ref.read(punch2Provider.notifier).toggle(ref);
+                        ref.read(punch2Provider.notifier).addPunch2ToList(ref);
+                        ref.read(punch3Provider.notifier).toggle(ref);
+                        ref.read(punch3Provider.notifier).addPunch3ToList(ref);
+                        ref.read(punch4Provider.notifier).toggle(ref);
+                        ref.read(punch4Provider.notifier).addPunch4ToList(ref);
+                        ref.read(punch5Provider.notifier).toggle(ref);
+                        ref.read(punch5Provider.notifier).addPunch5ToList(ref);
+                        ref.read(punch6Provider.notifier).toggle(ref);
+                        ref.read(punch6Provider.notifier).addPunch6ToList(ref);
+                        ref.read(punch1BProvider.notifier).toggle(ref);
+                        ref
+                            .read(punch1BProvider.notifier)
+                            .addPunch1BToList(ref);
+                        ref.read(punch2BProvider.notifier).toggle(ref);
+                        ref
+                            .read(punch2BProvider.notifier)
+                            .addPunch2BToList(ref);
+                        ref.read(punch3BProvider.notifier).toggle(ref);
+                        ref
+                            .read(punch3BProvider.notifier)
+                            .addPunch3BToList(ref);
+                        ref.read(punch4BProvider.notifier).toggle(ref);
+                        ref
+                            .read(punch4BProvider.notifier)
+                            .addPunch4BToList(ref);
+                      },
+                      child: const Text(
+                        'ADD ALL',
+                      ),
+                    ),
+                    const SizedBox(width: 12.0),
+                    ElevatedButton(
+                      onPressed: () {
                         ref.invalidate(punchListProvider);
                         ref.invalidate(punch1Provider);
                         ref.invalidate(punch2Provider);
