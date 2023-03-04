@@ -168,7 +168,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '1',
             gloveImage: 'assets/PNG/punch_jab.png',
-            punchAudio: 'assets/WAV/dtmf-1.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-1.mp3?'
+                'alt=media&token=1135e45f-3289-404d-91f8-f41a7920bb8e',
           ),
         );
   }
@@ -178,7 +180,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '2',
             gloveImage: 'assets/PNG/punch_cross.png',
-            punchAudio: 'assets/WAV/dtmf-2.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-2.mp3?'
+                'alt=media&token=c6b4ef41-beed-4b34-8223-ff0f915c2eff',
           ),
         );
   }
@@ -188,7 +192,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '3',
             gloveImage: 'assets/PNG/punch_leadhook.png',
-            punchAudio: 'assets/WAV/dtmf-3.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-3.mp3?'
+                'alt=media&token=5a7dc74e-cbc1-4f8e-b800-458657cbe65c',
           ),
         );
   }
@@ -198,7 +204,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '4',
             gloveImage: 'assets/PNG/punch_rearhook.png',
-            punchAudio: 'assets/WAV/dtmf-4.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-4.mp3?'
+                'alt=media&token=e34811f2-f43a-4fec-9265-d893d32c379d',
           ),
         );
   }
@@ -208,7 +216,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '5',
             gloveImage: 'assets/PNG/punch_leaduppercut.png',
-            punchAudio: 'assets/WAV/dtmf-5.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-5.mp3?'
+                'alt=media&token=ecc357ff-a879-47cb-828c-825e1cc1852f',
           ),
         );
   }
@@ -218,7 +228,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '6',
             gloveImage: 'assets/PNG/punch_rearuppercut.png',
-            punchAudio: 'assets/WAV/dtmf-6.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-6.mp3?'
+                'alt=media&token=ab544c92-8654-4693-a942-e9bb828dc447',
           ),
         );
   }
@@ -228,7 +240,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '1B',
             gloveImage: 'assets/PNG/punch_bodyjab.png',
-            punchAudio: 'assets/WAV/dtmf-7.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-7.mp3?'
+                'alt=media&token=c1ea264b-bae1-4cdb-a9cf-6f1050c6f53b',
           ),
         );
   }
@@ -238,7 +252,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '2B',
             gloveImage: 'assets/PNG/punch_bodycross.png',
-            punchAudio: 'assets/WAV/dtmf-8.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-8.mp3?'
+                'alt=media&token=e5077ec4-d6a4-4d5b-9f2b-ce7b642a3c6d',
           ),
         );
   }
@@ -248,7 +264,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '3B',
             gloveImage: 'assets/PNG/punch_leadbodyhook.png',
-            punchAudio: 'assets/WAV/dtmf-9.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-9.mp3?'
+                'alt=media&token=ee5f18be-cfe5-423e-b3ee-e5c19fcb549f',
           ),
         );
   }
@@ -258,7 +276,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
           const Punch(
             punchNumber: '4B',
             gloveImage: 'assets/PNG/punch_rearbodyhook.png',
-            punchAudio: 'assets/WAV/dtmf-0.mp3',
+            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
+                'boksklapps.appspot.com/o/WAV%2Fdtmf-0.mp3?'
+                'alt=media&token=cf53f5ea-ecc1-4759-9ddf-dee1fe75b18a',
           ),
         );
   }

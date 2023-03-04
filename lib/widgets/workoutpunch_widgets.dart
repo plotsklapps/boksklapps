@@ -38,7 +38,7 @@ class WorkoutPunchWidget extends ConsumerWidget {
               ref.watch(punchListProvider)[punchIndex].punchAudio;
           // Play sound!
           await audioPlayer.open(
-            Audio(punchAudio),
+            Audio.network(punchAudio),
           );
         }
       },
