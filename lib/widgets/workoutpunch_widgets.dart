@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutPunchWidget extends ConsumerWidget {
@@ -17,7 +18,7 @@ class WorkoutPunchWidget extends ConsumerWidget {
       opacity: isVisible ? 1.0 : 0.0,
       // TODO: Make the duration dynamic relative to the users tempo
       duration: const Duration(milliseconds: 150),
-      onEnd: () {
+      onEnd: () async {
         // When isVisible turns false, we set a new randomIndex from
         // the punchListProvider and give it to the PunchImage(punchIndex)
         // widget
@@ -51,7 +52,14 @@ class PunchImage extends ConsumerWidget {
     // given to this widget
     final String gloveImage = punchList[punchIndex].gloveImage;
     final String punchNumber = punchList[punchIndex].punchNumber;
-    // final String punchAudio = punchList[punchIndex].punchAudio;
+    final String punchAudio = punchList[punchIndex].punchAudio;
+
+    void playSound() async {
+      AudioPlayer audioPlayer = AudioPlayer();
+      await audioPlayer.setSourceAsset(punchAudio);
+      // TODO: Verder hier!
+      await audioPlayer.play();
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
