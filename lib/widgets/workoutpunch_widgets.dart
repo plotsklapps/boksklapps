@@ -74,8 +74,8 @@ class PunchImage extends ConsumerWidget {
           image: AssetImage(
             gloveImage,
           ),
-          height: 125.0,
-          width: 125.0,
+          height: 150.0,
+          width: 150.0,
         ),
         Text(
           punchNumber,
