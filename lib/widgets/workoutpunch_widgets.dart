@@ -36,7 +36,8 @@ class WorkoutPunchWidget extends ConsumerWidget {
           // correct current punchIndex
           final String punchAudio =
               ref.watch(punchListProvider)[punchIndex].punchAudio;
-          // Play sound!
+          // Play audio! Works, but DTMF tones are SOOO terrible, I'm
+          // almost crying.
           await audioPlayer.open(
             Audio.network(punchAudio),
           );
