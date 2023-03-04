@@ -11,6 +11,11 @@ class WorkoutPunchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Create an instance of AssetsAudioPlayer();
+    final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+    // Create a variable that holds the maxInt for the randomIndex
+    final int maxInt = ref.watch(punchListProvider).length - 1;
+
     return AnimatedOpacity(
       // If the widget is visible, animate to 0.0 (invisible)
       opacity: isVisible ? 1.0 : 0.0,
@@ -21,18 +26,16 @@ class WorkoutPunchWidget extends ConsumerWidget {
         // the punchListProvider and give it to the PunchImage(punchIndex)
         // widget
         if (!isVisible) {
-          final int maxInt = ref.watch(punchListProvider).length - 1;
+          // Create a randomIndex from 0 to maxInt
           final int randomIndex = Random().nextInt(maxInt + 1);
+          // Write the randomIndex to the punchIndexProvider
           ref.read(punchIndexProvider.notifier).state = randomIndex;
-          // Create an instance of AssetsAudioPlayer();
-          final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
           // Create a variable that holds the randomIndex we just set
           final int punchIndex = ref.watch(punchIndexProvider);
           // Create a String that holds the assetPath according to the
-          // correct punchIndex
+          // correct current punchIndex
           final String punchAudio =
               ref.watch(punchListProvider)[punchIndex].punchAudio;
-
           // Play sound!
           await audioPlayer.open(
             Audio(punchAudio),
