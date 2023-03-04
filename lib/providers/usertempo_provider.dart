@@ -4,8 +4,6 @@ import 'package:boksklapps/all_imports.dart';
 // in a timer in workout_screen
 final StateProvider<Duration> userTempoDurationProvider =
     StateProvider<Duration>((StateProviderRef<Duration> ref) {
-  final double tempoDuration = ref.watch(userTempoProvider);
-
   final Map<double, Duration> tempoDurations = <double, Duration>{
     1.0: const Duration(milliseconds: 1500), //1.5 seconds
     2.0: const Duration(milliseconds: 1000), //1.0 seconds

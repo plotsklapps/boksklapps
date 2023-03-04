@@ -1,3 +1,4 @@
+export 'package:assets_audio_player/assets_audio_player.dart';
 export 'package:boksklapps/alertdialogs/changebmi_dialog.dart';
 export 'package:boksklapps/alertdialogs/changedisplayname_dialog.dart';
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';
@@ -35,7 +36,6 @@ export 'package:boksklapps/screens/desktop/settingsscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/temposcreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/timerscreen_desktop.dart';
 export 'package:boksklapps/screens/desktop/workoutscreen_desktop.dart';
-
 export 'package:boksklapps/screens/home_screen.dart';
 export 'package:boksklapps/screens/login_screen.dart';
 export 'package:boksklapps/screens/mobile/accountscreen_mobile.dart';

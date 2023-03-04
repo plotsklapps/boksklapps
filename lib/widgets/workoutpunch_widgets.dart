@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutPunchWidget extends ConsumerWidget {
@@ -26,6 +24,19 @@ class WorkoutPunchWidget extends ConsumerWidget {
           final int maxInt = ref.watch(punchListProvider).length - 1;
           final int randomIndex = Random().nextInt(maxInt + 1);
           ref.read(punchIndexProvider.notifier).state = randomIndex;
+          // Create an instance of AssetsAudioPlayer();
+          final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+          // Create a variable that holds the randomIndex we just set
+          final int punchIndex = ref.watch(punchIndexProvider);
+          // Create a String that holds the assetPath according to the
+          // correct punchIndex
+          final String punchAudio =
+              ref.watch(punchListProvider)[punchIndex].punchAudio;
+
+          // Play sound!
+          await audioPlayer.open(
+            Audio(punchAudio),
+          );
         }
       },
 
@@ -52,14 +63,6 @@ class PunchImage extends ConsumerWidget {
     // given to this widget
     final String gloveImage = punchList[punchIndex].gloveImage;
     final String punchNumber = punchList[punchIndex].punchNumber;
-    final String punchAudio = punchList[punchIndex].punchAudio;
-
-    void playSound() async {
-      AudioPlayer audioPlayer = AudioPlayer();
-      await audioPlayer.setSourceAsset(punchAudio);
-      // TODO: Verder hier!
-      await audioPlayer.play();
-    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
