@@ -45,6 +45,15 @@ class SettingsScreenTablet extends ConsumerWidget {
                       ),
                       trailing: const ThemeColorSwitch(),
                     ),
+                    ListTile(
+                      title: const Text(
+                        StringUtils.kPunchSound,
+                      ),
+                      subtitle: Text(
+                        ref.watch(userSoundStringProvider),
+                      ),
+                      trailing: const SoundSwitch(),
+                    ),
                   ],
                 ),
               ),
