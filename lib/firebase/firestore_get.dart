@@ -32,6 +32,7 @@ Future<void> getFirestoreData(
         // Get the rest via their respective Providers and notifiers
         await ref.read(userThemeModeNotifier.notifier).getUserThemeMode(ref);
         await ref.read(userThemeColorNotifier.notifier).getUserThemeColor(ref);
+        await ref.read(userSoundProvider.notifier).getUserSound(ref);
         await ref.read(userAgeProvider.notifier).getUserAge();
         await ref.read(userHeightProvider.notifier).getUserHeight();
         await ref.read(userWeightProvider.notifier).getUserWeight();

@@ -32,17 +32,26 @@ class ThemeModeSwitch extends ConsumerWidget {
                 ref,
                 0,
               );
+          await ref.read(themeModeStringProvider.notifier).setThemeModeString(
+                'Light',
+              );
         } else if (newIndex == 1) {
           await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
                 context,
                 ref,
                 1,
               );
+          await ref.read(themeModeStringProvider.notifier).setThemeModeString(
+                'System',
+              );
         } else {
           await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
                 context,
                 ref,
                 2,
+              );
+          await ref.read(themeModeStringProvider.notifier).setThemeModeString(
+                'Dark',
               );
         }
       },

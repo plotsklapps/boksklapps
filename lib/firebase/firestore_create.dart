@@ -30,5 +30,6 @@ Future<void> createFirestoreData(
     'setTimer': ref.watch(setTimerProvider),
     'restTimer': ref.watch(restTimerProvider),
     'userTempo': ref.watch(userTempoProvider),
+    'userSound': ref.watch(userSoundProvider),
   });
 }

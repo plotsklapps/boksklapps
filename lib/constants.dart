@@ -113,8 +113,8 @@ class IconUtils {
   static const Icon kOuterSpace = Icon(Icons.rocket_launch_outlined);
   static const Icon kGreenMoney = Icon(Icons.payments_outlined);
   static const Icon kRedWine = Icon(Icons.wine_bar_outlined);
-  static const Icon kWoman = Icon(Icons.woman_outlined);
-  static const Icon kMan = Icon(Icons.man_outlined);
+  static const Icon kWoman = Icon(Icons.female_outlined);
+  static const Icon kMan = Icon(Icons.male_outlined);
   static const Icon kDTMF = Icon(Icons.dialpad_outlined);
   static const Icon kAccount = Icon(Icons.person_outlined);
   static const Icon kLogout = Icon(Icons.logout_outlined);
