@@ -164,121 +164,191 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
   }
 
   void addPunch1ToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch1Ellie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch1Arnold;
+    } else {
+      punchAudio = SoundUtils.kPunch1DTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '1',
             gloveImage: 'assets/PNG/punch_jab.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-1.mp3?'
-                'alt=media&token=1135e45f-3289-404d-91f8-f41a7920bb8e',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch2ToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch2Ellie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch2Arnold;
+    } else {
+      punchAudio = SoundUtils.kPunch2DTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '2',
             gloveImage: 'assets/PNG/punch_cross.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-2.mp3?'
-                'alt=media&token=c6b4ef41-beed-4b34-8223-ff0f915c2eff',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch3ToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch3Ellie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch3Arnold;
+    } else {
+      punchAudio = SoundUtils.kPunch3DTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '3',
             gloveImage: 'assets/PNG/punch_leadhook.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-3.mp3?'
-                'alt=media&token=5a7dc74e-cbc1-4f8e-b800-458657cbe65c',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch4ToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch4Ellie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch4Arnold;
+    } else {
+      punchAudio = SoundUtils.kPunch4DTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '4',
             gloveImage: 'assets/PNG/punch_rearhook.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-4.mp3?'
-                'alt=media&token=e34811f2-f43a-4fec-9265-d893d32c379d',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch5ToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch5Ellie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch5Arnold;
+    } else {
+      punchAudio = SoundUtils.kPunch5DTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '5',
             gloveImage: 'assets/PNG/punch_leaduppercut.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-5.mp3?'
-                'alt=media&token=ecc357ff-a879-47cb-828c-825e1cc1852f',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch6ToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch6Ellie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch6Arnold;
+    } else {
+      punchAudio = SoundUtils.kPunch6DTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '6',
             gloveImage: 'assets/PNG/punch_rearuppercut.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-6.mp3?'
-                'alt=media&token=ab544c92-8654-4693-a942-e9bb828dc447',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch1BToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch1BEllie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch1BArnold;
+    } else {
+      punchAudio = SoundUtils.kPunch1BDTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '1B',
             gloveImage: 'assets/PNG/punch_bodyjab.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-7.mp3?'
-                'alt=media&token=c1ea264b-bae1-4cdb-a9cf-6f1050c6f53b',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch2BToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch2BEllie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch2BArnold;
+    } else {
+      punchAudio = SoundUtils.kPunch2BDTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '2B',
             gloveImage: 'assets/PNG/punch_bodycross.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-8.mp3?'
-                'alt=media&token=e5077ec4-d6a4-4d5b-9f2b-ce7b642a3c6d',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch3BToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch3BEllie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch3BArnold;
+    } else {
+      punchAudio = SoundUtils.kPunch3BDTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '3B',
             gloveImage: 'assets/PNG/punch_leadbodyhook.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-9.mp3?'
-                'alt=media&token=ee5f18be-cfe5-423e-b3ee-e5c19fcb549f',
+            punchAudio: punchAudio,
           ),
         );
   }
 
   void addPunch4BToList(WidgetRef ref) {
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunch4BEllie;
+    } else if (punchAudioInt == 1) {
+      punchAudio = SoundUtils.kPunch4BArnold;
+    } else {
+      punchAudio = SoundUtils.kPunch4BDTMF;
+    }
     ref.read(punchListProvider.notifier).state.add(
-          const Punch(
+          Punch(
             punchNumber: '4B',
             gloveImage: 'assets/PNG/punch_rearbodyhook.png',
-            punchAudio: 'https://firebasestorage.googleapis.com/v0/b/'
-                'boksklapps.appspot.com/o/WAV%2Fdtmf-0.mp3?'
-                'alt=media&token=cf53f5ea-ecc1-4759-9ddf-dee1fe75b18a',
+            punchAudio: punchAudio,
           ),
         );
   }
