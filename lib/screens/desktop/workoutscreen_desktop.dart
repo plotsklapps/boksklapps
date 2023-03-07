@@ -39,9 +39,7 @@ class WorkoutScreenDesktopState extends ConsumerState<WorkoutScreenDesktop> {
     // This is started within the setTimer
     startTotalTimer();
     startSetTimer();
-    // periodicTimer pulsates the punch container and takes
-    // a Duration from userTempoDurationProvider
-    periodicTimer = Timer.periodic(periodicTimerDuration, (Timer timer) {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
       setState(() {
         isVisible = !isVisible;
       });
@@ -197,9 +195,9 @@ class WorkoutScreenDesktopState extends ConsumerState<WorkoutScreenDesktop> {
     setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        // Kill the timer
+        // Kill the setTimer
         setTimer.cancel();
-        // Start rest
+        // Start restTimer
         startRestTimer();
         // Reset setTimerDuration to original users value
         setTimerDuration = ref.watch(setTimerDurationProvider);
@@ -222,9 +220,9 @@ class WorkoutScreenDesktopState extends ConsumerState<WorkoutScreenDesktop> {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
       if (restTimerSeconds < 0) {
-        // Kill the timer
+        // Kill the restTimer
         restTimer.cancel();
-        // Start set
+        // Start setTimer
         startSetTimer();
         // Reset restTimerDuration to original users value
         restTimerDuration = ref.watch(restTimerDurationProvider);

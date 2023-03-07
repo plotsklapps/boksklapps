@@ -196,7 +196,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        // Kill the timer
+        // Kill the setTimer
         setTimer.cancel();
         // Start rest
         startRestTimer();
@@ -223,7 +223,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
       if (restTimerSeconds < 0) {
         // Kill the timer
         restTimer.cancel();
-        // Start set
+        // Start setTimer
         startSetTimer();
         // Reset restTimerDuration to original users value
         restTimerDuration = ref.watch(restTimerDurationProvider);
