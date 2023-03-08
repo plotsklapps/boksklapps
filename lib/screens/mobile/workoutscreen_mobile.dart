@@ -47,11 +47,11 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     // Kill all timers
     totalTimer.cancel();
     setTimer.cancel();
+    periodicTimer.cancel();
     // Here we check for if the restTimer started
     if (isRestTimerStarted) {
       restTimer.cancel();
     }
-    periodicTimer.cancel();
     super.dispose();
   }
 
@@ -122,7 +122,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 64),
                   WorkoutPunchWidget(
                     isVisible: isVisible,
                   ),

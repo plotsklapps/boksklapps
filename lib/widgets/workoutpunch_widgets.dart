@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutPunchWidget extends ConsumerWidget {
@@ -30,14 +31,14 @@ class WorkoutPunchWidget extends ConsumerWidget {
           final int randomIndex = Random().nextInt(maxInt + 1);
           // Write the randomIndex to the punchIndexProvider
           ref.read(punchIndexProvider.notifier).state = randomIndex;
+        } else if (isVisible) {
           // Create a variable that holds the randomIndex we just set
           final int punchIndex = ref.watch(punchIndexProvider);
           // Create a String that holds the assetPath according to the
           // correct current punchIndex
           final String punchAudio =
               ref.watch(punchListProvider)[punchIndex].punchAudio;
-          // Play audio! Works, but DTMF tones are SOOO terrible, I'm
-          // almost crying.
+          // Play audio!
           await audioPlayer.open(
             Audio.network(punchAudio),
           );
