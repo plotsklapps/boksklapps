@@ -28,7 +28,23 @@ class TempoScreenMobile extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: const StartBeastModeFAB(),
+        floatingActionButton: LayoutBuilder(
+          // For smaller screens, the FAB is resized in a Flexible()
+          // widget to fit the screen width
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const <Flexible>[
+                  Flexible(
+                    child: StartBeastModeFAB(),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
