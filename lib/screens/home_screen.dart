@@ -1,8 +1,6 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// HomeScreen class
 class HomeScreen extends StatelessWidget {
-  /// HomeScreen constructor
   const HomeScreen({super.key});
 
   @override

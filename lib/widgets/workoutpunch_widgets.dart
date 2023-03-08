@@ -40,6 +40,8 @@ class WorkoutPunchWidget extends ConsumerWidget {
           // Play audio!
           await audioPlayer.open(
             Audio.network(punchAudio),
+            autoStart: true,
+            showNotification: false,
           );
         }
       },
