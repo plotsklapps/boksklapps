@@ -20,8 +20,7 @@ class WorkoutPunchWidget extends ConsumerWidget {
     return AnimatedOpacity(
       // If the widget is visible, animate to 0.0 (invisible)
       opacity: isVisible ? 1.0 : 0.0,
-      // TODO: Make the duration dynamic relative to the users tempo
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 200),
       onEnd: () async {
         // When isVisible turns false, we set a new randomIndex from
         // the punchListProvider and give it to the PunchImage(punchIndex)

@@ -62,18 +62,14 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Flexible(
-                      child: Punch5ButtonWidget(
-                        ref: ref,
-                      ),
+                    Punch5ButtonWidget(
+                      ref: ref,
                     ),
                     const SizedBox(
                       width: 10.0,
                     ),
-                    Flexible(
-                      child: Punch6ButtonWidget(
-                        ref: ref,
-                      ),
+                    Punch6ButtonWidget(
+                      ref: ref,
                     ),
                   ],
                 ),

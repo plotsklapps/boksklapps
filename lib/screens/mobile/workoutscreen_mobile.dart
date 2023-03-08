@@ -24,6 +24,8 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   // If restTimer is not started, it cannot be cancelled
   // so is RestTimerStarted checks it to prevent bugs
   bool isRestTimerStarted = false;
+  // Create instance of AssetsAudioPlayer
+  final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
 
   @override
   void initState() {
@@ -180,9 +182,20 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
 
   void setTimerCountdown() {
     const int reduceSecondsBy = 1;
-    setState(() {
+    setState(() async {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
+        // Play 'rest' Audio
+        final int punchAudioInt = ref.watch(userSoundProvider);
+        String punchAudio;
+        if (punchAudioInt == 0) {
+          punchAudio = SoundUtils.kRestEllie;
+        } else {
+          punchAudio = SoundUtils.kRestArnold;
+        }
+        await audioPlayer.open(
+          Audio.network(punchAudio),
+        );
         // Kill the setTimer and periodicTimer
         setTimer.cancel();
         periodicTimer.cancel();

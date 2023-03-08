@@ -89,7 +89,10 @@ class ButtonState {
   final bool isOn;
   final Color color;
 
-  ButtonState(this.isOn, this.color);
+  ButtonState(
+    this.isOn,
+    this.color,
+  );
 }
 
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
@@ -114,7 +117,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
         ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
       return isOn
           ? FlexColor.outerSpaceLightPrimaryContainer
-          : Colors.transparent;
+          : const Color(0xFFECF3F6);
     }
     // ThemeMode.system + FlexScheme.outerSpace
     else if (ref.watch(themeModeProvider) == ThemeMode.system &&
@@ -133,7 +136,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     // ThemeMode.light + FlexScheme.money
     else if (ref.watch(themeModeProvider) == ThemeMode.light &&
         ref.watch(themeColorProvider) == FlexScheme.money) {
-      return isOn ? FlexColor.moneyLightPrimaryContainer : Colors.transparent;
+      return isOn
+          ? FlexColor.moneyLightPrimaryContainer
+          : const Color(0xFFECF4ED);
     }
     // ThemeMode.system + FlexScheme.money
     else if (ref.watch(themeModeProvider) == ThemeMode.system &&
@@ -148,7 +153,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     // ThemeMode.light + FlexScheme.redWine
     else if (ref.watch(themeModeProvider) == ThemeMode.light &&
         ref.watch(themeColorProvider) == FlexScheme.redWine) {
-      return isOn ? FlexColor.redWineLightPrimaryContainer : Colors.transparent;
+      return isOn
+          ? FlexColor.redWineLightPrimaryContainer
+          : const Color(0xFFFAEEF3);
     }
     // ThemeMode.system + FlexScheme.redWine
     else if (ref.watch(themeModeProvider) == ThemeMode.system &&
@@ -156,11 +163,9 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
       return isOn ? FlexColor.redWineDarkPrimaryContainer : Colors.transparent;
     }
     // ThemeMode.dark + FlexScheme.redWine
-    else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
-        ref.watch(themeColorProvider) == FlexScheme.redWine) {
+    else {
       return isOn ? FlexColor.redWineDarkPrimaryContainer : Colors.transparent;
     }
-    return Colors.transparent;
   }
 
   void addPunch1ToList(WidgetRef ref) {
