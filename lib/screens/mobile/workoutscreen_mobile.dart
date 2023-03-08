@@ -71,8 +71,33 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         '${(restTimerDuration.inSeconds % 60).toString().padLeft(2, '0')}';
     return SafeArea(
       child: Scaffold(
-        appBar: const AppBarWidget(
-          title: 'WORKOUT',
+        appBar: AppBar(
+          title: const Text('WORKOUT'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await Navigator.pushReplacementNamed(
+                  context,
+                  '/home_screen',
+                );
+                ref.invalidate(punchListProvider);
+                ref.invalidate(punch1Provider);
+                ref.invalidate(punch2Provider);
+                ref.invalidate(punch3Provider);
+                ref.invalidate(punch4Provider);
+                ref.invalidate(punch5Provider);
+                ref.invalidate(punch6Provider);
+                ref.invalidate(punch1BProvider);
+                ref.invalidate(punch2BProvider);
+                ref.invalidate(punch3BProvider);
+                ref.invalidate(punch4BProvider);
+              },
+              icon: const Icon(
+                Icons.home_outlined,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -185,17 +210,17 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() async {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        // Play 'rest' Audio
-        final int punchAudioInt = ref.watch(userSoundProvider);
-        String punchAudio;
-        if (punchAudioInt == 0) {
-          punchAudio = SoundUtils.kRestEllie;
-        } else {
-          punchAudio = SoundUtils.kRestArnold;
-        }
-        await audioPlayer.open(
-          Audio.network(punchAudio),
-        );
+        // // Play 'rest' Audio
+        // final int punchAudioInt = ref.watch(userSoundProvider);
+        // String punchAudio;
+        // if (punchAudioInt == 0) {
+        //   punchAudio = SoundUtils.kRestEllie;
+        // } else {
+        //   punchAudio = SoundUtils.kRestArnold;
+        // }
+        // await audioPlayer.open(
+        //   Audio.network(punchAudio),
+        // );
         // Kill the setTimer and periodicTimer
         setTimer.cancel();
         periodicTimer.cancel();
