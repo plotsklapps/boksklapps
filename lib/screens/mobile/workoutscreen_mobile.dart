@@ -207,20 +207,11 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
 
   void setTimerCountdown() {
     const int reduceSecondsBy = 1;
-    setState(() async {
+    setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        // // Play 'rest' Audio
-        // final int punchAudioInt = ref.watch(userSoundProvider);
-        // String punchAudio;
-        // if (punchAudioInt == 0) {
-        //   punchAudio = SoundUtils.kRestEllie;
-        // } else {
-        //   punchAudio = SoundUtils.kRestArnold;
-        // }
-        // await audioPlayer.open(
-        //   Audio.network(punchAudio),
-        // );
+        //Play sound
+        playRestAudio();
         // Kill the setTimer and periodicTimer
         setTimer.cancel();
         periodicTimer.cancel();
@@ -246,6 +237,9 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
+      if (restTimerSeconds == 1) {
+        playPrepareForTheNextSetAudio();
+      }
       if (restTimerSeconds < 0) {
         // Kill the restTimer
         restTimer.cancel();
@@ -258,5 +252,61 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
     });
+  }
+
+  Future<void> playRestAudio() async {
+    // Play 'rest' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kRestEllie;
+    } else {
+      punchAudio = SoundUtils.kRestArnold;
+    }
+    await audioPlayer.open(
+      Audio.network(punchAudio),
+    );
+  }
+
+  Future<void> playGoodJobAudio() async {
+    // Play 'good job' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kGoodJobEllie;
+    } else {
+      punchAudio = SoundUtils.kGoodJobArnold;
+    }
+    await audioPlayer.open(
+      Audio.network(punchAudio),
+    );
+  }
+
+  Future<void> playKeepItUpAudio() async {
+    // Play ' keep it up' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kKeepItUpEllie;
+    } else {
+      punchAudio = SoundUtils.kKeepItUpArnold;
+    }
+    await audioPlayer.open(
+      Audio.network(punchAudio),
+    );
+  }
+
+  Future<void> playPrepareForTheNextSetAudio() async {
+    // Play 'prepare for the next set' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPrepareForTheNextSetEllie;
+    } else {
+      punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
+    }
+    await audioPlayer.open(
+      Audio.network(punchAudio),
+    );
   }
 }
