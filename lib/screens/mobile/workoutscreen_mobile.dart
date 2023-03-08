@@ -190,8 +190,14 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       if (totalTimerSeconds < 0) {
         // Kill the timer
         totalTimer.cancel();
+        setTimer.cancel();
+        restTimer.cancel();
+        periodicTimer.cancel();
         // Reset totalTimerDuration to original users value
         totalTimerDuration = ref.watch(totalTimerDurationProvider);
+        setTimerDuration = ref.watch(setTimerDurationProvider);
+        restTimerDuration = ref.watch(restTimerDurationProvider);
+        periodicTimerDuration = ref.read(userTempoDurationProvider);
         // TODO: Show CONFETTI ofcourse
       } else {
         totalTimerDuration = Duration(seconds: totalTimerSeconds);
@@ -211,7 +217,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
         //Play sound
-        playRestAudio();
+        unawaited(playRestAudio());
         // Kill the setTimer and periodicTimer
         setTimer.cancel();
         periodicTimer.cancel();
@@ -238,7 +244,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
       if (restTimerSeconds == 1) {
-        playPrepareForTheNextSetAudio();
+        unawaited(playPrepareForTheNextSetAudio());
       }
       if (restTimerSeconds < 0) {
         // Kill the restTimer
