@@ -36,14 +36,10 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     restTimerDuration = ref.read(restTimerDurationProvider);
     periodicTimerDuration = ref.read(userTempoDurationProvider);
     // Start the timers, but NOT the restTimer!
-    // This is started within the setTimer
+    // The restTimer is started within the setTimer
     startTotalTimer();
     startSetTimer();
-    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
-      setState(() {
-        isVisible = !isVisible;
-      });
-    });
+    startPeriodicTimer();
   }
 
   @override
@@ -139,6 +135,14 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     );
   }
 
+  void startPeriodicTimer() {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
+      setState(() {
+        isVisible = !isVisible;
+      });
+    });
+  }
+
   void startTotalTimer() {
     // Total time and set time should start at the same time
     // (AFTER prepare time is over, which is a TODO).
@@ -179,8 +183,9 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        // Kill the setTimer
+        // Kill the setTimer and periodicTimer
         setTimer.cancel();
+        periodicTimer.cancel();
         // Start rest
         startRestTimer();
         // Reset setTimerDuration to original users value
@@ -206,8 +211,9 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       if (restTimerSeconds < 0) {
         // Kill the restTimer
         restTimer.cancel();
-        // Start setTimer
+        // Start setTimer and periodicTimer
         startSetTimer();
+        startPeriodicTimer();
         // Reset restTimerDuration to original users value
         restTimerDuration = ref.watch(restTimerDurationProvider);
       } else {
