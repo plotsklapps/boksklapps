@@ -74,7 +74,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         appBar: AppBar(
           title: const Text('WORKOUT'),
           centerTitle: true,
-          actions: [
+          actions: <IconButton>[
             IconButton(
               onPressed: () async {
                 await Navigator.pushReplacementNamed(
