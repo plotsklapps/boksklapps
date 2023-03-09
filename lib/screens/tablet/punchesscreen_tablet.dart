@@ -36,68 +36,48 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenTablet> {
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Punch3ButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                        children: const <Widget>[
+                          Punch3ButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch1ButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                          Punch1ButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch2ButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                          Punch2ButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch4ButtonWidget(
-                            ref: ref,
-                          ),
+                          Punch4ButtonWidget(),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Punch5ButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                        children: const <Widget>[
+                          Punch5ButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch6ButtonWidget(
-                            ref: ref,
-                          ),
+                          Punch6ButtonWidget(),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Punch3BButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                        children: const <Widget>[
+                          Punch3BButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch1BButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                          Punch1BButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch2BButtonWidget(
-                            ref: ref,
-                          ),
-                          const SizedBox(
+                          Punch2BButtonWidget(),
+                          SizedBox(
                             width: 10.0,
                           ),
-                          Punch4BButtonWidget(
-                            ref: ref,
-                          ),
+                          Punch4BButtonWidget(),
                         ],
                       ),
                       const SizedBox(
