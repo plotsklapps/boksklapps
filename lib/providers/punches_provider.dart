@@ -87,11 +87,9 @@ final StateNotifierProvider<ButtonStateNotifier, ButtonState> punch4BProvider =
 
 class ButtonState {
   final bool isOn;
-  final Color color;
 
   ButtonState(
     this.isOn,
-    this.color,
   );
 }
 
@@ -100,72 +98,11 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
       : super(
           ButtonState(
             false,
-            Colors.transparent,
           ),
         );
 
   void toggle(WidgetRef ref) {
-    state = ButtonState(!state.isOn, _getButtonColor(!state.isOn, ref));
-  }
-
-  Color _getButtonColor(
-    bool isOn,
-    WidgetRef ref,
-  ) {
-    // ThemeMode.light + FlexScheme.outerSpace
-    if (ref.watch(themeModeProvider) == ThemeMode.light &&
-        ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
-      return isOn
-          ? FlexColor.outerSpaceLightPrimaryContainer
-          : const Color(0xFFECF3F6);
-    }
-    // ThemeMode.system + FlexScheme.outerSpace
-    else if (ref.watch(themeModeProvider) == ThemeMode.system &&
-        ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
-      return isOn
-          ? FlexColor.outerSpaceDarkPrimaryContainer
-          : Colors.transparent;
-    }
-    // ThemeMode.dark + FlexScheme.outerSpace
-    else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
-        ref.watch(themeColorProvider) == FlexScheme.outerSpace) {
-      return isOn
-          ? FlexColor.outerSpaceDarkPrimaryContainer
-          : Colors.transparent;
-    }
-    // ThemeMode.light + FlexScheme.money
-    else if (ref.watch(themeModeProvider) == ThemeMode.light &&
-        ref.watch(themeColorProvider) == FlexScheme.money) {
-      return isOn
-          ? FlexColor.moneyLightPrimaryContainer
-          : const Color(0xFFECF4ED);
-    }
-    // ThemeMode.system + FlexScheme.money
-    else if (ref.watch(themeModeProvider) == ThemeMode.system &&
-        ref.watch(themeColorProvider) == FlexScheme.money) {
-      return isOn ? FlexColor.moneyDarkPrimaryContainer : Colors.transparent;
-    }
-    // ThemeMode.dark + FlexScheme.money
-    else if (ref.watch(themeModeProvider) == ThemeMode.dark &&
-        ref.watch(themeColorProvider) == FlexScheme.money) {
-      return isOn ? FlexColor.moneyDarkPrimaryContainer : Colors.transparent;
-    }
-    // ThemeMode.light + FlexScheme.redWine
-    else if (ref.watch(themeModeProvider) == ThemeMode.light &&
-        ref.watch(themeColorProvider) == FlexScheme.redWine) {
-      return isOn
-          ? FlexColor.redWineLightPrimaryContainer
-          : const Color(0xFFFAEEF3);
-    }
-    // ThemeMode.system + FlexScheme.redWine
-    else if (ref.watch(themeModeProvider) == ThemeMode.system &&
-        ref.watch(themeColorProvider) == FlexScheme.redWine) {
-      return isOn ? FlexColor.redWineDarkPrimaryContainer : Colors.transparent;
-    }
-    // ThemeMode.dark + FlexScheme.redWine
-    else {
-      return isOn ? FlexColor.redWineDarkPrimaryContainer : Colors.transparent;
-    }
+    state = ButtonState(!state.isOn);
   }
 
   void addPunch1ToList(WidgetRef ref) {
