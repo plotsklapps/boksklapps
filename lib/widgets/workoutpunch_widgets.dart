@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutPunchWidget extends ConsumerWidget {
@@ -13,7 +14,7 @@ class WorkoutPunchWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Create an instance of AssetsAudioPlayer();
-    final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+    final AudioPlayer audioPlayer = AudioPlayer();
     // Create a variable that holds the maxInt for the randomIndex
     final int maxInt = ref.watch(punchListProvider).length - 1;
 
@@ -38,10 +39,8 @@ class WorkoutPunchWidget extends ConsumerWidget {
           final String punchAudio =
               ref.watch(punchListProvider)[punchIndex].punchAudio;
           // Play audio!
-          await audioPlayer.open(
-            Audio.network(punchAudio),
-            autoStart: true,
-            showNotification: false,
+          await audioPlayer.play(
+            AssetSource(punchAudio),
           );
         }
       },

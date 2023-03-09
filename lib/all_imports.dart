@@ -1,4 +1,3 @@
-export 'package:assets_audio_player/assets_audio_player.dart';
 export 'package:boksklapps/alertdialogs/changebmi_dialog.dart';
 export 'package:boksklapps/alertdialogs/changedisplayname_dialog.dart';
 export 'package:boksklapps/alertdialogs/changeemail_dialog.dart';

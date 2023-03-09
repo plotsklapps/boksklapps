@@ -9,7 +9,7 @@ final StateNotifierProvider<UserSoundString, String> userSoundStringProvider =
 });
 
 class UserSoundString extends StateNotifier<String> {
-  UserSoundString() : super('Ellie');
+  UserSoundString() : super('Elli');
 
   // Method to set the userSoundStringProvider to the correct String
   // Logic is done in SoundSwitch widget
@@ -89,7 +89,7 @@ class UserSoundRepository {
     );
     if (newSound == 0) {
       await ref.read(userSoundStringProvider.notifier).setUserSoundString(
-            'Ellie',
+            'Elli',
           );
     } else if (newSound == 1) {
       await ref.read(userSoundStringProvider.notifier).setUserSoundString(

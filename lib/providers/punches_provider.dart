@@ -172,7 +172,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch1Ellie;
+      punchAudio = SoundUtils.kPunch1Elli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch1Arnold;
     } else {
@@ -191,7 +191,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch2Ellie;
+      punchAudio = SoundUtils.kPunch2Elli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch2Arnold;
     } else {
@@ -210,7 +210,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch3Ellie;
+      punchAudio = SoundUtils.kPunch3Elli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch3Arnold;
     } else {
@@ -229,7 +229,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch4Ellie;
+      punchAudio = SoundUtils.kPunch4Elli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch4Arnold;
     } else {
@@ -248,7 +248,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch5Ellie;
+      punchAudio = SoundUtils.kPunch5Elli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch5Arnold;
     } else {
@@ -267,7 +267,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch6Ellie;
+      punchAudio = SoundUtils.kPunch6Elli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch6Arnold;
     } else {
@@ -286,7 +286,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch1BEllie;
+      punchAudio = SoundUtils.kPunch1BElli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch1BArnold;
     } else {
@@ -305,7 +305,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch2BEllie;
+      punchAudio = SoundUtils.kPunch2BElli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch2BArnold;
     } else {
@@ -324,7 +324,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch3BEllie;
+      punchAudio = SoundUtils.kPunch3BElli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch3BArnold;
     } else {
@@ -343,7 +343,7 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPunch4BEllie;
+      punchAudio = SoundUtils.kPunch4BElli;
     } else if (punchAudioInt == 1) {
       punchAudio = SoundUtils.kPunch4BArnold;
     } else {

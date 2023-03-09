@@ -133,158 +133,46 @@ class SizeUtils {
 // Punch sounds
 class SoundUtils {
   //DTMF sounds
-  static const String kPunch1DTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-1.mp3?'
-      'alt=media&token=e5322d36-2d53-4c62-87c4-56018a62cdcf';
-  static const String kPunch2DTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-2.mp3?'
-      'alt=media&token=bebd18cc-594b-41fc-92d9-2dd613de6f9c';
-  static const String kPunch3DTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-3.mp3?'
-      'alt=media&token=1da7cd79-8399-4244-b0dc-74117ef231a7';
-  static const String kPunch4DTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-4.mp3?'
-      'alt=media&token=0eda42f0-c308-494f-b76c-5a0eeb1c03d1';
-  static const String kPunch5DTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-5.mp3?'
-      'alt=media&token=b022e30e-c4b4-40ca-9ddd-6144cb9814d5';
-  static const String kPunch6DTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-6.mp3?'
-      'alt=media&token=a2c35291-9749-4a10-8e94-ae0f20116d7f';
-  static const String kPunch1BDTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-7.mp3?'
-      'alt=media&token=56ef2438-4ddb-405a-87e4-180cdb1486b2';
-  static const String kPunch2BDTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-8.mp3?'
-      'alt=media&token=6f896b08-7893-44d0-b746-08c7274aab35';
-  static const String kPunch3BDTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-9.mp3?'
-      'alt=media&token=e7f85cd4-c6f7-4db5-9944-46d412317bc3';
-  static const String kPunch4BDTMF =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-DTMF%2Fdtmf-0.mp3?'
-      'alt=media&token=aab76f8c-baaf-48df-a18b-8838cc50ef92';
-  // Ellie voice
-  static const String kPunch1Ellie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_1_Ellie.mp3?'
-      'alt=media&token=b20861b2-81a8-48b7-92f6-a228acb34ab1';
-  static const String kPunch2Ellie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_2_Ellie.mp3?'
-      'alt=media&token=bbe6452b-2234-452b-a227-fa0bfdb5cf02';
-  static const String kPunch3Ellie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_3_Ellie.mp3?'
-      'alt=media&token=258fd7ac-f2d0-44c4-b990-93ee7c8dc025';
-  static const String kPunch4Ellie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_4_Ellie.mp3?'
-      'alt=media&token=31a2de7c-4887-4e1a-9728-4adde4576231';
-  static const String kPunch5Ellie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_5_Ellie.mp3?'
-      'alt=media&token=6cdb0804-1da5-47ca-a6fd-adfbc3d64b5c';
-  static const String kPunch6Ellie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_6_Ellie.mp3?'
-      'alt=media&token=52c11463-1956-4035-98bc-11b4ce173a74';
-  static const String kPunch1BEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_1B_Ellie.mp3?'
-      'alt=media&token=dc12d4f8-062f-484b-8a14-9d3a8a95e8fb';
-  static const String kPunch2BEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_2B_Ellie.mp3?'
-      'alt=media&token=68b66e84-a8d5-4cef-94da-67739fe30a23';
-  static const String kPunch3BEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_3B_Ellie.mp3?'
-      'alt=media&token=ada2eb0f-705e-4820-98ab-44fa6bd46d49';
-  static const String kPunch4BEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fpunch_4B_Ellie.mp3?'
-      'alt=media&token=3b202b84-647e-49d3-92c7-89b719fcd283';
-  static const String kGoodJobEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fgoodjob_Ellie.mp3?'
-      'alt=media&token=4be28da9-909b-4dab-a171-73b6d1d12c65';
-  static const String kKeepItUpEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fkeepitup_Ellie.mp3?'
-      'alt=media&token=d4cdb04a-4d9b-462b-b490-d630613b938f';
-  static const String kPrepareForTheNextSetEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Fprepareforthenextset_Ellie.mp3?'
-      'alt=media&token=2b6ecf49-a560-4f57-869f-f708c23a8314';
-  static const String kRestEllie =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Ellie%2Frest_Ellie.mp3?'
-      'alt=media&token=18208126-3c43-44cf-8ad1-fbc0c49cbaa9';
+  static const String kPunch1DTMF = 'MP3/DTMF/dtmf-1.mp3';
+  static const String kPunch2DTMF = 'MP3/DTMF/dtmf-2.mp3';
+  static const String kPunch3DTMF = 'MP3/DTMF/dtmf-3.mp3';
+  static const String kPunch4DTMF = 'MP3/DTMF/dtmf-4.mp3';
+  static const String kPunch5DTMF = 'MP3/DTMF/dtmf-5.mp3';
+  static const String kPunch6DTMF = 'MP3/DTMF/dtmf-6.mp3';
+  static const String kPunch1BDTMF = 'MP3/DTMF/dtmf-7.mp3';
+  static const String kPunch2BDTMF = 'MP3/DTMF/dtmf-8.mp3';
+  static const String kPunch3BDTMF = 'MP3/DTMF/dtmf-9.mp3';
+  static const String kPunch4BDTMF = 'MP3/DTMF/dtmf-0.mp3';
+  // Elli voice
+  static const String kPunch1Elli = 'MP3/Elli/punch_1_Elli.mp3';
+  static const String kPunch2Elli = 'MP3/Elli/punch_2_Elli.mp3';
+  static const String kPunch3Elli = 'MP3/Elli/punch_3_Elli.mp3';
+  static const String kPunch4Elli = 'MP3/Elli/punch_4_Elli.mp3';
+  static const String kPunch5Elli = 'MP3/Elli/punch_5_Elli.mp3';
+  static const String kPunch6Elli = 'MP3/Elli/punch_6_Elli.mp3';
+  static const String kPunch1BElli = 'MP3/Elli/punch_1B_Elli.mp3';
+  static const String kPunch2BElli = 'MP3/Elli/punch_2B_Elli.mp3';
+  static const String kPunch3BElli = 'MP3/Elli/punch_3B_Elli.mp3';
+  static const String kPunch4BElli = 'MP3/Elli/punch_4B_Elli.mp3';
+  static const String kGoodJobElli = 'MP3/Elli/goodjob_Elli.mp3';
+  static const String kKeepItUpElli = 'MP3/Elli/keepitup_Elli.mp3';
+  static const String kPrepareForTheNextSetElli =
+      'MP3/Elli/prepareforthenextset_Elli.mp3';
+  static const String kRestElli = 'MP3/Elli/rest_Elli.mp3';
   // Arnold voice
-  static const String kPunch1Arnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_1_Arnold.mp3?'
-      'alt=media&token=166af1a7-b523-45dc-a4d2-993867c758ac';
-  static const String kPunch2Arnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_2_Arnold.mp3?'
-      'alt=media&token=99a45539-7a87-4ca0-aa5b-2181c68b2eb1';
-  static const String kPunch3Arnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_3_Arnold.mp3?'
-      'alt=media&token=87c295a5-7f0c-4766-985d-421902e5ca3c';
-  static const String kPunch4Arnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_4_Arnold.mp3?'
-      'alt=media&token=c94afa10-1dc8-421b-912b-a2a8065c8984';
-  static const String kPunch5Arnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_5_Arnold.mp3?'
-      'alt=media&token=fffaaeac-efb2-4e56-8257-12883a0e1a93';
-  static const String kPunch6Arnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_6_Arnold.mp3?'
-      'alt=media&token=b047c8ad-5aec-4040-a895-a439cf3f4fcc';
-  static const String kPunch1BArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_1B_Arnold.mp3?'
-      'alt=media&token=0317a6a0-9322-4e87-a593-e6c1f506b9f0';
-  static const String kPunch2BArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_2B_Arnold.mp3?'
-      'alt=media&token=116af52e-82f1-44fa-9f58-4e9d28407ca6';
-  static const String kPunch3BArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_3B_Arnold.mp3?'
-      'alt=media&token=728cba82-e39f-49d9-83d2-26ed0de70d13';
-  static const String kPunch4BArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fpunch_4B_Arnold.mp3?'
-      'alt=media&token=98342a2f-26cd-4f86-a965-c219b186b32a';
-  static const String kGoodJobArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fgoodjob_Arnold.mp3?'
-      'alt=media&token=a0e1d282-4e23-41f3-91f6-5eedeebe82b7';
-  static const String kKeepItUpArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fkeepitup_Arnold.mp3?'
-      'alt=media&token=de3cf3e2-953e-4acb-a204-1c68b4374bc3';
+  static const String kPunch1Arnold = 'MP3/Arnold/punch_1_Arnold.mp3';
+  static const String kPunch2Arnold = 'MP3/Arnold/punch_2_Arnold.mp3';
+  static const String kPunch3Arnold = 'MP3/Arnold/punch_3_Arnold.mp3';
+  static const String kPunch4Arnold = 'MP3/Arnold/punch_4_Arnold.mp3';
+  static const String kPunch5Arnold = 'MP3/Arnold/punch_5_Arnold.mp3';
+  static const String kPunch6Arnold = 'MP3/Arnold/punch_6_Arnold.mp3';
+  static const String kPunch1BArnold = 'MP3/Arnold/punch_1B_Arnold.mp3';
+  static const String kPunch2BArnold = 'MP3/Arnold/punch_2B_Arnold.mp3';
+  static const String kPunch3BArnold = 'MP3/Arnold/punch_3B_Arnold.mp3';
+  static const String kPunch4BArnold = 'MP3/Arnold/punch_4B_Arnold.mp3';
+  static const String kGoodJobArnold = 'MP3/Arnold/goodjob_Arnold.mp3';
+  static const String kKeepItUpArnold = 'MP3/Arnold/keepitup_Arnold.mp3';
   static const String kPrepareForTheNextSetArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Fprepareforthenextset_Arnold.mp3?'
-      'alt=media&token=78aee2c9-48cc-4ca7-8cdf-efa308cfd969';
-  static const String kRestArnold =
-      'https://firebasestorage.googleapis.com/v0/b/'
-      'boksklapps.appspot.com/o/MP3-Arnold%2Frest_Arnold.mp3?'
-      'alt=media&token=3ff9606a-c54d-4d21-acc5-74500ce4a5c9';
+      'MP3/Arnold/prepareforthenextset_Arnold.mp3';
+  static const String kRestArnold = 'MP3/Arnold/rest_Arnold.mp3';
 }

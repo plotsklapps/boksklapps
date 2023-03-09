@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutScreenMobile extends ConsumerStatefulWidget {
@@ -25,7 +26,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   // so is RestTimerStarted checks it to prevent bugs
   bool isRestTimerStarted = false;
   // Create instance of AssetsAudioPlayer
-  final AssetsAudioPlayer audioPlayer = AssetsAudioPlayer();
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -265,13 +266,11 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kRestEllie;
+      punchAudio = SoundUtils.kRestElli;
     } else {
       punchAudio = SoundUtils.kRestArnold;
     }
-    await audioPlayer.open(
-      Audio.network(punchAudio),
-    );
+    await audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playGoodJobAudio() async {
@@ -279,13 +278,11 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kGoodJobEllie;
+      punchAudio = SoundUtils.kGoodJobElli;
     } else {
       punchAudio = SoundUtils.kGoodJobArnold;
     }
-    await audioPlayer.open(
-      Audio.network(punchAudio),
-    );
+    await audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playKeepItUpAudio() async {
@@ -293,13 +290,11 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kKeepItUpEllie;
+      punchAudio = SoundUtils.kKeepItUpElli;
     } else {
       punchAudio = SoundUtils.kKeepItUpArnold;
     }
-    await audioPlayer.open(
-      Audio.network(punchAudio),
-    );
+    await audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playPrepareForTheNextSetAudio() async {
@@ -307,12 +302,10 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     final int punchAudioInt = ref.watch(userSoundProvider);
     String punchAudio;
     if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPrepareForTheNextSetEllie;
+      punchAudio = SoundUtils.kPrepareForTheNextSetElli;
     } else {
       punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
     }
-    await audioPlayer.open(
-      Audio.network(punchAudio),
-    );
+    await audioPlayer.play(AssetSource(punchAudio));
   }
 }
