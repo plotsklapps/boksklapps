@@ -20,19 +20,18 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   late Timer setTimer;
   late Timer restTimer;
   late Timer periodicTimer;
+  // Create AudioPlayer instance
+  final AudioPlayer audioPlayer = AudioPlayer();
   // Create bool to show punch or not
   bool isVisible = true;
   // If restTimer is not started, it cannot be cancelled
   // so is RestTimerStarted checks it to prevent bugs
   bool isRestTimerStarted = false;
-  // Create instance of AssetsAudioPlayer
-  final AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     // TODO: Initialize a prepareTimer as well
-
     // Initialize the durations
     totalTimerDuration = ref.read(totalTimerDurationProvider);
     setTimerDuration = ref.read(setTimerDurationProvider);
@@ -46,7 +45,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   }
 
   @override
-  void dispose() {
+  Future<void> dispose() async {
     // Kill all timers
     totalTimer.cancel();
     setTimer.cancel();
@@ -55,6 +54,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     if (isRestTimerStarted) {
       restTimer.cancel();
     }
+    await audioPlayer.dispose();
     super.dispose();
   }
 
@@ -72,34 +72,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         '${(restTimerDuration.inSeconds % 60).toString().padLeft(2, '0')}';
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('WORKOUT'),
-          centerTitle: true,
-          actions: <IconButton>[
-            IconButton(
-              onPressed: () async {
-                await Navigator.pushReplacementNamed(
-                  context,
-                  '/home_screen',
-                );
-                ref.invalidate(punchListProvider);
-                ref.invalidate(punch1Provider);
-                ref.invalidate(punch2Provider);
-                ref.invalidate(punch3Provider);
-                ref.invalidate(punch4Provider);
-                ref.invalidate(punch5Provider);
-                ref.invalidate(punch6Provider);
-                ref.invalidate(punch1BProvider);
-                ref.invalidate(punch2BProvider);
-                ref.invalidate(punch3BProvider);
-                ref.invalidate(punch4BProvider);
-              },
-              icon: const Icon(
-                Icons.home_outlined,
-              ),
-            ),
-          ],
-        ),
+        appBar: const AppBarWidget(title: 'WORKOUT'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(
@@ -161,14 +134,6 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         ),
       ),
     );
-  }
-
-  void startPeriodicTimer() {
-    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
-      setState(() {
-        isVisible = !isVisible;
-      });
-    });
   }
 
   void startTotalTimer() {
@@ -263,6 +228,14 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       } else {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
+    });
+  }
+
+  void startPeriodicTimer() {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
+      setState(() {
+        isVisible = !isVisible;
+      });
     });
   }
 
