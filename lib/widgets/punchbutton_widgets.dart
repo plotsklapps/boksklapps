@@ -1,17 +1,26 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class Punch1ButtonWidget extends ConsumerWidget {
   const Punch1ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch1Provider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -20,6 +29,11 @@ class Punch1ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch1Provider.notifier).toggle(ref);
           if (ref.watch(punch1Provider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer.play(AssetSource(SoundUtils.kPunchJabElli));
+            } else {
+              await audioPlayer.play(AssetSource(SoundUtils.kPunchJabArnold));
+            }
             ref.read(punch1Provider.notifier).addPunch1ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -27,9 +41,11 @@ class Punch1ButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch1Provider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kJabPath)
-            : const GloveWhenUnselected(image: StringUtils.kJabPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kJabPath,
+          ),
+        ),
       ),
     );
   }
@@ -39,14 +55,22 @@ class Punch2ButtonWidget extends ConsumerWidget {
   const Punch2ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch2Provider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -55,6 +79,11 @@ class Punch2ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch2Provider.notifier).toggle(ref);
           if (ref.watch(punch2Provider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer.play(AssetSource(SoundUtils.kPunchCrossElli));
+            } else {
+              await audioPlayer.play(AssetSource(SoundUtils.kPunchCrossArnold));
+            }
             ref.read(punch2Provider.notifier).addPunch2ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -62,9 +91,11 @@ class Punch2ButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch2Provider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kCrossPath)
-            : const GloveWhenUnselected(image: StringUtils.kCrossPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kCrossPath,
+          ),
+        ),
       ),
     );
   }
@@ -74,14 +105,22 @@ class Punch3ButtonWidget extends ConsumerWidget {
   const Punch3ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch3Provider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -90,6 +129,13 @@ class Punch3ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch3Provider.notifier).toggle(ref);
           if (ref.watch(punch3Provider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchLeadHookElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchLeadHookArnold));
+            }
             ref.read(punch3Provider.notifier).addPunch3ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -97,9 +143,11 @@ class Punch3ButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch3Provider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kLeadHookPath)
-            : const GloveWhenUnselected(image: StringUtils.kLeadHookPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kLeadHookPath,
+          ),
+        ),
       ),
     );
   }
@@ -109,14 +157,22 @@ class Punch4ButtonWidget extends ConsumerWidget {
   const Punch4ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch4Provider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -125,6 +181,13 @@ class Punch4ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch4Provider.notifier).toggle(ref);
           if (ref.watch(punch4Provider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchRearHookElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchRearHookArnold));
+            }
             ref.read(punch4Provider.notifier).addPunch4ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -132,9 +195,11 @@ class Punch4ButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch4Provider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kRearHookPath)
-            : const GloveWhenUnselected(image: StringUtils.kRearHookPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kRearHookPath,
+          ),
+        ),
       ),
     );
   }
@@ -144,14 +209,22 @@ class Punch5ButtonWidget extends ConsumerWidget {
   const Punch5ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch5Provider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -160,6 +233,13 @@ class Punch5ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch5Provider.notifier).toggle(ref);
           if (ref.watch(punch5Provider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchLeadUppercutElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchLeadUppercutArnold));
+            }
             ref.read(punch5Provider.notifier).addPunch5ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -167,9 +247,11 @@ class Punch5ButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch5Provider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kLeadUppercutPath)
-            : const GloveWhenUnselected(image: StringUtils.kLeadUppercutPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kLeadUppercutPath,
+          ),
+        ),
       ),
     );
   }
@@ -179,14 +261,22 @@ class Punch6ButtonWidget extends ConsumerWidget {
   const Punch6ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch6Provider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -195,6 +285,13 @@ class Punch6ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch6Provider.notifier).toggle(ref);
           if (ref.watch(punch6Provider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchRearUppercutElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchRearUppercutArnold));
+            }
             ref.read(punch6Provider.notifier).addPunch6ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -202,9 +299,11 @@ class Punch6ButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch6Provider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kRearUppercutPath)
-            : const GloveWhenUnselected(image: StringUtils.kRearUppercutPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kRearUppercutPath,
+          ),
+        ),
       ),
     );
   }
@@ -214,14 +313,22 @@ class Punch1BButtonWidget extends ConsumerWidget {
   const Punch1BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch1BProvider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -230,6 +337,12 @@ class Punch1BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch1BProvider.notifier).toggle(ref);
           if (ref.watch(punch1BProvider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer.play(AssetSource(SoundUtils.kPunchBodyJabElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchBodyJabArnold));
+            }
             ref.read(punch1BProvider.notifier).addPunch1BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -237,9 +350,11 @@ class Punch1BButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch1BProvider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kBodyJabPath)
-            : const GloveWhenUnselected(image: StringUtils.kBodyJabPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kBodyJabPath,
+          ),
+        ),
       ),
     );
   }
@@ -249,14 +364,22 @@ class Punch2BButtonWidget extends ConsumerWidget {
   const Punch2BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch2BProvider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -265,6 +388,13 @@ class Punch2BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch2BProvider.notifier).toggle(ref);
           if (ref.watch(punch2BProvider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchBodyCrossElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchBodyCrossArnold));
+            }
             ref.read(punch2BProvider.notifier).addPunch2BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -272,9 +402,11 @@ class Punch2BButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch2BProvider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kBodyCrossPath)
-            : const GloveWhenUnselected(image: StringUtils.kBodyCrossPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kBodyCrossPath,
+          ),
+        ),
       ),
     );
   }
@@ -284,14 +416,22 @@ class Punch3BButtonWidget extends ConsumerWidget {
   const Punch3BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch3BProvider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -300,6 +440,13 @@ class Punch3BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch3BProvider.notifier).toggle(ref);
           if (ref.watch(punch3BProvider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchLeadBodyHookElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchLeadBodyHookArnold));
+            }
             ref.read(punch3BProvider.notifier).addPunch3BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -307,9 +454,11 @@ class Punch3BButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch3BProvider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kLeadBodyHookPath)
-            : const GloveWhenUnselected(image: StringUtils.kLeadBodyHookPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kLeadBodyHookPath,
+          ),
+        ),
       ),
     );
   }
@@ -319,14 +468,22 @@ class Punch4BButtonWidget extends ConsumerWidget {
   const Punch4BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
-      height: 48.0,
-      width: 48.0,
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
+      height: 64.0,
+      width: 64.0,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            12.0,
+          ),
+        ),
+        color: ref.watch(punch4BProvider).isOn
+            ? Colors.greenAccent
+            : Colors.transparent,
       ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           //Every punchProvider has a number, corresponding to
           //original boxing methods (Jab = 1, Cross = 2, etc.).
           //If user selects a number, the punchProvider will set
@@ -335,6 +492,13 @@ class Punch4BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch4BProvider.notifier).toggle(ref);
           if (ref.watch(punch4BProvider).isOn == true) {
+            if (ref.watch(userSoundProvider) == 0) {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchRearBodyHookElli));
+            } else {
+              await audioPlayer
+                  .play(AssetSource(SoundUtils.kPunchRearBodyHookArnold));
+            }
             ref.read(punch4BProvider.notifier).addPunch4BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -342,9 +506,11 @@ class Punch4BButtonWidget extends ConsumerWidget {
                 );
           }
         },
-        child: ref.watch(punch4BProvider).isOn
-            ? const GloveWhenSelected(image: StringUtils.kRearBodyHookPath)
-            : const GloveWhenUnselected(image: StringUtils.kRearBodyHookPath),
+        child: const Image(
+          image: AssetImage(
+            StringUtils.kRearBodyHookPath,
+          ),
+        ),
       ),
     );
   }

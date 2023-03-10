@@ -159,6 +159,22 @@ class SoundUtils {
   static const String kPrepareForTheNextSetElli =
       'MP3/Elli/prepareforthenextset_Elli.mp3';
   static const String kRestElli = 'MP3/Elli/rest_Elli.mp3';
+  static const String kPunchJabElli = 'MP3/Elli/punch_jab_Elli.mp3';
+  static const String kPunchCrossElli = 'MP3/Elli/punch_cross_Elli.mp3';
+  static const String kPunchLeadHookElli = 'MP3/Elli/punch_lead_hook_Elli.mp3';
+  static const String kPunchRearHookElli = 'MP3/Elli/punch_rear_hook_Elli.mp3';
+  static const String kPunchLeadUppercutElli =
+      'MP3/Elli/punch_lead_uppercut_Elli.mp3';
+  static const String kPunchRearUppercutElli =
+      'MP3/Elli/punch_rear_uppercut_Elli.mp3';
+  static const String kPunchBodyJabElli = 'MP3/Elli/punch_body_jab_Elli.mp3';
+  static const String kPunchBodyCrossElli =
+      'MP3/Elli/punch_body_cross_Elli.mp3';
+  static const String kPunchLeadBodyHookElli =
+      'MP3/Elli/punch_lead_body_hook_Elli.mp3';
+  static const String kPunchRearBodyHookElli =
+      'MP3/Elli/punch_rear_body_hook_Elli.mp3';
+
   // Arnold voice
   static const String kPunch1Arnold = 'MP3/Arnold/punch_1_Arnold.mp3';
   static const String kPunch2Arnold = 'MP3/Arnold/punch_2_Arnold.mp3';
@@ -175,7 +191,26 @@ class SoundUtils {
   static const String kPrepareForTheNextSetArnold =
       'MP3/Arnold/prepareforthenextset_Arnold.mp3';
   static const String kRestArnold = 'MP3/Arnold/rest_Arnold.mp3';
+  static const String kPunchJabArnold = 'MP3/Arnold/punch_jab_Arnold.mp3';
+  static const String kPunchCrossArnold = 'MP3/Arnold/punch_cross_Arnold.mp3';
+  static const String kPunchLeadHookArnold =
+      'MP3/Arnold/punch_lead_hook_Arnold.mp3';
+  static const String kPunchRearHookArnold =
+      'MP3/Arnold/punch_rear_hook_Arnold.mp3';
+  static const String kPunchLeadUppercutArnold =
+      'MP3/Arnold/punch_lead_uppercut_Arnold.mp3';
+  static const String kPunchRearUppercutArnold =
+      'MP3/Arnold/punch_rear_uppercut_Arnold.mp3';
+  static const String kPunchBodyJabArnold =
+      'MP3/Arnold/punch_body_jab_Arnold.mp3';
+  static const String kPunchBodyCrossArnold =
+      'MP3/Arnold/punch_body_cross_Arnold.mp3';
+  static const String kPunchLeadBodyHookArnold =
+      'MP3/Arnold/punch_lead_body_hook_Arnold.mp3';
+  static const String kPunchRearBodyHookArnold =
+      'MP3/Arnold/punch_rear_body_hook_Arnold.mp3';
 
+  // Boxing sounds
   static const String kOneBell = 'MP3/Sound/boxing_bell_one.mp3';
   static const String kThreeBell = 'MP3/Sound/boxing_bell_three.mp3';
   static const String kBoxingIntroMusic = 'MP3/Sound/boxing_intro_music.mp3';
