@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutScreenTablet extends ConsumerStatefulWidget {
@@ -24,6 +25,8 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
   // If restTimer is not started, it cannot be cancelled
   // so is RestTimerStarted checks it to prevent bugs
   bool isRestTimerStarted = false;
+  // Create instance of AssetsAudioPlayer
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -36,16 +39,10 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     restTimerDuration = ref.read(restTimerDurationProvider);
     periodicTimerDuration = ref.read(userTempoDurationProvider);
     // Start the timers, but NOT the restTimer!
-    // This is started within the setTimer
+    // The restTimer is started within the setTimer
     startTotalTimer();
     startSetTimer();
-    // periodicTimer pulsates the punch container and takes
-    // a Duration from userTempoDurationProvider
-    periodicTimer = Timer.periodic(periodicTimerDuration, (Timer timer) {
-      setState(() {
-        isVisible = !isVisible;
-      });
-    });
+    startPeriodicTimer();
   }
 
   @override
@@ -53,11 +50,11 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     // Kill all timers
     totalTimer.cancel();
     setTimer.cancel();
+    periodicTimer.cancel();
     // Here we check for if the restTimer started
     if (isRestTimerStarted) {
       restTimer.cancel();
     }
-    periodicTimer.cancel();
     super.dispose();
   }
 
@@ -75,15 +72,12 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
         '${(restTimerDuration.inSeconds % 60).toString().padLeft(2, '0')}';
     return SafeArea(
       child: Scaffold(
-        appBar: const AppBarWidget(
-          title: 'WORKOUT',
-        ),
+        appBar: const AppBarWidget(title: 'WORKOUT'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(
               24.0,
             ),
-
             // Wrap the Column() in a SizedBox() to set the total height
             // at 85% of the screen height so that the SingleChildScrollView()
             // won't affect any of the widgets inside the Column()
@@ -91,7 +85,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.85,
               child: Row(
-                children: <Expanded>[
+                children: <Widget>[
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +110,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
                                 ),
                                 Text(
                                   totalTimerString,
-                                  style: TextStyleUtils.kHeadline2,
+                                  style: TextStyleUtils.kHeadline3,
                                 ),
                                 const SizedBox(height: 20),
                                 const Text(
@@ -125,7 +119,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
                                 ),
                                 Text(
                                   setTimerString,
-                                  style: TextStyleUtils.kHeadline2,
+                                  style: TextStyleUtils.kHeadline3,
                                 ),
                                 const SizedBox(height: 20),
                                 const Text(
@@ -134,13 +128,13 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
                                 ),
                                 Text(
                                   restTimerString,
-                                  style: TextStyleUtils.kHeadline2,
+                                  style: TextStyleUtils.kHeadline3,
                                 ),
                               ],
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 64),
                         WorkoutPunchWidget(
                           isVisible: isVisible,
                         ),
@@ -154,6 +148,14 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
         ),
       ),
     );
+  }
+
+  void startPeriodicTimer() {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
+      setState(() {
+        isVisible = !isVisible;
+      });
+    });
   }
 
   void startTotalTimer() {
@@ -176,8 +178,14 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
       if (totalTimerSeconds < 0) {
         // Kill the timer
         totalTimer.cancel();
+        setTimer.cancel();
+        restTimer.cancel();
+        periodicTimer.cancel();
         // Reset totalTimerDuration to original users value
         totalTimerDuration = ref.watch(totalTimerDurationProvider);
+        setTimerDuration = ref.watch(setTimerDurationProvider);
+        restTimerDuration = ref.watch(restTimerDurationProvider);
+        periodicTimerDuration = ref.read(userTempoDurationProvider);
         // TODO: Show CONFETTI ofcourse
       } else {
         totalTimerDuration = Duration(seconds: totalTimerSeconds);
@@ -196,12 +204,17 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        // Kill the setTimer
+        // Kill the setTimer and periodicTimer
         setTimer.cancel();
+        periodicTimer.cancel();
+        // Play sound
+        unawaited(playThreeBell());
         // Start rest
         startRestTimer();
         // Reset setTimerDuration to original users value
         setTimerDuration = ref.watch(setTimerDurationProvider);
+        //Play sound
+        unawaited(delayedPlayRestAudio());
       } else {
         setTimerDuration = Duration(seconds: setTimerSeconds);
       }
@@ -220,16 +233,87 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     setState(() {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
+      if (restTimerSeconds == 1) {
+        // Play sound
+        unawaited(playPrepareForTheNextSetAudio());
+      }
       if (restTimerSeconds < 0) {
-        // Kill the timer
+        // Play sound
+        unawaited(playOneBell());
+        // Kill the restTimer
         restTimer.cancel();
-        // Start setTimer
+        // Start setTimer and periodicTimer
         startSetTimer();
+        startPeriodicTimer();
         // Reset restTimerDuration to original users value
         restTimerDuration = ref.watch(restTimerDurationProvider);
       } else {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
     });
+  }
+
+  Future<void> delayedPlayRestAudio() async {
+    // Sets a three second delay before playing the rest audio
+    // used after three bell audio (so they won't overlap)
+    Future<void>.delayed(const Duration(seconds: 3), playRestAudio);
+  }
+
+  Future<void> playRestAudio() async {
+    // Play 'rest' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kRestElli;
+    } else {
+      punchAudio = SoundUtils.kRestArnold;
+    }
+    await audioPlayer.play(AssetSource(punchAudio));
+  }
+
+  Future<void> playGoodJobAudio() async {
+    // Play 'good job' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kGoodJobElli;
+    } else {
+      punchAudio = SoundUtils.kGoodJobArnold;
+    }
+    await audioPlayer.play(AssetSource(punchAudio));
+  }
+
+  Future<void> playKeepItUpAudio() async {
+    // Play ' keep it up' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kKeepItUpElli;
+    } else {
+      punchAudio = SoundUtils.kKeepItUpArnold;
+    }
+    await audioPlayer.play(AssetSource(punchAudio));
+  }
+
+  Future<void> playPrepareForTheNextSetAudio() async {
+    // Play 'prepare for the next set' Audio
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPrepareForTheNextSetElli;
+    } else {
+      punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
+    }
+    await audioPlayer.play(AssetSource(punchAudio));
+  }
+
+  Future<void> playOneBell() async {
+    // Play 'one bell' Audio
+    await audioPlayer.play(AssetSource(SoundUtils.kOneBell));
+  }
+
+  Future<void> playThreeBell() async {
+    // Play 'three bell' Audio
+    await audioPlayer.play(AssetSource(SoundUtils.kThreeBell));
   }
 }

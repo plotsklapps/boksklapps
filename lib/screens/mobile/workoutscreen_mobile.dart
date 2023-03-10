@@ -267,6 +267,8 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   }
 
   Future<void> delayedPlayRestAudio() async {
+    // Sets a three second delay before playing the rest audio
+    // used after three bell audio (so they won't overlap)
     Future<void>.delayed(const Duration(seconds: 3), playRestAudio);
   }
 
