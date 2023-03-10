@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 // SplashScreen class
@@ -12,6 +13,12 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  final AudioPlayer audioPlayer = AudioPlayer();
+
+  Future<void> playIntroMusic() async {
+    await audioPlayer.play(AssetSource(SoundUtils.kBoxingIntroMusic));
+  }
+
   // Declare timer, use it in initState and dispose
   // After 5 seconds, navigate to home if user is known,
   // else navigate to login
@@ -20,6 +27,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Play intro music
+    unawaited(playIntroMusic());
     timer = Timer(const Duration(seconds: 5), () async {
       if (FirebaseAuth.instance.currentUser != null) {
         Logger().i(
@@ -105,18 +114,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 64),
+          const SizedBox(height: 32),
 
-          // Show a dummy progress indicator
+          // Show a boxer GIF as a loading indicator
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const <CircularProgressIndicator>[
-              CircularProgressIndicator(
-                strokeWidth: 14,
+            children: const <Widget>[
+              Image(
+                image: AssetImage(
+                  'assets/GIF/boxer.gif',
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 64),
+          const SizedBox(height: 32),
 
           // What's my name?
           Row(

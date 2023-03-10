@@ -175,4 +175,8 @@ class SoundUtils {
   static const String kPrepareForTheNextSetArnold =
       'MP3/Arnold/prepareforthenextset_Arnold.mp3';
   static const String kRestArnold = 'MP3/Arnold/rest_Arnold.mp3';
+
+  static const String kOneBell = 'MP3/Sound/boxing_bell_one.mp3';
+  static const String kThreeBell = 'MP3/Sound/boxing_bell_three.mp3';
+  static const String kBoxingIntroMusic = 'MP3/Sound/boxing_intro_music.mp3';
 }

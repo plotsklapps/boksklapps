@@ -217,15 +217,17 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() {
       final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
       if (setTimerSeconds < 0) {
-        //Play sound
-        unawaited(playRestAudio());
         // Kill the setTimer and periodicTimer
         setTimer.cancel();
         periodicTimer.cancel();
+        // Play sound
+        unawaited(playThreeBell());
         // Start rest
         startRestTimer();
         // Reset setTimerDuration to original users value
         setTimerDuration = ref.watch(setTimerDurationProvider);
+        //Play sound
+        unawaited(delayedPlayRestAudio());
       } else {
         setTimerDuration = Duration(seconds: setTimerSeconds);
       }
@@ -245,9 +247,12 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
       if (restTimerSeconds == 1) {
+        // Play sound
         unawaited(playPrepareForTheNextSetAudio());
       }
       if (restTimerSeconds < 0) {
+        // Play sound
+        unawaited(playOneBell());
         // Kill the restTimer
         restTimer.cancel();
         // Start setTimer and periodicTimer
@@ -259,6 +264,10 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
     });
+  }
+
+  Future<void> delayedPlayRestAudio() async {
+    Future<void>.delayed(const Duration(seconds: 3), playRestAudio);
   }
 
   Future<void> playRestAudio() async {
@@ -307,5 +316,15 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
     }
     await audioPlayer.play(AssetSource(punchAudio));
+  }
+
+  Future<void> playOneBell() async {
+    // Play 'one bell' Audio
+    await audioPlayer.play(AssetSource(SoundUtils.kOneBell));
+  }
+
+  Future<void> playThreeBell() async {
+    // Play 'three bell' Audio
+    await audioPlayer.play(AssetSource(SoundUtils.kThreeBell));
   }
 }
