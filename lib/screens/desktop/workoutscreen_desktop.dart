@@ -74,79 +74,67 @@ class WorkoutScreenDesktopState extends ConsumerState<WorkoutScreenDesktop> {
       child: Scaffold(
         appBar: const AppBarWidget(title: 'WORKOUT'),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              0.0,
-              24.0,
-              24.0,
-              24.0,
-            ),
-            // Wrap the Column() in a SizedBox() to set the total height
-            // at 85% of the screen height so that the SingleChildScrollView()
-            // won't affect any of the widgets inside the Column()
-            // and the keyboard can easily pop up without any issues
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.85,
-              child: Row(
-                children: <Widget>[
-                  const DrawerWidget(),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        GetShitDoneWidget(),
-                      ],
-                    ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.85,
+            child: Row(
+              children: <Widget>[
+                const DrawerWidget(),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      GetShitDoneWidget(),
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Column>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                const Text(
-                                  StringUtils.kTotalTime,
-                                  style: TextStyleUtils.kBodyText,
-                                ),
-                                Text(
-                                  totalTimerString,
-                                  style: TextStyleUtils.kHeadline3,
-                                ),
-                                const SizedBox(height: 20),
-                                const Text(
-                                  StringUtils.kSetTime,
-                                  style: TextStyleUtils.kBodyText,
-                                ),
-                                Text(
-                                  setTimerString,
-                                  style: TextStyleUtils.kHeadline3,
-                                ),
-                                const SizedBox(height: 20),
-                                const Text(
-                                  StringUtils.kRestTime,
-                                  style: TextStyleUtils.kBodyText,
-                                ),
-                                Text(
-                                  restTimerString,
-                                  style: TextStyleUtils.kHeadline3,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 64),
-                        WorkoutPunchWidget(
-                          isVisible: isVisible,
-                        ),
-                      ],
-                    ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Column>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                StringUtils.kTotalTime,
+                                style: TextStyleUtils.kBodyText,
+                              ),
+                              Text(
+                                totalTimerString,
+                                style: TextStyleUtils.kHeadline3,
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                StringUtils.kSetTime,
+                                style: TextStyleUtils.kBodyText,
+                              ),
+                              Text(
+                                setTimerString,
+                                style: TextStyleUtils.kHeadline3,
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                StringUtils.kRestTime,
+                                style: TextStyleUtils.kBodyText,
+                              ),
+                              Text(
+                                restTimerString,
+                                style: TextStyleUtils.kHeadline3,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 64),
+                      WorkoutPunchWidget(
+                        isVisible: isVisible,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
