@@ -144,6 +144,7 @@ class SoundUtils {
   static const String kPunch3BDTMF = 'MP3/DTMF/dtmf-9.mp3';
   static const String kPunch4BDTMF = 'MP3/DTMF/dtmf-0.mp3';
   // Elli voice
+  static const String kNameElli = 'MP3/Elli/name_Elli.mp3';
   static const String kPunch1Elli = 'MP3/Elli/punch_1_Elli.mp3';
   static const String kPunch2Elli = 'MP3/Elli/punch_2_Elli.mp3';
   static const String kPunch3Elli = 'MP3/Elli/punch_3_Elli.mp3';
@@ -176,6 +177,7 @@ class SoundUtils {
       'MP3/Elli/punch_rear_body_hook_Elli.mp3';
 
   // Arnold voice
+  static const String kNameArnold = 'MP3/Arnold/name_Arnold.mp3';
   static const String kPunch1Arnold = 'MP3/Arnold/punch_1_Arnold.mp3';
   static const String kPunch2Arnold = 'MP3/Arnold/punch_2_Arnold.mp3';
   static const String kPunch3Arnold = 'MP3/Arnold/punch_3_Arnold.mp3';
