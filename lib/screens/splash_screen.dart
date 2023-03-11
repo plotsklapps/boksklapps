@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
-// SplashScreen class
 class SplashScreen extends ConsumerStatefulWidget {
-  // SplashScreen constructor
   const SplashScreen({super.key});
 
   @override
@@ -13,49 +10,19 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
-  final AudioPlayer audioPlayer = AudioPlayer();
-
-  Future<void> delayedPlayIntroSound() async {
-    await Future<void>.delayed(const Duration(seconds: 3));
-    await audioPlayer.play(AssetSource(SoundUtils.kGameboySound));
-  }
-
-  // Declare timer, use it in initState and dispose
-  // After 5 seconds, navigate to home if user is known,
-  // else navigate to login
-  Timer? timer;
+  late AudioPlayer audioPlayer;
 
   @override
   void initState() {
     super.initState();
-    // Play intro music
-    unawaited(delayedPlayIntroSound());
-    timer = Timer(const Duration(seconds: 5), () async {
-      if (FirebaseAuth.instance.currentUser != null) {
-        Logger().i(
-          'UserData fetched from Firestore...',
-        );
-        // If user is NOT null, retrieve Firestore data
-        // and go to HomeScreen()
-        await getFirestoreData(context, ref).then((_) async {
-          await Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
-        });
-      } else {
-        await Navigator.pushReplacementNamed(
-          context,
-          '/login_screen',
-        );
-      }
-    });
+    audioPlayer = AudioPlayer();
   }
 
   @override
   void dispose() {
-    // Kill timer
-    timer?.cancel();
+    Future<void>.microtask(() async {
+      await audioPlayer.dispose();
+    });
     super.dispose();
   }
 
@@ -154,6 +121,43 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await onContinuePressed();
+        },
+        child: Row(
+          children: const <Widget>[
+            Text(
+              'CONTINUE',
+            ),
+            IconUtils.kForward,
+          ],
+        ),
+      ),
     );
+  }
+
+  Future<void> onContinuePressed() async {
+    await audioPlayer.play(AssetSource(SoundUtils.kGameboySound));
+    if (FirebaseAuth.instance.currentUser != null) {
+      Logger().i(
+        'UserData fetched from Firestore...',
+      );
+      // If user is NOT null, retrieve Firestore data
+      // and go to HomeScreen()
+      if (context.mounted) {
+        await getFirestoreData(context, ref).then((_) async {
+          await Navigator.pushReplacementNamed(
+            context,
+            '/home_screen',
+          );
+        });
+      } else {
+        await Navigator.pushReplacementNamed(
+          context,
+          '/login_screen',
+        );
+      }
+    }
   }
 }
