@@ -23,6 +23,9 @@ Map<String, WidgetBuilder> customRoutes = <String, WidgetBuilder>{
   '/settings_screen': (BuildContext context) {
     return const SettingsScreen();
   },
+  '/about_screen': (BuildContext context) {
+    return const AboutScreen();
+  },
   '/timer_screen': (BuildContext context) {
     return const TimerScreen();
   },

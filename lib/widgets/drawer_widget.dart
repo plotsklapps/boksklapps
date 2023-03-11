@@ -106,6 +106,20 @@ class DrawerWidget extends ConsumerWidget {
               ),
               ListTile(
                 title: const Text(
+                  'About',
+                  style: TextStyleUtils.kBodyText,
+                ),
+                subtitle: const Text('Developer notes & Credits'),
+                trailing: const Icon(Icons.info_outline),
+                onTap: () async {
+                  await Navigator.pushNamed(
+                    context,
+                    '/about_screen',
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
                   'Logout',
                   style: TextStyleUtils.kBodyText,
                 ),

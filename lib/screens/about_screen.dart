@@ -1,9 +1,7 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// AccountScreen class
-class AccountScreen extends StatelessWidget {
-  /// AccountScreen constructor
-  const AccountScreen({super.key});
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +10,9 @@ class AccountScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const AccountScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      // TODO: Create tablet version
-      return const AccountScreenTablet();
+      return const AccountScreenMobile();
     } else {
-      // TODO: Create desktop version
-      return const AccountScreenDesktop();
+      return const AccountScreenMobile();
     }
   }
 }

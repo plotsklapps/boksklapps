@@ -15,8 +15,9 @@ class SplashScreen extends ConsumerStatefulWidget {
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   final AudioPlayer audioPlayer = AudioPlayer();
 
-  Future<void> playIntroMusic() async {
-    await audioPlayer.play(AssetSource(SoundUtils.kBoxingIntroMusic));
+  Future<void> delayedPlayIntroSound() async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    await audioPlayer.play(AssetSource(SoundUtils.kGameboySound));
   }
 
   // Declare timer, use it in initState and dispose
@@ -28,7 +29,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     // Play intro music
-    unawaited(playIntroMusic());
+    unawaited(delayedPlayIntroSound());
     timer = Timer(const Duration(seconds: 5), () async {
       if (FirebaseAuth.instance.currentUser != null) {
         Logger().i(

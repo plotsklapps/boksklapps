@@ -213,5 +213,6 @@ class SoundUtils {
   // Boxing sounds
   static const String kOneBell = 'MP3/Sound/boxing_bell_one.mp3';
   static const String kThreeBell = 'MP3/Sound/boxing_bell_three.mp3';
-  static const String kBoxingIntroMusic = 'MP3/Sound/boxing_intro_music.mp3';
+  static const String kBoxingIntroMusic = 'MP3/Sound/boxing_wii_music.mp3';
+  static const String kGameboySound = 'MP3/Sound/gameboy_sound.mp3';
 }
