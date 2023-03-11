@@ -103,7 +103,7 @@ class TextStyleUtils {
 
 /// Icon constants
 class IconUtils {
-  static const Icon kForward = Icon(Icons.arrow_forward_outlined);
+  static const Icon kForward = Icon(Icons.arrow_forward_ios_outlined);
   static const Icon kEmailAddress = Icon(Icons.email_outlined);
   static const Icon kPassword = Icon(Icons.lock_outlined);
   static const Icon kSettings = Icon(Icons.settings_outlined);
