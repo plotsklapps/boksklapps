@@ -46,6 +46,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
 
   @override
   Future<void> dispose() async {
+    super.dispose();
     // Kill all timers
     totalTimer.cancel();
     setTimer.cancel();
@@ -55,7 +56,6 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
       restTimer.cancel();
     }
     await audioPlayer.dispose();
-    super.dispose();
   }
 
   @override
