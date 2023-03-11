@@ -20,19 +20,18 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
   late Timer setTimer;
   late Timer restTimer;
   late Timer periodicTimer;
+  // Create AudioPlayer instance
+  final AudioPlayer audioPlayer = AudioPlayer();
   // Create bool to show punch or not
   bool isVisible = true;
   // If restTimer is not started, it cannot be cancelled
   // so is RestTimerStarted checks it to prevent bugs
   bool isRestTimerStarted = false;
-  // Create instance of AssetsAudioPlayer
-  final AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     // TODO: Initialize a prepareTimer as well
-
     // Initialize the durations
     totalTimerDuration = ref.read(totalTimerDurationProvider);
     setTimerDuration = ref.read(setTimerDurationProvider);
@@ -79,6 +78,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
             padding: const EdgeInsets.all(
               24.0,
             ),
+
             // Wrap the Column() in a SizedBox() to set the total height
             // at 85% of the screen height so that the SingleChildScrollView()
             // won't affect any of the widgets inside the Column()
@@ -86,7 +86,7 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.85,
               child: Row(
-                children: <Widget>[
+                children: <Expanded>[
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -149,14 +149,6 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
         ),
       ),
     );
-  }
-
-  void startPeriodicTimer() {
-    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
-      setState(() {
-        isVisible = !isVisible;
-      });
-    });
   }
 
   void startTotalTimer() {
@@ -251,6 +243,14 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
       } else {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
+    });
+  }
+
+  void startPeriodicTimer() {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
+      setState(() {
+        isVisible = !isVisible;
+      });
     });
   }
 

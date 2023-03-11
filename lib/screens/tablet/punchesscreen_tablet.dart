@@ -5,10 +5,10 @@ class PunchesScreenTablet extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<PunchesScreenTablet> createState() =>
-      _PunchesScreenMobileState();
+      PunchesScreenTabletState();
 }
 
-class _PunchesScreenMobileState extends ConsumerState<PunchesScreenTablet> {
+class PunchesScreenTabletState extends ConsumerState<PunchesScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,6 +37,8 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenTablet> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const <Widget>[
+                          // Use Flexible widgets to make the buttons fit
+                          // on smaller mobile screens
                           Punch3ButtonWidget(),
                           SizedBox(
                             width: 10.0,
@@ -52,6 +54,9 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenTablet> {
                           Punch4ButtonWidget(),
                         ],
                       ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const <Widget>[
@@ -61,6 +66,9 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenTablet> {
                           ),
                           Punch6ButtonWidget(),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 8.0,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -88,70 +96,35 @@ class _PunchesScreenMobileState extends ConsumerState<PunchesScreenTablet> {
                         children: <Widget>[
                           ElevatedButton(
                             onPressed: () {
-                              // Toggle all the punches and add them to the
-                              // punchListProvider
-                              ref.read(punch1Provider.notifier).toggle(ref);
-                              ref
-                                  .read(punch1Provider.notifier)
-                                  .addPunch1ToList(ref);
-                              ref.read(punch2Provider.notifier).toggle(ref);
-                              ref
-                                  .read(punch2Provider.notifier)
-                                  .addPunch2ToList(ref);
-                              ref.read(punch3Provider.notifier).toggle(ref);
-                              ref
-                                  .read(punch3Provider.notifier)
-                                  .addPunch3ToList(ref);
-                              ref.read(punch4Provider.notifier).toggle(ref);
-                              ref
-                                  .read(punch4Provider.notifier)
-                                  .addPunch4ToList(ref);
-                              ref.read(punch5Provider.notifier).toggle(ref);
-                              ref
-                                  .read(punch5Provider.notifier)
-                                  .addPunch5ToList(ref);
-                              ref.read(punch6Provider.notifier).toggle(ref);
-                              ref
-                                  .read(punch6Provider.notifier)
-                                  .addPunch6ToList(ref);
-                              ref.read(punch1BProvider.notifier).toggle(ref);
-                              ref
-                                  .read(punch1BProvider.notifier)
-                                  .addPunch1BToList(ref);
-                              ref.read(punch2BProvider.notifier).toggle(ref);
-                              ref
-                                  .read(punch2BProvider.notifier)
-                                  .addPunch2BToList(ref);
-                              ref.read(punch3BProvider.notifier).toggle(ref);
-                              ref
-                                  .read(punch3BProvider.notifier)
-                                  .addPunch3BToList(ref);
-                              ref.read(punch4BProvider.notifier).toggle(ref);
-                              ref
-                                  .read(punch4BProvider.notifier)
-                                  .addPunch4BToList(ref);
+                              ButtonStateNotifier().addAllToPunchList(ref);
                             },
-                            child: const Text(
-                              'ADD ALL',
+                            child: Row(
+                              children: const <Widget>[
+                                IconUtils.kAdd,
+                                SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  'ADD ALL',
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(width: 12.0),
                           ElevatedButton(
                             onPressed: () {
-                              ref.invalidate(punchListProvider);
-                              ref.invalidate(punch1Provider);
-                              ref.invalidate(punch2Provider);
-                              ref.invalidate(punch3Provider);
-                              ref.invalidate(punch4Provider);
-                              ref.invalidate(punch5Provider);
-                              ref.invalidate(punch6Provider);
-                              ref.invalidate(punch1BProvider);
-                              ref.invalidate(punch2BProvider);
-                              ref.invalidate(punch3BProvider);
-                              ref.invalidate(punch4BProvider);
+                              ButtonStateNotifier().removeAllFromPunchList(ref);
                             },
-                            child: const Text(
-                              'RESET',
+                            child: Row(
+                              children: const <Widget>[
+                                Text(
+                                  'RESET',
+                                ),
+                                SizedBox(
+                                  width: 8.0,
+                                ),
+                                IconUtils.kRemove,
+                              ],
                             ),
                           ),
                         ],

@@ -7,6 +7,7 @@ class AboutScreenMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
+        appBar: AppBarWidget(title: 'ABOUT'),
         body: Placeholder(),
       ),
     );
