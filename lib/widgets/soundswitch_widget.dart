@@ -30,7 +30,7 @@ class _SoundSwitchState extends ConsumerState<SoundSwitch> {
     final List<bool> isSelected = <bool>[
       ref.watch(userSoundProvider) == 0,
       ref.watch(userSoundProvider) == 1,
-      ref.watch(userSoundProvider) == 2,
+      // ref.watch(userSoundProvider) == 2,
     ];
 
     return ToggleButtons(
@@ -72,23 +72,22 @@ class _SoundSwitchState extends ConsumerState<SoundSwitch> {
           await audioPlayer.play(
             AssetSource(SoundUtils.kNameArnold),
           );
-        } else {
-          // Set the state of themeColorProvider to Red Red Wine
-          // and set the String of themeColorProvider
-          await ref.read(userSoundProvider.notifier).updateUserSound(
-                context,
-                ref,
-                2,
-              );
-          await ref.read(userSoundStringProvider.notifier).setUserSoundString(
-                'DTMF',
-              );
         }
+        // } else {
+        //   await ref.read(userSoundProvider.notifier).updateUserSound(
+        //         context,
+        //         ref,
+        //         2,
+        //       );
+        //   await ref.read(userSoundStringProvider.notifier).setUserSoundString(
+        //         'DTMF',
+        //       );
+        // }
       },
       children: const <Icon>[
         IconUtils.kWoman,
         IconUtils.kMan,
-        IconUtils.kDTMF,
+        // IconUtils.kDTMF,
       ],
     );
   }
