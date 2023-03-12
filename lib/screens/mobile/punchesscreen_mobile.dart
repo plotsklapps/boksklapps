@@ -1,16 +1,10 @@
 import 'package:boksklapps/all_imports.dart';
 
-class PunchesScreenMobile extends ConsumerStatefulWidget {
+class PunchesScreenMobile extends ConsumerWidget {
   const PunchesScreenMobile({super.key});
 
   @override
-  ConsumerState<PunchesScreenMobile> createState() =>
-      _PunchesScreenMobileState();
-}
-
-class _PunchesScreenMobileState extends ConsumerState<PunchesScreenMobile> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarWidget(

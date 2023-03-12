@@ -1,36 +1,14 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
-class SoundSwitch extends ConsumerStatefulWidget {
+class SoundSwitch extends ConsumerWidget {
   const SoundSwitch({super.key});
 
   @override
-  ConsumerState<SoundSwitch> createState() => _SoundSwitchState();
-}
-
-class _SoundSwitchState extends ConsumerState<SoundSwitch> {
-  late AudioPlayer audioPlayer;
-
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer = AudioPlayer();
-  }
-
-  @override
-  void dispose() {
-    Future<void>.microtask(() async {
-      await audioPlayer.dispose();
-    });
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final List<bool> isSelected = <bool>[
       ref.watch(userSoundProvider) == 0,
       ref.watch(userSoundProvider) == 1,
-      // ref.watch(userSoundProvider) == 2,
     ];
 
     return ToggleButtons(
@@ -51,12 +29,15 @@ class _SoundSwitchState extends ConsumerState<SoundSwitch> {
                 0,
               );
           await ref.read(userSoundStringProvider.notifier).setUserSoundString(
-                'Ellie',
+                'Elli',
               );
-          // Play sound!
-          await audioPlayer.play(
-            AssetSource(SoundUtils.kNameElli),
-          );
+          final AudioPlayer audioPlayer = AudioPlayer();
+          // Play sound and dispose after completion
+          await audioPlayer.play(AssetSource(SoundUtils.kNameElli)).then((_) {
+            audioPlayer.onPlayerComplete.listen((_) {
+              audioPlayer.dispose();
+            });
+          });
         } else if (newIndex == 1) {
           // Set the state of userSoundProvider to 1
           // and set the String of userSoundStringProvider to 'Arnold'
@@ -68,26 +49,20 @@ class _SoundSwitchState extends ConsumerState<SoundSwitch> {
           await ref.read(userSoundStringProvider.notifier).setUserSoundString(
                 'Arnold',
               );
-          // Play sound!
-          await audioPlayer.play(
-            AssetSource(SoundUtils.kNameArnold),
+          final AudioPlayer audioPlayer = AudioPlayer();
+          // Play sound and dispose after completion
+          await audioPlayer.play(AssetSource(SoundUtils.kNameArnold)).then(
+            (_) {
+              audioPlayer.onPlayerComplete.listen((_) {
+                audioPlayer.dispose();
+              });
+            },
           );
         }
-        // } else {
-        //   await ref.read(userSoundProvider.notifier).updateUserSound(
-        //         context,
-        //         ref,
-        //         2,
-        //       );
-        // await ref.read(userSoundStringProvider.notifier).setUserSoundString(
-        //         'DTMF',
-        //       );
-        // }
       },
       children: const <Icon>[
         IconUtils.kWoman,
         IconUtils.kMan,
-        // IconUtils.kDTMF,
       ],
     );
   }
