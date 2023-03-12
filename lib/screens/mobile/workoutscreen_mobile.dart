@@ -20,8 +20,6 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   late Timer setTimer;
   late Timer restTimer;
   late Timer periodicTimer;
-  // Create AudioPlayer instance
-  final AudioPlayer audioPlayer = AudioPlayer();
   // Create bool to show punch or not
   bool isVisible = true;
   // If restTimer is not started, it cannot be cancelled
@@ -45,7 +43,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
   }
 
   @override
-  Future<void> dispose() async {
+  void dispose() {
     super.dispose();
     // Kill all timers
     totalTimer.cancel();
@@ -55,7 +53,9 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     if (isRestTimerStarted) {
       restTimer.cancel();
     }
-    await audioPlayer.dispose();
+    Future<void>.microtask(() async {
+      await Audio.audioPlayer.dispose();
+    });
   }
 
   @override
@@ -254,7 +254,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     } else {
       punchAudio = SoundUtils.kRestArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await Audio.audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playGoodJobAudio() async {
@@ -266,7 +266,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     } else {
       punchAudio = SoundUtils.kGoodJobArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await Audio.audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playKeepItUpAudio() async {
@@ -278,7 +278,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     } else {
       punchAudio = SoundUtils.kKeepItUpArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await Audio.audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playPrepareForTheNextSetAudio() async {
@@ -290,16 +290,16 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     } else {
       punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await Audio.audioPlayer.play(AssetSource(punchAudio));
   }
 
   Future<void> playOneBell() async {
     // Play 'one bell' Audio
-    await audioPlayer.play(AssetSource(SoundUtils.kOneBell));
+    await Audio.audioPlayer.play(AssetSource(SoundUtils.kOneBell));
   }
 
   Future<void> playThreeBell() async {
     // Play 'three bell' Audio
-    await audioPlayer.play(AssetSource(SoundUtils.kThreeBell));
+    await Audio.audioPlayer.play(AssetSource(SoundUtils.kThreeBell));
   }
 }

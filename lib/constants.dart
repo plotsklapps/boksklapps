@@ -143,6 +143,7 @@ class SoundUtils {
   static const String kPunch2BDTMF = 'MP3/DTMF/dtmf-8.mp3';
   static const String kPunch3BDTMF = 'MP3/DTMF/dtmf-9.mp3';
   static const String kPunch4BDTMF = 'MP3/DTMF/dtmf-0.mp3';
+
   // Elli voice
   static const String kPunch1Elli = 'MP3/Elli/punch_1_Elli.mp3';
   static const String kPunch2Elli = 'MP3/Elli/punch_2_Elli.mp3';

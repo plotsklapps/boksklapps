@@ -10,6 +10,7 @@ export 'package:boksklapps/firebase/firebase_password.dart';
 export 'package:boksklapps/firebase/firebase_register.dart';
 export 'package:boksklapps/firebase/firestore_create.dart';
 export 'package:boksklapps/firebase/firestore_get.dart';
+export 'package:boksklapps/providers/audio_provider.dart';
 export 'package:boksklapps/providers/flextheme_provider.dart';
 export 'package:boksklapps/providers/punches_provider.dart';
 export 'package:boksklapps/providers/resttimer_provider.dart';
