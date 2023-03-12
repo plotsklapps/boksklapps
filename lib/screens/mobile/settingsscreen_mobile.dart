@@ -35,12 +35,12 @@ class SettingsScreenMobile extends ConsumerWidget {
               ),
               ListTile(
                 title: const Text(
-                  StringUtils.kPunchSound,
+                  'Punch Sound',
                 ),
                 subtitle: Text(
                   ref.watch(userSoundStringProvider),
                 ),
-                trailing: const SoundSwitch(),
+                trailing: const VoiceSwitch(),
               ),
             ],
           ),

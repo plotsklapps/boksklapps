@@ -57,7 +57,7 @@ class SettingsScreenDesktop extends ConsumerWidget {
                       subtitle: Text(
                         ref.watch(userSoundStringProvider),
                       ),
-                      trailing: const SoundSwitch(),
+                      trailing: const VoiceSwitch(),
                     ),
                   ],
                 ),
