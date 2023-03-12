@@ -127,16 +127,19 @@ class SplashScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    // Play sound
-    await Audio.audioPlayer.play(AssetSource(SoundUtils.kGameboySound));
-    if (FirebaseAuth.instance.currentUser != null) {
-      Logger().i(
-        'UserData fetched from Firestore...',
-      );
-      if (context.mounted) {
+    final AudioPlayer audioPlayer = AudioPlayer();
+    // Play sound and dispose after completion
+    await audioPlayer.play(AssetSource(SoundUtils.kGameboySound)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        audioPlayer.dispose();
+      });
+      if (FirebaseAuth.instance.currentUser != null) {
+        Logger().i(
+          'UserData fetched from Firestore...',
+        );
         // If user is NOT null, retrieve Firestore data
         // and go to HomeScreen()
-        await getFirestoreData(context, ref).then((_) async {
+        getFirestoreData(context, ref).then((_) async {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text(
@@ -154,12 +157,15 @@ class SplashScreen extends ConsumerWidget {
           );
         });
       } else {
+        Logger().i(
+          'User is not known, go to LoginScreen()',
+        );
         // If user is null, go to LoginScreen()
-        await Navigator.pushReplacementNamed(
+        Navigator.pushReplacementNamed(
           context,
           '/login_screen',
         );
       }
-    }
+    });
   }
 }
