@@ -145,77 +145,83 @@ class SoundUtils {
   static const String kPunch4BDTMF = 'MP3/DTMF/dtmf-0.mp3';
 
   // Elli voice
-  static const String kNameElli = 'MP3/Elli/name_Elli.mp3';
-  static const String kPunch1Elli = 'MP3/Elli/punch_1_Elli.mp3';
-  static const String kPunch2Elli = 'MP3/Elli/punch_2_Elli.mp3';
-  static const String kPunch3Elli = 'MP3/Elli/punch_3_Elli.mp3';
-  static const String kPunch4Elli = 'MP3/Elli/punch_4_Elli.mp3';
-  static const String kPunch5Elli = 'MP3/Elli/punch_5_Elli.mp3';
-  static const String kPunch6Elli = 'MP3/Elli/punch_6_Elli.mp3';
-  static const String kPunch1BElli = 'MP3/Elli/punch_1B_Elli.mp3';
-  static const String kPunch2BElli = 'MP3/Elli/punch_2B_Elli.mp3';
-  static const String kPunch3BElli = 'MP3/Elli/punch_3B_Elli.mp3';
-  static const String kPunch4BElli = 'MP3/Elli/punch_4B_Elli.mp3';
-  static const String kGoodJobElli = 'MP3/Elli/goodjob_Elli.mp3';
-  static const String kKeepItUpElli = 'MP3/Elli/keepitup_Elli.mp3';
+  static const String kNameElli = 'assets/MP3/Elli/name_Elli.mp3';
+  static const String kPunch1Elli = 'assets/MP3/Elli/punch_1_Elli.mp3';
+  static const String kPunch2Elli = 'assets/MP3/Elli/punch_2_Elli.mp3';
+  static const String kPunch3Elli = 'assets/MP3/Elli/punch_3_Elli.mp3';
+  static const String kPunch4Elli = 'assets/MP3/Elli/punch_4_Elli.mp3';
+  static const String kPunch5Elli = 'assets/MP3/Elli/punch_5_Elli.mp3';
+  static const String kPunch6Elli = 'assets/MP3/Elli/punch_6_Elli.mp3';
+  static const String kPunch1BElli = 'assets/MP3/Elli/punch_1B_Elli.mp3';
+  static const String kPunch2BElli = 'assets/MP3/Elli/punch_2B_Elli.mp3';
+  static const String kPunch3BElli = 'assets/MP3/Elli/punch_3B_Elli.mp3';
+  static const String kPunch4BElli = 'assets/MP3/Elli/punch_4B_Elli.mp3';
+  static const String kGoodJobElli = 'assets/MP3/Elli/goodjob_Elli.mp3';
+  static const String kKeepItUpElli = 'assets/MP3/Elli/keepitup_Elli.mp3';
   static const String kPrepareForTheNextSetElli =
-      'MP3/Elli/prepareforthenextset_Elli.mp3';
-  static const String kRestElli = 'MP3/Elli/rest_Elli.mp3';
-  static const String kPunchJabElli = 'MP3/Elli/punch_jab_Elli.mp3';
-  static const String kPunchCrossElli = 'MP3/Elli/punch_cross_Elli.mp3';
-  static const String kPunchLeadHookElli = 'MP3/Elli/punch_lead_hook_Elli.mp3';
-  static const String kPunchRearHookElli = 'MP3/Elli/punch_rear_hook_Elli.mp3';
+      'assets/MP3/Elli/prepareforthenextset_Elli.mp3';
+  static const String kRestElli = 'assets/MP3/Elli/rest_Elli.mp3';
+  static const String kPunchJabElli = 'assets/MP3/Elli/punch_jab_Elli.mp3';
+  static const String kPunchCrossElli = 'assets/MP3/Elli/punch_cross_Elli.mp3';
+  static const String kPunchLeadHookElli =
+      'assets/MP3/Elli/punch_lead_hook_Elli.mp3';
+  static const String kPunchRearHookElli =
+      'assets/MP3/Elli/punch_rear_hook_Elli.mp3';
   static const String kPunchLeadUppercutElli =
-      'MP3/Elli/punch_lead_uppercut_Elli.mp3';
+      'assets/MP3/Elli/punch_lead_uppercut_Elli.mp3';
   static const String kPunchRearUppercutElli =
-      'MP3/Elli/punch_rear_uppercut_Elli.mp3';
-  static const String kPunchBodyJabElli = 'MP3/Elli/punch_body_jab_Elli.mp3';
+      'assets/MP3/Elli/punch_rear_uppercut_Elli.mp3';
+  static const String kPunchBodyJabElli =
+      'assets/MP3/Elli/punch_body_jab_Elli.mp3';
   static const String kPunchBodyCrossElli =
-      'MP3/Elli/punch_body_cross_Elli.mp3';
+      'assets/MP3/Elli/punch_body_cross_Elli.mp3';
   static const String kPunchLeadBodyHookElli =
-      'MP3/Elli/punch_lead_body_hook_Elli.mp3';
+      'assets/MP3/Elli/punch_lead_body_hook_Elli.mp3';
   static const String kPunchRearBodyHookElli =
-      'MP3/Elli/punch_rear_body_hook_Elli.mp3';
+      'assets/MP3/Elli/punch_rear_body_hook_Elli.mp3';
 
   // Arnold voice
-  static const String kNameArnold = 'MP3/Arnold/name_Arnold.mp3';
-  static const String kPunch1Arnold = 'MP3/Arnold/punch_1_Arnold.mp3';
-  static const String kPunch2Arnold = 'MP3/Arnold/punch_2_Arnold.mp3';
-  static const String kPunch3Arnold = 'MP3/Arnold/punch_3_Arnold.mp3';
-  static const String kPunch4Arnold = 'MP3/Arnold/punch_4_Arnold.mp3';
-  static const String kPunch5Arnold = 'MP3/Arnold/punch_5_Arnold.mp3';
-  static const String kPunch6Arnold = 'MP3/Arnold/punch_6_Arnold.mp3';
-  static const String kPunch1BArnold = 'MP3/Arnold/punch_1B_Arnold.mp3';
-  static const String kPunch2BArnold = 'MP3/Arnold/punch_2B_Arnold.mp3';
-  static const String kPunch3BArnold = 'MP3/Arnold/punch_3B_Arnold.mp3';
-  static const String kPunch4BArnold = 'MP3/Arnold/punch_4B_Arnold.mp3';
-  static const String kGoodJobArnold = 'MP3/Arnold/goodjob_Arnold.mp3';
-  static const String kKeepItUpArnold = 'MP3/Arnold/keepitup_Arnold.mp3';
+  static const String kNameArnold = 'assets/MP3/Arnold/name_Arnold.mp3';
+  static const String kPunch1Arnold = 'assets/MP3/Arnold/punch_1_Arnold.mp3';
+  static const String kPunch2Arnold = 'assets/MP3/Arnold/punch_2_Arnold.mp3';
+  static const String kPunch3Arnold = 'assets/MP3/Arnold/punch_3_Arnold.mp3';
+  static const String kPunch4Arnold = 'assets/MP3/Arnold/punch_4_Arnold.mp3';
+  static const String kPunch5Arnold = 'assets/MP3/Arnold/punch_5_Arnold.mp3';
+  static const String kPunch6Arnold = 'assets/MP3/Arnold/punch_6_Arnold.mp3';
+  static const String kPunch1BArnold = 'assets/MP3/Arnold/punch_1B_Arnold.mp3';
+  static const String kPunch2BArnold = 'assets/MP3/Arnold/punch_2B_Arnold.mp3';
+  static const String kPunch3BArnold = 'assets/MP3/Arnold/punch_3B_Arnold.mp3';
+  static const String kPunch4BArnold = 'assets/MP3/Arnold/punch_4B_Arnold.mp3';
+  static const String kGoodJobArnold = 'assets/MP3/Arnold/goodjob_Arnold.mp3';
+  static const String kKeepItUpArnold = 'assets/MP3/Arnold/keepitup_Arnold.mp3';
   static const String kPrepareForTheNextSetArnold =
-      'MP3/Arnold/prepareforthenextset_Arnold.mp3';
-  static const String kRestArnold = 'MP3/Arnold/rest_Arnold.mp3';
-  static const String kPunchJabArnold = 'MP3/Arnold/punch_jab_Arnold.mp3';
-  static const String kPunchCrossArnold = 'MP3/Arnold/punch_cross_Arnold.mp3';
+      'assets/MP3/Arnold/prepareforthenextset_Arnold.mp3';
+  static const String kRestArnold = 'assets/MP3/Arnold/rest_Arnold.mp3';
+  static const String kPunchJabArnold =
+      'assets/MP3/Arnold/punch_jab_Arnold.mp3';
+  static const String kPunchCrossArnold =
+      'assets/MP3/Arnold/punch_cross_Arnold.mp3';
   static const String kPunchLeadHookArnold =
-      'MP3/Arnold/punch_lead_hook_Arnold.mp3';
+      'assets/MP3/Arnold/punch_lead_hook_Arnold.mp3';
   static const String kPunchRearHookArnold =
-      'MP3/Arnold/punch_rear_hook_Arnold.mp3';
+      'assets/MP3/Arnold/punch_rear_hook_Arnold.mp3';
   static const String kPunchLeadUppercutArnold =
-      'MP3/Arnold/punch_lead_uppercut_Arnold.mp3';
+      'assets/MP3/Arnold/punch_lead_uppercut_Arnold.mp3';
   static const String kPunchRearUppercutArnold =
-      'MP3/Arnold/punch_rear_uppercut_Arnold.mp3';
+      'assets/MP3/Arnold/punch_rear_uppercut_Arnold.mp3';
   static const String kPunchBodyJabArnold =
-      'MP3/Arnold/punch_body_jab_Arnold.mp3';
+      'assets/MP3/Arnold/punch_body_jab_Arnold.mp3';
   static const String kPunchBodyCrossArnold =
-      'MP3/Arnold/punch_body_cross_Arnold.mp3';
+      'assets/MP3/Arnold/punch_body_cross_Arnold.mp3';
   static const String kPunchLeadBodyHookArnold =
-      'MP3/Arnold/punch_lead_body_hook_Arnold.mp3';
+      'assets/MP3/Arnold/punch_lead_body_hook_Arnold.mp3';
   static const String kPunchRearBodyHookArnold =
-      'MP3/Arnold/punch_rear_body_hook_Arnold.mp3';
+      'assets/MP3/Arnold/punch_rear_body_hook_Arnold.mp3';
 
   // Boxing sounds
-  static const String kOneBell = 'MP3/Sound/boxing_bell_one.mp3';
-  static const String kThreeBell = 'MP3/Sound/boxing_bell_three.mp3';
-  static const String kBoxingIntroMusic = 'MP3/Sound/boxing_wii_music.mp3';
-  static const String kGameboySound = 'MP3/Sound/gameboy_sound.mp3';
+  static const String kOneBell = 'assets/MP3/Sound/boxing_bell_one.mp3';
+  static const String kThreeBell = 'assets/MP3/Sound/boxing_bell_three.mp3';
+  static const String kBoxingIntroMusic =
+      'assets/MP3/Sound/boxing_wii_music.mp3';
+  static const String kGameboySound = 'assets/MP3/Sound/gameboy_sound.mp3';
 }
