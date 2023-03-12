@@ -1,11 +1,9 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class Punch1ButtonWidget extends ConsumerWidget {
   const Punch1ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -29,11 +27,7 @@ class Punch1ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch1Provider.notifier).toggle(ref);
           if (ref.watch(punch1Provider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer.play(AssetSource(SoundUtils.kPunchJabElli));
-            } else {
-              await audioPlayer.play(AssetSource(SoundUtils.kPunchJabArnold));
-            }
+            await ref.watch(audioProvider).playJabAudio();
             ref.read(punch1Provider.notifier).addPunch1ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -55,7 +49,6 @@ class Punch2ButtonWidget extends ConsumerWidget {
   const Punch2ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -79,11 +72,7 @@ class Punch2ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch2Provider.notifier).toggle(ref);
           if (ref.watch(punch2Provider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer.play(AssetSource(SoundUtils.kPunchCrossElli));
-            } else {
-              await audioPlayer.play(AssetSource(SoundUtils.kPunchCrossArnold));
-            }
+            await ref.watch(audioProvider).playCrossAudio();
             ref.read(punch2Provider.notifier).addPunch2ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -105,7 +94,6 @@ class Punch3ButtonWidget extends ConsumerWidget {
   const Punch3ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -129,13 +117,7 @@ class Punch3ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch3Provider.notifier).toggle(ref);
           if (ref.watch(punch3Provider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchLeadHookElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchLeadHookArnold));
-            }
+            await ref.watch(audioProvider).playLeadHookAudio();
             ref.read(punch3Provider.notifier).addPunch3ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -157,7 +139,6 @@ class Punch4ButtonWidget extends ConsumerWidget {
   const Punch4ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -181,13 +162,7 @@ class Punch4ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch4Provider.notifier).toggle(ref);
           if (ref.watch(punch4Provider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchRearHookElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchRearHookArnold));
-            }
+            await ref.watch(audioProvider).playRearHookAudio();
             ref.read(punch4Provider.notifier).addPunch4ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -209,7 +184,6 @@ class Punch5ButtonWidget extends ConsumerWidget {
   const Punch5ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -233,13 +207,7 @@ class Punch5ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch5Provider.notifier).toggle(ref);
           if (ref.watch(punch5Provider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchLeadUppercutElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchLeadUppercutArnold));
-            }
+            await ref.watch(audioProvider).playLeadUppercutAudio();
             ref.read(punch5Provider.notifier).addPunch5ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -261,7 +229,6 @@ class Punch6ButtonWidget extends ConsumerWidget {
   const Punch6ButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -285,13 +252,7 @@ class Punch6ButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch6Provider.notifier).toggle(ref);
           if (ref.watch(punch6Provider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchRearUppercutElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchRearUppercutArnold));
-            }
+            await ref.watch(audioProvider).playRearUppercutAudio();
             ref.read(punch6Provider.notifier).addPunch6ToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -313,7 +274,6 @@ class Punch1BButtonWidget extends ConsumerWidget {
   const Punch1BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -337,12 +297,7 @@ class Punch1BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch1BProvider.notifier).toggle(ref);
           if (ref.watch(punch1BProvider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer.play(AssetSource(SoundUtils.kPunchBodyJabElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchBodyJabArnold));
-            }
+            await ref.watch(audioProvider).playBodyJabAudio();
             ref.read(punch1BProvider.notifier).addPunch1BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -364,7 +319,6 @@ class Punch2BButtonWidget extends ConsumerWidget {
   const Punch2BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -388,13 +342,7 @@ class Punch2BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch2BProvider.notifier).toggle(ref);
           if (ref.watch(punch2BProvider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchBodyCrossElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchBodyCrossArnold));
-            }
+            await ref.watch(audioProvider).playBodyCrossAudio();
             ref.read(punch2BProvider.notifier).addPunch2BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -416,7 +364,6 @@ class Punch3BButtonWidget extends ConsumerWidget {
   const Punch3BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -440,13 +387,7 @@ class Punch3BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch3BProvider.notifier).toggle(ref);
           if (ref.watch(punch3BProvider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchLeadBodyHookElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchLeadBodyHookArnold));
-            }
+            await ref.watch(audioProvider).playLeadBodyHookAudio();
             ref.read(punch3BProvider.notifier).addPunch3BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(
@@ -468,7 +409,6 @@ class Punch4BButtonWidget extends ConsumerWidget {
   const Punch4BButtonWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AudioPlayer audioPlayer = AudioPlayer();
     return Container(
       height: 64.0,
       width: 64.0,
@@ -492,13 +432,7 @@ class Punch4BButtonWidget extends ConsumerWidget {
           //and vice versa
           ref.read(punch4BProvider.notifier).toggle(ref);
           if (ref.watch(punch4BProvider).isOn == true) {
-            if (ref.watch(userSoundProvider) == 0) {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchRearBodyHookElli));
-            } else {
-              await audioPlayer
-                  .play(AssetSource(SoundUtils.kPunchRearBodyHookArnold));
-            }
+            await ref.watch(audioProvider).playRearBodyHookAudio();
             ref.read(punch4BProvider.notifier).addPunch4BToList(ref);
           } else {
             ref.read(punchListProvider.notifier).state.removeWhere(

@@ -36,8 +36,10 @@ class Audio {
     }
     // Play 'rest' audio
     await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      // Dispose audio player
-      disposeAudioPlayer();
+      Audio.audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
     });
   }
 
@@ -52,8 +54,10 @@ class Audio {
     }
     // Play 'good job' Audio
     await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      // Dispose audio player
-      disposeAudioPlayer();
+      Audio.audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
     });
   }
 
@@ -68,8 +72,10 @@ class Audio {
     }
     // Play ' keep it up' Audio
     await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      // Dispose audio player
-      disposeAudioPlayer();
+      Audio.audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
     });
   }
 
@@ -84,24 +90,210 @@ class Audio {
     }
     // Play 'prepare for the next set' Audio
     await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      // Dispose audio player
-      disposeAudioPlayer();
+      Audio.audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
     });
   }
 
   Future<void> playOneBell() async {
     // Play 'one bell' Audio
     await Audio.audioPlayer.play(AssetSource(SoundUtils.kOneBell)).then((_) {
-      // Dispose audio player
-      disposeAudioPlayer();
+      Audio.audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
     });
   }
 
   Future<void> playThreeBell() async {
     // Play 'three bell' Audio
     await Audio.audioPlayer.play(AssetSource(SoundUtils.kThreeBell)).then((_) {
-      // Dispose audio player
-      disposeAudioPlayer();
+      Audio.audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playJabAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchJabElli;
+    } else {
+      punchAudio = SoundUtils.kPunchJabArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playCrossAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchCrossElli;
+    } else {
+      punchAudio = SoundUtils.kPunchCrossArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playLeadHookAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchLeadHookElli;
+    } else {
+      punchAudio = SoundUtils.kPunchLeadHookArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playRearHookAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchRearHookElli;
+    } else {
+      punchAudio = SoundUtils.kPunchRearHookArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playLeadUppercutAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchLeadUppercutElli;
+    } else {
+      punchAudio = SoundUtils.kPunchLeadUppercutArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playRearUppercutAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchRearUppercutElli;
+    } else {
+      punchAudio = SoundUtils.kPunchRearUppercutArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playBodyJabAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchBodyJabElli;
+    } else {
+      punchAudio = SoundUtils.kPunchBodyJabArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playBodyCrossAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchBodyCrossElli;
+    } else {
+      punchAudio = SoundUtils.kPunchBodyCrossArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playLeadBodyHookAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchLeadBodyHookElli;
+    } else {
+      punchAudio = SoundUtils.kPunchLeadBodyHookArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
+    });
+  }
+
+  Future<void> playRearBodyHookAudio() async {
+    // Look for correct voice
+    final int punchAudioInt = ref.watch(userSoundProvider);
+    String punchAudio;
+    if (punchAudioInt == 0) {
+      punchAudio = SoundUtils.kPunchRearBodyHookElli;
+    } else {
+      punchAudio = SoundUtils.kPunchRearBodyHookArnold;
+    }
+    // Play 'jab' Audio
+    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
+      audioPlayer.onPlayerComplete.listen((_) {
+        // Dispose audio player
+        disposeAudioPlayer();
+      });
     });
   }
 }
