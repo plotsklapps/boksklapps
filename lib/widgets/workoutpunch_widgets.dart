@@ -33,6 +33,7 @@ class WorkoutPunchWidget extends ConsumerWidget {
               ref.watch(punchListProvider)[punchIndex].punchAudio;
           // Play the audio
           await audioPlayer!.play(AssetSource(punchAudio)).then((_) {
+            // Dispose the audioPlayer when the audio has finished playing
             audioPlayer!.onPlayerComplete.listen((_) {
               audioPlayer!.dispose();
             });
