@@ -13,8 +13,7 @@ class WorkoutPunchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Create an instance of AssetsAudioPlayer();
-    final AudioPlayer audioPlayer = AudioPlayer();
+    AudioPlayer? audioPlayer;
     // Create a variable that holds the maxInt for the randomIndex
     final int maxInt = ref.watch(punchListProvider).length - 1;
 
@@ -23,25 +22,26 @@ class WorkoutPunchWidget extends ConsumerWidget {
       opacity: isVisible ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 200),
       onEnd: () async {
-        // When isVisible turns false, we set a new randomIndex from
-        // the punchListProvider and give it to the PunchImage(punchIndex)
-        // widget
-        if (!isVisible) {
-          // Create a randomIndex from 0 to maxInt
-          final int randomIndex = Random().nextInt(maxInt + 1);
-          // Write the randomIndex to the punchIndexProvider
-          ref.read(punchIndexProvider.notifier).state = randomIndex;
-        } else if (isVisible) {
+        if (isVisible) {
+          // If the AudioPlayer instance hasn't been created yet, create it
+          audioPlayer ??= AudioPlayer();
           // Create a variable that holds the randomIndex we just set
           final int punchIndex = ref.watch(punchIndexProvider);
           // Create a String that holds the assetPath according to the
           // correct current punchIndex
           final String punchAudio =
               ref.watch(punchListProvider)[punchIndex].punchAudio;
-          // Play audio!
-          await audioPlayer.play(
-            AssetSource(punchAudio),
-          );
+          // Play the audio
+          await audioPlayer!.play(AssetSource(punchAudio)).then((_) {
+            audioPlayer!.onPlayerComplete.listen((_) {
+              audioPlayer!.dispose();
+            });
+          });
+        } else {
+          // Create a randomIndex from 0 to maxInt
+          final int randomIndex = Random().nextInt(maxInt + 1);
+          // Write the randomIndex to the punchIndexProvider
+          ref.read(punchIndexProvider.notifier).state = randomIndex;
         }
       },
 

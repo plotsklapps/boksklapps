@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutScreenMobile extends ConsumerStatefulWidget {
@@ -53,9 +52,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     if (isRestTimerStarted) {
       restTimer.cancel();
     }
-    Future<void>.microtask(() async {
-      await Audio.audioPlayer.dispose();
-    });
+    ref.read(audioProvider).disposeAudioPlayer();
   }
 
   @override
@@ -136,6 +133,14 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     );
   }
 
+  void startPeriodicTimer() {
+    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
+      setState(() {
+        isVisible = !isVisible;
+      });
+    });
+  }
+
   void startTotalTimer() {
     // Total time and set time should start at the same time
     // (AFTER prepare time is over, which is a TODO).
@@ -185,16 +190,27 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         // Kill the setTimer and periodicTimer
         setTimer.cancel();
         periodicTimer.cancel();
-        // Play sound
-        unawaited(playThreeBell());
         // Start rest
         startRestTimer();
         // Reset setTimerDuration to original users value
         setTimerDuration = ref.watch(setTimerDurationProvider);
-        //Play sound
-        unawaited(delayedPlayRestAudio());
       } else {
         setTimerDuration = Duration(seconds: setTimerSeconds);
+      }
+    });
+    // Call the asynchronous method outside of setState()
+    Future<void>.delayed(Duration.zero, () async {
+      final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
+      if (setTimerSeconds < 0) {
+        await ref.watch(audioProvider).playThreeBell().then((_) {
+          // Kill the audioPlayer
+          ref.read(audioProvider).disposeAudioPlayer();
+        });
+        //Play delayed 'rest' sound
+        await ref.watch(audioProvider).delayedPlayRestAudio().then((_) {
+          // Kill the audioPlayer
+          ref.read(audioProvider).disposeAudioPlayer();
+        });
       }
     });
   }
@@ -211,13 +227,7 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
     setState(() {
       final int restTimerSeconds =
           restTimerDuration.inSeconds - reduceSecondsBy;
-      if (restTimerSeconds == 1) {
-        // Play sound
-        unawaited(playPrepareForTheNextSetAudio());
-      }
       if (restTimerSeconds < 0) {
-        // Play sound
-        unawaited(playOneBell());
         // Kill the restTimer
         restTimer.cancel();
         // Start setTimer and periodicTimer
@@ -229,77 +239,26 @@ class WorkoutScreenMobileState extends ConsumerState<WorkoutScreenMobile> {
         restTimerDuration = Duration(seconds: restTimerSeconds);
       }
     });
-  }
-
-  void startPeriodicTimer() {
-    periodicTimer = Timer.periodic(periodicTimerDuration, (_) {
-      setState(() {
-        isVisible = !isVisible;
-      });
+    // Call the asynchronous method outside of setState()
+    Future<void>.delayed(Duration.zero, () async {
+      final int setTimerSeconds = setTimerDuration.inSeconds - reduceSecondsBy;
+      if (setTimerSeconds == 2) {
+        // Play 'prepare for next set' sound
+        await ref
+            .watch(audioProvider)
+            .playPrepareForTheNextSetAudio()
+            .then((_) {
+          // Kill the audioPlayer
+          ref.read(audioProvider).disposeAudioPlayer();
+        });
+        if (setTimerSeconds < 0) {
+          //Play 'one bell' sound
+          await ref.watch(audioProvider).playOneBell().then((_) {
+            // Kill the audioPlayer
+            ref.read(audioProvider).disposeAudioPlayer();
+          });
+        }
+      }
     });
-  }
-
-  Future<void> delayedPlayRestAudio() async {
-    // Sets a three second delay before playing the rest audio
-    // used after three bell audio (so they won't overlap)
-    Future<void>.delayed(const Duration(seconds: 3), playRestAudio);
-  }
-
-  Future<void> playRestAudio() async {
-    // Play 'rest' Audio
-    final int punchAudioInt = ref.watch(userSoundProvider);
-    String punchAudio;
-    if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kRestElli;
-    } else {
-      punchAudio = SoundUtils.kRestArnold;
-    }
-    await Audio.audioPlayer.play(AssetSource(punchAudio));
-  }
-
-  Future<void> playGoodJobAudio() async {
-    // Play 'good job' Audio
-    final int punchAudioInt = ref.watch(userSoundProvider);
-    String punchAudio;
-    if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kGoodJobElli;
-    } else {
-      punchAudio = SoundUtils.kGoodJobArnold;
-    }
-    await Audio.audioPlayer.play(AssetSource(punchAudio));
-  }
-
-  Future<void> playKeepItUpAudio() async {
-    // Play ' keep it up' Audio
-    final int punchAudioInt = ref.watch(userSoundProvider);
-    String punchAudio;
-    if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kKeepItUpElli;
-    } else {
-      punchAudio = SoundUtils.kKeepItUpArnold;
-    }
-    await Audio.audioPlayer.play(AssetSource(punchAudio));
-  }
-
-  Future<void> playPrepareForTheNextSetAudio() async {
-    // Play 'prepare for the next set' Audio
-    final int punchAudioInt = ref.watch(userSoundProvider);
-    String punchAudio;
-    if (punchAudioInt == 0) {
-      punchAudio = SoundUtils.kPrepareForTheNextSetElli;
-    } else {
-      punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
-    }
-    await Audio.audioPlayer.play(AssetSource(punchAudio));
-  }
-
-  Future<void> playOneBell() async {
-    // Play 'one bell' Audio
-    await Audio.audioPlayer.play(AssetSource(SoundUtils.kOneBell));
-  }
-
-  Future<void> playThreeBell() async {
-    // Play 'three bell' Audio
-    await Audio.audioPlayer.play(AssetSource(SoundUtils.kThreeBell));
   }
 }
