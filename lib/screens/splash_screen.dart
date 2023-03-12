@@ -1,35 +1,13 @@
 import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
-class SplashScreen extends ConsumerStatefulWidget {
+class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
-  ConsumerState<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends ConsumerState<SplashScreen> {
-  // Create an instance of AudioPlayer()
-  late AudioPlayer audioPlayer;
-
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer = AudioPlayer();
-  }
-
-  @override
-  void dispose() {
-    // Kill the audioPlayer in a microtask (it's async)
-    Future<void>.microtask(() async {
-      await audioPlayer.dispose();
-    });
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +107,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           // but browsers expect a user interaction when audio
           // on autoplay is involved!
           // See: https://developer.chrome.com/blog/autoplay/
-          await onContinuePressed();
+          await onContinuePressed(context, ref);
         },
         label: Row(
           children: const <Widget>[
@@ -145,9 +123,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     );
   }
 
-  Future<void> onContinuePressed() async {
+  Future<void> onContinuePressed(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     // Play sound
-    await audioPlayer.play(AssetSource(SoundUtils.kGameboySound));
+    await Audio.audioPlayer.play(AssetSource(SoundUtils.kGameboySound));
     if (FirebaseAuth.instance.currentUser != null) {
       Logger().i(
         'UserData fetched from Firestore...',
