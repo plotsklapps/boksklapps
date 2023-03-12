@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class WorkoutScreenTablet extends ConsumerStatefulWidget {
@@ -269,7 +268,9 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     } else {
       punchAudio = SoundUtils.kRestArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
+    });
   }
 
   Future<void> playGoodJobAudio() async {
@@ -281,7 +282,9 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     } else {
       punchAudio = SoundUtils.kGoodJobArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
+    });
   }
 
   Future<void> playKeepItUpAudio() async {
@@ -293,7 +296,9 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     } else {
       punchAudio = SoundUtils.kKeepItUpArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
+    });
   }
 
   Future<void> playPrepareForTheNextSetAudio() async {
@@ -305,16 +310,22 @@ class WorkoutScreenTabletState extends ConsumerState<WorkoutScreenTablet> {
     } else {
       punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
     }
-    await audioPlayer.play(AssetSource(punchAudio));
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
+    });
   }
 
   Future<void> playOneBell() async {
     // Play 'one bell' Audio
-    await audioPlayer.play(AssetSource(SoundUtils.kOneBell));
+    await audioPlayer.setAsset(SoundUtils.kOneBell).then((_) {
+      audioPlayer.play();
+    });
   }
 
   Future<void> playThreeBell() async {
     // Play 'three bell' Audio
-    await audioPlayer.play(AssetSource(SoundUtils.kThreeBell));
+    await audioPlayer.setAsset(SoundUtils.kThreeBell).then((_) {
+      audioPlayer.play();
+    });
   }
 }

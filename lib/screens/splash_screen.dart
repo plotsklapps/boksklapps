@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class SplashScreen extends ConsumerWidget {
@@ -129,43 +128,41 @@ class SplashScreen extends ConsumerWidget {
   ) async {
     final AudioPlayer audioPlayer = AudioPlayer();
     // Play sound and dispose after completion
-    await audioPlayer.play(AssetSource(SoundUtils.kGameboySound)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        audioPlayer.dispose();
-      });
-      if (FirebaseAuth.instance.currentUser != null) {
-        Logger().i(
-          'UserData fetched from Firestore...',
-        );
-        // If user is NOT null, retrieve Firestore data
-        // and go to HomeScreen()
-        getFirestoreData(context, ref).then((_) async {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text(
-                'Successfully logged in...',
-              ),
-              action: SnackBarAction(
-                label: 'OK',
-                onPressed: () {},
-              ),
-            ),
-          );
-          await Navigator.pushReplacementNamed(
-            context,
-            '/home_screen',
-          );
-        });
-      } else {
-        Logger().i(
-          'User is not known, go to LoginScreen()',
-        );
-        // If user is null, go to LoginScreen()
-        Navigator.pushReplacementNamed(
-          context,
-          '/login_screen',
-        );
-      }
+    await audioPlayer.setAsset(SoundUtils.kGameboySound).then((_) {
+      audioPlayer.play();
     });
+    if (FirebaseAuth.instance.currentUser != null) {
+      Logger().i(
+        'UserData fetched from Firestore...',
+      );
+      // If user is NOT null, retrieve Firestore data
+      // and go to HomeScreen()
+      await getFirestoreData(context, ref).then((_) async {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'Successfully logged in...',
+            ),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+            ),
+          ),
+        );
+        await Navigator.pushReplacementNamed(
+          context,
+          '/home_screen',
+        );
+      });
+    } else {
+      Logger().i(
+        'User is not known, go to LoginScreen()',
+      );
+      // If user is null, go to LoginScreen()
+      await Navigator.pushReplacementNamed(
+        context,
+        '/login_screen',
+      );
+    }
   }
 }

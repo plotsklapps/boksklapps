@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 final Provider<Audio> audioProvider = Provider<Audio>((ProviderRef<Audio> ref) {
@@ -35,11 +34,8 @@ class Audio {
       punchAudio = SoundUtils.kRestArnold;
     }
     // Play 'rest' audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      Audio.audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -53,11 +49,8 @@ class Audio {
       punchAudio = SoundUtils.kGoodJobArnold;
     }
     // Play 'good job' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      Audio.audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -71,11 +64,8 @@ class Audio {
       punchAudio = SoundUtils.kKeepItUpArnold;
     }
     // Play ' keep it up' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      Audio.audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -89,31 +79,22 @@ class Audio {
       punchAudio = SoundUtils.kPrepareForTheNextSetArnold;
     }
     // Play 'prepare for the next set' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      Audio.audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
   Future<void> playOneBell() async {
     // Play 'one bell' Audio
-    await Audio.audioPlayer.play(AssetSource(SoundUtils.kOneBell)).then((_) {
-      Audio.audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(SoundUtils.kOneBell).then((_) {
+      audioPlayer.play();
     });
   }
 
   Future<void> playThreeBell() async {
     // Play 'three bell' Audio
-    await Audio.audioPlayer.play(AssetSource(SoundUtils.kThreeBell)).then((_) {
-      Audio.audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(SoundUtils.kThreeBell).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -127,11 +108,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchJabArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -145,11 +123,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchCrossArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -163,11 +138,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchLeadHookArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -181,11 +153,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchRearHookArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -199,11 +168,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchLeadUppercutArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -217,11 +183,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchRearUppercutArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -235,11 +198,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchBodyJabArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -253,11 +213,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchBodyCrossArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -271,11 +228,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchLeadBodyHookArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 
@@ -289,11 +243,8 @@ class Audio {
       punchAudio = SoundUtils.kPunchRearBodyHookArnold;
     }
     // Play 'jab' Audio
-    await Audio.audioPlayer.play(AssetSource(punchAudio)).then((_) {
-      audioPlayer.onPlayerComplete.listen((_) {
-        // Dispose audio player
-        disposeAudioPlayer();
-      });
+    await audioPlayer.setAsset(punchAudio).then((_) {
+      audioPlayer.play();
     });
   }
 }

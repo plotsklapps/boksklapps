@@ -96,6 +96,7 @@ export 'package:flutter/services.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:google_fonts/google_fonts.dart';
+export 'package:just_audio/just_audio.dart';
 export 'package:logger/logger.dart';
 
 export 'firebase_options.dart';

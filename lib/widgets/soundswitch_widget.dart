@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:boksklapps/all_imports.dart';
 
 class SoundSwitch extends ConsumerWidget {
@@ -31,12 +30,10 @@ class SoundSwitch extends ConsumerWidget {
           await ref.read(userSoundStringProvider.notifier).setUserSoundString(
                 'Elli',
               );
-          final AudioPlayer audioPlayer = AudioPlayer();
+          final AudioPlayer audioPlayerElli = AudioPlayer();
           // Play sound and dispose after completion
-          await audioPlayer.play(AssetSource(SoundUtils.kNameElli)).then((_) {
-            audioPlayer.onPlayerComplete.listen((_) {
-              audioPlayer.dispose();
-            });
+          await audioPlayerElli.setAsset(SoundUtils.kNameElli).then((_) {
+            audioPlayerElli.play();
           });
         } else if (newIndex == 1) {
           // Set the state of userSoundProvider to 1
@@ -49,15 +46,11 @@ class SoundSwitch extends ConsumerWidget {
           await ref.read(userSoundStringProvider.notifier).setUserSoundString(
                 'Arnold',
               );
-          final AudioPlayer audioPlayer = AudioPlayer();
+          final AudioPlayer audioPlayerArnold = AudioPlayer();
           // Play sound and dispose after completion
-          await audioPlayer.play(AssetSource(SoundUtils.kNameArnold)).then(
-            (_) {
-              audioPlayer.onPlayerComplete.listen((_) {
-                audioPlayer.dispose();
-              });
-            },
-          );
+          await audioPlayerArnold.setAsset(SoundUtils.kNameArnold).then((_) {
+            audioPlayerArnold.play();
+          });
         }
       },
       children: const <Icon>[
