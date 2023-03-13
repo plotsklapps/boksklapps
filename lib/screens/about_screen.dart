@@ -1,4 +1,5 @@
 import 'package:boksklapps/all_imports.dart';
+import 'package:boksklapps/screens/desktop/aboutscreen_desktop.dart';
 import 'package:boksklapps/screens/mobile/aboutscreen_mobile.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -11,9 +12,9 @@ class AboutScreen extends StatelessWidget {
     if (screenwidth < 700) {
       return const AboutScreenMobile();
     } else if (screenwidth >= 700 && screenwidth < 1300) {
-      return const AboutScreenMobile();
+      return const AboutScreenTablet();
     } else {
-      return const AboutScreenMobile();
+      return const AboutScreenDesktop();
     }
   }
 }

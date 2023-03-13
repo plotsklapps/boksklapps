@@ -55,6 +55,7 @@ export 'package:boksklapps/screens/punches_screen.dart';
 export 'package:boksklapps/screens/register_screen.dart';
 export 'package:boksklapps/screens/settings_screen.dart';
 export 'package:boksklapps/screens/splash_screen.dart';
+export 'package:boksklapps/screens/tablet/aboutscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/accountscreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/homescreen_tablet.dart';
 export 'package:boksklapps/screens/tablet/loginscreen_tablet.dart';
@@ -98,5 +99,6 @@ export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:just_audio/just_audio.dart';
 export 'package:logger/logger.dart';
+export 'package:url_launcher/url_launcher.dart';
 
 export 'firebase_options.dart';
