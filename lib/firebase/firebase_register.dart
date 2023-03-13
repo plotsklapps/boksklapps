@@ -105,7 +105,7 @@ Future<void> registerToFirebase(
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text(
-                      'Thank you for joining! Please sign in...',
+                      'Thank you for joining!',
                     ),
                     action: SnackBarAction(
                       label: 'OK',
@@ -113,9 +113,10 @@ Future<void> registerToFirebase(
                     ),
                   ),
                 );
+                // Redirect user to HomeScreen()
                 await Navigator.pushReplacementNamed(
                   context,
-                  '/login_screen',
+                  '/home_screen',
                 );
               });
             },
