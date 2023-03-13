@@ -1,28 +1,54 @@
 import 'package:boksklapps/all_imports.dart';
 
-// ThemeColorSwitch class
-class ThemeColorSwitch extends ConsumerWidget {
-  // ThemeColorSwitch constructor
+final StateNotifierProvider<ThemeColorSwitchNotifier, Set<ThemeColors>>
+    themeColorSwitchProvider =
+    StateNotifierProvider<ThemeColorSwitchNotifier, Set<ThemeColors>>((_) {
+  return ThemeColorSwitchNotifier();
+});
+
+class ThemeColorSwitchNotifier extends StateNotifier<Set<ThemeColors>> {
+  ThemeColorSwitchNotifier() : super(<ThemeColors>{ThemeColors.outerspace});
+
+  void changeThemeColorValue(ThemeColors value) => state = <ThemeColors>{value};
+}
+
+enum ThemeColors { outerspace, greenmoney, redredwine }
+
+class ThemeColorSwitch extends ConsumerStatefulWidget {
   const ThemeColorSwitch({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final List<bool> isSelected = <bool>[
-      ref.watch(themeColorProvider) == FlexScheme.outerSpace,
-      ref.watch(themeColorProvider) == FlexScheme.money,
-      ref.watch(themeColorProvider) == FlexScheme.redWine,
-    ];
+  ConsumerState<ThemeColorSwitch> createState() => ThemeColorSwitchState();
+}
 
-    return ToggleButtons(
-      // The state of each button is controlled by isSelected,
-      // which is a list of bools that determine if a button
-      // is in an active, disabled, or selected state.
-      // They are both correlated by their index in the list.
-      // The length of isSelected has to match
-      // the length of the children list.
-      isSelected: isSelected,
-      onPressed: (int newIndex) async {
-        if (newIndex == 0) {
+class ThemeColorSwitchState extends ConsumerState<ThemeColorSwitch> {
+  @override
+  Widget build(BuildContext context) {
+    final ThemeColors themeColorsView =
+        ref.watch(themeColorSwitchProvider).first;
+    return SegmentedButton<ThemeColors>(
+      segments: const <ButtonSegment<ThemeColors>>[
+        ButtonSegment<ThemeColors>(
+          value: ThemeColors.outerspace,
+          icon: IconUtils.kOuterSpace,
+        ),
+        ButtonSegment<ThemeColors>(
+          value: ThemeColors.greenmoney,
+          icon: IconUtils.kGreenMoney,
+        ),
+        ButtonSegment<ThemeColors>(
+          value: ThemeColors.redredwine,
+          icon: IconUtils.kRedWine,
+        ),
+      ],
+      selected: <ThemeColors>{themeColorsView},
+      onSelectionChanged: (Set<ThemeColors> newSelection) async {
+        ref.read(themeColorSwitchProvider.notifier).changeThemeColorValue(
+              newSelection.first,
+            );
+        final ThemeColors themeColor =
+            ref.watch(themeColorSwitchProvider).first;
+        if (themeColor == ThemeColors.outerspace) {
           // Set the state of themeColorProvider to Outer Space
           // and set the String of themeColorProvider
           await ref.read(userThemeColorNotifier.notifier).updateUserThemeColor(
@@ -33,7 +59,7 @@ class ThemeColorSwitch extends ConsumerWidget {
           await ref.read(themeColorStringProvider.notifier).setThemeColorString(
                 'Outer Space',
               );
-        } else if (newIndex == 1) {
+        } else if (themeColor == ThemeColors.greenmoney) {
           // Set the state of themeColorProvider to Green Money
           // and set the String of themeColorProvider
           await ref.read(userThemeColorNotifier.notifier).updateUserThemeColor(
@@ -44,7 +70,7 @@ class ThemeColorSwitch extends ConsumerWidget {
           await ref.read(themeColorStringProvider.notifier).setThemeColorString(
                 'Green Money',
               );
-        } else {
+        } else if (themeColor == ThemeColors.redredwine) {
           // Set the state of themeColorProvider to Red Red Wine
           // and set the String of themeColorProvider
           await ref.read(userThemeColorNotifier.notifier).updateUserThemeColor(
@@ -57,11 +83,6 @@ class ThemeColorSwitch extends ConsumerWidget {
               );
         }
       },
-      children: const <Icon>[
-        IconUtils.kOuterSpace,
-        IconUtils.kGreenMoney,
-        IconUtils.kRedWine,
-      ],
     );
   }
 }

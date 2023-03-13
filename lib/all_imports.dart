@@ -84,7 +84,7 @@ export 'package:boksklapps/widgets/tempo_widget.dart';
 export 'package:boksklapps/widgets/themecolor_switch.dart';
 export 'package:boksklapps/widgets/thememode_switch.dart';
 export 'package:boksklapps/widgets/timer_widget.dart';
-export 'package:boksklapps/widgets/voiceswitch_widget.dart';
+export 'package:boksklapps/widgets/voice_switch.dart';
 export 'package:boksklapps/widgets/workoutpunch_widgets.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_auth/firebase_auth.dart';

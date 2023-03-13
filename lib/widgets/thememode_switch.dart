@@ -1,32 +1,54 @@
 import 'package:boksklapps/all_imports.dart';
 
-/// ThemeModeSwitch class
-class ThemeModeSwitch extends ConsumerWidget {
-  /// ThemeModeSwitch constructor
+final StateNotifierProvider<ThemeModeSwitchNotifier, Set<ThemeModes>>
+    themeModeSwitchProvider =
+    StateNotifierProvider<ThemeModeSwitchNotifier, Set<ThemeModes>>((_) {
+  return ThemeModeSwitchNotifier();
+});
+
+class ThemeModeSwitchNotifier extends StateNotifier<Set<ThemeModes>> {
+  ThemeModeSwitchNotifier() : super(<ThemeModes>{ThemeModes.light});
+
+  void changeThemeModeValue(ThemeModes value) => state = <ThemeModes>{value};
+}
+
+enum ThemeModes { light, system, dark }
+
+class ThemeModeSwitch extends ConsumerStatefulWidget {
   const ThemeModeSwitch({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final List<bool> isSelected = <bool>[
-      ref.watch(themeModeProvider) == ThemeMode.light,
-      ref.watch(themeModeProvider) == ThemeMode.system,
-      ref.watch(themeModeProvider) == ThemeMode.dark,
-    ];
+  ConsumerState<ThemeModeSwitch> createState() => ThemeModeSwitchState();
+}
 
-    return ToggleButtons(
-      //The state of each button is controlled by isSelected,
-      //which is a list of bools that determine if a button
-      //is in an active, disabled, or selected state.
-      //They are both correlated by their index in the list.
-      //The length of isSelected has to match
-      //the length of the children list.
-      isSelected: isSelected,
-      onPressed: (int newIndex) async {
-        // Set the state of themeModeProvider to state of int and
-        // set the String of themeModeStringProvider state of int
-        // as well and update the user's preference for theme mode
-        // in Firestore database
-        if (newIndex == 0) {
+class ThemeModeSwitchState extends ConsumerState<ThemeModeSwitch> {
+  @override
+  Widget build(BuildContext context) {
+    final ThemeModes themeModesView = ref.watch(themeModeSwitchProvider).first;
+    return SegmentedButton<ThemeModes>(
+      segments: const <ButtonSegment<ThemeModes>>[
+        ButtonSegment<ThemeModes>(
+          value: ThemeModes.light,
+          icon: IconUtils.kLightMode,
+        ),
+        ButtonSegment<ThemeModes>(
+          value: ThemeModes.system,
+          icon: IconUtils.kSystemMode,
+        ),
+        ButtonSegment<ThemeModes>(
+          value: ThemeModes.dark,
+          icon: IconUtils.kDarkMode,
+        ),
+      ],
+      selected: <ThemeModes>{themeModesView},
+      onSelectionChanged: (Set<ThemeModes> newSelection) async {
+        ref.read(themeModeSwitchProvider.notifier).changeThemeModeValue(
+              newSelection.first,
+            );
+        final ThemeModes themeMode = ref.watch(themeModeSwitchProvider).first;
+        if (themeMode == ThemeModes.light) {
+          // Set the state of themeModeProvider to Light
+          // and set the String of themeModeStringProvider
           await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
                 context,
                 ref,
@@ -35,7 +57,9 @@ class ThemeModeSwitch extends ConsumerWidget {
           await ref.read(themeModeStringProvider.notifier).setThemeModeString(
                 'Light',
               );
-        } else if (newIndex == 1) {
+        } else if (themeMode == ThemeModes.system) {
+          // Set the state of themeModeProvider to System
+          // and set the String of themeModeStringProvider
           await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
                 context,
                 ref,
@@ -44,7 +68,9 @@ class ThemeModeSwitch extends ConsumerWidget {
           await ref.read(themeModeStringProvider.notifier).setThemeModeString(
                 'System',
               );
-        } else {
+        } else if (themeMode == ThemeModes.dark) {
+          // Set the state of themeModeProvider to Dark
+          // and set the String of themeModeStringProvider
           await ref.read(userThemeModeNotifier.notifier).updateUserThemeMode(
                 context,
                 ref,
@@ -55,11 +81,6 @@ class ThemeModeSwitch extends ConsumerWidget {
               );
         }
       },
-      children: const <Icon>[
-        IconUtils.kLightMode,
-        IconUtils.kSystemMode,
-        IconUtils.kDarkMode,
-      ],
     );
   }
 }
