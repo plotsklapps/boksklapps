@@ -26,6 +26,7 @@ class StringUtils {
   static const String kDone = 'DONE';
   static const String kStartBeastMode = 'Start Beast Mode';
   static const String kAccount = 'ACCOUNT';
+  static const String kAbout = 'ABOUT';
   static const String kNoAccount = 'Sneak Peeker';
   static const String kSettings = 'SETTINGS';
   static const String kColorScheme = 'Color Scheme';

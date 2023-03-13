@@ -8,33 +8,33 @@ class AboutScreenDesktop extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarWidget(
-          title: StringUtils.kAccount,
+          title: StringUtils.kAbout,
         ),
         body: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.90,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                0.0,
-                24.0,
-                24.0,
-                0.0,
-              ),
-              child: Row(
-                children: <Widget>[
-                  const DrawerWidget(),
-                  Expanded(
+            child: Row(
+              children: <Widget>[
+                const DrawerWidget(),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <GetShitDoneWidget>[
+                      GetShitDoneWidget(),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      0.0,
+                      24.0,
+                      24.0,
+                      0.0,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <GetShitDoneWidget>[
-                        GetShitDoneWidget(),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Column(
                           children: <Widget>[
@@ -59,7 +59,8 @@ class AboutScreenDesktop extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: const <Text>[
                                   Text(
-                                    'The app is open source and can be found on GitHub',
+                                    'The app is open source and can be found '
+                                    'on GitHub',
                                     style: TextStyleUtils.kBodyText,
                                   ),
                                 ],
@@ -185,8 +186,8 @@ class AboutScreenDesktop extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

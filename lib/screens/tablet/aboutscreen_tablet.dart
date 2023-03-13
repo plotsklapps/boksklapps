@@ -8,30 +8,30 @@ class AboutScreenTablet extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarWidget(
-          title: StringUtils.kAccount,
+          title: StringUtils.kAbout,
         ),
         body: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.90,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                0.0,
-                24.0,
-                24.0,
-                0.0,
-              ),
-              child: Row(
-                children: <Expanded>[
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <GetShitDoneWidget>[
-                        GetShitDoneWidget(),
-                      ],
-                    ),
+            child: Row(
+              children: <Expanded>[
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <GetShitDoneWidget>[
+                      GetShitDoneWidget(),
+                    ],
                   ),
-                  Expanded(
-                    flex: 2,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      0.0,
+                      24.0,
+                      24.0,
+                      0.0,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -183,8 +183,8 @@ class AboutScreenTablet extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

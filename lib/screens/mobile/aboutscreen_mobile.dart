@@ -8,7 +8,7 @@ class AboutScreenMobile extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: const AppBarWidget(
-          title: StringUtils.kAccount,
+          title: StringUtils.kAbout,
         ),
         body: SingleChildScrollView(
           child: SizedBox(
