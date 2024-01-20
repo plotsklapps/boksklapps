@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "186836765191",
+    "project_id": "boksklapps",
+    "storage_bucket": "boksklapps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186836765191:android:e1dd815e69d35a1b1938a2",
+        "android_client_info": {
+          "package_name": "dev.plotsklapps.boksklapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186836765191-3m0u8mqvj2490nuhgud32jlo5a66p4sk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrVkdSiG7KAd9iHXqJ-7SbWXitAWM3w8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186836765191-3m0u8mqvj2490nuhgud32jlo5a66p4sk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "186836765191-shn3gcc847djr8picte08nh61992a44n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.plotsklapps.boksklapps"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
