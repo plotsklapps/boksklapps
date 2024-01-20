@@ -1,6 +1,8 @@
 import 'package:boksklapps/firebase_options.dart';
+import 'package:boksklapps/flextheme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized() tells Flutter not to start
@@ -15,15 +17,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // runApp starts the Flutter app.
-  runApp(const MainEntry());
+  // runApp starts the Flutter app (ProviderScope is a Riverpod must have).
+  runApp(const ProviderScope(child: MainEntry()));
 }
 
-class MainEntry extends StatelessWidget {
+class MainEntry extends ConsumerWidget {
   const MainEntry({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // The root ScaffoldMessenger can also be accessed by providing a key to
     // MaterialApp.scaffoldMessengerKey. This way, the ScaffoldMessengerState
     // can be directly accessed without first obtaining it from a BuildContext
@@ -35,19 +37,32 @@ class MainEntry extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
+      theme:
+          ref.watch(isDarkTheme) ? ref.watch(darkTheme) : ref.watch(lightTheme),
       home: const HomeScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
       body: Center(
-        child: Text('Hello, World!'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text('Hello, World!'),
+            FilledButton(
+              onPressed: () {
+                ref.read(isDarkTheme.notifier).state = !ref.watch(isDarkTheme);
+              },
+              child: const Text('Light/Dark'),
+            ),
+          ],
+        ),
       ),
     );
   }
