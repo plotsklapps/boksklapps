@@ -28,19 +28,20 @@ class BottomSheetHomeScreen extends ConsumerWidget {
               Navigator.pop(context);
               rootScaffoldMessengerKey.currentState!.showSnackBar(
                 SnackBar(
-                    content: Text(
-                      ref.watch(isDarkTheme)
-                          ? 'Dark theme enabled'
-                          : 'Light theme enabled',
-                    ),
-                    duration: const Duration(seconds: 1),
-                    action: SnackBarAction(
-                      label: 'OK',
-                      onPressed: () {
-                        rootScaffoldMessengerKey.currentState!
-                            .hideCurrentSnackBar();
-                      },
-                    )),
+                  content: Text(
+                    ref.watch(isDarkTheme)
+                        ? 'Dark theme enabled'
+                        : 'Light theme enabled',
+                  ),
+                  duration: const Duration(seconds: 1),
+                  action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {
+                      rootScaffoldMessengerKey.currentState!
+                          .hideCurrentSnackBar();
+                    },
+                  ),
+                ),
               );
             },
             leading: ref.watch(isDarkTheme)
