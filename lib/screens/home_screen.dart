@@ -1,6 +1,6 @@
 import 'package:boksklapps/screens/tutorial_screen.dart';
 import 'package:boksklapps/theme/text_utils.dart';
-import 'package:boksklapps/widgets/bottombar_homescreen.dart';
+import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -92,7 +92,7 @@ class HomeScreen extends ConsumerWidget {
         child: const FaIcon(FontAwesomeIcons.forwardStep),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: const BottomBarHomeScreen(),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 }

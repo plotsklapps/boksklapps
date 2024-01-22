@@ -1,5 +1,5 @@
 import 'package:boksklapps/screens/tutorialworkout_screen.dart';
-import 'package:boksklapps/widgets/bottombar_homescreen.dart';
+import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:boksklapps/widgets/punch_glove.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -71,7 +71,7 @@ class TutorialScreen extends StatelessWidget {
                           ListTile(
                             leading: FaIcon(FontAwesomeIcons.stopwatch),
                             title: Text('Set Time'),
-                            subtitle: Text('2 minutes'),
+                            subtitle: Text('1 minute'),
                           ),
                         ],
                       ),
@@ -212,7 +212,7 @@ class TutorialScreen extends StatelessWidget {
         child: const FaIcon(FontAwesomeIcons.forwardStep),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: const BottomBarHomeScreen(),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 }
