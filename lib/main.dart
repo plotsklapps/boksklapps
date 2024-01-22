@@ -4,6 +4,7 @@ import 'package:boksklapps/theme/flextheme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 // The root ScaffoldMessenger can also be accessed by providing a key to
 // MaterialApp.scaffoldMessengerKey. This way, the ScaffoldMessengerState
@@ -18,6 +19,9 @@ Future<void> main() async {
   // running the application widget code until the Flutter framework is
   // completely booted.
   WidgetsFlutterBinding.ensureInitialized();
+  // The next method call enables the screen to stay on while the app is
+  // running.
+  await WakelockPlus.enable();
   // Firebase.initializeApp sets up a connection between your Flutter app
   // and your Firebase project. The DefaultFirebaseOptions.currentPlatform
   // is imported from our generated firebase_options.dart file. This static
