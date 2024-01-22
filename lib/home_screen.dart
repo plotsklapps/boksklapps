@@ -1,4 +1,4 @@
-import 'package:boksklapps/theme/fontstyles.dart';
+import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottombar_homescreen.dart';
 import 'package:boksklapps/workout_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,18 +14,18 @@ class HomeScreen extends ConsumerWidget {
       extendBody: true,
       body: const SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+          padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text('Hi,', style: FontStyles.fontM),
+                  Text('Hi,', style: TextUtils.fontM),
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text('\${userName}', style: FontStyles.fontL),
+                  Text('\${userName}', style: TextUtils.fontL),
                 ],
               ),
               Row(
@@ -65,7 +65,7 @@ class HomeScreen extends ConsumerWidget {
                   Expanded(
                     child: Card(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8),
                         child: Column(
                           children: <Widget>[Placeholder()],
                         ),

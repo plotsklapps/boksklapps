@@ -10,9 +10,9 @@ class BottomBarHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      height: 64.0,
+      height: 64,
       shape: const CircularNotchedRectangle(),
-      notchMargin: 8.0,
+      notchMargin: 8,
       child: Row(
         children: <Widget>[
           IconButton(

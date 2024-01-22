@@ -24,7 +24,6 @@ linter:
     public_member_api_docs: false
     always_specify_types: true
     omit_local_variable_types: false
-    prefer_int_literals: false
     always_use_package_imports: true
     prefer_relative_imports: false
 

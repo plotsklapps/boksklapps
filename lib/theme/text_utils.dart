@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
-class FontStyles {
+class TextUtils {
   static const TextStyle fontS = TextStyle(
-    fontSize: 12.0,
+    fontSize: 12,
   );
   static const TextStyle fontM = TextStyle(
-    fontSize: 16.0,
+    fontSize: 16,
   );
   static const TextStyle fontL = TextStyle(
-    fontSize: 20.0,
+    fontSize: 20,
   );
   static const TextStyle fontXL = TextStyle(
-    fontSize: 24.0,
+    fontSize: 24,
+  );
+  static const TextStyle fontXXL = TextStyle(
+    fontSize: 32,
   );
 }
