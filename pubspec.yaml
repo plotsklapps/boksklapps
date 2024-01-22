@@ -19,6 +19,7 @@ dependencies:
   flutter_riverpod: ^2.4.9
   font_awesome_flutter: ^10.6.0
   google_fonts: ^6.1.0
+  just_audio: ^0.9.36
 
 dev_dependencies:
   flutter_test:

@@ -23,8 +23,11 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
   Duration setTimeLeft = const Duration(minutes: 1);
   Duration restTimeLeft = const Duration(seconds: 30);
 
-  // Flag to indicate if the timer is running.
+  // Flag to indicate which timer is running.
   bool totalTimerRunning = false;
+  bool warmupTimerRunning = false;
+  bool setTimerRunning = false;
+  bool restTimerRunning = false;
 
   // Number of sets remaining in the workout.
   int numberOfSets = 15;
@@ -38,17 +41,29 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
   // Initialize and start the workout timer.
   void initializeTimer() {
     workoutTimer = WorkoutTimer(
+      onTotalTimeLeft: (Duration timeLeft) {
+        setState(() {
+          totalTimeLeft = timeLeft;
+          totalTimerRunning = timeLeft > Duration.zero;
+        });
+      },
       onWarmupTimeLeft: (Duration timeLeft) {
-        setState(() => warmupTimeLeft = timeLeft);
+        setState(() {
+          warmupTimeLeft = timeLeft;
+          warmupTimerRunning = timeLeft > Duration.zero;
+        });
       },
       onSetTimeLeft: (Duration timeLeft) {
-        setState(() => setTimeLeft = timeLeft);
+        setState(() {
+          setTimeLeft = timeLeft;
+          setTimerRunning = timeLeft > Duration.zero;
+        });
       },
       onRestTimeLeft: (Duration timeLeft) {
-        setState(() => restTimeLeft = timeLeft);
-      },
-      onTotalTimeLeft: (Duration timeLeft) {
-        setState(() => totalTimeLeft = timeLeft);
+        setState(() {
+          restTimeLeft = timeLeft;
+          restTimerRunning = timeLeft > Duration.zero;
+        });
       },
       onSetsCompleted: (int setsCompleted) {
         setState(() {
@@ -56,11 +71,15 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
         });
       },
       onWorkoutComplete: () {
-        setState(() => totalTimerRunning = false);
+        setState(() {
+          totalTimerRunning = false;
+        });
       },
     );
     workoutTimer.startTimer();
-    setState(() => totalTimerRunning = true);
+    setState(() {
+      totalTimerRunning = true;
+    });
   }
 
   @override
@@ -95,6 +114,7 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
                 children: <Widget>[
                   Expanded(
                     child: Card(
+                      color: warmupTimerRunning ? Colors.green : null,
                       child: Column(
                         children: <Widget>[
                           ListTile(
@@ -108,6 +128,7 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
                   ),
                   Expanded(
                     child: Card(
+                      color: totalTimerRunning ? Colors.green : null,
                       child: Column(
                         children: <Widget>[
                           ListTile(
@@ -126,6 +147,7 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
                 children: <Widget>[
                   Expanded(
                     child: Card(
+                      color: setTimerRunning ? Colors.green : null,
                       child: Column(
                         children: <Widget>[
                           ListTile(
@@ -142,6 +164,7 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
                   ),
                   Expanded(
                     child: Card(
+                      color: restTimerRunning ? Colors.green : null,
                       child: Column(
                         children: <Widget>[
                           ListTile(
