@@ -220,7 +220,9 @@ class WorkoutTimer {
   Duration restDuration = const Duration(seconds: 30);
   Duration totalTime = const Duration(minutes: 27);
 
-  // Track the time elapsed since the timer started.
+  // Track the TOTAL time elapsed since the first timer tick.
+  Duration _totalTimeElapsed = Duration.zero;
+  // Track the time elapsed since that specific timer started.
   Duration _timeElapsed = Duration.zero;
   // Track the number of sets completed.
   int _setsCompleted = 0;
@@ -247,9 +249,10 @@ class WorkoutTimer {
 
     // Increment the elapsed time.
     _timeElapsed += const Duration(seconds: 1);
+    _totalTimeElapsed += const Duration(seconds: 1);
 
     // Calculate the total time left and invoke the corresponding callback.
-    final Duration totalTimeLeft = totalTime - _timeElapsed;
+    final Duration totalTimeLeft = totalTime - _totalTimeElapsed;
     onTotalTimeLeft(totalTimeLeft);
 
     // Handle the logic based on the current phase of the workout.
