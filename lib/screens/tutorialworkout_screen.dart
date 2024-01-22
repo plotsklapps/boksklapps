@@ -18,7 +18,7 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
   late WorkoutTimer workoutTimer;
 
   // Durations for the UI to display.
-  Duration warmupTimeLeft = const Duration(minutes: 1);
+  Duration warmupTimeLeft = const Duration(minutes: 5);
   Duration totalTimeLeft = const Duration(minutes: 27);
   Duration setTimeLeft = const Duration(minutes: 1);
   Duration restTimeLeft = const Duration(seconds: 30);
@@ -238,7 +238,7 @@ class WorkoutTimer {
   late Timer _timer;
 
   // Durations for different phases of the workout.
-  Duration warmupDuration = const Duration(minutes: 1);
+  Duration warmupDuration = const Duration(minutes: 5);
   Duration setDuration = const Duration(minutes: 1);
   Duration restDuration = const Duration(seconds: 30);
   Duration totalTime = const Duration(minutes: 27);
