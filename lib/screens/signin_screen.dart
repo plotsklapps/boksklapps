@@ -1,4 +1,4 @@
-import 'package:boksklapps/home_screen.dart';
+import 'package:boksklapps/screens/home_screen.dart';
 import 'package:boksklapps/screens/password_screen.dart';
 import 'package:boksklapps/screens/signup_screen.dart';
 import 'package:boksklapps/theme/text_utils.dart';
