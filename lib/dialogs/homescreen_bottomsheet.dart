@@ -24,7 +24,7 @@ class BottomSheetHomeScreen extends ConsumerWidget {
           ),
           ListTile(
             onTap: () {
-              ref.read(isDarkTheme.notifier).state = !ref.watch(isDarkTheme);
+              ref.read(isDarkTheme.notifier).toggle();
               Navigator.pop(context);
               rootScaffoldMessengerKey.currentState!.showSnackBar(
                 SnackBar(

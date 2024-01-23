@@ -3,10 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final StateProvider<bool> isDarkTheme =
-    StateProvider<bool>((StateProviderRef<bool> ref) {
-  return false;
-});
+// This is the provider for the theme mode notifier.
+final NotifierProvider<IsDarkThemeNotifier, bool> isDarkTheme =
+    NotifierProvider<IsDarkThemeNotifier, bool>(IsDarkThemeNotifier.new);
+
+class IsDarkThemeNotifier extends Notifier<bool> {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void toggle() {
+    state = !state;
+  }
+}
 
 final Provider<ThemeData> lightTheme =
     Provider<ThemeData>((ProviderRef<ThemeData> ref) {

@@ -4,6 +4,7 @@ import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class TutorialWorkoutScreen extends StatefulWidget {
   const TutorialWorkoutScreen({super.key});
@@ -35,6 +36,8 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
   @override
   void initState() {
     super.initState();
+    // Enable the screen to stay on while the app is running.
+    WakelockPlus.enable();
     initializeTimer();
   }
 
