@@ -57,42 +57,44 @@ class SigninScreenState extends State<SigninScreen> {
                 enableSuggestions: false,
               ),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<Widget>(
-                          builder: (BuildContext context) {
-                            return const SignupScreen();
-                          },
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'New here? Sign up!',
-                      style: TextUtils.fontL,
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<Widget>(
+                      builder: (BuildContext context) {
+                        return const SignupScreen();
+                      },
                     ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<Widget>(
-                          builder: (BuildContext context) {
-                            return const PasswordScreen();
-                          },
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'Forgot password?',
-                      style: TextUtils.fontL,
+                  );
+                },
+                child: const Text(
+                  'New here? Sign up!',
+                  style: TextUtils.fontL,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<Widget>(
+                      builder: (BuildContext context) {
+                        return const PasswordScreen();
+                      },
                     ),
-                  ),
-                ],
+                  );
+                },
+                child: const Text(
+                  'Forgot password?',
+                  style: TextUtils.fontL,
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Sneak Peek',
+                  style: TextUtils.fontL,
+                ),
               ),
             ],
           ),

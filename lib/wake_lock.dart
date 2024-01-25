@@ -1,5 +1,8 @@
 import 'dart:js' as js;
 
 void keepScreenAwake() {
-  js.context.callMethod('eval', ['navigator.wakeLock.request("screen")']);
+  js.context.callMethod(
+    'eval',
+    <String>['navigator.wakeLock.request("screen")'],
+  );
 }
