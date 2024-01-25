@@ -1,5 +1,5 @@
 import 'package:boksklapps/firebase_options.dart';
-import 'package:boksklapps/screens/signin_screen.dart';
+import 'package:boksklapps/screens/splash_screen.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class MainEntry extends ConsumerWidget {
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme:
           ref.watch(isDarkTheme) ? ref.watch(darkTheme) : ref.watch(lightTheme),
-      home: const SigninScreen(),
+      home: const SplashScreen(),
     );
   }
 }

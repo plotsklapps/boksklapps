@@ -1,3 +1,4 @@
+import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/screens/home_screen.dart';
 import 'package:boksklapps/screens/password_screen.dart';
 import 'package:boksklapps/screens/signup_screen.dart';
@@ -57,44 +58,52 @@ class SigninScreenState extends State<SigninScreen> {
                 enableSuggestions: false,
               ),
               const SizedBox(height: 16),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<Widget>(
-                      builder: (BuildContext context) {
-                        return const SignupScreen();
-                      },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<Widget>(
+                          builder: (BuildContext context) {
+                            return const SignupScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Sign up',
+                      style: TextUtils.fontL,
                     ),
-                  );
-                },
-                child: const Text(
-                  'New here? Sign up!',
-                  style: TextUtils.fontL,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<Widget>(
-                      builder: (BuildContext context) {
-                        return const PasswordScreen();
-                      },
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<Widget>(
+                          builder: (BuildContext context) {
+                            return const PasswordScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Reset password',
+                      style: TextUtils.fontL,
                     ),
-                  );
-                },
-                child: const Text(
-                  'Forgot password?',
-                  style: TextUtils.fontL,
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Sneak Peek',
-                  style: TextUtils.fontL,
-                ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () async {
+                      final AuthService authService = AuthService();
+                      await authService.signInAnonymously();
+                    },
+                    child: const Text(
+                      'Sneak Peek',
+                      style: TextUtils.fontL,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
