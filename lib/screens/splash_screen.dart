@@ -7,6 +7,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
+// This SplashScreen merely exists to show a CircularProgressIndicator
+// while the Firebase services are loading and checking for an existing
+// user.
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
