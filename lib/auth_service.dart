@@ -62,4 +62,16 @@ class AuthService {
       return;
     }
   }
+
+  Future<void> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (error) {
+      // Handle Firebase Exceptions here.
+      return;
+    } catch (error) {
+      // Handle all other errors here.
+      return;
+    }
+  }
 }

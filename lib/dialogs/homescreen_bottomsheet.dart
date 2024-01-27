@@ -1,3 +1,5 @@
+import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/dialogs/signout_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +13,25 @@ class BottomSheetHomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AuthService authService = AuthService();
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width * 0.96,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const ListTile(
-            leading: FaIcon(FontAwesomeIcons.userSecret),
-            title: Text('Account'),
-            subtitle: Text('Manage your profile settings'),
-            trailing: FaIcon(FontAwesomeIcons.forwardStep),
+          ListTile(
+            onTap: () async {
+              await showModalBottomSheet<Widget>(
+                showDragHandle: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return const BottomSheetSignout();
+                },
+              );
+            },
+            leading: const FaIcon(FontAwesomeIcons.userSecret),
+            title: const Text('Account'),
+            subtitle: const Text('Manage your profile settings'),
+            trailing: const FaIcon(FontAwesomeIcons.forwardStep),
           ),
           ListTile(
             onTap: () {
