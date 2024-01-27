@@ -1,4 +1,3 @@
-import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/signout_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/theme/flextheme.dart';
@@ -13,7 +12,6 @@ class BottomSheetHomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthService authService = AuthService();
     return SizedBox(
       child: Column(
         mainAxisSize: MainAxisSize.min,
