@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
@@ -26,7 +27,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  final AuthService _authService = AuthService();
   StreamSubscription<User?>? _authSubscription;
   bool _isAuthenticated = false;
   bool _isSigningIn = false;
@@ -105,28 +105,13 @@ class SplashScreenState extends State<SplashScreen> {
           ? const CircularProgressIndicator()
           : FloatingActionButton(
               onPressed: () {
-                setState(() {
-                  _isSigningIn = true;
-                });
-                _authService.signInAnonymously().then((_) {
-                  setState(() {
-                    _isAuthenticated = true;
-                  });
-                  return Navigation.navigateToHomeScreen(context);
-                }).onError((Object error, StackTrace stackTrace) {
-                  setState(() {
-                    _isSigningIn = false;
-                  });
-                  Logger().e('Error during anonymous sign in: $error');
-                  rootScaffoldMessengerKey.currentState!.showSnackBar(
-                    SnackBar(
-                      content:
-                          const Text('Something went wrong! Please try again.'),
-                      backgroundColor: flexSchemeLight.error,
-                    ),
-                  );
-                  return null;
-                });
+                showModalBottomSheet<Widget>(
+                    showDragHandle: true,
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BottomSheetFirstSignin();
+                    });
               },
               child: _isSigningIn
                   ? const CircularProgressIndicator()

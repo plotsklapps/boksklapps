@@ -1,12 +1,12 @@
-import 'package:boksklapps/dialogs/signout_bottomsheet.dart';
+import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BottomSheetHomeScreen extends ConsumerWidget {
-  const BottomSheetHomeScreen({
+class BottomSheetMainMenu extends ConsumerWidget {
+  const BottomSheetMainMenu({
     super.key,
   });
 
@@ -20,9 +20,10 @@ class BottomSheetHomeScreen extends ConsumerWidget {
             onTap: () async {
               await showModalBottomSheet<Widget>(
                 showDragHandle: true,
+                isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return const BottomSheetSignout();
+                  return const BottomSheetUserSettings();
                 },
               );
             },

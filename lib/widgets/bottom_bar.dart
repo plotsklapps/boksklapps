@@ -22,7 +22,7 @@ class BottomBar extends StatelessWidget {
                 showDragHandle: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return const BottomSheetHomeScreen();
+                  return const BottomSheetMainMenu();
                 },
               );
             },
