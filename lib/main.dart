@@ -37,6 +37,8 @@ class MainEntry extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // Use the rootScaffoldMessengerKey to show SnackBars to users,
+      // without BuildContext gaps.
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       theme:
           ref.watch(isDarkTheme) ? ref.watch(darkTheme) : ref.watch(lightTheme),
