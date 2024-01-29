@@ -21,6 +21,19 @@ class AuthService {
     }
   }
 
+  Future<void> sendEmailVerification() async {
+    final User? currentUser = _firebaseAuth.currentUser;
+    try {
+      if (currentUser != null) {
+        await _firebaseAuth.currentUser!.sendEmailVerification();
+      }
+    } on FirebaseAuthException catch (error) {
+      // Handle Firebase Exceptions here.
+    } catch (error) {
+      // Handle all other errors here.
+    }
+  }
+
   Future<UserCredential?> signInWithEmailAndPassword(
     String email,
     String password,
