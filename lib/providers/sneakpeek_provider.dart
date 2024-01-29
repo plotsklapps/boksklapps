@@ -1,19 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final NotifierProvider<SneakPeekNotifier, bool> isSneakPeeker =
-    NotifierProvider<SneakPeekNotifier, bool>(SneakPeekNotifier.new);
+final NotifierProvider<SneakPeekerNotifier, bool> isSneakPeekerProvider =
+    NotifierProvider<SneakPeekerNotifier, bool>(SneakPeekerNotifier.new);
 
-class SneakPeekNotifier extends Notifier<bool> {
+class SneakPeekerNotifier extends Notifier<bool> {
   @override
   bool build() {
     return false;
   }
 
   bool setTrue() {
-    return state = true;
+    return true;
   }
 
   bool setFalse() {
-    return state = false;
+    return false;
   }
 }
