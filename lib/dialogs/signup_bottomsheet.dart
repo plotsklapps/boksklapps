@@ -3,6 +3,7 @@ import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomSheetSignup extends ConsumerStatefulWidget {
   const BottomSheetSignup({super.key});
@@ -46,7 +47,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Create account', style: TextUtils.fontL),
+            const Text('Create BOKSklapps account', style: TextUtils.fontL),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             TextField(
@@ -75,7 +76,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                   child: const Text('CANCEL'),
                 ),
                 const SizedBox(width: 16),
-                ElevatedButton(
+                FloatingActionButton(
                   onPressed: () async {
                     setState(() {
                       _isLoading = true;
@@ -91,8 +92,8 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                     );
                   },
                   child: _isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('SIGN UP'),
+                      ? const CircularProgressIndicator(strokeWidth: 6)
+                      : const FaIcon(FontAwesomeIcons.forwardStep),
                 ),
               ],
             ),

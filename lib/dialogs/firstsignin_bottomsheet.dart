@@ -3,6 +3,7 @@ import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
+import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,8 +31,12 @@ class BottomSheetFirstSigninState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          const Text('Choose a sign in method', style: TextUtils.fontL),
+          const Divider(thickness: 2),
+          const SizedBox(height: 16),
           ListTile(
             onTap: () async {
+              // Close this bottomsheet and open the signup bottomsheet.
               Navigator.pop(context);
               await showModalBottomSheet<void>(
                 showDragHandle: true,
@@ -54,7 +59,16 @@ class BottomSheetFirstSigninState
           ),
           ListTile(
             onTap: () async {
-              // Handle signInUser logic.
+              // Close this bottomsheet and open the signin bottomsheet.
+              Navigator.pop(context);
+              await showModalBottomSheet<void>(
+                showDragHandle: true,
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return const Placeholder();
+                },
+              );
             },
             leading: const FaIcon(
               FontAwesomeIcons.userCheck,
