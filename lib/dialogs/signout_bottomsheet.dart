@@ -34,8 +34,10 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Are you sure you want to sign out?',
-                style: TextUtils.fontL),
+            const Text(
+              'Are you sure you want to sign out?',
+              style: TextUtils.fontL,
+            ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             const SizedBox(height: 16),

@@ -95,11 +95,14 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                       await _firebaseAuth.reload();
                     }).then((_) {
                       Navigator.pop(context);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute<Widget>(
-                              builder: (BuildContext context) {
-                        return const HomeScreen();
-                      }));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute<Widget>(
+                          builder: (BuildContext context) {
+                            return const HomeScreen();
+                          },
+                        ),
+                      );
                     });
                     rootScaffoldMessengerKey.currentState!.showSnackBar(
                       const SnackBar(
