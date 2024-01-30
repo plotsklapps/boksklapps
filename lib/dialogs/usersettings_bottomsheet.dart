@@ -1,5 +1,5 @@
 import 'package:boksklapps/auth_service.dart';
-import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/dialogs/signout_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -61,10 +61,14 @@ class BottomSheetUserSettings extends StatelessWidget {
           ),
           ListTile(
             onTap: () async {
-              await authService.signOut().then((_) {
-                Navigator.pop(context);
-                Navigation.navigateToSplashScreen(context);
-              });
+              await showModalBottomSheet<Widget>(
+                showDragHandle: true,
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return const BottomSheetSignout();
+                },
+              );
             },
             leading: const FaIcon(
               FontAwesomeIcons.personWalkingArrowRight,

@@ -13,10 +13,18 @@ class DisplayNameNotifier extends Notifier<String> {
   // 3. It's the user's actual name.
   @override
   String build() {
-    _firebaseAuth.authStateChanges().listen((User? user) {
-      state = _firebaseAuth.currentUser!.displayName ?? 'Sneak Peeker';
-    });
-    return 'Sneak Peeker';
+    final User? currentUser = _firebaseAuth.currentUser;
+    if (currentUser != null) {
+      if (currentUser.isAnonymous) {
+        return 'Sneak Peeker';
+      } else if (currentUser.displayName == null) {
+        return 'New Boxer';
+      } else {
+        return currentUser.displayName!;
+      }
+    } else {
+      return 'Sneak Peeker';
+    }
   }
 
   // Create a function that allows the user to change the display name.
