@@ -1,4 +1,5 @@
 import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/main.dart';
 import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,12 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+        padding: EdgeInsets.fromLTRB(
+          8,
+          0,
+          8,
+          MediaQuery.viewInsetsOf(context).bottom + 16,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -85,11 +91,33 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                     final String password = _passwordController.text.trim();
                     // Save the email to the provider.
                     ref.read(emailProvider.notifier).setEmail(email);
-                    // Send the sign in link to the email.
-                    await _firebaseAuth.createUserWithEmailAndPassword(
+                    // Create a new Firebase user.
+                    await _firebaseAuth
+                        .createUserWithEmailAndPassword(
                       email,
                       password,
+                    )
+                        .then((_) async {
+                      // Reload the user to make sure the backend is
+                      // refreshed.
+                      await _firebaseAuth.reload();
+                      // Send a verification email to the user.
+                      await _firebaseAuth.sendEmailVerification();
+                    }).then((_) {
+                      return Navigator.pop(context);
+                    });
+                    rootScaffoldMessengerKey.currentState!.showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Verification email sent. Please verify your email '
+                          'and sign in.',
+                        ),
+                        showCloseIcon: true,
+                      ),
                     );
+                    setState(() {
+                      _isLoading = false;
+                    });
                   },
                   child: _isLoading
                       ? const CircularProgressIndicator(strokeWidth: 6)

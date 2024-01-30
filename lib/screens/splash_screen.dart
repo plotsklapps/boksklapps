@@ -27,7 +27,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _checkAuthentication() async {
-    await Future.delayed(const Duration(milliseconds: 1000), () {
+    await Future<void>.delayed(const Duration(milliseconds: 1000), () {
       // Check if user is signed in (non-anonymously).
       final User? currentUser = FirebaseAuth.instance.currentUser;
       // If user is signed in, navigate to home screen and show snackbar.
@@ -41,10 +41,8 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
           ),
         );
         rootScaffoldMessengerKey.currentState!.showSnackBar(
-          SnackBar(
-            content:
-                Text('Welcome to BOKSklapps, ${currentUser.displayName ?? 'New '
-                    'Boxer'}!'),
+          const SnackBar(
+            content: Text('Have a great workout!'),
             showCloseIcon: true,
           ),
         );

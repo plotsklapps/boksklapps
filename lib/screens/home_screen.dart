@@ -61,21 +61,6 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          children: <Widget>[Placeholder()],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),

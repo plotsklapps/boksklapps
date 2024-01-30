@@ -1,4 +1,5 @@
 import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/dialogs/signin_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
@@ -66,7 +67,7 @@ class BottomSheetFirstSigninState
                 isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return const Placeholder();
+                  return const BottomSheetSignin();
                 },
               );
             },

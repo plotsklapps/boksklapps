@@ -87,4 +87,16 @@ class AuthService {
       return;
     }
   }
+
+  Future<void> reload() async {
+    try {
+      await _firebaseAuth.currentUser!.reload();
+    } on FirebaseAuthException catch (error) {
+      // Handle Firebase Exceptions here.
+      return;
+    } catch (error) {
+      // Handle all other errors here.
+      return;
+    }
+  }
 }
