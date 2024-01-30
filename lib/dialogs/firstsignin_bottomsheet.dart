@@ -1,21 +1,31 @@
+import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 
-class BottomSheetFirstSignin extends ConsumerWidget {
+class BottomSheetFirstSignin extends ConsumerStatefulWidget {
   const BottomSheetFirstSignin({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  ConsumerState<BottomSheetFirstSignin> createState() {
+    return BottomSheetFirstSigninState();
+  }
+}
+
+class BottomSheetFirstSigninState
+    extends ConsumerState<BottomSheetFirstSignin> {
+  final AuthService _authService = AuthService();
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -23,34 +33,28 @@ class BottomSheetFirstSignin extends ConsumerWidget {
           ListTile(
             onTap: () async {
               Navigator.pop(context);
-              var emailAuth = 'someemail@domain.com';
-              await _firebaseAuth
-                  .sendSignInLinkToEmail(
-                      email: emailAuth, actionCodeSettings: acs)
-                  .catchError((onError) =>
-                      print('Error sending email verification $onError'))
-                  .then(
-                      (value) => print('Successfully sent email verification'));
-              // await showModalBottomSheet<void>(
-              //     showDragHandle: true,
-              //     isScrollControlled: true,
-              //     context: context,
-              //     builder: (BuildContext context) {
-              //       return const BottomSheetSignup();
-              //     });
+              await showModalBottomSheet<void>(
+                showDragHandle: true,
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return const BottomSheetSignup();
+                },
+              );
             },
             leading: const FaIcon(
               FontAwesomeIcons.userPlus,
             ),
             title: const Text('Create an account'),
             subtitle: const Text(
-              'Get a personalized experience and save your statistics (recommended).',
+              'Get a personalized experience and save your statistics '
+              '(recommended).',
             ),
             trailing: const FaIcon(FontAwesomeIcons.chevronRight),
           ),
           ListTile(
             onTap: () async {
-              // Handle createUser logic.
+              // Handle signInUser logic.
             },
             leading: const FaIcon(
               FontAwesomeIcons.userCheck,
@@ -63,27 +67,38 @@ class BottomSheetFirstSignin extends ConsumerWidget {
           ),
           ListTile(
             onTap: () async {
+              setState(() {
+                _isLoading = true;
+              });
               // Set isSneakPeeker bool true. Give user complete access,
-              // except for Firebase.
+              // and sign in anonymously so the user may turn it into an
+              // actual account later.
               ref.read(isSneakPeekerProvider.notifier).setTrue();
-              Navigator.pop(context);
-              Navigation.navigateToHomeScreen(context);
-              rootScaffoldMessengerKey.currentState!.showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Welcome to BOKSklapps! You are a sneak peeker, your data will NOT be stored.',
+              await _authService.signInAnonymously().then((_) {
+                Logger().i('User has signed in as Sneak Peeker.');
+                Navigation.navigateToHomeScreen(context);
+                setState(() {
+                  _isLoading = false;
+                });
+                rootScaffoldMessengerKey.currentState!.showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Welcome to BOKSklapps! You are a sneak peeker, '
+                      'your data will NOT be stored.',
+                    ),
+                    showCloseIcon: true,
                   ),
-                  showCloseIcon: true,
-                ),
-              );
-              Logger().i('User has signed in as Sneak Peeker.');
+                );
+              });
             },
-            leading: const FaIcon(
-              FontAwesomeIcons.userSecret,
-            ),
+            leading: _isLoading
+                ? const CircularProgressIndicator(strokeWidth: 6)
+                : const FaIcon(
+                    FontAwesomeIcons.userSecret,
+                  ),
             title: const Text('Sneak peek'),
             subtitle: const Text(
-              'Try out BOKSklapps without storing any data.',
+              'Try out BOKSklapps anonymously without storing any data.',
             ),
             trailing: const FaIcon(FontAwesomeIcons.chevronRight),
           ),

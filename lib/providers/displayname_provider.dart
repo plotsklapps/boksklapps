@@ -1,4 +1,3 @@
-import 'package:boksklapps/providers/firebaseauth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,11 +14,7 @@ class DisplayNameNotifier extends Notifier<String> {
   @override
   String build() {
     _firebaseAuth.authStateChanges().listen((User? user) {
-      if (user == null) {
-        state = 'Sneak Peeker';
-      } else {
-        state = _firebaseAuth.currentUser!.displayName ?? 'New Boxer';
-      }
+      state = _firebaseAuth.currentUser!.displayName ?? 'Sneak Peeker';
     });
     return 'Sneak Peeker';
   }

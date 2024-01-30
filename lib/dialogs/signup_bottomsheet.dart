@@ -1,25 +1,26 @@
 import 'package:boksklapps/auth_service.dart';
-import 'package:boksklapps/main.dart';
+import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BottomSheetSignup extends StatefulWidget {
+class BottomSheetSignup extends ConsumerStatefulWidget {
   const BottomSheetSignup({super.key});
 
   @override
-  State<BottomSheetSignup> createState() {
+  ConsumerState<BottomSheetSignup> createState() {
     return BottomSheetSignupState();
   }
 }
 
-class BottomSheetSignupState extends State<BottomSheetSignup> {
+class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
 
-  final AuthService _authService = AuthService();
+  final AuthService _firebaseAuth = AuthService();
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -50,18 +51,18 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
             const SizedBox(height: 16),
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(label: Text('EMAIL')),
+              decoration: const InputDecoration(label: Text('Email')),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(label: Text('PASSWORD')),
+              decoration: const InputDecoration(label: Text('Password')),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _confirmPasswordController,
               decoration:
-                  const InputDecoration(label: Text('CONFIRM PASSWORD')),
+                  const InputDecoration(label: Text('Confirm Password')),
             ),
             const SizedBox(height: 16),
             Row(
@@ -77,32 +78,19 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                 ElevatedButton(
                   onPressed: () async {
                     setState(() {
-                      isLoading = true;
+                      _isLoading = true;
                     });
                     final String email = _emailController.text.trim();
                     final String password = _passwordController.text.trim();
-                    await _authService
-                        .createUserWithEmailAndPassword(
+                    // Save the email to the provider.
+                    ref.read(emailProvider.notifier).setEmail(email);
+                    // Send the sign in link to the email.
+                    await _firebaseAuth.createUserWithEmailAndPassword(
                       email,
                       password,
-                    )
-                        .then((_) async {
-                      await _authService.sendEmailVerification().then((_) {
-                        setState(() {
-                          isLoading = false;
-                        });
-                        Navigator.pop(context);
-                        rootScaffoldMessengerKey.currentState!.showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                'Thanks for joining! A verification mail has been sent.'),
-                            showCloseIcon: true,
-                          ),
-                        );
-                      });
-                    });
+                    );
                   },
-                  child: isLoading
+                  child: _isLoading
                       ? const CircularProgressIndicator()
                       : const Text('SIGN UP'),
                 ),

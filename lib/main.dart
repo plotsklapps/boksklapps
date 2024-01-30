@@ -1,7 +1,6 @@
 import 'package:boksklapps/firebase_options.dart';
 import 'package:boksklapps/screens/splash_screen.dart';
 import 'package:boksklapps/theme/flextheme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,16 +46,3 @@ class MainEntry extends ConsumerWidget {
     );
   }
 }
-
-var acs = ActionCodeSettings(
-    // URL you want to redirect back to. The domain (www.example.com) for this
-    // URL must be whitelisted in the Firebase Console.
-    url: 'https://www.boksklapps.app',
-    // This must be true
-    handleCodeInApp: true,
-    iOSBundleId: 'nl.plotsklapps.boksklapps',
-    androidPackageName: 'dev.plotsklapps.boksklapps',
-    // installIfNotAvailable
-    androidInstallApp: true,
-    // minimumVersion
-    androidMinimumVersion: '12');
