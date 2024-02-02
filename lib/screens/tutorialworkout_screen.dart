@@ -103,12 +103,12 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('TUTORIAL WORKOUT'),
-      ),
-      body: SafeArea(
-        child: Padding(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('TUTORIAL WORKOUT'),
+        ),
+        body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -192,25 +192,25 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (totalTimerRunning) {
+              workoutTimer
+                  .pauseTimer(); // Implement pauseTimer method in WorkoutTimer
+              setState(() => totalTimerRunning = false);
+            } else {
+              workoutTimer
+                  .resumeTimer(); // Implement resumeTimer method in WorkoutTimer
+              setState(() => totalTimerRunning = true);
+            }
+          },
+          child: totalTimerRunning
+              ? const FaIcon(FontAwesomeIcons.pause)
+              : const FaIcon(FontAwesomeIcons.play),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar: const BottomBar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (totalTimerRunning) {
-            workoutTimer
-                .pauseTimer(); // Implement pauseTimer method in WorkoutTimer
-            setState(() => totalTimerRunning = false);
-          } else {
-            workoutTimer
-                .resumeTimer(); // Implement resumeTimer method in WorkoutTimer
-            setState(() => totalTimerRunning = true);
-          }
-        },
-        child: totalTimerRunning
-            ? const FaIcon(FontAwesomeIcons.pause)
-            : const FaIcon(FontAwesomeIcons.play),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: const BottomBar(),
     );
   }
 }

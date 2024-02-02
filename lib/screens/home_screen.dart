@@ -12,10 +12,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String displayName = ref.watch(displayNameProvider);
-    return Scaffold(
-      extendBody: true,
-      body: SafeArea(
-        child: Padding(
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -64,22 +64,22 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<Widget>(
+                builder: (BuildContext context) {
+                  return const TutorialScreen();
+                },
+              ),
+            );
+          },
+          child: const FaIcon(FontAwesomeIcons.forwardStep),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar: const BottomBar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<Widget>(
-              builder: (BuildContext context) {
-                return const TutorialScreen();
-              },
-            ),
-          );
-        },
-        child: const FaIcon(FontAwesomeIcons.forwardStep),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: const BottomBar(),
     );
   }
 }

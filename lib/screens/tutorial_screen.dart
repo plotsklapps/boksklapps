@@ -9,12 +9,12 @@ class TutorialScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('TUTORIAL WORKOUT'),
-      ),
-      body: const SafeArea(
-        child: Padding(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('TUTORIAL WORKOUT'),
+        ),
+        body: const Padding(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -197,22 +197,22 @@ class TutorialScreen extends StatelessWidget {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<Widget>(
+                builder: (BuildContext context) {
+                  return const TutorialWorkoutScreen();
+                },
+              ),
+            );
+          },
+          child: const FaIcon(FontAwesomeIcons.forwardStep),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar: const BottomBar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<Widget>(
-              builder: (BuildContext context) {
-                return const TutorialWorkoutScreen();
-              },
-            ),
-          );
-        },
-        child: const FaIcon(FontAwesomeIcons.forwardStep),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: const BottomBar(),
     );
   }
 }

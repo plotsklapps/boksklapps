@@ -2,8 +2,8 @@ import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/signin_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
+import 'package:boksklapps/screens/home_screen.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,7 +92,14 @@ class BottomSheetFirstSigninState
               await _authService.signInAnonymously().then((_) {
                 _authService.reload();
                 Logger().i('User has signed in as Sneak Peeker.');
-                Navigation.navigateToHomeScreen(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute<Widget>(
+                    builder: (BuildContext context) {
+                      return const HomeScreen();
+                    },
+                  ),
+                );
                 setState(() {
                   _isLoading = false;
                 });

@@ -67,9 +67,9 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Center(
+    return const SafeArea(
+      child: Scaffold(
+        body: Center(
           child: CircularProgressIndicator(strokeWidth: 6),
         ),
       ),

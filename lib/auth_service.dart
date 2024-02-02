@@ -25,7 +25,7 @@ class AuthService {
     final User? currentUser = _firebaseAuth.currentUser;
     try {
       if (currentUser != null) {
-        await _firebaseAuth.currentUser!.sendEmailVerification();
+        await currentUser.sendEmailVerification();
       }
     } on FirebaseAuthException catch (error) {
       // Handle Firebase Exceptions here.
@@ -89,8 +89,9 @@ class AuthService {
   }
 
   Future<void> reload() async {
+    final User? currentUser = _firebaseAuth.currentUser;
     try {
-      await _firebaseAuth.currentUser!.reload();
+      await currentUser!.reload();
     } on FirebaseAuthException catch (error) {
       // Handle Firebase Exceptions here.
       return;
