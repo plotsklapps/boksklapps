@@ -20,7 +20,7 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
-  final AuthService _firebaseAuth = AuthService();
+  final AuthService _authService = AuthService();
 
   bool _isLoading = false;
 
@@ -84,7 +84,7 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                     // Save the email to the provider.
                     ref.read(emailProvider.notifier).setEmail(email);
                     // Log in to Firebase with the email and password.
-                    await _firebaseAuth
+                    await _authService
                         .signInWithEmailAndPassword(
                       email,
                       password,
@@ -92,7 +92,7 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                         .then((_) async {
                       // Reload the user to make sure the backend is
                       // refreshed.
-                      await _firebaseAuth.reload();
+                      await _authService.reload();
                     }).then((_) {
                       Navigator.pop(context);
                       Navigator.pushReplacement(

@@ -30,7 +30,7 @@ class BottomSheetMainMenu extends ConsumerWidget {
             leading: const FaIcon(FontAwesomeIcons.userSecret),
             title: const Text('Account'),
             subtitle: const Text('Manage your profile settings'),
-            trailing: const FaIcon(FontAwesomeIcons.forwardStep),
+            trailing: const FaIcon(FontAwesomeIcons.chevronRight),
           ),
           ListTile(
             onTap: () {

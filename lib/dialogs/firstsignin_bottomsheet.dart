@@ -90,6 +90,7 @@ class BottomSheetFirstSigninState
               // actual account later.
               ref.read(isSneakPeekerProvider.notifier).setTrue();
               await _authService.signInAnonymously().then((_) {
+                _authService.reload();
                 Logger().i('User has signed in as Sneak Peeker.');
                 Navigation.navigateToHomeScreen(context);
                 setState(() {

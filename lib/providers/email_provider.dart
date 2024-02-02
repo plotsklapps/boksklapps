@@ -10,7 +10,7 @@ class EmailNotifier extends Notifier<String> {
   @override
   String build() {
     _firebaseAuth.authStateChanges().listen((User? user) {
-      state = _firebaseAuth.currentUser!.email ?? 'johndoe@email.com';
+      state = _firebaseAuth.currentUser?.email ?? 'johndoe@email.com';
     });
     return 'johndoe@email.com';
   }

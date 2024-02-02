@@ -9,15 +9,19 @@ class DisplayNameNotifier extends Notifier<String> {
 
   // In the build function we set the initial value for the display name:
   // 1. It's Sneak Peeker, for anonymous users.
-  // 2. It's New Boxer, for newly created accounts.
+  // 2. It's New Boxer, for newly created accounts (email/password).
   // 3. It's the user's actual name.
   @override
   String build() {
     final User? currentUser = _firebaseAuth.currentUser;
+    print('Current user: ${currentUser.toString()}'); // Debugging line
     if (currentUser != null) {
+      print('Is anonymous: ${currentUser.isAnonymous}'); // Debugging line
+      print('Display name: ${currentUser.displayName}'); // Debugging line
       if (currentUser.isAnonymous) {
         return 'Sneak Peeker';
-      } else if (currentUser.displayName == null) {
+      } else if (currentUser.displayName == null ||
+          currentUser.displayName!.isEmpty) {
         return 'New Boxer';
       } else {
         return currentUser.displayName!;
