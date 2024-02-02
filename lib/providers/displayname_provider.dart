@@ -7,32 +7,15 @@ final NotifierProvider<DisplayNameNotifier, String> displayNameProvider =
 class DisplayNameNotifier extends Notifier<String> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // In the build function we set the initial value for the display name:
-  // 1. It's Sneak Peeker, for anonymous users.
-  // 2. It's New Boxer, for newly created accounts (email/password).
-  // 3. It's the user's actual name.
+  // Set the initial value of the provider to the current user's display
+  // name, or 'New Boxer' if the user is not signed in.
   @override
   String build() {
-    final User? currentUser = _firebaseAuth.currentUser;
-    print('Current user: ${currentUser.toString()}'); // Debugging line
-    if (currentUser != null) {
-      print('Is anonymous: ${currentUser.isAnonymous}'); // Debugging line
-      print('Display name: ${currentUser.displayName}'); // Debugging line
-      if (currentUser.isAnonymous) {
-        return 'Sneak Peeker';
-      } else if (currentUser.displayName == null ||
-          currentUser.displayName!.isEmpty) {
-        return 'New Boxer';
-      } else {
-        return currentUser.displayName!;
-      }
-    } else {
-      return 'Sneak Peeker';
-    }
+    return state = _firebaseAuth.currentUser?.displayName ?? 'New Boxer';
   }
 
   // Create a function that allows the user to change the display name.
   Future<void> setDisplayName(String displayName) async {
-    await _firebaseAuth.currentUser!.updateDisplayName(displayName);
+    await _firebaseAuth.currentUser?.updateDisplayName(displayName);
   }
 }

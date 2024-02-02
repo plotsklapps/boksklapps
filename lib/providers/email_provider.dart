@@ -7,15 +7,16 @@ final NotifierProvider<EmailNotifier, String> emailProvider =
 class EmailNotifier extends Notifier<String> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  // Set the initial value of the provider to the current user's email,
+  // or 'johndoe@email.com' if the user is not signed in.
   @override
   String build() {
-    _firebaseAuth.authStateChanges().listen((User? user) {
-      state = _firebaseAuth.currentUser?.email ?? 'johndoe@email.com';
-    });
-    return 'johndoe@email.com';
+    return state = _firebaseAuth.currentUser?.email ?? 'johndoe@email.com';
   }
 
-  String setEmail(String email) {
-    return state = email;
+  // Create a function that allows the user to change the email.
+  Future<String> setEmail(String newEmail) async {
+    await _firebaseAuth.currentUser?.updateEmail(newEmail);
+    return state = newEmail;
   }
 }
