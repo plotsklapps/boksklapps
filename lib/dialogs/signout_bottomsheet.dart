@@ -1,6 +1,6 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/providers/displayname_provider.dart';
+import 'package:boksklapps/providers/displayname_signal.dart';
 import 'package:boksklapps/screens/splash_screen.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';

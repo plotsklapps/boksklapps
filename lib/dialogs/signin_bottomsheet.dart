@@ -1,7 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/screens/home_screen.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,8 +81,8 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                     });
                     final String email = _emailController.text.trim();
                     final String password = _passwordController.text.trim();
-                    // Save the email to the provider.
-                    ref.read(emailProvider.notifier).setEmail(email);
+                    // Save the email to the signal.
+                    sEmail.value = email;
                     // Log in to Firebase with the email and password.
                     await _authService
                         .signInWithEmailAndPassword(

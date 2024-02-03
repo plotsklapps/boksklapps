@@ -31,19 +31,18 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MainEntry()));
 }
 
-class MainEntry extends ConsumerWidget {
+class MainEntry extends StatelessWidget {
   const MainEntry({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // Use the rootScaffoldMessengerKey to show SnackBars to users,
       // without BuildContext gaps.
       scaffoldMessengerKey: rootScaffoldMessengerKey,
-      theme: isDarkThemeSignal.watch(context)
-          ? darkThemeSignal.value
-          : lightThemeSignal.value,
+      // Watch the isDarkThemeSignal and change the theme accordingly.
+      theme: isDarkThemeSignal.watch(context) ? darkTheme : lightTheme,
       home: const SplashScreen(),
     );
   }

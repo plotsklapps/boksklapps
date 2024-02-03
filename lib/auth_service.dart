@@ -1,102 +1,184 @@
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-  Future<UserCredential?> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<void> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+    required void Function(String) onError,
+    required void Function(UserCredential) onSuccess,
+  }) async {
     try {
-      return await _firebaseAuth.createUserWithEmailAndPassword(
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      sCurrentUser.value = userCredential.user;
+
+      onSuccess(userCredential);
     } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
-      return null;
+      onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
-      // Handle all other errors here.
-      return null;
+      onError('Error: $error');
     }
   }
 
-  Future<void> sendEmailVerification() async {
-    final User? currentUser = _firebaseAuth.currentUser;
-    try {
-      if (currentUser != null) {
+  Future<void> sendEmailVerification({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    if (!currentUser.emailVerified) {
+      try {
         await currentUser.sendEmailVerification();
+        onSuccess();
+      } on FirebaseAuthException catch (error) {
+        onError('Firebase error: ${error.code}, ${error.message}');
+      } catch (error) {
+        onError('Error: $error');
       }
-    } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
-    } catch (error) {
-      // Handle all other errors here.
+    } else {
+      onError('Email is already verified.');
     }
   }
 
-  Future<UserCredential?> signInWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<void> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+    required void Function(String) onError,
+    required void Function(UserCredential) onSuccess,
+  }) async {
     try {
-      return await _firebaseAuth.signInWithEmailAndPassword(
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      sCurrentUser.value = userCredential.user;
+
+      onSuccess(userCredential);
     } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
-      return null;
+      onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
-      // Handle all other errors here.
-      return null;
+      onError('Error: $error');
     }
   }
 
-  Future<UserCredential?> signInAnonymously() async {
+  Future<void> signInAnonymously({
+    required void Function(String) onError,
+    required void Function(UserCredential) onSuccess,
+  }) async {
     try {
-      return await _firebaseAuth.signInAnonymously();
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInAnonymously();
+
+      sCurrentUser.value = userCredential.user;
+
+      onSuccess(userCredential);
     } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
-      return null;
+      onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
-      // Handle all other errors here.
-      return null;
+      onError('Error: $error');
     }
   }
 
-  Future<void> sendPasswordResetEmail(String email) async {
+  Future<void> sendPasswordResetEmail({
+    required String email,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
     try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      onSuccess();
     } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
+  Future<void> signOut({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signOut();
+
+      sCurrentUser.value = null;
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
       return;
     } catch (error) {
-      // Handle all other errors here.
+      onError('Error: $error');
       return;
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> reload({
+    required void Function(String) onError,
+    required void Function({required bool emailVerified}) onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
     try {
-      await _firebaseAuth.signOut();
+      await currentUser.reload();
+
+      sCurrentUser.value = currentUser;
+
+      onSuccess(emailVerified: currentUser.emailVerified);
     } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
-      return;
+      onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
-      // Handle all other errors here.
-      return;
+      onError('Error: $error');
     }
   }
 
-  Future<void> reload() async {
-    final User? currentUser = _firebaseAuth.currentUser;
-    try {
-      await currentUser!.reload();
-    } on FirebaseAuthException catch (error) {
-      // Handle Firebase Exceptions here.
+  Future<void> setDisplayName({
+    required String newDisplayName,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
       return;
+    }
+
+    try {
+      await currentUser.updateDisplayName(newDisplayName);
+      await currentUser.reload();
+
+      sCurrentUser.value = currentUser;
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
-      // Handle all other errors here.
+      onError('Error: $error');
       return;
     }
   }

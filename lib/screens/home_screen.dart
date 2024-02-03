@@ -1,17 +1,17 @@
-import 'package:boksklapps/providers/displayname_provider.dart';
 import 'package:boksklapps/screens/tutorial_screen.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:signals/signals_flutter.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String displayName = ref.watch(displayNameProvider);
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -27,7 +27,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               Row(
                 children: <Widget>[
-                  Text(displayName, style: TextUtils.fontL),
+                  Text(sDisplayName.watch(context), style: TextUtils.fontL),
                 ],
               ),
               const Row(

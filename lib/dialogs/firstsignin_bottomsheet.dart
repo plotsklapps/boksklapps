@@ -2,9 +2,10 @@ import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/signin_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/screens/home_screen.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -85,34 +86,14 @@ class BottomSheetFirstSigninState
               setState(() {
                 _isLoading = true;
               });
-              // Set isSneakPeeker bool true. Give user complete access,
-              // and sign in anonymously so the user may turn it into an
-              // actual account later.
-              ref.read(isSneakPeekerProvider.notifier).setTrue();
-              await _authService.signInAnonymously().then((_) {
-                _authService.reload();
-                Logger().i('User has signed in as Sneak Peeker.');
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute<Widget>(
-                    builder: (BuildContext context) {
-                      return const HomeScreen();
-                    },
-                  ),
-                );
-                setState(() {
-                  _isLoading = false;
-                });
-                rootScaffoldMessengerKey.currentState!.showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Welcome to BOKSklapps! You are a sneak peeker, '
-                      'your data will NOT be stored.',
-                    ),
-                    showCloseIcon: true,
-                  ),
-                );
-              });
+              // Set the user as a sneak peeker and sign in anonymously.
+              sSneakPeeker.value = true;
+              await _authService.signInAnonymously(
+                onError: _handleErrors,
+                onSuccess: (UserCredential userCredential) {
+                  _handleSuccess();
+                },
+              );
             },
             leading: _isLoading
                 ? const CircularProgressIndicator(strokeWidth: 6)
@@ -126,6 +107,43 @@ class BottomSheetFirstSigninState
             trailing: const FaIcon(FontAwesomeIcons.chevronRight),
           ),
         ],
+      ),
+    );
+  }
+
+  void _handleErrors(String error) {
+    Logger().e('Error: $error');
+    setState(() {
+      _isLoading = false;
+    });
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text('Error: $error'),
+        showCloseIcon: true,
+      ),
+    );
+  }
+
+  void _handleSuccess() {
+    Logger().i('User has signed in as Sneak Peeker.');
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<Widget>(
+        builder: (BuildContext context) {
+          return const HomeScreen();
+        },
+      ),
+    );
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Welcome to BOKSklapps! You are a sneak peeker, '
+          'your data will NOT be stored.',
+        ),
+        showCloseIcon: true,
       ),
     );
   }
