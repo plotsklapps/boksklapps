@@ -3,7 +3,6 @@ import 'package:boksklapps/screens/splash_screen.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 
 // The root ScaffoldMessenger can also be accessed by providing a key to
@@ -28,7 +27,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // runApp starts the Flutter app (ProviderScope is a Riverpod must have).
-  runApp(const ProviderScope(child: MainEntry()));
+  runApp(const MainEntry());
 }
 
 class MainEntry extends StatelessWidget {

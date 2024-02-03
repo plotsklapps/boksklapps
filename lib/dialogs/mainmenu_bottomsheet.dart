@@ -2,16 +2,15 @@ import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BottomSheetMainMenu extends ConsumerWidget {
+class BottomSheetMainMenu extends StatelessWidget {
   const BottomSheetMainMenu({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return SizedBox(
       child: Column(
         mainAxisSize: MainAxisSize.min,

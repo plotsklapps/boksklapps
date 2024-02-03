@@ -1,22 +1,21 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/home_screen.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BottomSheetSignin extends ConsumerStatefulWidget {
+class BottomSheetSignin extends StatefulWidget {
   const BottomSheetSignin({super.key});
 
   @override
-  ConsumerState<BottomSheetSignin> createState() {
+  State<BottomSheetSignin> createState() {
     return BottomSheetSigninState();
   }
 }
 
-class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
+class BottomSheetSigninState extends State<BottomSheetSignin> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
@@ -81,40 +80,13 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                     });
                     final String email = _emailController.text.trim();
                     final String password = _passwordController.text.trim();
-                    // Save the email to the signal.
-                    sEmail.value = email;
                     // Log in to Firebase with the email and password.
-                    await _authService
-                        .signInWithEmailAndPassword(
-                      email,
-                      password,
-                    )
-                        .then((_) async {
-                      // Reload the user to make sure the backend is
-                      // refreshed.
-                      await _authService.reload();
-                    }).then((_) {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute<Widget>(
-                          builder: (BuildContext context) {
-                            return const HomeScreen();
-                          },
-                        ),
-                      );
-                    });
-                    rootScaffoldMessengerKey.currentState!.showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Welcome to BOKSklapps! Have a great workout!',
-                        ),
-                        showCloseIcon: true,
-                      ),
+                    await _authService.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                      onError: _handleErrors,
+                      onSuccess: _handleSuccess,
                     );
-                    setState(() {
-                      _isLoading = false;
-                    });
                   },
                   child: _isLoading
                       ? const CircularProgressIndicator(strokeWidth: 6)
@@ -124,6 +96,38 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _handleErrors(String error) {
+    setState(() {
+      _isLoading = false;
+    });
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text('Error: $error'),
+        showCloseIcon: true,
+      ),
+    );
+  }
+
+  void _handleSuccess(UserCredential userCredential) {
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<Widget>(
+        builder: (BuildContext context) {
+          return const HomeScreen();
+        },
+      ),
+    );
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      const SnackBar(
+        content: Text('You have signed in. Welcome to BOKSklapps!'),
+        showCloseIcon: true,
       ),
     );
   }

@@ -1,19 +1,18 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class StartScreen extends ConsumerStatefulWidget {
+class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
 
   @override
-  ConsumerState<StartScreen> createState() {
+  State<StartScreen> createState() {
     return StartScreenState();
   }
 }
 
-class StartScreenState extends ConsumerState<StartScreen> {
+class StartScreenState extends State<StartScreen> {
   bool _isSigningIn = false;
 
   @override

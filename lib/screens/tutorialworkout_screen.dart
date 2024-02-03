@@ -195,12 +195,10 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             if (totalTimerRunning) {
-              workoutTimer
-                  .pauseTimer(); // Implement pauseTimer method in WorkoutTimer
+              workoutTimer.pauseTimer();
               setState(() => totalTimerRunning = false);
             } else {
-              workoutTimer
-                  .resumeTimer(); // Implement resumeTimer method in WorkoutTimer
+              workoutTimer.resumeTimer();
               setState(() => totalTimerRunning = true);
             }
           },

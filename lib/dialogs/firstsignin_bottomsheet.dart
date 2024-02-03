@@ -7,23 +7,21 @@ import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 
-class BottomSheetFirstSignin extends ConsumerStatefulWidget {
+class BottomSheetFirstSignin extends StatefulWidget {
   const BottomSheetFirstSignin({
     super.key,
   });
 
   @override
-  ConsumerState<BottomSheetFirstSignin> createState() {
+  State<BottomSheetFirstSignin> createState() {
     return BottomSheetFirstSigninState();
   }
 }
 
-class BottomSheetFirstSigninState
-    extends ConsumerState<BottomSheetFirstSignin> {
+class BottomSheetFirstSigninState extends State<BottomSheetFirstSignin> {
   final AuthService _authService = AuthService();
   bool _isLoading = false;
 
