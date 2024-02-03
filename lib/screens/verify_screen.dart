@@ -96,7 +96,7 @@ class VerifyScreenState extends State<VerifyScreen> {
     } else {
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         const SnackBar(
-          content: Text('Email is not yet verified. Please '
+          content: Text('Our backend needs more time. Please '
               'wait a minute and try again.'),
           showCloseIcon: true,
         ),

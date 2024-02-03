@@ -63,7 +63,7 @@ final ThemeData lightTheme = FlexThemeData.light(
   tones: FlexTones.oneHue(Brightness.light),
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
-  fontFamily: GoogleFonts.bebasNeue().fontFamily,
+  fontFamily: GoogleFonts.oswald().fontFamily,
 );
 
 final ThemeData darkTheme = FlexThemeData.dark(
@@ -122,5 +122,5 @@ final ThemeData darkTheme = FlexThemeData.dark(
   tones: FlexTones.oneHue(Brightness.dark),
   visualDensity: FlexColorScheme.comfortablePlatformDensity,
   useMaterial3: true,
-  fontFamily: GoogleFonts.bebasNeue().fontFamily,
+  fontFamily: GoogleFonts.oswald().fontFamily,
 );

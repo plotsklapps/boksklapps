@@ -5,6 +5,7 @@ import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetSignin extends StatefulWidget {
   const BottomSheetSignin({super.key});
@@ -101,6 +102,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   void _handleErrors(String error) {
+    Logger().e('Error: $error');
     setState(() {
       _isLoading = false;
     });
@@ -113,6 +115,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   void _handleSuccess(UserCredential userCredential) {
+    Logger().i('User signed in: ${userCredential.user!.email}');
     setState(() {
       _isLoading = false;
     });

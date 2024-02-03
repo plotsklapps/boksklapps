@@ -24,8 +24,10 @@ class StartScreenState extends State<StartScreen> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset('assets/GIF/littleBoxer.gif'),
+              children: [
+                Image.asset(
+                  'assets/GIF/littleBoxer.gif',
+                ),
               ],
             ),
             const SizedBox(height: 32),
