@@ -1,26 +1,27 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/providers/email_provider.dart';
+import 'package:boksklapps/screens/verify_screen.dart';
 import 'package:boksklapps/theme/text_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
-class BottomSheetSignup extends ConsumerStatefulWidget {
+class BottomSheetSignup extends StatefulWidget {
   const BottomSheetSignup({super.key});
 
   @override
-  ConsumerState<BottomSheetSignup> createState() {
+  State<BottomSheetSignup> createState() {
     return BottomSheetSignupState();
   }
 }
 
-class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
+class BottomSheetSignupState extends State<BottomSheetSignup> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
 
-  final AuthService _firebaseAuth = AuthService();
+  final AuthService _authService = AuthService();
 
   bool _isLoading = false;
 
@@ -89,35 +90,15 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                     });
                     final String email = _emailController.text.trim();
                     final String password = _passwordController.text.trim();
-                    // Save the email to the provider.
-                    ref.read(emailProvider.notifier).setEmail(email);
                     // Create a new Firebase user.
-                    await _firebaseAuth
-                        .createUserWithEmailAndPassword(
-                      email,
-                      password,
-                    )
-                        .then((_) async {
-                      // Reload the user to make sure the backend is
-                      // refreshed.
-                      await _firebaseAuth.reload();
-                      // Send a verification email to the user.
-                      await _firebaseAuth.sendEmailVerification();
-                    }).then((_) {
-                      return Navigator.pop(context);
-                    });
-                    rootScaffoldMessengerKey.currentState!.showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Verification email sent. Please verify your email '
-                          'and sign in.',
-                        ),
-                        showCloseIcon: true,
-                      ),
+                    await _authService.createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                      onError: _handleErrors,
+                      onSuccess: (UserCredential userCredential) {
+                        _handleSuccess();
+                      },
                     );
-                    setState(() {
-                      _isLoading = false;
-                    });
                   },
                   child: _isLoading
                       ? const CircularProgressIndicator(strokeWidth: 6)
@@ -127,6 +108,40 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _handleErrors(String error) {
+    Logger().e('Error: $error');
+    setState(() {
+      _isLoading = false;
+    });
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text('Error: $error'),
+        showCloseIcon: true,
+      ),
+    );
+  }
+
+  void _handleSuccess() {
+    Logger().i('User has created a new account.');
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<Widget>(
+        builder: (BuildContext context) {
+          return const VerifyScreen();
+        },
+      ),
+    );
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      const SnackBar(
+        content: Text('User created successfully.'),
+        showCloseIcon: true,
       ),
     );
   }
