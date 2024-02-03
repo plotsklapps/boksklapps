@@ -13,7 +13,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        extendBody: true,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(

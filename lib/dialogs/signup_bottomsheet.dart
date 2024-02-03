@@ -95,8 +95,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       email: email,
                       password: password,
                       onError: _handleErrors,
-                      onSuccess: (UserCredential userCredential) {
-                        _handleSuccess();
+                      onSuccess: (UserCredential userCredential) async {
+                        await _handleSuccess(email: email);
                       },
                     );
                   },
@@ -125,24 +125,41 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     );
   }
 
-  void _handleSuccess() {
+  Future<void> _handleSuccess({required String email}) async {
     Logger().i('User has created a new account.');
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute<Widget>(
-        builder: (BuildContext context) {
-          return const VerifyScreen();
-        },
-      ),
-    );
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text('User created successfully.'),
-        showCloseIcon: true,
-      ),
+    await _authService.sendEmailVerification(
+      onError: (String error) {
+        Logger().e('Error: $error');
+        setState(() {
+          _isLoading = false;
+        });
+        rootScaffoldMessengerKey.currentState!.showSnackBar(
+          SnackBar(
+            content: Text('Error: $error'),
+            showCloseIcon: true,
+          ),
+        );
+      },
+      onSuccess: () {
+        Logger().i('Email verification sent to $email');
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute<Widget>(
+            builder: (BuildContext context) {
+              return const VerifyScreen();
+            },
+          ),
+        );
+        rootScaffoldMessengerKey.currentState!.showSnackBar(
+          const SnackBar(
+            content: Text('User created successfully.'),
+            showCloseIcon: true,
+          ),
+        );
+      },
     );
   }
 }
