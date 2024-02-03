@@ -34,12 +34,12 @@ class BottomSheetMainMenu extends ConsumerWidget {
           ),
           ListTile(
             onTap: () {
-              ref.read(isDarkTheme.notifier).toggle();
+              isDarkThemeSignal.value = !isDarkThemeSignal.value;
               Navigator.pop(context);
               rootScaffoldMessengerKey.currentState!.showSnackBar(
                 SnackBar(
                   content: Text(
-                    ref.watch(isDarkTheme)
+                    isDarkThemeSignal.value
                         ? 'Dark theme enabled'
                         : 'Light theme enabled',
                   ),
@@ -54,12 +54,12 @@ class BottomSheetMainMenu extends ConsumerWidget {
                 ),
               );
             },
-            leading: ref.watch(isDarkTheme)
+            leading: isDarkThemeSignal.value
                 ? const FaIcon(FontAwesomeIcons.solidMoon)
                 : const FaIcon(FontAwesomeIcons.solidSun),
             title: const Text('Theme'),
             subtitle: Text(
-              ref.watch(isDarkTheme)
+              isDarkThemeSignal.value
                   ? 'Dark theme enabled'
                   : 'Light theme enabled',
             ),

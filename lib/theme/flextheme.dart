@@ -1,26 +1,13 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:signals/signals_flutter.dart';
 
-// This is the provider for the theme mode notifier.
-final NotifierProvider<IsDarkThemeNotifier, bool> isDarkTheme =
-    NotifierProvider<IsDarkThemeNotifier, bool>(IsDarkThemeNotifier.new);
+// This is the signal for the theme mode notifier.
+final Signal<bool> isDarkThemeSignal = signal<bool>(false);
 
-class IsDarkThemeNotifier extends Notifier<bool> {
-  @override
-  bool build() {
-    return false;
-  }
-
-  void toggle() {
-    state = !state;
-  }
-}
-
-final Provider<ThemeData> lightTheme =
-    Provider<ThemeData>((ProviderRef<ThemeData> ref) {
-  return FlexThemeData.light(
+final Signal<ThemeData> lightThemeSignal = signal(
+  FlexThemeData.light(
     scheme: FlexScheme.outerSpace,
     usedColors: 1,
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
@@ -78,12 +65,11 @@ final Provider<ThemeData> lightTheme =
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: true,
     fontFamily: GoogleFonts.bebasNeue().fontFamily,
-  );
-});
+  ),
+);
 
-final Provider<ThemeData> darkTheme =
-    Provider<ThemeData>((ProviderRef<ThemeData> ref) {
-  return FlexThemeData.dark(
+final Signal<ThemeData> darkThemeSignal = signal(
+  FlexThemeData.dark(
     scheme: FlexScheme.outerSpace,
     usedColors: 1,
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
@@ -140,5 +126,5 @@ final Provider<ThemeData> darkTheme =
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: true,
     fontFamily: GoogleFonts.bebasNeue().fontFamily,
-  );
-});
+  ),
+);

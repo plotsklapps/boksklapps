@@ -21,6 +21,7 @@ dependencies:
   google_fonts: ^6.1.0
   just_audio: ^0.9.36
   logger: ^2.0.2+1
+  signals: ^3.0.0
   wakelock_plus: ^1.1.4
 
 dev_dependencies:

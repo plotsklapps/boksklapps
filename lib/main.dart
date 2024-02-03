@@ -4,6 +4,7 @@ import 'package:boksklapps/theme/flextheme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:signals/signals_flutter.dart';
 
 // The root ScaffoldMessenger can also be accessed by providing a key to
 // MaterialApp.scaffoldMessengerKey. This way, the ScaffoldMessengerState
@@ -40,8 +41,9 @@ class MainEntry extends ConsumerWidget {
       // Use the rootScaffoldMessengerKey to show SnackBars to users,
       // without BuildContext gaps.
       scaffoldMessengerKey: rootScaffoldMessengerKey,
-      theme:
-          ref.watch(isDarkTheme) ? ref.watch(darkTheme) : ref.watch(lightTheme),
+      theme: isDarkThemeSignal.watch(context)
+          ? darkThemeSignal.value
+          : lightThemeSignal.value,
       home: const SplashScreen(),
     );
   }
