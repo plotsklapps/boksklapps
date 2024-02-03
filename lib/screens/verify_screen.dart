@@ -5,8 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 
-class VerifyScreen extends StatelessWidget {
+class VerifyScreen extends StatefulWidget {
   const VerifyScreen({super.key});
+
+  @override
+  State<VerifyScreen> createState() {
+    return VerifyScreenState();
+  }
+}
+
+class VerifyScreenState extends State<VerifyScreen> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +36,9 @@ class VerifyScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          setState(() {
+            _isLoading = true;
+          });
           await authService.reload(
             onError: _handleErrors,
             onSuccess: ({
@@ -36,7 +48,9 @@ class VerifyScreen extends StatelessWidget {
             },
           );
         },
-        child: const FaIcon(FontAwesomeIcons.forwardStep),
+        child: _isLoading
+            ? const CircularProgressIndicator(strokeWidth: 6)
+            : const FaIcon(FontAwesomeIcons.forwardStep),
       ),
       bottomNavigationBar: const BottomAppBar(
         height: 64,
@@ -48,6 +62,9 @@ class VerifyScreen extends StatelessWidget {
   }
 
   void _handleErrors(String error) {
+    setState(() {
+      _isLoading = false;
+    });
     Logger().e('Error: $error');
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
@@ -58,6 +75,9 @@ class VerifyScreen extends StatelessWidget {
   }
 
   void _handleSuccess(BuildContext context, bool emailVerified) {
+    setState(() {
+      _isLoading = false;
+    });
     if (emailVerified) {
       Navigator.pushReplacement(
         context,
@@ -65,6 +85,12 @@ class VerifyScreen extends StatelessWidget {
           builder: (BuildContext context) {
             return const HomeScreen();
           },
+        ),
+      );
+      rootScaffoldMessengerKey.currentState!.showSnackBar(
+        const SnackBar(
+          content: Text('Email has been verified. Welcome to BOKSklapps!'),
+          showCloseIcon: true,
         ),
       );
     } else {

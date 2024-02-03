@@ -1,23 +1,22 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/providers/displayname_signal.dart';
 import 'package:boksklapps/screens/splash_screen.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
-class BottomSheetSignout extends ConsumerStatefulWidget {
+class BottomSheetSignout extends StatefulWidget {
   const BottomSheetSignout({super.key});
 
   @override
-  ConsumerState<BottomSheetSignout> createState() {
+  State<BottomSheetSignout> createState() {
     return BottomSheetSignoutState();
   }
 }
 
-class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
-  final AuthService _firebaseAuth = AuthService();
+class BottomSheetSignoutState extends State<BottomSheetSignout> {
+  final AuthService _authService = AuthService();
 
   bool _isLoading = false;
 
@@ -56,34 +55,12 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
                     setState(() {
                       _isLoading = true;
                     });
-                    ref.invalidate(displayNameProvider);
-                    // Log in to Firebase with the email and password.
-                    await _firebaseAuth.signOut().then((_) async {
-                      // Reload the user to make sure the backend is
-                      // refreshed.
-                      await _firebaseAuth.reload();
-                    }).then((_) {
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute<Widget>(
-                          builder: (BuildContext context) {
-                            return const SplashScreen();
-                          },
-                        ),
-                      );
-                    });
-                    rootScaffoldMessengerKey.currentState!.showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'You have successfully signed out.',
-                        ),
-                        showCloseIcon: true,
-                      ),
+                    // Sign out the user completely and return to the
+                    // Splash Screen.
+                    await _authService.signOut(
+                      onError: _handleErrors,
+                      onSuccess: _handleSuccess,
                     );
-                    setState(() {
-                      _isLoading = false;
-                    });
                   },
                   child: _isLoading
                       ? const CircularProgressIndicator(strokeWidth: 6)
@@ -93,6 +70,34 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _handleErrors(String error) {
+    setState(() {
+      _isLoading = false;
+    });
+    Logger().e('Error: $error');
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text('Error: $error'),
+        showCloseIcon: true,
+      ),
+    );
+  }
+
+  void _handleSuccess() {
+    setState(() {
+      _isLoading = false;
+    });
+    Logger().i('User has signed out.');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<Widget>(
+        builder: (BuildContext context) {
+          return const SplashScreen();
+        },
       ),
     );
   }
