@@ -106,6 +106,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
     setState(() {
       _isLoading = false;
     });
+    Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text('Error: $error'),

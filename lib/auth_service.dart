@@ -1,6 +1,7 @@
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class AuthService {
   Future<void> createUserWithEmailAndPassword({
@@ -43,9 +44,10 @@ class AuthService {
         'displayName': userCredential.user!.displayName,
         'emailVerified': userCredential.user!.emailVerified,
         'photoURL': userCredential.user!.photoURL,
+        'isAnonymous': userCredential.user!.isAnonymous,
         'creationDate': userCredential.user!.metadata.creationTime,
         'lastSignInDate': userCredential.user!.metadata.lastSignInTime,
-        'isAnonymous': userCredential.user!.isAnonymous,
+        'lastVisitDate': sLastVisitDate.value,
         'isSneakPeeker': false,
         'ageInYrs': 0,
         'heightInCm': 0,
@@ -98,6 +100,7 @@ class AuthService {
       );
 
       sCurrentUser.value = userCredential.user;
+      sLastVisitDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
       onSuccess(userCredential);
     } on FirebaseAuthException catch (error) {

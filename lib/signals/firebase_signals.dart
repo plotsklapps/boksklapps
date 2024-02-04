@@ -30,3 +30,5 @@ final Computed<String> sDisplayName = computed(() {
 final Computed<String> sEmail = computed(() {
   return sCurrentUser()?.email ?? '';
 });
+
+final Signal<String> sLastVisitDate = signal<String>('');
