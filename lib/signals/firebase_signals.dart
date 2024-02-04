@@ -19,16 +19,14 @@ final Computed<bool> sEmailVerified = computed(() {
 });
 
 // Create a signal that returns the current user's display name.
-final Computed<String> sDisplayName = computed(() {
-  if (sSneakPeeker() == true) {
-    return 'Sneak Peeker';
-  } else {
-    return sCurrentUser()?.displayName ?? 'New Boxer';
-  }
-});
+final Signal<String> sDisplayName = signal<String>(
+  sSneakPeeker.value
+      ? 'Sneak Peeker'
+      : sCurrentUser()?.displayName ?? 'New Boxer',
+);
 
-final Computed<String> sEmail = computed(() {
-  return sCurrentUser()?.email ?? '';
-});
-
-final Signal<String> sLastVisitDate = signal<String>('');
+final Signal<String> sEmail = signal<String>(
+  sSneakPeeker.value
+      ? 'JohnDoe@email.com'
+      : sCurrentUser()?.email ?? 'JohnDoe@email.com',
+);

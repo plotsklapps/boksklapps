@@ -1,5 +1,6 @@
 import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,7 @@ class BottomSheetMainMenu extends StatelessWidget {
         children: <Widget>[
           ListTile(
             onTap: () async {
+              Navigator.pop(context);
               await showModalBottomSheet<Widget>(
                 showDragHandle: true,
                 isScrollControlled: true,
@@ -26,7 +28,9 @@ class BottomSheetMainMenu extends StatelessWidget {
                 },
               );
             },
-            leading: const FaIcon(FontAwesomeIcons.userSecret),
+            leading: sSneakPeeker.value
+                ? const FaIcon(FontAwesomeIcons.userSecret)
+                : const FaIcon(FontAwesomeIcons.userCheck),
             title: const Text('Account'),
             subtitle: const Text('Manage your profile settings'),
             trailing: const FaIcon(FontAwesomeIcons.chevronRight),
@@ -39,17 +43,10 @@ class BottomSheetMainMenu extends StatelessWidget {
                 SnackBar(
                   content: Text(
                     isDarkThemeSignal.value
-                        ? 'Dark theme enabled'
-                        : 'Light theme enabled',
+                        ? 'Dark theme activated'
+                        : 'Light theme activated',
                   ),
-                  duration: const Duration(seconds: 1),
-                  action: SnackBarAction(
-                    label: 'OK',
-                    onPressed: () {
-                      rootScaffoldMessengerKey.currentState!
-                          .hideCurrentSnackBar();
-                    },
-                  ),
+                  showCloseIcon: true,
                 ),
               );
             },
@@ -59,8 +56,8 @@ class BottomSheetMainMenu extends StatelessWidget {
             title: const Text('Theme'),
             subtitle: Text(
               isDarkThemeSignal.value
-                  ? 'Dark theme enabled'
-                  : 'Light theme enabled',
+                  ? 'Dark theme active'
+                  : 'Light theme active',
             ),
             trailing: const FaIcon(FontAwesomeIcons.forwardStep),
           ),

@@ -1,7 +1,6 @@
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
 
 class AuthService {
   Future<void> createUserWithEmailAndPassword({
@@ -47,7 +46,6 @@ class AuthService {
         'isAnonymous': userCredential.user!.isAnonymous,
         'creationDate': userCredential.user!.metadata.creationTime,
         'lastSignInDate': userCredential.user!.metadata.lastSignInTime,
-        'lastVisitDate': sLastVisitDate.value,
         'isSneakPeeker': false,
         'ageInYrs': 0,
         'heightInCm': 0,
@@ -100,7 +98,6 @@ class AuthService {
       );
 
       sCurrentUser.value = userCredential.user;
-      sLastVisitDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
       onSuccess(userCredential);
     } on FirebaseAuthException catch (error) {
@@ -213,10 +210,19 @@ class AuthService {
     }
 
     try {
+      // Update the Firebase user and reload.
       await currentUser.updateDisplayName(newDisplayName);
       await currentUser.reload();
 
+      // Update the signals.
+      sDisplayName.value = newDisplayName;
       sCurrentUser.value = currentUser;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'displayName': sDisplayName.value});
 
       onSuccess();
     } on FirebaseAuthException catch (error) {
