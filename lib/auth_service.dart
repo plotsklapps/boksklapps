@@ -98,6 +98,7 @@ class AuthService {
       );
 
       sCurrentUser.value = userCredential.user;
+      sSneakPeeker.value = false;
 
       onSuccess(userCredential);
     } on FirebaseAuthException catch (error) {
