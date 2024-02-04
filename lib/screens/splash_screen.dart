@@ -27,12 +27,11 @@ class SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkAuthentication() async {
     await Future<void>.delayed(const Duration(milliseconds: 1000), () {
-      final User? currentUser = FirebaseAuth.instance.currentUser;
+      // Talking to Firebase to check if the user is logged in and
+      // using signals to update the UI accordingly.
+      sCurrentUser.value = FirebaseAuth.instance.currentUser;
 
-      if (currentUser != null) {
-        // Change the signals to the current user's values and handle the
-        // navigation accordingly.
-        sCurrentUser.value = currentUser;
+      if (sLoggedIn.value) {
         if (sEmailVerified.value) {
           Navigator.pushReplacement(
             context,

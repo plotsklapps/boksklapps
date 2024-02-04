@@ -1,6 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/splash_screen.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,6 +56,18 @@ class BottomSheetSignoutState extends State<BottomSheetSignout> {
                     setState(() {
                       _isLoading = true;
                     });
+                    if (sSneakPeeker.value) {
+                      // If the user is sneak peeking, just return to the
+                      // Splash Screen.
+                      await Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute<Widget>(
+                          builder: (BuildContext context) {
+                            return const SplashScreen();
+                          },
+                        ),
+                      );
+                    }
                     // Sign out the user completely and return to the
                     // Splash Screen.
                     await _authService.signOut(

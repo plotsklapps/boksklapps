@@ -1,4 +1,5 @@
 import 'package:boksklapps/signals/firebase_signals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -18,6 +19,39 @@ class AuthService {
       sCurrentUser.value = userCredential.user;
 
       onSuccess(userCredential);
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
+  Future<void> createUserDoc({
+    required UserCredential userCredential,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      final DocumentReference<Map<String, dynamic>> userDoc =
+          firestore.collection('users').doc(userCredential.user!.uid);
+
+      await userDoc.set(<String, Object?>{
+        'uid': userCredential.user!.uid,
+        'email': userCredential.user!.email,
+        'displayName': userCredential.user!.displayName,
+        'emailVerified': userCredential.user!.emailVerified,
+        'photoURL': userCredential.user!.photoURL,
+        'creationDate': userCredential.user!.metadata.creationTime,
+        'lastSignInDate': userCredential.user!.metadata.lastSignInTime,
+        'isAnonymous': userCredential.user!.isAnonymous,
+        'isSneakPeeker': false,
+        'ageInYrs': 0,
+        'heightInCm': 0,
+        'weightInKgs': 0,
+        'totalWorkouts': 0,
+      });
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
@@ -75,15 +109,22 @@ class AuthService {
 
   Future<void> signInAnonymously({
     required void Function(String) onError,
-    required void Function(UserCredential) onSuccess,
+    required void Function() onSuccess,
   }) async {
     try {
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInAnonymously();
+      // For now, I don't want Firebase to be used for anonymous sign-ins.
+      // It clutters the authentication list and makes it harder to
+      // find real users. For now, I'll just use a boolean to indicate
+      // that the user is a sneak peeker.
 
-      sCurrentUser.value = userCredential.user;
+      // final UserCredential userCredential =
+      //     await FirebaseAuth.instance.signInAnonymously();
 
-      onSuccess(userCredential);
+      // sCurrentUser.value = userCredential.user;
+
+      sSneakPeeker.value = true;
+
+      onSuccess();
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {

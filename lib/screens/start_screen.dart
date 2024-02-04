@@ -24,7 +24,7 @@ class StartScreenState extends State<StartScreen> {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Image.asset(
                   'assets/GIF/littleBoxer.gif',
                 ),

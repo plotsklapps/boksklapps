@@ -96,7 +96,10 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       password: password,
                       onError: _handleErrors,
                       onSuccess: (UserCredential userCredential) async {
-                        await _handleSuccess(email: email);
+                        await _handleSuccess(
+                          userCredential: userCredential,
+                          email: email,
+                        );
                       },
                     );
                   },
@@ -125,8 +128,26 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     );
   }
 
-  Future<void> _handleSuccess({required String email}) async {
+  Future<void> _handleSuccess({
+    required UserCredential userCredential,
+    required String email,
+  }) async {
     Logger().i('User has created a new account.');
+    await _authService.createUserDoc(
+      userCredential: userCredential,
+      onError: (String error) {
+        Logger().e('Error: $error');
+        rootScaffoldMessengerKey.currentState!.showSnackBar(
+          SnackBar(
+            content: Text('Error: $error'),
+            showCloseIcon: true,
+          ),
+        );
+      },
+      onSuccess: () {
+        Logger().i('User document created successfully.');
+      },
+    );
     await _authService.sendEmailVerification(
       onError: (String error) {
         Logger().e('Error: $error');

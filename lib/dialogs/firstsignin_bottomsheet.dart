@@ -5,7 +5,6 @@ import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/home_screen.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
@@ -88,9 +87,7 @@ class BottomSheetFirstSigninState extends State<BottomSheetFirstSignin> {
               sSneakPeeker.value = true;
               await _authService.signInAnonymously(
                 onError: _handleErrors,
-                onSuccess: (UserCredential userCredential) {
-                  _handleSuccess();
-                },
+                onSuccess: _handleSuccess,
               );
             },
             leading: _isLoading
