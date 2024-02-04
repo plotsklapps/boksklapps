@@ -27,12 +27,13 @@ class BottomSheetUserSettings extends StatelessWidget {
               onTap: () async {
                 Navigator.pop(context);
                 await showModalBottomSheet<Widget>(
-                    showDragHandle: true,
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return BottomSheetUsername();
-                    });
+                  showDragHandle: true,
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const BottomSheetUsername();
+                  },
+                );
               },
               leading: const FaIcon(
                 FontAwesomeIcons.signature,

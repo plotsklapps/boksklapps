@@ -31,8 +31,8 @@ class SplashScreenState extends State<SplashScreen> {
       // using signals to update the UI accordingly.
       sCurrentUser.value = FirebaseAuth.instance.currentUser;
 
-      if (sLoggedIn.value) {
-        if (sEmailVerified.value) {
+      if (cLoggedIn.value) {
+        if (cEmailVerified.value) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute<Widget>(

@@ -37,10 +37,7 @@ class MainEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // Use the rootScaffoldMessengerKey to show SnackBars to users,
-      // without BuildContext gaps.
       scaffoldMessengerKey: rootScaffoldMessengerKey,
-      // Watch the isDarkThemeSignal and change the theme accordingly.
       theme: isDarkThemeSignal.watch(context) ? darkTheme : lightTheme,
       home: const SplashScreen(),
     );
