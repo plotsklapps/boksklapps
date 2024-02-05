@@ -73,6 +73,9 @@ class HomeScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             if (!sSneakPeeker.value) {
+              // The following code should be used after finishing a workout,
+              // not before. But for now, it's here to demonstrate how to
+              // update the last visit date and total workouts.
               final String newLastVisitDate =
                   DateFormat('yyyy-MM-dd').format(DateTime.now());
               await authService.setLastVisitDate(
