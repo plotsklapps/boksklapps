@@ -1,9 +1,13 @@
+import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/tutorial_screen.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,6 +15,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthService authService = AuthService();
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -25,10 +31,10 @@ class HomeScreen extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
-                  Text(sDisplayName.watch(context), style: TextUtils.fontL),
+                  Text(cDisplayName.watch(context), style: TextUtils.fontL),
                 ],
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
@@ -36,9 +42,9 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           ListTile(
-                            leading: FaIcon(FontAwesomeIcons.calendarDay),
-                            title: Text(r'${lastDate}'),
-                            subtitle: Text('Last Workout'),
+                            leading: const FaIcon(FontAwesomeIcons.calendarDay),
+                            title: Text(sLastVisitDate.watch(context)),
+                            subtitle: const Text('Last Workout'),
                           ),
                         ],
                       ),
@@ -49,9 +55,11 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           ListTile(
-                            leading: FaIcon(FontAwesomeIcons.calendarDays),
-                            title: Text(r'${totalTimes}'),
-                            subtitle: Text('Total Workouts'),
+                            leading:
+                                const FaIcon(FontAwesomeIcons.calendarDays),
+                            title:
+                                Text(sTotalWorkouts.watch(context).toString()),
+                            subtitle: const Text('Total Workouts'),
                           ),
                         ],
                       ),
@@ -63,20 +71,51 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<Widget>(
-                builder: (BuildContext context) {
-                  return const TutorialScreen();
+          onPressed: () async {
+            if (!sSneakPeeker.value) {
+              final String newLastVisitDate =
+                  DateFormat('yyyy-MM-dd').format(DateTime.now());
+              await authService.setLastVisitDate(
+                newLastVisitDate: newLastVisitDate,
+                onError: _handleErrors,
+                onSuccess: () async {
+                  await authService.setTotalWorkouts(
+                    onError: _handleErrors,
+                    onSuccess: () {
+                      _handleSuccess(context);
+                    },
+                  );
                 },
-              ),
-            );
+              );
+            } else {
+              _handleSuccess(context);
+            }
           },
           child: const FaIcon(FontAwesomeIcons.forwardStep),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: const BottomBar(),
+      ),
+    );
+  }
+
+  void _handleErrors(String error) {
+    Logger().e('Error: $error');
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text('Error: $error'),
+        showCloseIcon: true,
+      ),
+    );
+  }
+
+  void _handleSuccess(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<Widget>(
+        builder: (BuildContext context) {
+          return const TutorialScreen();
+        },
       ),
     );
   }

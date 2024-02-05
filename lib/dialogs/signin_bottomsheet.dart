@@ -1,6 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/home_screen.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +121,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
     setState(() {
       _isLoading = false;
     });
+    // Set sSneakPeeker to false when a user signs in.
+    sSneakPeeker.value = false;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute<Widget>(

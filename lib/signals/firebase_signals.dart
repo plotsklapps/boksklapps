@@ -1,32 +1,34 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:signals/signals.dart';
 
-// Create a signal that returns an instance of the current user.
+// The signals package is used to have certain values available to the
+// entire app.
+//
+// A signal is a value that can be read from and written to
+// from anywhere in the app (for example: sSneakPeeker.value = true;).
+// These signals begin with the letter 's'.
+//
+// A computed is a value that is derived from
+// other signals and/or computeds. These cannot be changed directly.
+// These computeds begin with the letter 'c'.
+
 Signal<User?> sCurrentUser = signal<User?>(FirebaseAuth.instance.currentUser);
 
-// Create a signal that returns true if the user is logged in.
+Signal<bool> sSneakPeeker = signal<bool>(false);
+
 Computed<bool> cLoggedIn = computed(() {
   return sCurrentUser.value != null;
 });
 
-// Create a signal that returns true if the user is a sneak peeker.
-Signal<bool> sSneakPeeker = signal<bool>(false);
+Computed<bool> cEmailVerified = computed(() {
+  return sCurrentUser.value?.emailVerified ?? false;
+});
 
-// Compute a signal that reacts to changes inside sSneakPeeker
-// and/or sCurrentUser signals. Intended for initial use.
 Computed<String> cDisplayName = computed(() {
   return sSneakPeeker.value
       ? 'Sneak Peeker'
       : sCurrentUser.value?.displayName ?? 'New Boxer';
-});
-
-// Create a signal that is adjustable inside the app by the user.
-Signal<String> sDisplayName = signal(cDisplayName.value);
-
-// Compute a signal that returns true if the user is a verified email
-// user.
-Computed<bool> cEmailVerified = computed(() {
-  return sCurrentUser.value?.emailVerified ?? false;
 });
 
 Computed<String> cEmail = computed(() {
@@ -34,3 +36,8 @@ Computed<String> cEmail = computed(() {
       ? 'JohnDoe@email.com'
       : sCurrentUser.value?.email ?? 'JohnDoe@email.com';
 });
+
+Signal<String> sLastVisitDate =
+    signal<String>(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+
+Signal<int> sTotalWorkouts = signal<int>(0);

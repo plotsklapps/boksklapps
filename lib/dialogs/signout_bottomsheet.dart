@@ -58,7 +58,9 @@ class BottomSheetSignoutState extends State<BottomSheetSignout> {
                     });
                     if (sSneakPeeker.value) {
                       // If the user is sneak peeking, just return to the
-                      // Splash Screen.
+                      // Splash Screen. No need to sign out the user.
+                      sSneakPeeker.value = false;
+                      Logger().i('User has signed out.');
                       await Navigator.pushReplacement(
                         context,
                         MaterialPageRoute<Widget>(
@@ -67,6 +69,7 @@ class BottomSheetSignoutState extends State<BottomSheetSignout> {
                           },
                         ),
                       );
+                      return;
                     }
                     // Sign out the user completely and return to the
                     // Splash Screen.
@@ -111,6 +114,12 @@ class BottomSheetSignoutState extends State<BottomSheetSignout> {
         builder: (BuildContext context) {
           return const SplashScreen();
         },
+      ),
+    );
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      const SnackBar(
+        content: Text('You have been successfully signed out.'),
+        showCloseIcon: true,
       ),
     );
   }

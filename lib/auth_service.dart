@@ -46,6 +46,7 @@ class AuthService {
         'isAnonymous': userCredential.user!.isAnonymous,
         'creationDate': userCredential.user!.metadata.creationTime,
         'lastSignInDate': userCredential.user!.metadata.lastSignInTime,
+        'lastVisitDate': sLastVisitDate.value,
         'isSneakPeeker': false,
         'ageInYrs': 0,
         'heightInCm': 0,
@@ -97,6 +98,8 @@ class AuthService {
         password: password,
       );
 
+      // Force the sCurrentUser signal to update, so other
+      // signals that depend on it will also update.
       sCurrentUser.value = userCredential.user;
       sSneakPeeker.value = false;
 
@@ -162,6 +165,8 @@ class AuthService {
     try {
       await FirebaseAuth.instance.signOut();
 
+      // Force the sCurrentUser signal to update, so other
+      // signals that depend on it will also update.
       sCurrentUser.value = null;
 
       onSuccess();
@@ -188,7 +193,9 @@ class AuthService {
     try {
       await currentUser.reload();
 
-      sCurrentUser.value = currentUser;
+      // Force the sCurrentUser signal to update, so other
+      // signals that depend on it will also update.
+      sCurrentUser.value = FirebaseAuth.instance.currentUser;
 
       onSuccess(emailVerified: currentUser.emailVerified);
     } on FirebaseAuthException catch (error) {
@@ -215,15 +222,112 @@ class AuthService {
       await currentUser.updateDisplayName(newDisplayName);
       await currentUser.reload();
 
-      // Update the signals.
-      sDisplayName.value = newDisplayName;
-      sCurrentUser.value = currentUser;
+      // Force the sCurrentUser signal to update, so other
+      // signals that depend on it will also update.
+      sCurrentUser.value = FirebaseAuth.instance.currentUser;
 
       // Update the Firestore document.
       await FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser.uid)
-          .update(<Object, Object?>{'displayName': sDisplayName.value});
+          .update(<Object, Object?>{'displayName': cDisplayName.value});
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+      return;
+    }
+  }
+
+  Future<void> setEmail({
+    required String newEmail,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Update the Firebase user and reload.
+      await currentUser.verifyBeforeUpdateEmail(newEmail);
+      await currentUser.reload();
+
+      // Force the sCurrentUser signal to update, so other
+      // signals that depend on it will also update.
+      sCurrentUser.value = FirebaseAuth.instance.currentUser;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'email': cEmail.value});
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+      return;
+    }
+  }
+
+  Future<void> setLastVisitDate({
+    required String newLastVisitDate,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Force the sLastVisitDate signal to update.
+      sLastVisitDate.value = newLastVisitDate;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'lastVisitDate': newLastVisitDate});
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+      return;
+    }
+  }
+
+  Future<void> setTotalWorkouts({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Force the sTotalWorkouts signal to update.
+      sTotalWorkouts.value++;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'totalWorkouts': sTotalWorkouts.value});
 
       onSuccess();
     } on FirebaseAuthException catch (error) {
