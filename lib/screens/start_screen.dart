@@ -38,6 +38,8 @@ class StartScreen extends StatelessWidget {
             );
             sShowSpinner.value = false;
           },
+          // Watching a computed signal to provide the
+          // corresponding Widget.
           child: cShowSpinner.watch(context),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
