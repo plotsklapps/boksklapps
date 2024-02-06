@@ -21,7 +21,7 @@ dependencies:
   intl: ^0.19.0
   just_audio: ^0.9.36
   logger: ^2.0.2+1
-  signals: ^3.0.0
+  signals: ^4.0.3
   wakelock_plus: ^1.1.4
 
 dev_dependencies:
