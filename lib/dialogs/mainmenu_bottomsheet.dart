@@ -37,12 +37,12 @@ class BottomSheetMainMenu extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              isDarkThemeSignal.value = !isDarkThemeSignal.value;
+              sDarkTheme.value = !sDarkTheme.value;
               Navigator.pop(context);
               rootScaffoldMessengerKey.currentState!.showSnackBar(
                 SnackBar(
                   content: Text(
-                    isDarkThemeSignal.value
+                    sDarkTheme.value
                         ? 'Dark theme activated'
                         : 'Light theme activated',
                   ),
@@ -50,14 +50,12 @@ class BottomSheetMainMenu extends StatelessWidget {
                 ),
               );
             },
-            leading: isDarkThemeSignal.value
+            leading: sDarkTheme.value
                 ? const FaIcon(FontAwesomeIcons.solidMoon)
                 : const FaIcon(FontAwesomeIcons.solidSun),
             title: const Text('Theme'),
             subtitle: Text(
-              isDarkThemeSignal.value
-                  ? 'Dark theme active'
-                  : 'Light theme active',
+              sDarkTheme.value ? 'Dark theme active' : 'Light theme active',
             ),
             trailing: const FaIcon(FontAwesomeIcons.forwardStep),
           ),

@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:signals/signals_flutter.dart';
 
-// This is the bool signal to change the theme mode in main.dart.
-final Signal<bool> isDarkThemeSignal = signal<bool>(false);
+// sDarkTheme is a bool signal. cThemeMode is the computed
+// signal that returns the requested ThemeData (light or dark).
+Signal<bool> sDarkTheme = signal<bool>(false);
+
+Computed<ThemeData> cThemeMode = computed(() {
+  return sDarkTheme.value ? darkTheme : lightTheme;
+});
 
 final ThemeData lightTheme = FlexThemeData.light(
   scheme: FlexScheme.outerSpace,
