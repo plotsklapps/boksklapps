@@ -16,6 +16,9 @@ import 'package:signals/signals.dart';
 
 Signal<User?> sCurrentUser = signal<User?>(FirebaseAuth.instance.currentUser);
 
+Signal<CollectionReference<Map<String, dynamic>>> sCurrentUserDoc =
+    signal(FirebaseFirestore.instance.collection('users'));
+
 Signal<bool> sSneakPeeker = signal<bool>(false);
 
 Computed<bool> cLoggedIn = computed(() {

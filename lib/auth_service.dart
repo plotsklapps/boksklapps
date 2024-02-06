@@ -305,6 +305,32 @@ class AuthService {
     }
   }
 
+  Future<void> getLastVisitDate({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(sCurrentUser.value!.uid)
+              .get();
+
+      sLastVisitDate.value = userDoc['lastVisiteDate'] as DateTime;
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
   Future<void> setTotalWorkouts({
     required void Function(String) onError,
     required void Function() onSuccess,
