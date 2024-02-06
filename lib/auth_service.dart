@@ -38,20 +38,21 @@ class AuthService {
           firestore.collection('users').doc(userCredential.user!.uid);
 
       await userDoc.set(<String, Object?>{
-        'uid': userCredential.user!.uid,
-        'email': userCredential.user!.email,
-        'displayName': userCredential.user!.displayName,
-        'emailVerified': userCredential.user!.emailVerified,
-        'photoURL': userCredential.user!.photoURL,
-        'isAnonymous': userCredential.user!.isAnonymous,
-        'creationDate': userCredential.user!.metadata.creationTime,
-        'lastSignInDate': userCredential.user!.metadata.lastSignInTime,
-        'lastVisitDate': sLastVisitDate.value,
-        'isSneakPeeker': false,
-        'ageInYrs': 0,
-        'heightInCm': 0,
-        'weightInKgs': 0,
-        'totalWorkouts': 0,
+        'uid': userCredential.user!.uid, // String
+        'email': userCredential.user!.email, // String
+        'displayName': userCredential.user!.displayName, // String
+        'emailVerified': userCredential.user!.emailVerified, // bool
+        'photoURL': userCredential.user!.photoURL, // String
+        'isAnonymous': userCredential.user!.isAnonymous, // bool
+        'creationDate': userCredential.user!.metadata.creationTime, // DateTime
+        'lastSignInDate':
+            userCredential.user!.metadata.lastSignInTime, // DateTime
+        'lastVisitDate': sLastVisitDate.value, // DateTime
+        'isSneakPeeker': sSneakPeeker.value, // bool
+        'ageInYrs': 0, // int
+        'heightInCm': 0, // int
+        'weightInKgs': 0, // int
+        'totalWorkouts': 0, // int
       });
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
@@ -237,7 +238,6 @@ class AuthService {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
       onError('Error: $error');
-      return;
     }
   }
 
@@ -273,38 +273,59 @@ class AuthService {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
       onError('Error: $error');
-      return;
     }
   }
 
   Future<void> setLastVisitDate({
-    required String newLastVisitDate,
     required void Function(String) onError,
     required void Function() onSuccess,
   }) async {
-    final User? currentUser = FirebaseAuth.instance.currentUser;
-
-    if (currentUser == null) {
+    if (sCurrentUser.value == null) {
       onError('No user is currently signed in.');
       return;
     }
 
     try {
       // Force the sLastVisitDate signal to update.
-      sLastVisitDate.value = newLastVisitDate;
+      sLastVisitDate.value = DateTime.now();
 
       // Update the Firestore document.
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(currentUser.uid)
-          .update(<Object, Object?>{'lastVisitDate': newLastVisitDate});
+          .doc(sCurrentUser.value!.uid)
+          .update(<Object, Object?>{'lastVisitDate': sLastVisitDate.value});
 
       onSuccess();
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
       onError('Error: $error');
+    }
+  }
+
+  Future<void> getLastVisitDate({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    if (sCurrentUser.value == null) {
+      onError('No user is currently signed in.');
       return;
+    }
+
+    try {
+      // Fetch the Firestore document.
+      final DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(sCurrentUser.value!.uid)
+              .get();
+
+      // Set the field from Firestore to the value of the signal.
+      sLastVisitDate.value = userDoc['lastVisiteDate'] as DateTime;
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
     }
   }
 
@@ -334,7 +355,32 @@ class AuthService {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
       onError('Error: $error');
+    }
+  }
+
+  Future<void> getTotalWorkouts({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    if (sCurrentUser.value == null) {
+      onError('No user is currently signed in.');
       return;
+    }
+
+    try {
+      // Fetch the Firestore document.
+      final DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(sCurrentUser.value!.uid)
+              .get();
+
+      // Set the field from Firestore to the value of the signal.
+      sTotalWorkouts.value = userDoc['totalWorkouts'] as int;
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
     }
   }
 }

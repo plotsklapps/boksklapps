@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:signals/signals.dart';
@@ -14,6 +15,9 @@ import 'package:signals/signals.dart';
 // These computeds begin with the letter 'c'.
 
 Signal<User?> sCurrentUser = signal<User?>(FirebaseAuth.instance.currentUser);
+
+Signal<CollectionReference<Map<String, dynamic>>> sCurrentUserDoc =
+    signal(FirebaseFirestore.instance.collection('users'));
 
 Signal<bool> sSneakPeeker = signal<bool>(false);
 
@@ -37,7 +41,12 @@ Computed<String> cEmail = computed(() {
       : sCurrentUser.value?.email ?? 'JohnDoe@email.com';
 });
 
-Signal<String> sLastVisitDate =
-    signal<String>(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+Signal<DateTime> sLastVisitDate = signal(DateTime.now());
+
+Computed<String> cLastVisitDate = computed<String>(() {
+  return sSneakPeeker.value
+      ? DateFormat('yyyy-MM-dd').format(DateTime.now())
+      : DateFormat('yyyy-MM-dd').format(sLastVisitDate.value);
+});
 
 Signal<int> sTotalWorkouts = signal<int>(0);

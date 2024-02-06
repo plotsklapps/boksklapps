@@ -1,19 +1,11 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
+import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:signals/signals_flutter.dart';
 
-class StartScreen extends StatefulWidget {
+class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
-
-  @override
-  State<StartScreen> createState() {
-    return StartScreenState();
-  }
-}
-
-class StartScreenState extends State<StartScreen> {
-  bool _isSigningIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +27,7 @@ class StartScreenState extends State<StartScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            setState(() {
-              _isSigningIn = true;
-            });
+            sShowSpinner.value = true;
             await showModalBottomSheet<void>(
               showDragHandle: true,
               isScrollControlled: true,
@@ -46,13 +36,11 @@ class StartScreenState extends State<StartScreen> {
                 return const BottomSheetFirstSignin();
               },
             );
-            setState(() {
-              _isSigningIn = false;
-            });
+            sShowSpinner.value = false;
           },
-          child: _isSigningIn
-              ? const CircularProgressIndicator(strokeWidth: 6)
-              : const FaIcon(FontAwesomeIcons.forwardStep),
+          // Watching a computed signal to provide the
+          // corresponding Widget.
+          child: cShowSpinner.watch(context),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: const BottomAppBar(

@@ -6,7 +6,6 @@ import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -31,6 +30,8 @@ class HomeScreen extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
+                  // Watching a computed signal to provide the
+                  // corresponding displayName.
                   Text(cDisplayName.watch(context), style: TextUtils.fontL),
                 ],
               ),
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                             leading: const FaIcon(FontAwesomeIcons.calendarDay),
-                            title: Text(sLastVisitDate.watch(context)),
+                            title: Text(cLastVisitDate.watch(context)),
                             subtitle: const Text('Last Workout'),
                           ),
                         ],
@@ -76,10 +77,7 @@ class HomeScreen extends StatelessWidget {
               // The following code should be used after finishing a workout,
               // not before. But for now, it's here to demonstrate how to
               // update the last visit date and total workouts.
-              final String newLastVisitDate =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
               await authService.setLastVisitDate(
-                newLastVisitDate: newLastVisitDate,
                 onError: _handleErrors,
                 onSuccess: () async {
                   await authService.setTotalWorkouts(
