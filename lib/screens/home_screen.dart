@@ -6,7 +6,6 @@ import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 

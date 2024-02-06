@@ -47,11 +47,18 @@ class SplashScreenState extends State<SplashScreen> {
       if (cLoggedIn.value) {
         if (cEmailVerified.value) {
           await authService.getLastVisitDate(
-            onError: (String error) {},
-            onSuccess: () {},
+            onError: (String error) {
+              _handleErrors();
+            },
+            onSuccess: () async {
+              await authService.getTotalWorkouts(
+                onError: (String error) {
+                  _handleErrors();
+                },
+                onSuccess: _handleSuccess,
+              );
+            },
           );
-          Navigate.toHomeScreen(context);
-          rootScaffoldMessengerKey.currentState!.showSnackBar(Snack.welcome);
         } else {
           Navigate.toStartScreen(context);
         }
@@ -59,5 +66,12 @@ class SplashScreenState extends State<SplashScreen> {
         Navigate.toStartScreen(context);
       }
     });
+  }
+
+  void _handleErrors() {}
+
+  void _handleSuccess() {
+    Navigate.toHomeScreen(context);
+    rootScaffoldMessengerKey.currentState!.showSnackBar(Snack.welcome);
   }
 }
