@@ -7,7 +7,6 @@ import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -29,7 +28,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
-  Signal<bool> _isObscured = signal<bool>(true);
+  final Signal<bool> _isObscured = signal<bool>(true);
 
   @override
   void initState() {
