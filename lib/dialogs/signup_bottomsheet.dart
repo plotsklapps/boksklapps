@@ -150,7 +150,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                   },
                   // Watching a computed signal to provide the
                   // corresponding Widget.
-                  child: cSpinnerSignup.value,
+                  child: cSpinnerSignup.watch(context),
                 ),
               ],
             ),
