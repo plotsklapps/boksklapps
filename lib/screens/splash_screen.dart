@@ -2,9 +2,11 @@ import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
-import 'package:boksklapps/widgets/snack_bar.dart';
+import 'package:boksklapps/theme/flexcolors.dart';
+import 'package:boksklapps/theme/flextheme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 // This SplashScreen merely exists to show a CircularProgressIndicator
 // while the Firebase services are loading and checking for an existing
@@ -43,18 +45,15 @@ class SplashScreenState extends State<SplashScreen> {
     // using (computed) signals to update the UI accordingly.
     sCurrentUser.value = FirebaseAuth.instance.currentUser;
 
-    await Future<void>.delayed(const Duration(milliseconds: 1000), () async {
+    // Delay this function to avoid initState issues.
+    await Future<void>.delayed(const Duration(milliseconds: 800), () async {
       if (cLoggedIn.value) {
         if (cEmailVerified.value) {
           await authService.getLastVisitDate(
-            onError: (String error) {
-              _handleErrors();
-            },
+            onError: _handleErrors,
             onSuccess: () async {
               await authService.getTotalWorkouts(
-                onError: (String error) {
-                  _handleErrors();
-                },
+                onError: _handleErrors,
                 onSuccess: _handleSuccess,
               );
             },
@@ -68,10 +67,34 @@ class SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  void _handleErrors() {}
+  // Method to show the error in a snackbar to the user and
+  // log it to the console.
+  void _handleErrors(String error) {
+    Logger().e('Error: $error');
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text(
+          'Error: $error',
+          style: TextStyle(
+            color: sDarkTheme.value
+                ? flexSchemeDark.onError
+                : flexSchemeLight.onError,
+          ),
+        ),
+        showCloseIcon: true,
+        backgroundColor:
+            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+      ),
+    );
+  }
 
   void _handleSuccess() {
     Navigate.toHomeScreen(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(Snack.welcome);
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      const SnackBar(
+        content: Text('Welcome to BOKSklapps, enjoy your workout!'),
+        showCloseIcon: true,
+      ),
+    );
   }
 }

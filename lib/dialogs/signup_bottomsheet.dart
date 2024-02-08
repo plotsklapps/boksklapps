@@ -1,11 +1,14 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/verify_screen.dart';
+import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/flexcolors.dart';
+import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
+import 'package:signals/signals_flutter.dart';
 
 class BottomSheetSignup extends StatefulWidget {
   const BottomSheetSignup({super.key});
@@ -23,7 +26,9 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   final AuthService _authService = AuthService();
 
-  bool _isLoading = false;
+  final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
+
+  final Signal<bool> _isObscured = signal<bool>(true);
 
   @override
   void initState() {
@@ -46,31 +51,87 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     return SizedBox(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
-          8,
+          16,
           0,
-          8,
+          16,
           MediaQuery.viewInsetsOf(context).bottom + 16,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Create BOKSklapps account', style: TextUtils.fontL),
+            const Text('Create a BOKSklapps account', style: TextUtils.fontL),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(label: Text('Email')),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(label: Text('Password')),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _confirmPasswordController,
-              decoration:
-                  const InputDecoration(label: Text('Confirm Password')),
+            Form(
+              key: _signupFormKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    controller: _emailController,
+                    validator: (String? value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !value.contains('@') ||
+                          !value.contains('.')) {
+                        return 'Please enter a correct emailaddress.';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(label: Text('Email')),
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _passwordController,
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty || value.length < 6) {
+                        return 'Password needs to be at least 6 characters.';
+                      }
+                      return null;
+                    },
+                    obscureText: _isObscured.watch(context),
+                    enableSuggestions: false,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: TextButton(
+                        onPressed: () {
+                          _isObscured.value = !_isObscured.value;
+                        },
+                        child: _isObscured.value
+                            ? const Text('SHOW')
+                            : const Text('HIDE'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty || value.length < 6) {
+                        return 'Passwords needs to be at least 6 characters.';
+                      } else if (value != _passwordController.text) {
+                        return 'Passwords do not appear to be equal.';
+                      } else {
+                        return null;
+                      }
+                    },
+                    obscureText: _isObscured.watch(context),
+                    enableSuggestions: false,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      suffixIcon: TextButton(
+                        onPressed: () {
+                          _isObscured.value = !_isObscured.value;
+                        },
+                        child: _isObscured.value
+                            ? const Text('SHOW')
+                            : const Text('HIDE'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             Row(
@@ -85,27 +146,11 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                 const SizedBox(width: 16),
                 FloatingActionButton(
                   onPressed: () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    final String email = _emailController.text.trim();
-                    final String password = _passwordController.text.trim();
-                    // Create a new Firebase user.
-                    await _authService.createUserWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                      onError: _handleErrors,
-                      onSuccess: (UserCredential userCredential) async {
-                        await _handleSuccess(
-                          userCredential: userCredential,
-                          email: email,
-                        );
-                      },
-                    );
+                    await _validateAndCreate();
                   },
-                  child: _isLoading
-                      ? const CircularProgressIndicator(strokeWidth: 6)
-                      : const FaIcon(FontAwesomeIcons.forwardStep),
+                  // Watching a computed signal to provide the
+                  // corresponding Widget.
+                  child: cSpinnerSignup.value,
                 ),
               ],
             ),
@@ -115,15 +160,59 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     );
   }
 
+  Future<void> _validateAndCreate() async {
+    if (_signupFormKey.currentState!.validate()) {
+      sSpinnerSignup.value = true;
+      final String email = _emailController.text.trim();
+      final String password = _passwordController.text.trim();
+      // Create a new Firebase user.
+      await _authService.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+        onError: _handleErrors,
+        onSuccess: (UserCredential userCredential) async {
+          await _handleSuccess(
+            userCredential: userCredential,
+            email: email,
+          );
+        },
+      );
+    } else {
+      rootScaffoldMessengerKey.currentState!.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Please check the email and password.',
+            style: TextStyle(
+              color: sDarkTheme.value
+                  ? flexSchemeDark.onError
+                  : flexSchemeLight.onError,
+            ),
+          ),
+          showCloseIcon: true,
+          backgroundColor:
+              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        ),
+      );
+      return;
+    }
+  }
+
   void _handleErrors(String error) {
     Logger().e('Error: $error');
-    setState(() {
-      _isLoading = false;
-    });
+    sSpinnerSignup.value = false;
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
-        content: Text('Error: $error'),
+        content: Text(
+          'Error: $error',
+          style: TextStyle(
+            color: sDarkTheme.value
+                ? flexSchemeDark.onError
+                : flexSchemeLight.onError,
+          ),
+        ),
         showCloseIcon: true,
+        backgroundColor:
+            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
       ),
     );
   }
@@ -151,9 +240,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     await _authService.sendEmailVerification(
       onError: (String error) {
         Logger().e('Error: $error');
-        setState(() {
-          _isLoading = false;
-        });
+        sSpinnerSignup.value = false;
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text('Error: $error'),
@@ -163,9 +250,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
       },
       onSuccess: () {
         Logger().i('Email verification sent to $email');
-        setState(() {
-          _isLoading = false;
-        });
+        sSpinnerSignup.value = false;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute<Widget>(
