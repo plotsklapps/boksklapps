@@ -29,7 +29,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
-  Signal<bool> _isObscured = signal<bool>(false);
+  Signal<bool> _isObscured = signal<bool>(true);
 
   @override
   void initState() {
@@ -52,9 +52,9 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     return SizedBox(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
-          8,
+          16,
           0,
-          8,
+          16,
           MediaQuery.viewInsetsOf(context).bottom + 16,
         ),
         child: Column(
@@ -76,9 +76,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                           !value.contains('@') ||
                           !value.contains('.')) {
                         return 'Please enter a correct emailaddress.';
-                      } else {
-                        return null;
                       }
+                      return null;
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(label: Text('Email')),
@@ -89,31 +88,21 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Password needs to be at least 6 characters.';
-                      } else {
-                        return null;
                       }
+                      return null;
                     },
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
-                      label: const Text('Password'),
-                      suffixIcon: _isObscured.watch(context)
-                          ? GestureDetector(
-                              onTap: () {
-                                _isObscured.value = false;
-                              },
-                              child: const FaIcon(
-                                FontAwesomeIcons.eye,
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                _isObscured.value = true;
-                              },
-                              child: const FaIcon(
-                                FontAwesomeIcons.eyeSlash,
-                              ),
-                            ),
+                      labelText: 'Password',
+                      suffixIcon: TextButton(
+                        onPressed: () {
+                          _isObscured.value = !_isObscured.value;
+                        },
+                        child: _isObscured.value
+                            ? const Text('SHOW')
+                            : const Text('HIDE'),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -131,29 +120,21 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
-                      label: const Text('Confirm Password'),
-                      suffixIcon: _isObscured.watch(context)
-                          ? GestureDetector(
-                              onTap: () {
-                                _isObscured.value = false;
-                              },
-                              child: const FaIcon(
-                                FontAwesomeIcons.eye,
-                              ),
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                _isObscured.value = true;
-                              },
-                              child: const FaIcon(
-                                FontAwesomeIcons.eyeSlash,
-                              ),
-                            ),
+                      labelText: 'Confirm Password',
+                      suffixIcon: TextButton(
+                        onPressed: () {
+                          _isObscured.value = !_isObscured.value;
+                        },
+                        child: _isObscured.value
+                            ? const Text('SHOW')
+                            : const Text('HIDE'),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
