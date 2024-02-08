@@ -27,7 +27,6 @@ class StartScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            sShowSpinner.value = true;
             await showModalBottomSheet<void>(
               showDragHandle: true,
               isScrollControlled: true,
@@ -36,11 +35,10 @@ class StartScreen extends StatelessWidget {
                 return const BottomSheetFirstSignin();
               },
             );
-            sShowSpinner.value = false;
           },
           // Watching a computed signal to provide the
           // corresponding Widget.
-          child: cShowSpinner.watch(context),
+          child: cSpinnerStart.watch(context),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: const BottomAppBar(

@@ -46,7 +46,7 @@ class BottomSheetFirstSignin extends StatelessWidget {
               'Get a personalized experience and save your statistics '
               '(recommended).',
             ),
-            trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+            trailing: const FaIcon(FontAwesomeIcons.forwardStep),
           ),
           ListTile(
             onTap: () async {
@@ -68,11 +68,10 @@ class BottomSheetFirstSignin extends StatelessWidget {
             subtitle: const Text(
               'You already used BOKSklapps before and want to sign in again.',
             ),
-            trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+            trailing: const FaIcon(FontAwesomeIcons.forwardStep),
           ),
           ListTile(
             onTap: () async {
-              sShowSpinner.value = true;
               // Set the user as a sneak peeker and sign in anonymously.
               sSneakPeeker.value = true;
               await authService.signInAnonymously(
@@ -82,12 +81,14 @@ class BottomSheetFirstSignin extends StatelessWidget {
                 },
               );
             },
-            leading: cShowSpinner.value,
+            leading: const FaIcon(FontAwesomeIcons.userSecret),
             title: const Text('Sneak peek'),
             subtitle: const Text(
               'Try out BOKSklapps anonymously without storing any data.',
             ),
-            trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+            // Watching a computed signal to provide the
+            // corresponding Widget.
+            trailing: cSpinnerSneakPeek.value,
           ),
         ],
       ),
@@ -96,7 +97,7 @@ class BottomSheetFirstSignin extends StatelessWidget {
 
   void _handleErrors(String error) {
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
+    sSneakPeeker.value = false;
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
@@ -116,7 +117,6 @@ class BottomSheetFirstSignin extends StatelessWidget {
 
   void _handleSuccess(BuildContext context) {
     Logger().i('User has signed in as Sneak Peeker.');
-    sShowSpinner.value = false;
     Navigate.toHomeScreen(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(

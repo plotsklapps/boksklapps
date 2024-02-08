@@ -321,7 +321,7 @@ class AuthService {
               .get();
 
       // Set the field from Firestore to the value of the signal.
-      sLastVisitDate.value = userDoc['lastVisiteDate'] as DateTime;
+      sLastVisitDate.value = userDoc['lastVisitDate'] as DateTime;
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {

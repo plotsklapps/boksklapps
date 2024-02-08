@@ -1,11 +1,13 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/verify_screen.dart';
+import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
+import 'package:signals/signals_flutter.dart';
 
 class BottomSheetSignup extends StatefulWidget {
   const BottomSheetSignup({super.key});
@@ -23,7 +25,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   final AuthService _authService = AuthService();
 
-  bool _isLoading = false;
+  Signal<bool> _isObscured = signal<bool>(true);
 
   @override
   void initState() {
@@ -59,18 +61,60 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
             const SizedBox(height: 16),
             TextField(
               controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(label: Text('Email')),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(label: Text('Password')),
+              obscureText: _isObscured.watch(context),
+              enableSuggestions: false,
+              decoration: InputDecoration(
+                label: const Text('Password'),
+                suffixIcon: _isObscured.watch(context)
+                    ? GestureDetector(
+                        onTap: () {
+                          _isObscured.value = false;
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.eye,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          _isObscured.value = true;
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.eyeSlash,
+                        ),
+                      ),
+              ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _confirmPasswordController,
-              decoration:
-                  const InputDecoration(label: Text('Confirm Password')),
+              obscureText: _isObscured.watch(context),
+              enableSuggestions: false,
+              decoration: InputDecoration(
+                label: const Text('Confirm Password'),
+                suffixIcon: _isObscured.watch(context)
+                    ? GestureDetector(
+                        onTap: () {
+                          _isObscured.value = false;
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.eye,
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          _isObscured.value = true;
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.eyeSlash,
+                        ),
+                      ),
+              ),
             ),
             const SizedBox(height: 16),
             Row(
@@ -85,9 +129,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                 const SizedBox(width: 16),
                 FloatingActionButton(
                   onPressed: () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
+                    sSpinnerSignup.value = true;
                     final String email = _emailController.text.trim();
                     final String password = _passwordController.text.trim();
                     // Create a new Firebase user.
@@ -103,9 +145,9 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       },
                     );
                   },
-                  child: _isLoading
-                      ? const CircularProgressIndicator(strokeWidth: 6)
-                      : const FaIcon(FontAwesomeIcons.forwardStep),
+                  // Watching a computed signal to provide the
+                  // corresponding Widget.
+                  child: cSpinnerSignup.value,
                 ),
               ],
             ),
@@ -117,9 +159,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   void _handleErrors(String error) {
     Logger().e('Error: $error');
-    setState(() {
-      _isLoading = false;
-    });
+    sSpinnerSignup.value = false;
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text('Error: $error'),
@@ -151,9 +191,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     await _authService.sendEmailVerification(
       onError: (String error) {
         Logger().e('Error: $error');
-        setState(() {
-          _isLoading = false;
-        });
+        sSpinnerSignup.value = false;
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text('Error: $error'),
@@ -163,9 +201,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
       },
       onSuccess: () {
         Logger().i('Email verification sent to $email');
-        setState(() {
-          _isLoading = false;
-        });
+        sSpinnerSignup.value = false;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute<Widget>(
