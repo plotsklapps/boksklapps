@@ -32,3 +32,11 @@ Computed<Widget> cSpinnerSneakPeek = computed(() {
       ? const CircularProgressIndicator(strokeWidth: 6)
       : const FaIcon(FontAwesomeIcons.forwardStep);
 });
+
+Signal<bool> sSpinnerVerify = signal<bool>(false);
+
+Computed<Widget> cSpinnerVerify = computed<Widget>(() {
+  return sSpinnerVerify.value
+      ? const CircularProgressIndicator(strokeWidth: 6)
+      : const FaIcon(FontAwesomeIcons.forwardStep);
+});

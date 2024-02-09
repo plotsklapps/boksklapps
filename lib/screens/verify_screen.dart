@@ -1,21 +1,13 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/home_screen.dart';
+import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
+import 'package:signals/signals_flutter.dart';
 
-class VerifyScreen extends StatefulWidget {
+class VerifyScreen extends StatelessWidget {
   const VerifyScreen({super.key});
-
-  @override
-  State<VerifyScreen> createState() {
-    return VerifyScreenState();
-  }
-}
-
-class VerifyScreenState extends State<VerifyScreen> {
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +28,7 @@ class VerifyScreenState extends State<VerifyScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          setState(() {
-            _isLoading = true;
-          });
+          sSpinnerVerify.value = true;
           await authService.reload(
             onError: _handleErrors,
             onSuccess: ({
@@ -48,9 +38,7 @@ class VerifyScreenState extends State<VerifyScreen> {
             },
           );
         },
-        child: _isLoading
-            ? const CircularProgressIndicator(strokeWidth: 6)
-            : const FaIcon(FontAwesomeIcons.forwardStep),
+        child: cSpinnerVerify.watch(context),
       ),
       bottomNavigationBar: const BottomAppBar(
         height: 64,
@@ -62,9 +50,7 @@ class VerifyScreenState extends State<VerifyScreen> {
   }
 
   void _handleErrors(String error) {
-    setState(() {
-      _isLoading = false;
-    });
+    sSpinnerVerify.value = false;
     Logger().e('Error: $error');
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
@@ -75,9 +61,7 @@ class VerifyScreenState extends State<VerifyScreen> {
   }
 
   void _handleSuccess(BuildContext context, bool emailVerified) {
-    setState(() {
-      _isLoading = false;
-    });
+    sSpinnerVerify.value = false;
     if (emailVerified) {
       Navigator.pushReplacement(
         context,
