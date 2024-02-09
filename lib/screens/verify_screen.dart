@@ -1,7 +1,9 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/screens/home_screen.dart';
+import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/flexcolors.dart';
+import 'package:boksklapps/theme/flextheme.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
@@ -56,6 +58,8 @@ class VerifyScreen extends StatelessWidget {
       SnackBar(
         content: Text('Error: $error'),
         showCloseIcon: true,
+        backgroundColor:
+            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
       ),
     );
   }
@@ -63,14 +67,7 @@ class VerifyScreen extends StatelessWidget {
   void _handleSuccess(BuildContext context, bool emailVerified) {
     sSpinnerVerify.value = false;
     if (emailVerified) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<Widget>(
-          builder: (BuildContext context) {
-            return const HomeScreen();
-          },
-        ),
-      );
+      Navigate.toHomeScreen(context);
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         const SnackBar(
           content: Text('Email has been verified. Welcome to BOKSklapps!'),
@@ -79,10 +76,19 @@ class VerifyScreen extends StatelessWidget {
       );
     } else {
       rootScaffoldMessengerKey.currentState!.showSnackBar(
-        const SnackBar(
-          content: Text('Our backend needs more time. Please '
-              'wait a minute and try again.'),
+        SnackBar(
+          content: Text(
+            'Our backend needs more time. Please wait a few seconds and try '
+            'again.',
+            style: TextStyle(
+              color: sDarkTheme.value
+                  ? flexSchemeDark.onError
+                  : flexSchemeLight.onError,
+            ),
+          ),
           showCloseIcon: true,
+          backgroundColor:
+              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
         ),
       );
     }
