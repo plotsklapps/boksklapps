@@ -24,10 +24,14 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
 
+  // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
+  // Validation key for the form.
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
+  // Used for the password field to show/hide the password and simultaneously
+  // adjust the corresponding TextButton.
   final Signal<bool> _isObscured = signal<bool>(true);
 
   @override
@@ -90,10 +94,14 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       }
                       return null;
                     },
+                    keyboardType: TextInputType.text,
+                    // Update the UI based on the signal value.
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
                       labelText: 'Password',
+                      // Instead of an icon, use a TextButton to toggle the
+                      // _isObscured signal.
                       suffixIcon: TextButton(
                         onPressed: () {
                           _isObscured.value = !_isObscured.value;
@@ -116,10 +124,14 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                         return null;
                       }
                     },
+                    keyboardType: TextInputType.text,
+                    // Update the UI based on the signal value.
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
                       labelText: 'Confirm Password',
+                      // Instead of an icon, use a TextButton to toggle the
+                      // _isObscured signal.
                       suffixIcon: TextButton(
                         onPressed: () {
                           _isObscured.value = !_isObscured.value;
@@ -139,6 +151,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
+                    // Make sure to reset the signal value to the default.
+                    _isObscured.value = true;
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -146,6 +160,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                 const SizedBox(width: 16),
                 FloatingActionButton(
                   onPressed: () async {
+                    sSpinnerSignup.value = true;
                     await _validateAndCreate();
                   },
                   // Watching a computed signal to provide the
@@ -162,7 +177,6 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   Future<void> _validateAndCreate() async {
     if (_signupFormKey.currentState!.validate()) {
-      sSpinnerSignup.value = true;
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
       // Create a new Firebase user.
@@ -226,6 +240,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
       userCredential: userCredential,
       onError: (String error) {
         Logger().e('Error: $error');
+        sSpinnerSignup.value = false;
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text('Error: $error'),
