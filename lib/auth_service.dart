@@ -51,7 +51,7 @@ class AuthService {
         'isSneakPeeker': sSneakPeeker.value, // bool
         'ageInYrs': 0, // int
         'heightInCm': 0, // int
-        'weightInKgs': 0, // int
+        'weightInKg': 0, // int
         'totalWorkouts': 0, // int
       });
     } on FirebaseAuthException catch (error) {
@@ -377,6 +377,126 @@ class AuthService {
 
       // Set the field from Firestore to the value of the signal.
       sTotalWorkouts.value = userDoc['totalWorkouts'] as int;
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
+  Future<void> setAgeInYrs({
+    required int newAgeInYrs,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Force the sAgeInYrs signal to update.
+      sAgeInYrs.value = newAgeInYrs;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'ageInYrs': sAgeInYrs.value});
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
+  Future<void> setHeightInCm({
+    required int newHeightInCm,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Force the sHeightInCm signal to update.
+      sHeightInCm.value = newHeightInCm;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'heightInCm': sHeightInCm.value});
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
+  Future<void> setWeightInKg({
+    required int newWeightInKg,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Force the sWeightInKg signal to update.
+      sWeightInKg.value = newWeightInKg;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'weightInKg': sWeightInKg.value});
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
+  Future<void> setBMI({
+    required double newBMI,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Force the sBMI signal to update.
+      sBMI.value = newBMI;
+
+      // Update the Firestore document.
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(<Object, Object?>{'bmi': sBMI.value});
+
+      onSuccess();
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {

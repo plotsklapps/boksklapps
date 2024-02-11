@@ -23,6 +23,7 @@ dependencies:
   logger: ^2.0.2+1
   signals: ^4.0.3
   wakelock_plus: ^1.1.4
+  wolt_modal_sheet: ^0.4.1
 
 dev_dependencies:
   flutter_test:

@@ -50,3 +50,17 @@ Computed<String> cLastVisitDate = computed<String>(() {
 });
 
 Signal<int> sTotalWorkouts = signal<int>(0);
+
+Signal<int> sAgeInYrs = signal<int>(30);
+
+Signal<int> sHeightInCm = signal<int>(175);
+
+Signal<int> sWeightInKg = signal<int>(75);
+
+Signal<double> sBMI = signal<double>(18.5);
+
+Computed<String> cBMI = computed<String>(() {
+  final double bmi = sWeightInKg.value /
+      ((sHeightInCm.value / 100) * (sHeightInCm.value / 100));
+  return bmi.toStringAsFixed(2);
+});
