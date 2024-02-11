@@ -112,6 +112,33 @@ class AuthService {
     }
   }
 
+  Future<void> getUserDoc({
+    required User user,
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      final DocumentSnapshot<Map<String, dynamic>> userDoc =
+          await firestore.collection('users').doc(user.uid).get();
+
+      sCurrentUser.value = user;
+      sSneakPeeker.value = userDoc['isSneakPeeker'] as bool;
+      sLastVisitDate.value = userDoc['lastVisitDate'] as DateTime;
+      sTotalWorkouts.value = userDoc['totalWorkouts'] as int;
+      sAgeInYrs.value = userDoc['ageInYrs'] as int;
+      sHeightInCm.value = userDoc['heightInCm'] as int;
+      sWeightInKg.value = userDoc['weightInKg'] as int;
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+    } catch (error) {
+      onError('Error: $error');
+    }
+  }
+
   Future<void> signInAnonymously({
     required void Function(String) onError,
     required void Function() onSuccess,

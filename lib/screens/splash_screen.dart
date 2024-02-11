@@ -47,16 +47,15 @@ class SplashScreenState extends State<SplashScreen> {
 
     // Delay this function to avoid initState issues.
     await Future<void>.delayed(const Duration(milliseconds: 800), () async {
+      // Check if the user is logged in and if the email is verified.
       if (cLoggedIn.value) {
         if (cEmailVerified.value) {
-          await authService.getLastVisitDate(
+          // Get the user document from Firestore and store the values
+          // in their respective signals.
+          await authService.getUserDoc(
+            user: sCurrentUser.value!,
             onError: _handleErrors,
-            onSuccess: () async {
-              await authService.getTotalWorkouts(
-                onError: _handleErrors,
-                onSuccess: _handleSuccess,
-              );
-            },
+            onSuccess: _handleSuccess,
           );
         } else {
           Navigate.toStartScreen(context);
