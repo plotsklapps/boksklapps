@@ -40,3 +40,19 @@ Computed<Widget> cSpinnerVerify = computed<Widget>(() {
       ? const CircularProgressIndicator(strokeWidth: 6)
       : const FaIcon(FontAwesomeIcons.forwardStep);
 });
+
+Signal<bool> sSpinnerPassword = signal<bool>(false);
+
+Computed<Widget> cSpinnerPassword = computed<Widget>(() {
+  return sSpinnerPassword.value
+      ? const CircularProgressIndicator(strokeWidth: 6)
+      : const FaIcon(FontAwesomeIcons.forwardStep);
+});
+
+Signal<bool> sSpinnerBMI = signal<bool>(false);
+
+Computed<Widget> cSpinnerBMI = computed<Widget>(() {
+  return sSpinnerBMI.value
+      ? const CircularProgressIndicator(strokeWidth: 6)
+      : const FaIcon(FontAwesomeIcons.forwardStep);
+});

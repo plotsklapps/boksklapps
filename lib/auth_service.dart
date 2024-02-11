@@ -51,7 +51,8 @@ class AuthService {
         'isSneakPeeker': sSneakPeeker.value, // bool
         'ageInYrs': 0, // int
         'heightInCm': 0, // int
-        'weightInKg': 0, // int
+        'weightInKg': 0, //
+        'bmi': 0.0, //double
         'totalWorkouts': 0, // int
       });
     } on FirebaseAuthException catch (error) {
@@ -130,6 +131,7 @@ class AuthService {
       sAgeInYrs.value = userDoc['ageInYrs'] as int;
       sHeightInCm.value = userDoc['heightInCm'] as int;
       sWeightInKg.value = userDoc['weightInKg'] as int;
+      sBMI.value = userDoc['bmi'] as double;
 
       onSuccess();
     } on FirebaseAuthException catch (error) {

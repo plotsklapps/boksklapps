@@ -1,6 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/screens/verify_screen.dart';
+import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
@@ -27,7 +28,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
-  // Validation key for the form.
+  // Validation key for the form textfields.
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
   // Used for the password field to show/hide the password and simultaneously
@@ -177,11 +178,13 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   }
 
   Future<void> _validateAndCreate() async {
+    sSpinnerSignup.value = true;
+
     if (_signupFormKey.currentState!.validate()) {
-      sSpinnerSignup.value = true;
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
-      // Create a new Firebase user.
+
+      // Create a new Firebase user with the email and password.
       await _authService.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -194,6 +197,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         },
       );
     } else {
+      sSpinnerSignup.value = false;
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         SnackBar(
           content: Text(
@@ -216,6 +220,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   void _handleErrors(String error) {
     Logger().e('Error: $error');
     sSpinnerSignup.value = false;
+    Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
@@ -237,12 +242,15 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     required UserCredential userCredential,
     required String email,
   }) async {
-    Logger().i('User has created a new account.');
+    Logger().i('User has created a new account: $email');
+    sSpinnerSignup.value = false;
+    // Set sSneakPeeker to false when a user signs in.
+    sSneakPeeker.value = false;
     await _authService.createUserDoc(
       userCredential: userCredential,
       onError: (String error) {
         Logger().e('Error: $error');
-        sSpinnerSignup.value = false;
+        Navigator.pop(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text('Error: $error'),
@@ -257,7 +265,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     await _authService.sendEmailVerification(
       onError: (String error) {
         Logger().e('Error: $error');
-        sSpinnerSignup.value = false;
+        Navigator.pop(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text('Error: $error'),
@@ -267,15 +275,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
       },
       onSuccess: () {
         Logger().i('Email verification sent to $email');
-        sSpinnerSignup.value = false;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute<Widget>(
-            builder: (BuildContext context) {
-              return const VerifyScreen();
-            },
-          ),
-        );
+        Navigator.pop(context);
+        Navigate.toVerifyScreen(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           const SnackBar(
             content: Text('User created successfully.'),

@@ -1,51 +1,40 @@
 import 'package:boksklapps/auth_service.dart';
-import 'package:boksklapps/dialogs/password_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetSignin extends StatefulWidget {
-  const BottomSheetSignin({super.key});
+class BottomSheetResetPassword extends StatefulWidget {
+  const BottomSheetResetPassword({super.key});
 
   @override
-  State<BottomSheetSignin> createState() {
-    return BottomSheetSigninState();
+  State<BottomSheetResetPassword> createState() {
+    return BottomSheetResetPasswordState();
   }
 }
 
-class BottomSheetSigninState extends State<BottomSheetSignin> {
+class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   late TextEditingController _emailController;
-  late TextEditingController _passwordController;
 
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
   // Validation key for the form textfields.
-  final GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
-
-  // Used for the password field to show/hide the password and simultaneously
-  // adjust the corresponding TextButton.
-  final Signal<bool> _isObscured = signal<bool>(true);
+  final GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
-    _passwordController = TextEditingController();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
@@ -62,11 +51,11 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Sign in to BOKSklapps account', style: TextUtils.fontL),
+            const Text('Reset password', style: TextUtils.fontL),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
-              key: _signinFormKey,
+              key: _passwordFormKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
@@ -84,48 +73,6 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(label: Text('Email')),
                   ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _passwordController,
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty || value.length < 6) {
-                        return 'Password needs to be at least 6 characters.';
-                      }
-                      return null;
-                    },
-                    keyboardType: TextInputType.text,
-                    // Update the UI based on the signal value.
-                    obscureText: _isObscured.watch(context),
-                    enableSuggestions: false,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      // Instead of an icon, use a TextButton to toggle the
-                      // _isObscured signal.
-                      suffixIcon: TextButton(
-                        onPressed: () {
-                          _isObscured.value = !_isObscured.value;
-                        },
-                        child: _isObscured.value
-                            ? const Text('SHOW')
-                            : const Text('HIDE'),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      sSpinnerSignin.value = false;
-                      Navigator.pop(context);
-                      showModalBottomSheet<void>(
-                        showDragHandle: true,
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const BottomSheetResetPassword();
-                        },
-                      );
-                    },
-                    child: const Text('Reset password'),
-                  ),
                 ],
               ),
             ),
@@ -137,8 +84,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                   onPressed: () {
                     // Make sure to reset the signal values to
                     // the default.
-                    sSpinnerSignin.value = false;
-                    _isObscured.value = true;
+                    sSpinnerPassword.value = false;
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -146,11 +92,11 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    await _validateAndEnter();
+                    await _validateAndReset();
                   },
                   // Watching a computed signal to provide the
                   // corresponding Widget.
-                  child: cSpinnerSignIn.watch(context),
+                  child: cSpinnerPassword.watch(context),
                 ),
               ],
             ),
@@ -160,26 +106,24 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
     );
   }
 
-  Future<void> _validateAndEnter() async {
-    sSpinnerSignin.value = true;
+  Future<void> _validateAndReset() async {
+    sSpinnerPassword.value = true;
 
-    if (_signinFormKey.currentState!.validate()) {
+    if (_passwordFormKey.currentState!.validate()) {
       final String email = _emailController.text.trim();
-      final String password = _passwordController.text.trim();
 
-      // Log in to Firebase with the email and password.
-      await _authService.signInWithEmailAndPassword(
+      // Send a password reset email to the user.
+      await _authService.sendPasswordResetEmail(
         email: email,
-        password: password,
         onError: _handleErrors,
         onSuccess: _handleSuccess,
       );
     } else {
-      sSpinnerSignin.value = false;
+      sSpinnerPassword.value = false;
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         SnackBar(
           content: Text(
-            'Please check the email and password.',
+            'Please check the emailaddress.',
             style: TextStyle(
               color: sDarkTheme.value
                   ? flexSchemeDark.onError
@@ -197,7 +141,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
 
   void _handleErrors(String error) {
     Logger().e('Error: $error');
-    sSpinnerSignin.value = false;
+    sSpinnerPassword.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
@@ -216,15 +160,13 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
     );
   }
 
-  void _handleSuccess(UserCredential userCredential) {
-    Logger().i('User signed in: ${userCredential.user!.email}');
-    sSpinnerSignin.value = false;
-    // Set sSneakPeeker to false when a user signs in.
-    sSneakPeeker.value = false;
-    Navigate.toHomeScreen(context);
+  void _handleSuccess() {
+    Logger().i('Reset password email sent.');
+    sSpinnerPassword.value = false;
+    Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(
-        content: Text('You have signed in. Welcome to BOKSklapps!'),
+        content: Text('A reset password email has been sent.'),
         showCloseIcon: true,
       ),
     );
