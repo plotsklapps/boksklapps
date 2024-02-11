@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:signals/signals.dart';
@@ -15,9 +14,6 @@ import 'package:signals/signals.dart';
 // These computeds begin with the letter 'c'.
 
 Signal<User?> sCurrentUser = signal<User?>(FirebaseAuth.instance.currentUser);
-
-Signal<CollectionReference<Map<String, dynamic>>> sCurrentUserDoc =
-    signal(FirebaseFirestore.instance.collection('users'));
 
 Signal<bool> sSneakPeeker = signal<bool>(false);
 
