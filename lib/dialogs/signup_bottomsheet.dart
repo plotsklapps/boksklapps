@@ -151,16 +151,17 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Make sure to reset the signal value to the default.
+                    // Make sure to reset the signal values to
+                    // the default.
+                    sSpinnerSignup.value = false;
                     _isObscured.value = true;
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    sSpinnerSignup.value = true;
                     await _validateAndCreate();
                   },
                   // Watching a computed signal to provide the
@@ -177,6 +178,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
 
   Future<void> _validateAndCreate() async {
     if (_signupFormKey.currentState!.validate()) {
+      sSpinnerSignup.value = true;
       final String email = _emailController.text.trim();
       final String password = _passwordController.text.trim();
       // Create a new Firebase user.

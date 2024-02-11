@@ -43,7 +43,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
 
   @override
   Widget build(BuildContext context) {
-    final Computed<Widget> _cSpinner = computed<Widget>(() {
+    final Computed<Widget> cSpinner = computed<Widget>(() {
       return _sShowSpinner.value
           ? const CircularProgressIndicator(strokeWidth: 6)
           : const FaIcon(FontAwesomeIcons.forwardStep);
@@ -77,7 +77,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                   icon: FaIcon(FontAwesomeIcons.rulerVertical),
-                  label: Text('Height in cm')),
+                  label: Text('Height in cm'),),
             ),
             const SizedBox(height: 8),
             TextField(
@@ -85,7 +85,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                   icon: FaIcon(FontAwesomeIcons.weightHanging),
-                  label: Text('Weight in kg')),
+                  label: Text('Weight in kg'),),
             ),
             const SizedBox(height: 16),
             Text(
@@ -127,7 +127,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                     );
                     _sShowSpinner.value = false;
                   },
-                  child: _cSpinner.watch(context),
+                  child: cSpinner.watch(context),
                 ),
               ],
             ),

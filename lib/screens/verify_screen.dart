@@ -4,6 +4,7 @@ import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
+import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
@@ -42,11 +43,15 @@ class VerifyScreen extends StatelessWidget {
         },
         child: cSpinnerVerify.watch(context),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: const BottomAppBar(
         height: 64,
         shape: CircularNotchedRectangle(),
         notchMargin: 8,
-        child: SizedBox(),
+        child: Text(
+          'VERIFY EMAIL',
+          style: TextUtils.fontXL,
+        ),
       ),
     );
   }
