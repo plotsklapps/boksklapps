@@ -86,7 +86,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 const Text('BMI', style: TextUtils.fontXL),
                 const SizedBox(width: 16),
                 Text(
