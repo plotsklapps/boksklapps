@@ -37,12 +37,14 @@ Computed<String> cEmail = computed(() {
       : sCurrentUser.value?.email ?? 'JohnDoe@email.com';
 });
 
-Signal<DateTime> sLastVisitDate = signal(DateTime.now());
+Signal<String> sLastVisitDate = signal(
+  DateFormat('dd-MM-yyyy').format(DateTime.now()),
+);
 
 Computed<String> cLastVisitDate = computed<String>(() {
   return sSneakPeeker.value
-      ? DateFormat('yyyy-MM-dd').format(DateTime.now())
-      : DateFormat('yyyy-MM-dd').format(sLastVisitDate.value);
+      ? DateFormat('dd-MM-yyyy').format(DateTime.now())
+      : sLastVisitDate.value;
 });
 
 Signal<int> sTotalWorkouts = signal<int>(0);

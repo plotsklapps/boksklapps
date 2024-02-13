@@ -1,6 +1,7 @@
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class AuthService {
   Future<void> createUserWithEmailAndPassword({
@@ -47,7 +48,7 @@ class AuthService {
         'creationDate': userCredential.user!.metadata.creationTime, // DateTime
         'lastSignInDate':
             userCredential.user!.metadata.lastSignInTime, // DateTime
-        'lastVisitDate': sLastVisitDate.value, // DateTime
+        'lastVisitDate': sLastVisitDate.value, // String
         'isSneakPeeker': sSneakPeeker.value, // bool
         'ageInYrs': 0, // int
         'heightInCm': 0, // int
@@ -126,7 +127,7 @@ class AuthService {
 
       sCurrentUser.value = user;
       sSneakPeeker.value = userDoc['isSneakPeeker'] as bool;
-      sLastVisitDate.value = userDoc['lastVisitDate'] as DateTime;
+      sLastVisitDate.value = userDoc['lastVisitDate'] as String;
       sTotalWorkouts.value = userDoc['totalWorkouts'] as int;
       sAgeInYrs.value = userDoc['ageInYrs'] as int;
       sHeightInCm.value = userDoc['heightInCm'] as int;
@@ -316,7 +317,7 @@ class AuthService {
 
     try {
       // Force the sLastVisitDate signal to update.
-      sLastVisitDate.value = DateTime.now();
+      sLastVisitDate.value = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
       // Update the Firestore document.
       await FirebaseFirestore.instance
@@ -350,7 +351,7 @@ class AuthService {
               .get();
 
       // Set the field from Firestore to the value of the signal.
-      sLastVisitDate.value = userDoc['lastVisitDate'] as DateTime;
+      sLastVisitDate.value = userDoc['lastVisitDate'] as String;
     } on FirebaseAuthException catch (error) {
       onError('Firebase error: ${error.code}, ${error.message}');
     } catch (error) {
