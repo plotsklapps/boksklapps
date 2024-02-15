@@ -20,7 +20,7 @@ class BottomSheetBMI extends StatefulWidget {
 }
 
 class BottomSheetBMIState extends State<BottomSheetBMI> {
-  final GlobalKey<FormState> bmiFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _bmiFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final AuthService authService = AuthService();
@@ -39,7 +39,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
-              key: bmiFormKey,
+              key: _bmiFormKey,
               child: Column(
                 children: <Widget>[
                   TextFormField(
@@ -61,6 +61,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                       label: Text('Age in years'),
                     ),
                   ),
+                  const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
@@ -80,6 +81,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                       label: Text('Height in centimeters'),
                     ),
                   ),
+                  const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
@@ -128,7 +130,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                 FloatingActionButton(
                   onPressed: () async {
                     sSpinnerBMI.value = true;
-                    if (bmiFormKey.currentState!.validate()) {
+                    if (_bmiFormKey.currentState!.validate()) {
                       rootScaffoldMessengerKey.currentState!.showSnackBar(
                         const SnackBar(content: Text('Processing Data...')),
                       );

@@ -31,11 +31,15 @@ Computed<String> cDisplayName = computed(() {
       : sCurrentUser.value?.displayName ?? 'New Boxer';
 });
 
+Signal<String> sEmail = signal<String>('JohnDoe@email.com');
+
 Computed<String> cEmail = computed(() {
   return sSneakPeeker.value
       ? 'JohnDoe@email.com'
       : sCurrentUser.value?.email ?? 'JohnDoe@email.com';
 });
+
+Signal<String> sPassword = signal<String>('123456');
 
 Signal<String> sLastVisitDate = signal(
   DateFormat('dd-MM-yyyy').format(DateTime.now()),

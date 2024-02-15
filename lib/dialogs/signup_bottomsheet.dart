@@ -8,6 +8,7 @@ import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -21,11 +22,8 @@ class BottomSheetSignup extends StatefulWidget {
 }
 
 class BottomSheetSignupState extends State<BottomSheetSignup> {
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-  late TextEditingController _confirmPasswordController;
-
   // Custom authentification service for easier access to Firebase functions.
+  // See auth_service.dart for more details.
   final AuthService _authService = AuthService();
 
   // Validation key for the form textfields.
@@ -34,22 +32,6 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   // Used for the password field to show/hide the password and simultaneously
   // adjust the corresponding TextButton.
   final Signal<bool> _isObscured = signal<bool>(true);
-
-  @override
-  void initState() {
-    super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    _confirmPasswordController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +51,9 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
             const SizedBox(height: 16),
             Form(
               key: _signupFormKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: _emailController,
                     validator: (String? value) {
                       if (value == null ||
                           value.isEmpty ||
@@ -83,23 +63,38 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       }
                       return null;
                     },
+                    onChanged: (String value) {
+                      sEmail.value = value.trim();
+                    },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(label: Text('Email')),
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.solidEnvelope),
+                      ),
+                      labelText: 'Email',
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _passwordController,
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Password needs to be at least 6 characters.';
                       }
                       return null;
                     },
+                    onChanged: (String value) {
+                      sPassword.value = value.trim();
+                    },
                     keyboardType: TextInputType.text,
                     // Update the UI based on the signal value.
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
+                      icon: const SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.lock),
+                      ),
                       labelText: 'Password',
                       // Instead of an icon, use a TextButton to toggle the
                       // _isObscured signal.
@@ -115,11 +110,10 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _confirmPasswordController,
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Passwords needs to be at least 6 characters.';
-                      } else if (value != _passwordController.text) {
+                      } else if (value != sPassword.value) {
                         return 'Passwords do not appear to be equal.';
                       } else {
                         return null;
@@ -130,6 +124,10 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
+                      icon: const SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.lock),
+                      ),
                       labelText: 'Confirm Password',
                       // Instead of an icon, use a TextButton to toggle the
                       // _isObscured signal.
@@ -181,18 +179,15 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     sSpinnerSignup.value = true;
 
     if (_signupFormKey.currentState!.validate()) {
-      final String email = _emailController.text.trim();
-      final String password = _passwordController.text.trim();
-
       // Create a new Firebase user with the email and password.
       await _authService.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: sEmail.value,
+        password: sPassword.value,
         onError: _handleErrors,
         onSuccess: (UserCredential userCredential) async {
           await _handleSuccess(
             userCredential: userCredential,
-            email: email,
+            email: sEmail.value,
           );
         },
       );
