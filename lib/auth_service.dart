@@ -101,6 +101,12 @@ class AuthService {
         password: password,
       );
 
+      await getUserDoc(
+        user: userCredential.user!,
+        onError: onError,
+        onSuccess: () {},
+      );
+
       // Force the sCurrentUser signal to update, so other
       // signals that depend on it will also update.
       sCurrentUser.value = userCredential.user;

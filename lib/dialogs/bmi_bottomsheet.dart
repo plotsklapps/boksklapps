@@ -20,26 +20,7 @@ class BottomSheetBMI extends StatefulWidget {
 }
 
 class BottomSheetBMIState extends State<BottomSheetBMI> {
-  late TextEditingController _ageController;
-  late TextEditingController _heightController;
-  late TextEditingController _weightController;
-
-  @override
-  void initState() {
-    super.initState();
-    _ageController = TextEditingController();
-    _heightController = TextEditingController();
-    _weightController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _ageController.dispose();
-    _heightController.dispose();
-    _weightController.dispose();
-    super.dispose();
-  }
-
+  final GlobalKey<FormState> bmiFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final AuthService authService = AuthService();
@@ -57,30 +38,68 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
             const Text('Calculate your BMI', style: TextUtils.fontL),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
-            TextField(
-              controller: _ageController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                icon: FaIcon(FontAwesomeIcons.cakeCandles),
-                label: Text('Age in years'),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _heightController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                icon: FaIcon(FontAwesomeIcons.rulerVertical),
-                label: Text('Height in cm'),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _weightController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                icon: FaIcon(FontAwesomeIcons.weightHanging),
-                label: Text('Weight in kg'),
+            Form(
+              key: bmiFormKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid age.';
+                      }
+                      return null;
+                    },
+                    onChanged: (String value) {
+                      sAgeInYrs.value = int.parse(value);
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.cakeCandles),
+                      ),
+                      label: Text('Age in years'),
+                    ),
+                  ),
+                  TextFormField(
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid height.';
+                      }
+                      return null;
+                    },
+                    onChanged: (String value) {
+                      sHeightInCm.value = int.parse(value);
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.rulerVertical),
+                      ),
+                      label: Text('Height in centimeters'),
+                    ),
+                  ),
+                  TextFormField(
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid weight.';
+                      }
+                      return null;
+                    },
+                    onChanged: (String value) {
+                      sWeightInKg.value = int.parse(value);
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.weightHanging),
+                      ),
+                      label: Text('Weight in kilograms'),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
@@ -100,34 +119,43 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
+                    sSpinnerBMI.value = false;
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
                 ),
+                const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
                     sSpinnerBMI.value = true;
-                    await authService.setAgeInYrs(
-                      newAgeInYrs: int.parse(_ageController.text.trim()),
-                      onError: _handleErrors,
-                      onSuccess: () {},
-                    );
-                    await authService.setHeightInCm(
-                      newHeightInCm: int.parse(_heightController.text.trim()),
-                      onError: _handleErrors,
-                      onSuccess: () {},
-                    );
-                    await authService.setWeightInKg(
-                      newWeightInKg: int.parse(_weightController.text.trim()),
-                      onError: _handleErrors,
-                      onSuccess: () {},
-                    );
-                    await authService.setBMI(
-                      newBMI: double.parse(cBMI.value),
-                      onError: _handleErrors,
-                      onSuccess: _handleSuccess,
-                    );
-                    sSpinnerBMI.value = false;
+                    if (bmiFormKey.currentState!.validate()) {
+                      rootScaffoldMessengerKey.currentState!.showSnackBar(
+                        const SnackBar(content: Text('Processing Data...')),
+                      );
+                      await authService.setAgeInYrs(
+                        newAgeInYrs: sAgeInYrs.value,
+                        onError: _handleErrors,
+                        onSuccess: () {},
+                      );
+                      await authService.setHeightInCm(
+                        newHeightInCm: sHeightInCm.value,
+                        onError: _handleErrors,
+                        onSuccess: () {},
+                      );
+                      await authService.setWeightInKg(
+                        newWeightInKg: sWeightInKg.value,
+                        onError: _handleErrors,
+                        onSuccess: () {},
+                      );
+                      await authService.setBMI(
+                        newBMI: double.parse(cBMI.value),
+                        onError: _handleErrors,
+                        onSuccess: _handleSuccess,
+                      );
+                      sSpinnerBMI.value = false;
+                    } else {
+                      sSpinnerBMI.value = false;
+                    }
                   },
                   child: cSpinnerBMI.watch(context),
                 ),
