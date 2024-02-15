@@ -33,6 +33,10 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   // adjust the corresponding TextButton.
   final Signal<bool> _isObscured = signal<bool>(true);
 
+  //
+  String? _email;
+  String? _password;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -55,16 +59,17 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                 children: <Widget>[
                   TextFormField(
                     validator: (String? value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          !value.contains('@') ||
-                          !value.contains('.')) {
-                        return 'Please enter a correct emailaddress.';
+                      final RegExp regex = RegExp(
+                        TextUtils.regexpPattern as String,
+                      );
+                      if (!regex.hasMatch(value!)) {
+                        return 'Please check the email spelling.';
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
-                    onChanged: (String value) {
-                      sEmail.value = value.trim();
+                    onSaved: (String? value) {
+                      _email = value?.trim();
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
@@ -83,8 +88,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       }
                       return null;
                     },
-                    onChanged: (String value) {
-                      sPassword.value = value.trim();
+                    onSaved: (String? value) {
+                      _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
                     // Update the UI based on the signal value.
@@ -113,7 +118,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Passwords needs to be at least 6 characters.';
-                      } else if (value != sPassword.value) {
+                      } else if (value != _password) {
                         return 'Passwords do not appear to be equal.';
                       } else {
                         return null;
@@ -178,16 +183,18 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   Future<void> _validateAndCreate() async {
     sSpinnerSignup.value = true;
 
-    if (_signupFormKey.currentState!.validate()) {
+    final FormState? signupForm = _signupFormKey.currentState;
+    if (signupForm!.validate()) {
+      signupForm.save();
       // Create a new Firebase user with the email and password.
       await _authService.createUserWithEmailAndPassword(
-        email: sEmail.value,
-        password: sPassword.value,
+        email: _email!,
+        password: _password!,
         onError: _handleErrors,
         onSuccess: (UserCredential userCredential) async {
           await _handleSuccess(
             userCredential: userCredential,
-            email: sEmail.value,
+            email: _email!,
           );
         },
       );
