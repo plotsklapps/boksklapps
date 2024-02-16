@@ -9,6 +9,7 @@ import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -22,9 +23,6 @@ class BottomSheetSignin extends StatefulWidget {
 }
 
 class BottomSheetSigninState extends State<BottomSheetSignin> {
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
@@ -35,19 +33,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   // adjust the corresponding TextButton.
   final Signal<bool> _isObscured = signal<bool>(true);
 
-  @override
-  void initState() {
-    super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  String? _email;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
@@ -62,42 +49,60 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Sign in to BOKSklapps account', style: TextUtils.fontL),
+            const Text(
+              'Sign in to your BOKSklapps account',
+              style: TextUtils.fontL,
+            ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
               key: _signinFormKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: _emailController,
                     validator: (String? value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          !value.contains('@') ||
-                          !value.contains('.')) {
-                        return 'Please enter a correct emailaddress.';
+                      final RegExp regex = RegExp(
+                        TextUtils.regexpPattern as String,
+                      );
+                      if (!regex.hasMatch(value!)) {
+                        return 'Please check the email spelling.';
+                      } else {
+                        return null;
                       }
-                      return null;
+                    },
+                    onSaved: (String? value) {
+                      _email = value?.trim();
                     },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(label: Text('Email')),
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.solidEnvelope),
+                      ),
+                      labelText: 'Email',
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _passwordController,
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Password needs to be at least 6 characters.';
                       }
                       return null;
                     },
+                    onSaved: (String? value) {
+                      // Save the password to the signal.
+                      _password = value?.trim();
+                    },
                     keyboardType: TextInputType.text,
                     // Update the UI based on the signal value.
                     obscureText: _isObscured.watch(context),
                     enableSuggestions: false,
                     decoration: InputDecoration(
+                      icon: const SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.lock),
+                      ),
                       labelText: 'Password',
                       // Instead of an icon, use a TextButton to toggle the
                       // _isObscured signal.
@@ -163,14 +168,14 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   Future<void> _validateAndEnter() async {
     sSpinnerSignin.value = true;
 
-    if (_signinFormKey.currentState!.validate()) {
-      final String email = _emailController.text.trim();
-      final String password = _passwordController.text.trim();
+    final FormState? signinForm = _signinFormKey.currentState;
+    if (signinForm!.validate()) {
+      signinForm.save();
 
       // Log in to Firebase with the email and password.
       await _authService.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: _email!,
+        password: _password!,
         onError: _handleErrors,
         onSuccess: _handleSuccess,
       );

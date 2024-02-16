@@ -186,6 +186,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     final FormState? signupForm = _signupFormKey.currentState;
     if (signupForm!.validate()) {
       signupForm.save();
+
       // Create a new Firebase user with the email and password.
       await _authService.createUserWithEmailAndPassword(
         email: _email!,
