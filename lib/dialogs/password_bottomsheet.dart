@@ -106,8 +106,8 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   Future<void> _validateAndReset() async {
     sSpinnerPassword.value = true;
 
-    final FormState? _passwordForm = _passwordFormKey.currentState;
-    if (_passwordForm!.validate()) {
+    final FormState? passwordForm = _passwordFormKey.currentState;
+    if (passwordForm!.validate()) {
       // Send a password reset email to the user.
       await _authService.sendPasswordResetEmail(
         email: _email!,
