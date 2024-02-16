@@ -5,6 +5,7 @@ import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -18,25 +19,13 @@ class BottomSheetResetPassword extends StatefulWidget {
 }
 
 class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
-  late TextEditingController _emailController;
-
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
   // Validation key for the form textfields.
   final GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-    _emailController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
+  String? _email;
 
   @override
   Widget build(BuildContext context) {
@@ -56,22 +45,30 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
             const SizedBox(height: 16),
             Form(
               key: _passwordFormKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: _emailController,
                     validator: (String? value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          !value.contains('@') ||
-                          !value.contains('.')) {
-                        return 'Please enter a correct emailaddress.';
+                      final RegExp regex = RegExp(
+                        TextUtils.regexpPattern as String,
+                      );
+                      if (!regex.hasMatch(value!)) {
+                        return 'Please check the email spelling.';
+                      } else {
+                        return null;
                       }
-                      return null;
+                    },
+                    onSaved: (String? value) {
+                      _email = value?.trim();
                     },
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(label: Text('Email')),
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.solidEnvelope),
+                      ),
+                      labelText: 'Email',
+                    ),
                   ),
                 ],
               ),
@@ -109,12 +106,11 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   Future<void> _validateAndReset() async {
     sSpinnerPassword.value = true;
 
-    if (_passwordFormKey.currentState!.validate()) {
-      final String email = _emailController.text.trim();
-
+    final FormState? _passwordForm = _passwordFormKey.currentState;
+    if (_passwordForm!.validate()) {
       // Send a password reset email to the user.
       await _authService.sendPasswordResetEmail(
-        email: email,
+        email: _email!,
         onError: _handleErrors,
         onSuccess: _handleSuccess,
       );
