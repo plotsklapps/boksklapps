@@ -16,7 +16,7 @@ class BottomBar extends StatelessWidget {
       child: Row(
         children: <Widget>[
           IconButton(
-            icon: const FaIcon(FontAwesomeIcons.bars),
+            icon: const FaIcon(FontAwesomeIcons.barsProgress),
             onPressed: () {
               showModalBottomSheet<Widget>(
                 showDragHandle: true,

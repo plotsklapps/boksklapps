@@ -50,7 +50,23 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Create a BOKSklapps account', style: TextUtils.fontL),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Create a BOKSklapps account',
+                  style: TextUtils.fontL,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                  ),
+                ),
+              ],
+            ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(

@@ -40,7 +40,20 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Reset password', style: TextUtils.fontL),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Reset password', style: TextUtils.fontL),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                  ),
+                ),
+              ],
+            ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
@@ -108,6 +121,8 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
 
     final FormState? passwordForm = _passwordFormKey.currentState;
     if (passwordForm!.validate()) {
+      passwordForm.save();
+
       // Send a password reset email to the user.
       await _authService.sendPasswordResetEmail(
         email: _email!,

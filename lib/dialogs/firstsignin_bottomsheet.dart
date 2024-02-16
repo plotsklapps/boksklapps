@@ -29,7 +29,20 @@ class BottomSheetFirstSignin extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Choose a sign in method', style: TextUtils.fontL),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('Choose a sign in method', style: TextUtils.fontL),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                  ),
+                ),
+              ],
+            ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             ListTile(

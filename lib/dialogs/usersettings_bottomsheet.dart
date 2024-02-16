@@ -23,7 +23,20 @@ class BottomSheetUserSettings extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Settings', style: TextUtils.fontL),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text('User Settings', style: TextUtils.fontL),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const FaIcon(
+                    FontAwesomeIcons.xmark,
+                  ),
+                ),
+              ],
+            ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             ListTile(
@@ -41,7 +54,7 @@ class BottomSheetUserSettings extends StatelessWidget {
               leading: const FaIcon(
                 FontAwesomeIcons.signature,
               ),
-              title: const Text('USERNAME'),
+              title: const Text('Username'),
               subtitle: const Text('Change how we call you'),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight),
             ),
@@ -71,7 +84,7 @@ class BottomSheetUserSettings extends StatelessWidget {
               leading: const FaIcon(
                 FontAwesomeIcons.solidEnvelope,
               ),
-              title: const Text('CHANGE EMAILADDRESS'),
+              title: const Text('Change email address'),
               subtitle: const Text('Set up a new sign in method'),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight),
             ),
@@ -82,7 +95,7 @@ class BottomSheetUserSettings extends StatelessWidget {
               leading: const FaIcon(
                 FontAwesomeIcons.userXmark,
               ),
-              title: const Text('DELETE PROFILE'),
+              title: const Text('Delete profile'),
               subtitle: const Text('Completely remove your data'),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight),
             ),
@@ -100,7 +113,7 @@ class BottomSheetUserSettings extends StatelessWidget {
               leading: const FaIcon(
                 FontAwesomeIcons.personWalkingArrowRight,
               ),
-              title: const Text('SIGN OUT'),
+              title: const Text('Sign out'),
               subtitle: const Text('Go back to the login screen'),
               trailing: const FaIcon(FontAwesomeIcons.chevronRight),
             ),
