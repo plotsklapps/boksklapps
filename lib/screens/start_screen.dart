@@ -2,6 +2,7 @@ import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:signals/signals_flutter.dart';
 
 class StartScreen extends StatelessWidget {
@@ -39,7 +40,11 @@ class StartScreen extends StatelessWidget {
           // Watching a computed signal to provide the
           // corresponding Widget.
           child: cSpinnerStart.watch(context),
-        ),
+        ).animate(
+          onPlay: (AnimationController controller) {
+            controller.repeat(reverse: true);
+          },
+        ).rotate(delay: 1200.ms),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: const BottomAppBar(
           height: 64,

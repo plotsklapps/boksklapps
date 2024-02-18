@@ -7,8 +7,10 @@ import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
+import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
@@ -49,22 +51,9 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text(
-                  'Sign in to your BOKSklapps account',
-                  style: TextUtils.fontL,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const FaIcon(
-                    FontAwesomeIcons.xmark,
-                  ),
-                ),
-              ],
+            const BottomSheetHeader(
+              title: 'Sign in to your BOKSklapps '
+                  'account',
             ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
@@ -94,7 +83,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                       ),
                       labelText: 'Email',
                     ),
-                  ),
+                  ).animate().fade().moveX(delay: 200.ms, begin: -32),
                   const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
@@ -128,7 +117,10 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                             : const Text('HIDE'),
                       ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(delay: 200.ms)
+                      .moveX(delay: 400.ms, begin: -32),
                   TextButton(
                     onPressed: () {
                       sSpinnerSignin.value = false;
@@ -143,7 +135,10 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                       );
                     },
                     child: const Text('Reset password'),
-                  ),
+                  )
+                      .animate()
+                      .fade(delay: 400.ms)
+                      .moveX(delay: 600.ms, begin: -32),
                 ],
               ),
             ),
