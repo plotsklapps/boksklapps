@@ -161,9 +161,9 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
     sShowSpinner.value = true;
 
     // Validate the form and save the values.
-    final FormState? _bmiForm = _bmiFormKey.currentState;
-    if (_bmiForm!.validate()) {
-      _bmiForm.save();
+    final FormState? bmiForm = _bmiFormKey.currentState;
+    if (bmiForm!.validate()) {
+      bmiForm.save();
 
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         const SnackBar(content: Text('Processing Data...')),
