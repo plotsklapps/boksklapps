@@ -4,7 +4,9 @@ import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
+import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
@@ -25,6 +27,8 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   // Validation key for the form textfields.
   final GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
 
+  // Instead of a TextEditingController, use a String variable to store the
+  // email value via the onSaved method and the _passwordFormKey.
   String? _email;
 
   @override
@@ -40,20 +44,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Reset password', style: TextUtils.fontL),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const FaIcon(
-                    FontAwesomeIcons.xmark,
-                  ),
-                ),
-              ],
-            ),
+            const BottomSheetHeader(title: 'Reset your password'),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
@@ -82,7 +73,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
                       ),
                       labelText: 'Email',
                     ),
-                  ),
+                  ).animate().fade().moveX(delay: 200.ms, begin: -32),
                 ],
               ),
             ),
@@ -94,7 +85,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
                   onPressed: () {
                     // Make sure to reset the signal values to
                     // the default.
-                    sSpinnerPassword.value = false;
+                    sShowSpinner.value = false;
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -106,7 +97,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
                   },
                   // Watching a computed signal to provide the
                   // corresponding Widget.
-                  child: cSpinnerPassword.watch(context),
+                  child: cShowSpinner.watch(context),
                 ),
               ],
             ),
@@ -117,8 +108,10 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   }
 
   Future<void> _validateAndReset() async {
-    sSpinnerPassword.value = true;
+    // Show the CircularProgressIndicator while the password is being reset.
+    sShowSpinner.value = true;
 
+    // Validate the form and save the values.
     final FormState? passwordForm = _passwordFormKey.currentState;
     if (passwordForm!.validate()) {
       passwordForm.save();
@@ -130,29 +123,17 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
         onSuccess: _handleSuccess,
       );
     } else {
-      sSpinnerPassword.value = false;
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(
-            'Please check the emailaddress.',
-            style: TextStyle(
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
-            ),
-          ),
-          showCloseIcon: true,
-          backgroundColor:
-              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
-        ),
-      );
+      // Validation of form failed, so cancel the spinner and return;
+      sShowSpinner.value = false;
       return;
     }
   }
 
   void _handleErrors(String error) {
+    // Log the error, cancel the spinner, pop the bottomsheet and show a
+    // SnackBar with the error message to the user.
     Logger().e('Error: $error');
-    sSpinnerPassword.value = false;
+    sShowSpinner.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
@@ -172,8 +153,10 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   }
 
   void _handleSuccess() {
+    // Log the success, cancel the spinner, pop the bottomsheet and show a
+    // SnackBar to the user.
     Logger().i('Reset password email sent.');
-    sSpinnerPassword.value = false;
+    sShowSpinner.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(

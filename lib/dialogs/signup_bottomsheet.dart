@@ -35,9 +35,11 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   // adjust the corresponding TextButton.
   final Signal<bool> _isObscured = signal<bool>(true);
 
-  //
+  // Instead of TextEditingControllers, use String variables to store the
+  // email and password values via the onSaved method and the _signupFormKey.
   String? _email;
   String? _password;
+  String? _confirmPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                       }
                       return null;
                     },
-                    onSaved: (String? value) {
+                    onChanged: (String? value) {
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
@@ -121,9 +123,12 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                   const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
-                      if (value == null || value.isEmpty || value.length < 6) {
+                      _confirmPassword = value?.trim();
+                      if (_confirmPassword == null ||
+                          _confirmPassword!.isEmpty ||
+                          _confirmPassword!.length < 6) {
                         return 'Passwords needs to be at least 6 characters.';
-                      } else if (value != _password) {
+                      } else if (_confirmPassword != _password) {
                         return 'Passwords do not appear to be equal.';
                       } else {
                         return null;
@@ -165,7 +170,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                   onPressed: () {
                     // Make sure to reset the signal values to
                     // the default.
-                    sSpinnerSignup.value = false;
+                    sShowSpinner.value = false;
                     _isObscured.value = true;
                     Navigator.pop(context);
                   },
@@ -178,7 +183,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                   },
                   // Watching a computed signal to provide the
                   // corresponding Widget.
-                  child: cSpinnerSignup.watch(context),
+                  child: cShowSpinner.watch(context),
                 ),
               ],
             ),
@@ -189,8 +194,10 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   }
 
   Future<void> _validateAndCreate() async {
-    sSpinnerSignup.value = true;
+    // Show the spinner while the user is being created.
+    sShowSpinner.value = true;
 
+    // Validate the form and save the values.
     final FormState? signupForm = _signupFormKey.currentState;
     if (signupForm!.validate()) {
       signupForm.save();
@@ -208,29 +215,17 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         },
       );
     } else {
-      sSpinnerSignup.value = false;
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(
-            'Please check the email and password.',
-            style: TextStyle(
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
-            ),
-          ),
-          showCloseIcon: true,
-          backgroundColor:
-              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
-        ),
-      );
+      // Validation of form failed, so cancel the spinner and return;
+      sShowSpinner.value = false;
       return;
     }
   }
 
   void _handleErrors(String error) {
+    // Log the error, cancel the spinner, pop the bottomsheet and show a
+    // SnackBar with the error message to the user.
     Logger().e('Error: $error');
-    sSpinnerSignup.value = false;
+    sShowSpinner.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
@@ -253,19 +248,31 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     required UserCredential userCredential,
     required String email,
   }) async {
+    // Log the success, make sure sneak peek == false, create a user
+    // document and send an email verification.
     Logger().i('User has created a new account: $email');
-    sSpinnerSignup.value = false;
-    // Set sSneakPeeker to false when a user signs in.
     sSneakPeeker.value = false;
     await _authService.createUserDoc(
       userCredential: userCredential,
       onError: (String error) {
+        // Log the error, cancel the spinner, pop the bottomsheet and show a
+        // SnackBar with the error message to the user.
         Logger().e('Error: $error');
+        sShowSpinner.value = false;
         Navigator.pop(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
-            content: Text('Error: $error'),
+            content: Text(
+              'Error: $error',
+              style: TextStyle(
+                color: sDarkTheme.value
+                    ? flexSchemeDark.onError
+                    : flexSchemeLight.onError,
+              ),
+            ),
             showCloseIcon: true,
+            backgroundColor:
+                sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
           ),
         );
       },
@@ -275,17 +282,32 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     );
     await _authService.sendEmailVerification(
       onError: (String error) {
+        // Log the error, cancel the spinner, pop the bottomsheet and show a
+        // SnackBar with the error message to the user.
         Logger().e('Error: $error');
+        sShowSpinner.value = false;
         Navigator.pop(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
-            content: Text('Error: $error'),
+            content: Text(
+              'Error: $error',
+              style: TextStyle(
+                color: sDarkTheme.value
+                    ? flexSchemeDark.onError
+                    : flexSchemeLight.onError,
+              ),
+            ),
             showCloseIcon: true,
+            backgroundColor:
+                sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
           ),
         );
       },
       onSuccess: () {
+        // Log the success, cancel the spinner, pop the bottomsheet,
+        // navigate to the verify screen and show a SnackBar to the user.
         Logger().i('Email verification sent to $email');
+        sShowSpinner.value = false;
         Navigator.pop(context);
         Navigate.toVerifyScreen(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(

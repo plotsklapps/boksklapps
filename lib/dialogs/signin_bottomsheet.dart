@@ -35,6 +35,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   // adjust the corresponding TextButton.
   final Signal<bool> _isObscured = signal<bool>(true);
 
+  // Instead of TextEditingControllers, use String variables to store the
+  // email and password values via the onSaved method and the _signinFormKey.
   String? _email;
   String? _password;
 
@@ -123,7 +125,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                       .moveX(delay: 400.ms, begin: -32),
                   TextButton(
                     onPressed: () {
-                      sSpinnerSignin.value = false;
+                      sShowSpinner.value = false;
                       Navigator.pop(context);
                       showModalBottomSheet<void>(
                         showDragHandle: true,
@@ -150,7 +152,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                   onPressed: () {
                     // Make sure to reset the signal values to
                     // the default.
-                    sSpinnerSignin.value = false;
+                    sShowSpinner.value = false;
                     _isObscured.value = true;
                     Navigator.pop(context);
                   },
@@ -163,7 +165,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                   },
                   // Watching a computed signal to provide the
                   // corresponding Widget.
-                  child: cSpinnerSignIn.watch(context),
+                  child: cShowSpinner.watch(context),
                 ),
               ],
             ),
@@ -174,8 +176,10 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   Future<void> _validateAndEnter() async {
-    sSpinnerSignin.value = true;
+    // Show the CircularProgressIndicator while the user is being created.
+    sShowSpinner.value = true;
 
+    // Validate the form and save the values.
     final FormState? signinForm = _signinFormKey.currentState;
     if (signinForm!.validate()) {
       signinForm.save();
@@ -188,29 +192,17 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
         onSuccess: _handleSuccess,
       );
     } else {
-      sSpinnerSignin.value = false;
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(
-            'Please check the email and password.',
-            style: TextStyle(
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
-            ),
-          ),
-          showCloseIcon: true,
-          backgroundColor:
-              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
-        ),
-      );
+      // Validation of form failed, so cancel the spinner and return;
+      sShowSpinner.value = false;
       return;
     }
   }
 
   void _handleErrors(String error) {
+    // Log the error, cancel the spinner, pop the bottomsheet and show a
+    // SnackBar with the error message to the user.
     Logger().e('Error: $error');
-    sSpinnerSignin.value = false;
+    sShowSpinner.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
@@ -230,8 +222,10 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   void _handleSuccess(UserCredential userCredential) {
+    // Log the success, cancel the spinner, navigate to the home screen
+    // and show a SnackBar to the user.
     Logger().i('User signed in: ${userCredential.user!.email}');
-    sSpinnerSignin.value = false;
+    sShowSpinner.value = false;
     // Set sSneakPeeker to false when a user signs in.
     sSneakPeeker.value = false;
     Navigate.toHomeScreen(context);

@@ -31,7 +31,7 @@ class VerifyScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          sSpinnerVerify.value = true;
+          sShowSpinner.value = true;
           await authService.reload(
             onError: _handleErrors,
             onSuccess: ({
@@ -41,7 +41,7 @@ class VerifyScreen extends StatelessWidget {
             },
           );
         },
-        child: cSpinnerVerify.watch(context),
+        child: cShowSpinner.watch(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: const BottomAppBar(
@@ -57,11 +57,19 @@ class VerifyScreen extends StatelessWidget {
   }
 
   void _handleErrors(String error) {
-    sSpinnerVerify.value = false;
+    // Log the error, cancel the spinner and show a SnackBar to the user.
     Logger().e('Error: $error');
+    sShowSpinner.value = false;
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
-        content: Text('Error: $error'),
+        content: Text(
+          'Error: $error',
+          style: TextStyle(
+            color: sDarkTheme.value
+                ? flexSchemeDark.onError
+                : flexSchemeLight.onError,
+          ),
+        ),
         showCloseIcon: true,
         backgroundColor:
             sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
@@ -70,8 +78,11 @@ class VerifyScreen extends StatelessWidget {
   }
 
   void _handleSuccess(BuildContext context, bool emailVerified) {
-    sSpinnerVerify.value = false;
     if (emailVerified) {
+      // Log the success, cancel the spinner, navigate to the home screen
+      // and show a SnackBar to the user.
+      Logger().i('Email verified: $emailVerified');
+      sShowSpinner.value = false;
       Navigate.toHomeScreen(context);
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         const SnackBar(
@@ -80,10 +91,12 @@ class VerifyScreen extends StatelessWidget {
         ),
       );
     } else {
+      // User might have already verified, but the backend has not yet
+      // updated. Tell the user to wait.
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         SnackBar(
           content: Text(
-            'Our backend needs more time. Please wait a few seconds and try '
+            'Our backend needs more time. Take three deep breaths and try '
             'again.',
             style: TextStyle(
               color: sDarkTheme.value

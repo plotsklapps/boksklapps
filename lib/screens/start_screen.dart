@@ -1,9 +1,8 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -37,9 +36,7 @@ class StartScreen extends StatelessWidget {
               },
             );
           },
-          // Watching a computed signal to provide the
-          // corresponding Widget.
-          child: cSpinnerStart.watch(context),
+          child: const FaIcon(FontAwesomeIcons.forwardStep),
         ).animate(
           onPlay: (AnimationController controller) {
             controller.repeat(reverse: true);

@@ -2,8 +2,12 @@ import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/flexcolors.dart';
+import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
+import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
@@ -20,10 +24,15 @@ class BottomSheetBMI extends StatefulWidget {
 }
 
 class BottomSheetBMIState extends State<BottomSheetBMI> {
+  // Custom authentification service for easier access to Firebase functions.
+  // See auth_service.dart for more details.
+  final AuthService _authService = AuthService();
+
+  // Validation key for the form textfields.
   final GlobalKey<FormState> _bmiFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final AuthService authService = AuthService();
     return SizedBox(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
@@ -35,7 +44,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('Calculate your BMI', style: TextUtils.fontL),
+            const BottomSheetHeader(title: 'Calculate your BMI'),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
@@ -60,7 +69,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                       ),
                       label: Text('Age in years'),
                     ),
-                  ),
+                  ).animate().fade().moveX(delay: 200.ms, begin: -32),
                   const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
@@ -80,7 +89,10 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                       ),
                       label: Text('Height in centimeters'),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(delay: 200.ms)
+                      .moveX(delay: 400.ms, begin: -32),
                   const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
@@ -100,7 +112,10 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                       ),
                       label: Text('Weight in kilograms'),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fade(delay: 400.ms)
+                      .moveX(delay: 600.ms, begin: -32),
                 ],
               ),
             ),
@@ -121,7 +136,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    sSpinnerBMI.value = false;
+                    sShowSpinner.value = false;
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -129,37 +144,9 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    sSpinnerBMI.value = true;
-                    if (_bmiFormKey.currentState!.validate()) {
-                      rootScaffoldMessengerKey.currentState!.showSnackBar(
-                        const SnackBar(content: Text('Processing Data...')),
-                      );
-                      await authService.setAgeInYrs(
-                        newAgeInYrs: sAgeInYrs.value,
-                        onError: _handleErrors,
-                        onSuccess: () {},
-                      );
-                      await authService.setHeightInCm(
-                        newHeightInCm: sHeightInCm.value,
-                        onError: _handleErrors,
-                        onSuccess: () {},
-                      );
-                      await authService.setWeightInKg(
-                        newWeightInKg: sWeightInKg.value,
-                        onError: _handleErrors,
-                        onSuccess: () {},
-                      );
-                      await authService.setBMI(
-                        newBMI: double.parse(cBMI.value),
-                        onError: _handleErrors,
-                        onSuccess: _handleSuccess,
-                      );
-                      sSpinnerBMI.value = false;
-                    } else {
-                      sSpinnerBMI.value = false;
-                    }
+                    await _validateAndCalculate();
                   },
-                  child: cSpinnerBMI.watch(context),
+                  child: cShowSpinner.watch(context),
                 ),
               ],
             ),
@@ -169,21 +156,78 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
     );
   }
 
+  Future<void> _validateAndCalculate() async {
+    // Show the spinner while the user is being created.
+    sShowSpinner.value = true;
+
+    // Validate the form and save the values.
+    final FormState? _bmiForm = _bmiFormKey.currentState;
+    if (_bmiForm!.validate()) {
+      _bmiForm.save();
+
+      rootScaffoldMessengerKey.currentState!.showSnackBar(
+        const SnackBar(content: Text('Processing Data...')),
+      );
+      await _authService.setAgeInYrs(
+        newAgeInYrs: sAgeInYrs.value,
+        onError: _handleErrors,
+        onSuccess: () {
+          // Do nothing, just continue to next step.
+        },
+      );
+      await _authService.setHeightInCm(
+        newHeightInCm: sHeightInCm.value,
+        onError: _handleErrors,
+        onSuccess: () {
+          // Do nothing, just continue to next step.
+        },
+      );
+      await _authService.setWeightInKg(
+        newWeightInKg: sWeightInKg.value,
+        onError: _handleErrors,
+        onSuccess: () {
+          // Do nothing, just continue to next step.
+        },
+      );
+      await _authService.setBMI(
+        newBMI: double.parse(cBMI.value),
+        onError: _handleErrors,
+        onSuccess: _handleSuccess,
+      );
+      sShowSpinner.value = false;
+    } else {
+      sShowSpinner.value = false;
+    }
+  }
+
   void _handleErrors(String error) {
+    // Log the error, cancel the spinner, pop the bottomsheet and show
+    // a SnackBar to the user.
     Logger().e('Error: $error');
-    sSpinnerBMI.value = false;
+    sShowSpinner.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
-        content: Text('Error: $error'),
+        content: Text(
+          'Error: $error',
+          style: TextStyle(
+            color: sDarkTheme.value
+                ? flexSchemeDark.onError
+                : flexSchemeLight.onError,
+          ),
+        ),
         showCloseIcon: true,
+        backgroundColor:
+            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
       ),
     );
   }
 
   void _handleSuccess() {
+    // Log the success, cancel the spinner, pop the bottomsheet and show
+    // a SnackBar to the user.
     Logger().i('BMI has been calculated and saved.');
-    sSpinnerBMI.value = false;
+    sShowSpinner.value = false;
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
