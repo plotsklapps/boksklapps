@@ -1,11 +1,13 @@
 import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:signals/signals_flutter.dart';
 
 class BottomSheetMainMenu extends StatelessWidget {
   const BottomSheetMainMenu({
@@ -14,14 +16,15 @@ class BottomSheetMainMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Local signal to compute which icon to show.
+    final Computed<Widget> cSneakPeeker = computed(() {
+      return sSneakPeeker.value
+          ? const FaIcon(FontAwesomeIcons.userSecret)
+          : const FaIcon(FontAwesomeIcons.userPen);
+    });
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -40,9 +43,7 @@ class BottomSheetMainMenu extends StatelessWidget {
                   },
                 );
               },
-              leading: sSneakPeeker.value
-                  ? const FaIcon(FontAwesomeIcons.userSecret)
-                  : const FaIcon(FontAwesomeIcons.userPen),
+              leading: cSneakPeeker.watch(context),
               title: const Text('Account'),
               subtitle: const Text('Manage your profile settings'),
               trailing: const FaIcon(FontAwesomeIcons.forwardStep),

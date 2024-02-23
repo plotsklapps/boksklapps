@@ -2,6 +2,7 @@ import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -35,12 +36,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -126,7 +122,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
                 const Text('BMI', style: TextUtils.fontXL),
                 const SizedBox(width: 16),
                 Text(
-                  cBMI.value,
+                  cBMI.watch(context),
                   style: TextUtils.fontXL,
                 ),
               ],
@@ -136,6 +132,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
+                    // Cancel the spinner and pop the bottomsheet.
                     sShowSpinner.value = false;
                     Navigator.pop(context);
                   },
@@ -157,7 +154,7 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
   }
 
   Future<void> _validateAndCalculate() async {
-    // Show the spinner while the user is being created.
+    // Show the spinner while the bmi is begin calculated.
     sShowSpinner.value = true;
 
     // Validate the form and save the values.
@@ -165,6 +162,8 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
     if (bmiForm!.validate()) {
       bmiForm.save();
 
+      // Show a SnackBar to the user to indicate that the data is being
+      // processed.
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         const SnackBar(content: Text('Processing Data...')),
       );

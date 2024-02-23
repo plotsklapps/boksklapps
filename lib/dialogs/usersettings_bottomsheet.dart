@@ -2,6 +2,7 @@ import 'package:boksklapps/dialogs/bmi_bottomsheet.dart';
 import 'package:boksklapps/dialogs/email_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signout_bottomsheet.dart';
 import 'package:boksklapps/dialogs/username_bottomsheet.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,12 +17,7 @@ class BottomSheetUserSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

@@ -4,6 +4,7 @@ import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -44,12 +45,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -95,7 +91,6 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                       return null;
                     },
                     onSaved: (String? value) {
-                      // Save the password to the signal.
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
@@ -125,6 +120,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                       .moveX(delay: 400.ms, begin: -32),
                   TextButton(
                     onPressed: () {
+                      // Cancel the spinner, close this bottomsheet and open
+                      // the reset password bottomsheet.
                       sShowSpinner.value = false;
                       Navigator.pop(context);
                       showModalBottomSheet<void>(
@@ -150,8 +147,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Make sure to reset the signal values to
-                    // the default.
+                    // Make sure to reset the signal values to the default.
                     sShowSpinner.value = false;
                     _isObscured.value = true;
                     Navigator.pop(context);
@@ -163,8 +159,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                   onPressed: () async {
                     await _validateAndEnter();
                   },
-                  // Watching a computed signal to provide the
-                  // corresponding Widget.
+                  // Watching a computed signal to provide the corresponding
+                  // Widget.
                   child: cShowSpinner.watch(context),
                 ),
               ],
@@ -176,7 +172,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   Future<void> _validateAndEnter() async {
-    // Show the CircularProgressIndicator while the user is being created.
+    // Show the spinner while the user is being logged in.
     sShowSpinner.value = true;
 
     // Validate the form and save the values.
@@ -222,12 +218,13 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   void _handleSuccess(UserCredential userCredential) {
-    // Log the success, cancel the spinner, navigate to the home screen
-    // and show a SnackBar to the user.
+    // Log the success, cancel the spinner, pop the bottomsheet, make sure
+    // sneak peek == false, navigate to the homescreen and show a SnackBar
+    // to the user.
     Logger().i('User signed in: ${userCredential.user!.email}');
     sShowSpinner.value = false;
-    // Set sSneakPeeker to false when a user signs in.
     sSneakPeeker.value = false;
+    Navigator.pop(context);
     Navigate.toHomeScreen(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(

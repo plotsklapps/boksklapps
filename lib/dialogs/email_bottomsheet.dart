@@ -1,6 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -27,22 +28,17 @@ class BottomSheetEmailState extends State<BottomSheetEmail> {
   final AuthService _authService = AuthService();
 
   // Validation key for the form textfields.
-  final GlobalKey<FormState> _emailKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _emailFormKey = GlobalKey<FormState>();
 
   // Instead of a TextEditingController, use a String variable to store the
-  // email value via the onSaved method and the _passwordFormKey.
+  // email value via the onSaved method and the _emailFormKey.
   String? _email;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -50,7 +46,7 @@ class BottomSheetEmailState extends State<BottomSheetEmail> {
             const Divider(thickness: 2),
             const SizedBox(height: 16),
             Form(
-              key: _emailKey,
+              key: _emailFormKey,
               child: Column(
                 children: <Widget>[
                   TextFormField(
@@ -114,7 +110,7 @@ class BottomSheetEmailState extends State<BottomSheetEmail> {
     sShowSpinner.value = true;
 
     // Validate the form and save the values.
-    final FormState? emailForm = _emailKey.currentState;
+    final FormState? emailForm = _emailFormKey.currentState;
     if (emailForm!.validate()) {
       emailForm.save();
 
@@ -125,7 +121,7 @@ class BottomSheetEmailState extends State<BottomSheetEmail> {
         onSuccess: _handleSuccess,
       );
     } else {
-      // Validation of form failed, so cancel the spinner and return;
+      // Validation of form failed, so cancel the spinner and return.
       sShowSpinner.value = false;
       return;
     }

@@ -1,6 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
@@ -29,78 +30,78 @@ class BottomSheetUsernameState extends State<BottomSheetUsername> {
   final GlobalKey<FormState> _usernameFormKey = GlobalKey<FormState>();
 
   // Instead of a TextEditingController, use a String variable to store the
-  // email value via the onSaved method and the _passwordFormKey.
+  // username value via the onSaved method and the _usernameFormKey.
   String? _username;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
-        child: Form(
-          key: _usernameFormKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const BottomSheetHeader(title: 'Change how we call you'),
-              const Divider(thickness: 2),
-              const SizedBox(height: 16),
-              TextFormField(
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a username.';
-                  } else {
-                    return null;
-                  }
-                },
-                onSaved: (String? value) {
-                  _username = value?.trim();
-                },
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  icon: SizedBox(
-                    width: 24,
-                    child: FaIcon(FontAwesomeIcons.personCircleQuestion),
-                  ),
-                  labelText: 'Username',
-                ),
-              ).animate().fade().moveX(delay: 200.ms, begin: -32),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+        padding: bottomSheetPadding(context),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const BottomSheetHeader(title: 'Change how we call you'),
+            const Divider(thickness: 2),
+            const SizedBox(height: 16),
+            Form(
+              key: _usernameFormKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      // Make sure to reset the signal values to
-                      // the default.
-                      sShowSpinner.value = false;
-                      Navigator.pop(context);
+                  TextFormField(
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a username.';
+                      } else {
+                        return null;
+                      }
                     },
-                    child: const Text('CANCEL'),
-                  ),
-                  const SizedBox(width: 8),
-                  FloatingActionButton(
-                    onPressed: () async {
-                      await _validateAndSetDisplayName();
+                    onSaved: (String? value) {
+                      _username = value?.trim();
                     },
-                    child: cShowSpinner.watch(context),
+                    keyboardType: TextInputType.text,
+                    decoration: const InputDecoration(
+                      icon: SizedBox(
+                        width: 24,
+                        child: FaIcon(FontAwesomeIcons.fileSignature),
+                      ),
+                      labelText: 'Username',
+                    ),
+                  ).animate().fade().moveX(delay: 200.ms, begin: -32),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          // Make sure to reset the signal values to
+                          // the default.
+                          sShowSpinner.value = false;
+                          Navigator.pop(context);
+                        },
+                        child: const Text('CANCEL'),
+                      ),
+                      const SizedBox(width: 8),
+                      FloatingActionButton(
+                        onPressed: () async {
+                          await _validateAndSetDisplayName();
+                        },
+                        child: cShowSpinner.watch(context),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Future<void> _validateAndSetDisplayName() async {
-    // Show the CircularProgressIndicator while the password is being reset.
+    // Show the spinner while the username is being changed.
     sShowSpinner.value = true;
 
     // Validate the form and save the values.
@@ -108,7 +109,7 @@ class BottomSheetUsernameState extends State<BottomSheetUsername> {
     if (usernameForm!.validate()) {
       usernameForm.save();
 
-      // Send a password reset email to the user.
+      // Use Firebase to change the displayName of the user.
       await _authService.setDisplayName(
         newDisplayName: _username!,
         onError: _handleErrors,

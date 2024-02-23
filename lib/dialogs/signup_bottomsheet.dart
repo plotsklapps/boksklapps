@@ -3,6 +3,7 @@ import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -25,7 +26,6 @@ class BottomSheetSignup extends StatefulWidget {
 
 class BottomSheetSignupState extends State<BottomSheetSignup> {
   // Custom authentification service for easier access to Firebase functions.
-  // See auth_service.dart for more details.
   final AuthService _authService = AuthService();
 
   // Validation key for the form textfields.
@@ -45,12 +45,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -277,6 +272,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         );
       },
       onSuccess: () {
+        // Just log it, do nothing.
         Logger().i('User document created successfully.');
       },
     );

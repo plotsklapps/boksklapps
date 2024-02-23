@@ -1,6 +1,7 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -35,12 +36,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          16,
-          0,
-          16,
-          MediaQuery.viewInsetsOf(context).bottom + 16,
-        ),
+        padding: bottomSheetPadding(context),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -108,7 +104,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   }
 
   Future<void> _validateAndReset() async {
-    // Show the CircularProgressIndicator while the password is being reset.
+    // Show the spinner while the password is being reset.
     sShowSpinner.value = true;
 
     // Validate the form and save the values.
