@@ -243,6 +243,8 @@ class AuthService {
   }
 
   Future<void> deleteUser({
+    required String email,
+    required String password,
     required void Function(String) onError,
     required void Function() onSuccess,
   }) async {
@@ -254,9 +256,16 @@ class AuthService {
     }
 
     try {
-      // Delete, sign out and reload the user.
-      await currentUser.delete();
-      await currentUser.reload();
+      await currentUser
+          .reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+          email: email,
+          password: password,
+        ),
+      )
+          .then((_) async {
+        await currentUser.delete();
+      });
 
       // Force the sCurrentUser signal to update, so other
       // signals that depend on it will also update.
@@ -264,7 +273,11 @@ class AuthService {
 
       onSuccess();
     } on FirebaseAuthException catch (error) {
-      onError('Firebase error: ${error.code}, ${error.message}');
+      if (error.code == 'requires-recent-login') {
+        // Handle reauthentication logic.
+      } else {
+        onError('Firebase error: ${error.code}, ${error.message}');
+      }
       return;
     } catch (error) {
       onError('Error: $error');

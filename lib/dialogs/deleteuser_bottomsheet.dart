@@ -1,7 +1,4 @@
-import 'package:boksklapps/auth_service.dart';
-import 'package:boksklapps/main.dart';
-import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
+import 'package:boksklapps/dialogs/deleteuserconfirmation_bottomsheet.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
@@ -9,7 +6,6 @@ import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
 class BottomSheetDeleteUser extends StatelessWidget {
@@ -17,6 +13,8 @@ class BottomSheetDeleteUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Computed signal to show a CircularProgressIndicator or a trash
+    // can icon.
     final Computed<Widget> cShowSpinner = computed(() {
       return sShowSpinner.value
           ? CircularProgressIndicator(
@@ -60,7 +58,17 @@ class BottomSheetDeleteUser extends StatelessWidget {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () {
-                    _validateAndDeleteUser(context);
+                    // Pop the bottomsheet and show the reauthentication
+                    // bottomsheet.
+                    Navigator.pop(context);
+                    showModalBottomSheet<Widget>(
+                      showDragHandle: true,
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const BottomSheetDeleteUserConfirmation();
+                      },
+                    );
                   },
                   backgroundColor: sDarkTheme.value
                       ? flexSchemeDark.error
@@ -73,73 +81,5 @@ class BottomSheetDeleteUser extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _validateAndDeleteUser(BuildContext context) {
-    // Show a spinner while the user is being deleted.
-    sShowSpinner.value = true;
-
-    if (sSneakPeeker.value) {
-      // Cancel the spinner, pop the bottomsheet and show a
-      // SnackBar to the user.
-      sShowSpinner.value = false;
-      Navigator.pop(context);
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(
-            'You are a sneak peeker and therefore cannot '
-            'delete an account that does not exist.',
-            style: TextStyle(
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
-            ),
-          ),
-          showCloseIcon: true,
-          backgroundColor:
-              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
-        ),
-      );
-    } else {
-      AuthService().deleteUser(
-        onError: (String error) {
-          // Log the error, cancel the spinner and show a SnackBar
-          // with the error message to the user.
-          Logger().e('Error: $error');
-          sShowSpinner.value = false;
-          rootScaffoldMessengerKey.currentState!.showSnackBar(
-            SnackBar(
-              content: Text(
-                'Error: $error',
-                style: TextStyle(
-                  color: sDarkTheme.value
-                      ? flexSchemeDark.onError
-                      : flexSchemeLight.onError,
-                ),
-              ),
-              showCloseIcon: true,
-              backgroundColor: sDarkTheme.value
-                  ? flexSchemeDark.error
-                  : flexSchemeLight.error,
-            ),
-          );
-        },
-        onSuccess: () {
-          // Log the success, cancel the spinner, pop the bottomsheet,
-          // return to the StartScreen and show a SnackBar to the user.
-          Logger().i('User deleted forever.');
-          sShowSpinner.value = false;
-          Navigator.pop(context);
-          Navigate.toStartScreen(context);
-          rootScaffoldMessengerKey.currentState!.showSnackBar(
-            const SnackBar(
-              content: Text('Your account has been deleted. Thank you '
-                  'for trying BOKSklapps!'),
-              showCloseIcon: true,
-            ),
-          );
-        },
-      );
-    }
   }
 }
