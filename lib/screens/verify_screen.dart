@@ -40,6 +40,7 @@ class VerifyScreen extends StatelessWidget {
               _handleSuccess(context, emailVerified);
             },
           );
+          sShowSpinner.value = false;
         },
         child: cShowSpinner.watch(context),
       ),

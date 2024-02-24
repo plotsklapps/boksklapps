@@ -12,7 +12,7 @@ class TutorialScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('TUTORIAL WORKOUT'),
+          title: const Text('Tutorial Workout'),
         ),
         body: const Padding(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
@@ -24,7 +24,7 @@ class TutorialScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'This is a tutorial workout to get you started with '
-                      'BOKSklapps.',
+                          'BOKSklapps.',
                       textAlign: TextAlign.center,
                     ),
                   ),
