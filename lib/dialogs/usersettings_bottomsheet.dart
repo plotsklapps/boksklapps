@@ -1,4 +1,5 @@
 import 'package:boksklapps/dialogs/bmi_bottomsheet.dart';
+import 'package:boksklapps/dialogs/deleteuser_bottomsheet.dart';
 import 'package:boksklapps/dialogs/email_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signout_bottomsheet.dart';
 import 'package:boksklapps/dialogs/username_bottomsheet.dart';
@@ -64,7 +65,6 @@ class BottomSheetUserSettings extends StatelessWidget {
             ).animate().fade(delay: 200.ms).moveX(delay: 400.ms, begin: -32),
             ListTile(
               onTap: () async {
-                // Handle setEmail logic.
                 Navigator.pop(context);
                 await showModalBottomSheet<Widget>(
                   showDragHandle: true,
@@ -84,7 +84,15 @@ class BottomSheetUserSettings extends StatelessWidget {
             ).animate().fade(delay: 400.ms).moveX(delay: 600.ms, begin: -32),
             ListTile(
               onTap: () async {
-                // Handle deleteUser logic.
+                Navigator.pop(context);
+                await showModalBottomSheet<Widget>(
+                  showDragHandle: true,
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const BottomSheetDeleteUser();
+                  },
+                );
               },
               leading: const FaIcon(
                 FontAwesomeIcons.userXmark,
@@ -95,6 +103,7 @@ class BottomSheetUserSettings extends StatelessWidget {
             ).animate().fade(delay: 600.ms).moveX(delay: 800.ms, begin: -32),
             ListTile(
               onTap: () async {
+                Navigator.pop(context);
                 await showModalBottomSheet<Widget>(
                   showDragHandle: true,
                   isScrollControlled: true,

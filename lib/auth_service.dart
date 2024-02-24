@@ -242,6 +242,36 @@ class AuthService {
     }
   }
 
+  Future<void> deleteUser({
+    required void Function(String) onError,
+    required void Function() onSuccess,
+  }) async {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      onError('No user is currently signed in.');
+      return;
+    }
+
+    try {
+      // Delete, sign out and reload the user.
+      await currentUser.delete();
+      await currentUser.reload();
+
+      // Force the sCurrentUser signal to update, so other
+      // signals that depend on it will also update.
+      sCurrentUser.value = null;
+
+      onSuccess();
+    } on FirebaseAuthException catch (error) {
+      onError('Firebase error: ${error.code}, ${error.message}');
+      return;
+    } catch (error) {
+      onError('Error: $error');
+      return;
+    }
+  }
+
   Future<void> setDisplayName({
     required String newDisplayName,
     required void Function(String) onError,
