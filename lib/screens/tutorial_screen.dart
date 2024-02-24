@@ -1,3 +1,4 @@
+import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/screens/tutorialworkout_screen.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:boksklapps/widgets/punch_glove.dart';
@@ -11,9 +12,6 @@ class TutorialScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Tutorial Workout'),
-        ),
         body: const Padding(
           padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(
@@ -24,7 +22,7 @@ class TutorialScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'This is a tutorial workout to get you started with '
-                          'BOKSklapps.',
+                      'BOKSklapps.',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -211,7 +209,11 @@ class TutorialScreen extends StatelessWidget {
           child: const FaIcon(FontAwesomeIcons.forwardStep),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: const BottomBar(),
+        bottomNavigationBar: const BottomBarIcon(
+          hasLeading: true,
+          icon: FontAwesomeIcons.barsProgress,
+          bottomSheet: BottomSheetUserSettings(),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/screens/tutorial_screen.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
@@ -95,7 +96,11 @@ class HomeScreen extends StatelessWidget {
           child: const FaIcon(FontAwesomeIcons.forwardStep),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: const BottomBar(),
+        bottomNavigationBar: const BottomBarIcon(
+          hasLeading: false,
+          icon: FontAwesomeIcons.barsProgress,
+          bottomSheet: BottomSheetUserSettings(),
+        ),
       ),
     );
   }

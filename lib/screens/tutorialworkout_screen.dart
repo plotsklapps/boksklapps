@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -105,9 +106,6 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('TUTORIAL WORKOUT'),
-        ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
           child: Column(
@@ -207,7 +205,11 @@ class TutorialWorkoutScreenState extends State<TutorialWorkoutScreen> {
               : const FaIcon(FontAwesomeIcons.play),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: const BottomBar(),
+        bottomNavigationBar: const BottomBarIcon(
+          hasLeading: true,
+          icon: FontAwesomeIcons.barsProgress,
+          bottomSheet: BottomSheetUserSettings(),
+        ),
       ),
     );
   }

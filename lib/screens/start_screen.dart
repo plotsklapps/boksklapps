@@ -1,5 +1,5 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
-import 'package:boksklapps/theme/text_utils.dart';
+import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -43,14 +43,9 @@ class StartScreen extends StatelessWidget {
           },
         ).rotate(delay: 1200.ms),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: const BottomAppBar(
-          height: 64,
-          shape: CircularNotchedRectangle(),
-          notchMargin: 8,
-          child: Text(
-            'BOKSklapps',
-            style: TextUtils.fontXL,
-          ),
+        bottomNavigationBar: const BottomBarTitle(
+          hasLeading: false,
+          title: 'BOKSklapps',
         ),
       ),
     );
