@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore: always_specify_types
-final sneakPeekProvider =
-    NotifierProvider.autoDispose<SneakPeekNotifier, bool>(() {
+final sneakPeekProvider = NotifierProvider<SneakPeekNotifier, bool>(() {
   return SneakPeekNotifier();
 });
 

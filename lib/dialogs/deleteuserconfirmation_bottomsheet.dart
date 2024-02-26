@@ -182,7 +182,8 @@ class BottomSheetDeleteUserConfirmationState
           ),
         );
       } else {
-        // Reauthenticate the user with the email and password and delete the user.
+        // Reauthenticate the user with the email and password and
+        // delete the user.
         await _authService.deleteUser(
           email: _email!,
           password: _password!,

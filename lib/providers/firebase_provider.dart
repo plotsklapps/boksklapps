@@ -1,35 +1,19 @@
 import 'dart:async';
 
 import 'package:boksklapps/custom_snackbars.dart';
+import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-// ignore: always_specify_types
-final firebaseProvider = NotifierProvider<FirebaseAuthService, User?>(() {
-  return FirebaseAuthService();
-});
-
-class FirebaseAuthService extends Notifier<User?> {
+class FirebaseAuthService {
   // Create an instance of the FirebaseAuth class.
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-  // Check for an existing user. Update the state, or return null.
-  @override
-  User? build() {
-    final User? currentUser = _firebaseAuth.currentUser;
-
-    if (currentUser != null) {
-      state = currentUser;
-      return currentUser;
-    } else {
-      return null;
-    }
-  }
 
   // Sign up a new user.
 
@@ -49,9 +33,6 @@ class FirebaseAuthService extends Notifier<User?> {
 
       // Send a verification email to the newly created user.
       await userCredential.user!.sendEmailVerification();
-
-      // Update the state with the new user.
-      state = userCredential.user;
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
       Logger().e('Firebase error: $e');
@@ -89,14 +70,10 @@ class FirebaseAuthService extends Notifier<User?> {
   }) async {
     try {
       // Sign in the user with the email and password.
-      final UserCredential userCredential =
-          await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
-      // Update the state with the new user.
-      state = userCredential.user;
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
       Logger().e('Firebase error: $e');
@@ -163,6 +140,81 @@ class FirebaseAuthService extends Notifier<User?> {
     }
   }
 
+  // Check authentication and emailverification.
+
+  Future<void> checkAuthentication({
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    try {
+      // Start the spinner.
+      ref.read(spinnerProvider.notifier).startSpinner();
+
+      // Check if there is a current user signed in.
+      final User? user = _firebaseAuth.currentUser;
+      // If user is signed in.
+      if (user != null) {
+        // If user has verified their email.
+        if (user.emailVerified) {
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
+
+          // Navigate to the HomeScreen.
+          Navigate.toHomeScreen(context);
+        } else {
+          // If user has NOT verified their email.
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
+
+          // Show a SnackBar with a message to the user to resend
+          // the verification email.
+          rootScaffoldMessengerKey.currentState!.showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Please verify your email to continue.',
+              ),
+              action: SnackBarAction(
+                label: 'Resend',
+                onPressed: () async {
+                  await user.sendEmailVerification();
+                },
+              ),
+            ),
+          );
+        }
+      } else {
+        // If user is NOT signed in.
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+        return;
+      }
+    } on FirebaseAuthException catch (e) {
+      // Log the error to the console.
+      Logger().e('Firebase error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on PlatformException catch (e) {
+      // Log the error to the console.
+      Logger().e('Platform error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on TimeoutException catch (e) {
+      // Log the error to the console.
+      Logger().e('Timeout error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } catch (e, s) {
+      // Log the error to the console.
+      Logger().e('Error: $e\nStackTrace: $s');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    }
+  }
+
   // Sign out the current user.
 
   Future<void> signOut({
@@ -176,9 +228,6 @@ class FirebaseAuthService extends Notifier<User?> {
       } else {
         // Sign out the current user.
         await _firebaseAuth.signOut();
-
-        // Update the state with
-        state = null;
       }
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
@@ -238,6 +287,40 @@ class FirebaseAuthService extends Notifier<User?> {
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } catch (e, s) {
+      // Log the error to the console.
+      Logger().e('Error: $e\nStackTrace: $s');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    }
+  }
+
+  // Reload the current user.
+
+  Future<void> reload(WidgetRef ref) async {
+    if (ref.watch(sneakPeekProvider)) {
+      rootScaffoldMessengerKey.currentState!.showSnackBar(
+        const SnackBar(
+          content: Text('No signed in user to reload'),
+          showCloseIcon: true,
+        ),
+      );
+      return;
+    }
+
+    try {
+      await _firebaseAuth.currentUser!.reload();
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'User reloadeded. Continuing...',
+      );
+    } on FirebaseAuthException catch (e) {
+      // Log the error to the console.
+      Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
