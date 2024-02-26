@@ -1,30 +1,31 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetSignup extends StatefulWidget {
+class BottomSheetSignup extends ConsumerStatefulWidget {
   const BottomSheetSignup({super.key});
 
   @override
-  State<BottomSheetSignup> createState() {
+  ConsumerState<BottomSheetSignup> createState() {
     return BottomSheetSignupState();
   }
 }
 
-class BottomSheetSignupState extends State<BottomSheetSignup> {
+class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
@@ -163,9 +164,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Make sure to reset the signal values to
-                    // the default.
-                    sShowSpinner.value = false;
+                    // Cancel the spinner.
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
                     _isObscured.value = true;
                     Navigator.pop(context);
                   },
@@ -176,9 +176,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
                   onPressed: () async {
                     await _validateAndCreate();
                   },
-                  // Watching a computed signal to provide the
-                  // corresponding Widget.
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),
@@ -189,8 +187,8 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
   }
 
   Future<void> _validateAndCreate() async {
-    // Show the spinner while the user is being created.
-    sShowSpinner.value = true;
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
     final FormState? signupForm = _signupFormKey.currentState;
@@ -211,7 +209,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
       );
     } else {
       // Validation of form failed, so cancel the spinner and return;
-      sShowSpinner.value = false;
+      ref.read(spinnerProvider.notifier).cancelSpinner();
       return;
     }
   }
@@ -220,21 +218,22 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
     // Log the error, cancel the spinner, pop the bottomsheet and show a
     // SnackBar with the error message to the user.
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
+            color: ref.watch(themeProvider.notifier).isDark
                 ? flexSchemeDark.onError
                 : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: ref.watch(themeProvider.notifier).isDark
+            ? flexSchemeDark.error
+            : flexSchemeLight.error,
       ),
     );
   }
@@ -253,21 +252,22 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         // Log the error, cancel the spinner, pop the bottomsheet and show a
         // SnackBar with the error message to the user.
         Logger().e('Error: $error');
-        sShowSpinner.value = false;
+        ref.read(spinnerProvider.notifier).cancelSpinner();
         Navigator.pop(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text(
               'Error: $error',
               style: TextStyle(
-                color: sDarkTheme.value
+                color: ref.watch(themeProvider.notifier).isDark
                     ? flexSchemeDark.onError
                     : flexSchemeLight.onError,
               ),
             ),
             showCloseIcon: true,
-            backgroundColor:
-                sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+            backgroundColor: ref.watch(themeProvider.notifier).isDark
+                ? flexSchemeDark.error
+                : flexSchemeLight.error,
           ),
         );
       },
@@ -281,21 +281,22 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         // Log the error, cancel the spinner, pop the bottomsheet and show a
         // SnackBar with the error message to the user.
         Logger().e('Error: $error');
-        sShowSpinner.value = false;
+        ref.read(spinnerProvider.notifier).cancelSpinner();
         Navigator.pop(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
             content: Text(
               'Error: $error',
               style: TextStyle(
-                color: sDarkTheme.value
+                color: ref.watch(themeProvider.notifier).isDark
                     ? flexSchemeDark.onError
                     : flexSchemeLight.onError,
               ),
             ),
             showCloseIcon: true,
-            backgroundColor:
-                sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+            backgroundColor: ref.watch(themeProvider.notifier).isDark
+                ? flexSchemeDark.error
+                : flexSchemeLight.error,
           ),
         );
       },
@@ -303,7 +304,7 @@ class BottomSheetSignupState extends State<BottomSheetSignup> {
         // Log the success, cancel the spinner, pop the bottomsheet,
         // navigate to the verify screen and show a SnackBar to the user.
         Logger().i('Email verification sent to $email');
-        sShowSpinner.value = false;
+        ref.read(spinnerProvider.notifier).cancelSpinner();
         Navigator.pop(context);
         Navigate.toVerifyScreen(context);
         rootScaffoldMessengerKey.currentState!.showSnackBar(

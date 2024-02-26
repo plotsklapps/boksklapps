@@ -32,7 +32,7 @@ class StartScreenState extends ConsumerState<StartScreen> {
     ref.read(spinnerProvider.notifier).startSpinner();
 
     // Delay this function to avoid initState issues.
-    await Future<void>.delayed(const Duration(milliseconds: 400), () async {
+    await Future<void>.delayed(const Duration(milliseconds: 800), () async {
       // Check if the user is signed in.
       if (_user != null) {
         // Check if the user has verified their email.

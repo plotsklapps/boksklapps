@@ -1,27 +1,28 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
-class BottomSheetResetPassword extends StatefulWidget {
+class BottomSheetResetPassword extends ConsumerStatefulWidget {
   const BottomSheetResetPassword({super.key});
 
   @override
-  State<BottomSheetResetPassword> createState() {
+  ConsumerState<BottomSheetResetPassword> createState() {
     return BottomSheetResetPasswordState();
   }
 }
 
-class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
+class BottomSheetResetPasswordState
+    extends ConsumerState<BottomSheetResetPassword> {
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
@@ -79,9 +80,9 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Make sure to reset the signal values to
-                    // the default.
-                    sShowSpinner.value = false;
+                    // Cancel the spinner.
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -91,9 +92,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
                   onPressed: () async {
                     await _validateAndReset();
                   },
-                  // Watching a computed signal to provide the
-                  // corresponding Widget.
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),
@@ -104,8 +103,8 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
   }
 
   Future<void> _validateAndReset() async {
-    // Show the spinner while the password is being reset.
-    sShowSpinner.value = true;
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
     final FormState? passwordForm = _passwordFormKey.currentState;
@@ -120,7 +119,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
       );
     } else {
       // Validation of form failed, so cancel the spinner and return;
-      sShowSpinner.value = false;
+      ref.read(spinnerProvider.notifier).cancelSpinner();
       return;
     }
   }
@@ -129,21 +128,22 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
     // Log the error, cancel the spinner, pop the bottomsheet and show a
     // SnackBar with the error message to the user.
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
+            color: ref.watch(themeProvider.notifier).isDark
                 ? flexSchemeDark.onError
                 : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: ref.watch(themeProvider.notifier).isDark
+            ? flexSchemeDark.error
+            : flexSchemeLight.error,
       ),
     );
   }
@@ -152,7 +152,7 @@ class BottomSheetResetPasswordState extends State<BottomSheetResetPassword> {
     // Log the success, cancel the spinner, pop the bottomsheet and show a
     // SnackBar to the user.
     Logger().i('Reset password email sent.');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(

@@ -1,30 +1,31 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetDeleteUserConfirmation extends StatefulWidget {
+class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
   const BottomSheetDeleteUserConfirmation({super.key});
 
   @override
-  State<BottomSheetDeleteUserConfirmation> createState() {
+  ConsumerState<BottomSheetDeleteUserConfirmation> createState() {
     return BottomSheetDeleteUserConfirmationState();
   }
 }
 
 class BottomSheetDeleteUserConfirmationState
-    extends State<BottomSheetDeleteUserConfirmation> {
+    extends ConsumerState<BottomSheetDeleteUserConfirmation> {
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
@@ -127,7 +128,7 @@ class BottomSheetDeleteUserConfirmationState
                 TextButton(
                   onPressed: () {
                     // Make sure to reset the signal values to the default.
-                    sShowSpinner.value = false;
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
                     _isObscured.value = true;
                     Navigator.pop(context);
                   },
@@ -140,7 +141,7 @@ class BottomSheetDeleteUserConfirmationState
                   },
                   // Watching a computed signal to provide the corresponding
                   // Widget.
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),
@@ -152,7 +153,7 @@ class BottomSheetDeleteUserConfirmationState
 
   Future<void> _validateAndDeleteUser(BuildContext context) async {
     // Show a spinner while the user is being deleted.
-    sShowSpinner.value = true;
+    ref.read(spinnerProvider.notifier).startSpinner();
 
     final FormState? deleteUserForm = _deleteUserFormKey.currentState;
     if (deleteUserForm!.validate()) {
@@ -161,21 +162,23 @@ class BottomSheetDeleteUserConfirmationState
       final User? currentUser = FirebaseAuth.instance.currentUser;
 
       if (currentUser == null) {
-        sShowSpinner.value = false;
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
         Navigator.pop(context);
         rootScaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(
               'User not found. Please check your credentials and try again.',
               style: TextStyle(
-                color: sDarkTheme.value
+                color: ref.watch(themeProvider.notifier).isDark
                     ? flexSchemeDark.onError
                     : flexSchemeLight.error,
               ),
             ),
             showCloseIcon: true,
-            backgroundColor:
-                sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+            backgroundColor: ref.watch(themeProvider.notifier).isDark
+                ? flexSchemeDark.error
+                : flexSchemeLight.error,
           ),
         );
       } else {
@@ -188,20 +191,21 @@ class BottomSheetDeleteUserConfirmationState
             // show a snackbar to
             // the user with the error message.
             Logger().e('Error: $error');
-            sShowSpinner.value = false;
+            // Cancel the spinner.
+            ref.read(spinnerProvider.notifier).cancelSpinner();
             Navigator.pop(context);
             rootScaffoldMessengerKey.currentState?.showSnackBar(
               SnackBar(
                 content: Text(
                   error,
                   style: TextStyle(
-                    color: sDarkTheme.value
+                    color: ref.watch(themeProvider.notifier).isDark
                         ? flexSchemeDark.onError
                         : flexSchemeLight.error,
                   ),
                 ),
                 showCloseIcon: true,
-                backgroundColor: sDarkTheme.value
+                backgroundColor: ref.watch(themeProvider.notifier).isDark
                     ? flexSchemeDark.error
                     : flexSchemeLight.error,
               ),
@@ -211,7 +215,8 @@ class BottomSheetDeleteUserConfirmationState
             // Log the success, cancel the spinner,return to
             // the startscreen and show a SnackBar to the user.
             Logger().i('User deleted successfully.');
-            sShowSpinner.value = false;
+            // Cancel the spinner.
+            ref.read(spinnerProvider.notifier).cancelSpinner();
             Navigate.toStartScreen(context);
             rootScaffoldMessengerKey.currentState?.showSnackBar(
               const SnackBar(

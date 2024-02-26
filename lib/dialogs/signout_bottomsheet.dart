@@ -1,17 +1,23 @@
 import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
-class BottomSheetSignout extends StatelessWidget {
+class BottomSheetSignout extends ConsumerStatefulWidget {
   const BottomSheetSignout({super.key});
 
+  @override
+  ConsumerState<BottomSheetSignout> createState() => _BottomSheetSignoutState();
+}
+
+class _BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -40,7 +46,7 @@ class BottomSheetSignout extends StatelessWidget {
                   onPressed: () async {
                     await _validateAndSignout(context);
                   },
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),
@@ -51,14 +57,20 @@ class BottomSheetSignout extends StatelessWidget {
   }
 
   Future<void> _validateAndSignout(BuildContext context) async {
-    sShowSpinner.value = true;
-    if (sSneakPeeker.value) {
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
+    if (ref.watch(sneakPeekProvider)) {
       // If the user is sneak peeking, just return to the
       // Splash Screen. No need to sign out the user.
-      sSneakPeeker.value = false;
+      await ref
+          .read(sneakPeekProvider.notifier)
+          .setSneakPeek(isSneakPeeker: false);
       Logger().i('User has signed out.');
-      Navigator.pop(context);
-      Navigate.toSplashScreen(context);
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+      if (context.mounted) {
+        Navigator.pop(context);
+        Navigate.toSplashScreen(context);
+      }
     } else {
       // Sign out the user completely and return to the
       // Splash Screen.
@@ -75,20 +87,15 @@ class BottomSheetSignout extends StatelessWidget {
     // Log the error, cancel the spinner and show a SnackBar with the
     // error message to the user.
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text('Error: $error'),
-        showCloseIcon: true,
-      ),
-    );
+    ref.read(spinnerProvider.notifier).cancelSpinner();
+    CustomSnackBars.showErrorSnackBar(ref, error);
   }
 
   void _handleSuccess(BuildContext context) {
     // Log the success, cancel the spinner, navigate to the splashscreen
     // and show a SnackBar to the user.
     Logger().i('User has signed out.');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigate.toSplashScreen(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(

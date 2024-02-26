@@ -3,21 +3,29 @@ import 'package:boksklapps/dialogs/signin_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
-class BottomSheetFirstSignin extends StatelessWidget {
+class BottomSheetFirstSignin extends ConsumerStatefulWidget {
   const BottomSheetFirstSignin({super.key});
 
+  @override
+  ConsumerState<BottomSheetFirstSignin> createState() {
+    return BottomSheetFirstSigninState();
+  }
+}
+
+class BottomSheetFirstSigninState
+    extends ConsumerState<BottomSheetFirstSignin> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -85,7 +93,7 @@ class BottomSheetFirstSignin extends StatelessWidget {
               ),
               // Watching a computed signal to provide the
               // corresponding Widget.
-              trailing: cShowSpinner.watch(context),
+              trailing: ref.watch(spinnerProvider),
             ).animate().fade(delay: 400.ms).moveX(delay: 600.ms, begin: -32),
           ],
         ),
@@ -95,7 +103,7 @@ class BottomSheetFirstSignin extends StatelessWidget {
 
   Future<void> _continueAsSneakPeeker(BuildContext context) async {
     // Start the spinner and sign in 'anonymously'.
-    sShowSpinner.value = true;
+    ref.read(spinnerProvider.notifier).startSpinner();
     await AuthService().signInAnonymously(
       onError: _handleErrors,
       onSuccess: () {
@@ -109,20 +117,21 @@ class BottomSheetFirstSignin extends StatelessWidget {
     // spinner and show a SnackBar to the user.
     Logger().e('Error: $error');
     sSneakPeeker.value = false;
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
+            color: ref.watch(themeProvider.notifier).isDark
                 ? flexSchemeDark.onError
                 : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: ref.watch(themeProvider.notifier).isDark
+            ? flexSchemeDark.error
+            : flexSchemeLight.error,
       ),
     );
   }
@@ -133,7 +142,7 @@ class BottomSheetFirstSignin extends StatelessWidget {
     // to the user.
     Logger().i('User has signed in as Sneak Peeker.');
     sSneakPeeker.value = true;
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigate.toHomeScreen(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       const SnackBar(

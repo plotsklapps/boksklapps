@@ -2,30 +2,31 @@ import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/password_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetSignin extends StatefulWidget {
+class BottomSheetSignin extends ConsumerStatefulWidget {
   const BottomSheetSignin({super.key});
 
   @override
-  State<BottomSheetSignin> createState() {
+  ConsumerState<BottomSheetSignin> createState() {
     return BottomSheetSigninState();
   }
 }
 
-class BottomSheetSigninState extends State<BottomSheetSignin> {
+class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
   // Custom authentification service for easier access to Firebase functions.
   final AuthService _authService = AuthService();
 
@@ -120,10 +121,11 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                       .moveX(delay: 400.ms, begin: -32),
                   TextButton(
                     onPressed: () {
-                      // Cancel the spinner, close this bottomsheet and open
-                      // the reset password bottomsheet.
-                      sShowSpinner.value = false;
+                      // Cancel the spinner.
+                      ref.read(spinnerProvider.notifier).cancelSpinner();
+                      // Pop the bottomsheet.
                       Navigator.pop(context);
+                      // Show the password reset bottomsheet.
                       showModalBottomSheet<void>(
                         showDragHandle: true,
                         isScrollControlled: true,
@@ -147,8 +149,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Make sure to reset the signal values to the default.
-                    sShowSpinner.value = false;
+                    // Cancel the spinner.
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
                     _isObscured.value = true;
                     Navigator.pop(context);
                   },
@@ -161,7 +163,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
                   },
                   // Watching a computed signal to provide the corresponding
                   // Widget.
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),
@@ -172,8 +174,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
   }
 
   Future<void> _validateAndEnter() async {
-    // Show the spinner while the user is being logged in.
-    sShowSpinner.value = true;
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
     final FormState? signinForm = _signinFormKey.currentState;
@@ -189,7 +191,7 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
       );
     } else {
       // Validation of form failed, so cancel the spinner and return;
-      sShowSpinner.value = false;
+      ref.read(spinnerProvider.notifier).cancelSpinner();
       return;
     }
   }
@@ -198,21 +200,22 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
     // Log the error, cancel the spinner, pop the bottomsheet and show a
     // SnackBar with the error message to the user.
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
+            color: ref.watch(themeProvider.notifier).isDark
                 ? flexSchemeDark.onError
                 : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: ref.watch(themeProvider.notifier).isDark
+            ? flexSchemeDark.error
+            : flexSchemeLight.error,
       ),
     );
   }
@@ -222,8 +225,8 @@ class BottomSheetSigninState extends State<BottomSheetSignin> {
     // sneak peek == false, navigate to the homescreen and show a SnackBar
     // to the user.
     Logger().i('User signed in: ${userCredential.user!.email}');
-    sShowSpinner.value = false;
-    sSneakPeeker.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
+    ref.read(sneakPeekProvider.notifier).setSneakPeek(isSneakPeeker: false);
     Navigator.pop(context);
     Navigate.toHomeScreen(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(

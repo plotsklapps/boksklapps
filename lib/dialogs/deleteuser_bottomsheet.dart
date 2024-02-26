@@ -1,33 +1,17 @@
 import 'package:boksklapps/dialogs/deleteuserconfirmation_bottomsheet.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:signals/signals_flutter.dart';
 
 class BottomSheetDeleteUser extends ConsumerWidget {
   const BottomSheetDeleteUser({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isDark = ref.watch(themeProvider.notifier).isDark;
-    // Computed signal to show a CircularProgressIndicator or a trash
-    // can icon.
-    final Computed<Widget> cShowSpinner = computed(() {
-      return sShowSpinner.value
-          ? CircularProgressIndicator(
-              strokeWidth: 6,
-              color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
-            )
-          : FaIcon(
-              FontAwesomeIcons.solidTrashCan,
-              color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
-            );
-    });
     return SizedBox(
       child: Padding(
         padding: bottomSheetPadding(context),
@@ -48,7 +32,9 @@ class BottomSheetDeleteUser extends ConsumerWidget {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    sShowSpinner.value = false;
+                    // Cancel the spinner.
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -68,10 +54,10 @@ class BottomSheetDeleteUser extends ConsumerWidget {
                       },
                     );
                   },
-                  backgroundColor: sDarkTheme.value
+                  backgroundColor: ref.watch(themeProvider.notifier).isDark
                       ? flexSchemeDark.error
                       : flexSchemeLight.error,
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),

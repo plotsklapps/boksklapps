@@ -1,8 +1,8 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -134,7 +134,7 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
                 TextButton(
                   onPressed: () {
                     // Cancel the spinner and pop the bottomsheet.
-                    sShowSpinner.value = false;
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -144,7 +144,7 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
                   onPressed: () async {
                     await _validateAndCalculate();
                   },
-                  child: cShowSpinner.watch(context),
+                  child: ref.watch(spinnerProvider),
                 ),
               ],
             ),
@@ -156,7 +156,7 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
 
   Future<void> _validateAndCalculate() async {
     // Show the spinner while the bmi is begin calculated.
-    sShowSpinner.value = true;
+    ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
     final FormState? bmiForm = _bmiFormKey.currentState;
@@ -202,30 +202,32 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
         },
         onSuccess: _handleSuccess,
       );
-      sShowSpinner.value = false;
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     } else {
-      sShowSpinner.value = false;
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 
   void _handleErrors(String error, WidgetRef ref) {
-    // Check if the app is in dark mode.
-    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     // Log the error, cancel the spinner, pop the bottomsheet and show
     // a SnackBar to the user.
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
+            color: ref.watch(themeProvider.notifier).isDark
+                ? flexSchemeDark.onError
+                : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor: isDark ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: ref.watch(themeProvider.notifier).isDark
+            ? flexSchemeDark.error
+            : flexSchemeLight.error,
       ),
     );
   }
@@ -234,7 +236,7 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
     // Log the success, cancel the spinner, pop the bottomsheet and show
     // a SnackBar to the user.
     Logger().i('BMI has been calculated and saved.');
-    sShowSpinner.value = false;
+    ref.read(spinnerProvider.notifier).cancelSpinner();
     Navigator.pop(context);
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
