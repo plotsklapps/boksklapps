@@ -1,21 +1,19 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
-import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/text_utils.dart';
+import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
 class VerifyScreen extends ConsumerWidget {
   const VerifyScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AuthService authService = AuthService();
     return Scaffold(
       body: const Center(
         child: Column(
@@ -32,68 +30,87 @@ class VerifyScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          sShowSpinner.value = true;
-          await authService.reload(
-            onError: (String error) {
-              _handleErrors(
-                error,
-                ref,
-              );
-            },
-            onSuccess: ({
-              required bool emailVerified,
-            }) {
-              _handleSuccess(
-                context,
-                emailVerified,
-                ref,
-              );
-            },
-          );
-          sShowSpinner.value = false;
+          await _validateAndVerify(context, ref);
         },
-        child: cShowSpinner.watch(context),
+        child: ref.watch(spinnerProvider),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: const BottomAppBar(
-        height: 64,
-        shape: CircularNotchedRectangle(),
-        notchMargin: 8,
-        child: Text(
-          'VERIFY EMAIL',
-          style: TextUtils.fontXL,
-        ),
+      bottomNavigationBar: const BottomBarTitle(
+        title: 'Verify Email',
+        hasLeading: false,
       ),
     );
   }
 
+  Future<void> _validateAndVerify(BuildContext context, WidgetRef ref) async {
+    // Create an instance of the AuthService.
+    final AuthService authService = AuthService();
+
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
+
+    // Call the reload method of the AuthService to check if the email has
+    // been verified.
+    await authService.reload(
+      onError: (String error) {
+        _handleErrors(
+          error,
+          ref,
+        );
+      },
+      onSuccess: ({
+        required bool emailVerified,
+      }) {
+        _handleSuccess(
+          context,
+          emailVerified,
+          ref,
+        );
+      },
+    );
+
+    // Cancel the spinner.
+    ref.read(spinnerProvider.notifier).cancelSpinner();
+  }
+
   void _handleErrors(String error, WidgetRef ref) {
-    final bool isDark = ref.watch(themeProvider.notifier).isDark;
-    // Log the error, cancel the spinner and show a SnackBar to the user.
+    // Log the error to the console.
     Logger().e('Error: $error');
-    sShowSpinner.value = false;
+
+    // Cancel the spinner.
+    ref.read(spinnerProvider.notifier).cancelSpinner();
+
+    // Show a SnackBar with the error message to the user.
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
+            color: ref.watch(themeProvider.notifier).isDark
+                ? flexSchemeDark.onError
+                : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor: isDark ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: ref.watch(themeProvider.notifier).isDark
+            ? flexSchemeDark.error
+            : flexSchemeLight.error,
       ),
     );
   }
 
   void _handleSuccess(BuildContext context, bool emailVerified, WidgetRef ref) {
-    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     if (emailVerified) {
-      // Log the success, cancel the spinner, navigate to the home screen
-      // and show a SnackBar to the user.
+      // Log the success to the console.
       Logger().i('Email verified: $emailVerified');
-      sShowSpinner.value = false;
+
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      // Navigate to the home screen.
       Navigate.toHomeScreen(context);
+
+      // Show a SnackBar with the success message to the user.
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         const SnackBar(
           content: Text('Email has been verified. Welcome to BOKSklapps!'),
@@ -102,19 +119,22 @@ class VerifyScreen extends ConsumerWidget {
       );
     } else {
       // User might have already verified, but the backend has not yet
-      // updated. Tell the user to wait.
+      // updated. Show a SnackBar to the user to try again.
       rootScaffoldMessengerKey.currentState!.showSnackBar(
         SnackBar(
           content: Text(
             'Our backend needs more time. Take three deep breaths and try '
             'again.',
             style: TextStyle(
-              color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
+              color: ref.watch(themeProvider.notifier).isDark
+                  ? flexSchemeDark.onError
+                  : flexSchemeLight.onError,
             ),
           ),
           showCloseIcon: true,
-          backgroundColor:
-              isDark ? flexSchemeDark.error : flexSchemeLight.error,
+          backgroundColor: ref.watch(themeProvider.notifier).isDark
+              ? flexSchemeDark.error
+              : flexSchemeLight.error,
         ),
       );
     }

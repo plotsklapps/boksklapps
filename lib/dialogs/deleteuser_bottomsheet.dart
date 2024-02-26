@@ -1,33 +1,31 @@
 import 'package:boksklapps/dialogs/deleteuserconfirmation_bottomsheet.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetDeleteUser extends StatelessWidget {
+class BottomSheetDeleteUser extends ConsumerWidget {
   const BottomSheetDeleteUser({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     // Computed signal to show a CircularProgressIndicator or a trash
     // can icon.
     final Computed<Widget> cShowSpinner = computed(() {
       return sShowSpinner.value
           ? CircularProgressIndicator(
               strokeWidth: 6,
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
+              color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
             )
           : FaIcon(
               FontAwesomeIcons.solidTrashCan,
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
+              color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
             );
     });
     return SizedBox(

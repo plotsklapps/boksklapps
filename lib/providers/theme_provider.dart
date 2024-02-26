@@ -9,8 +9,11 @@ final NotifierProvider<ThemeNotifier, ThemeData> themeProvider =
 });
 
 class ThemeNotifier extends Notifier<ThemeData> {
+  // We can use this in the UI as 'ref.watch(themeProvider.notifier).isDark' to
+  // apply the correct theme on certain widgets.
   bool isDark = false;
 
+  // Set the initial value of the ThemeNotifier to FlexThemeData.light.
   @override
   ThemeData build() {
     return lightTheme;

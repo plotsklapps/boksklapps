@@ -25,7 +25,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // runApp starts the actual Flutter app.
+  // runApp starts the actual Flutter app, which is wrapped in a
+  // ProviderScope for Riverpod state management.
   runApp(const ProviderScope(child: MainEntry()));
 }
 
@@ -34,11 +35,12 @@ class MainEntry extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeData themeData = ref.watch(themeProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
-      // Watching a computed signal to provide the requested ThemeData.
-      theme: ref.watch(themeProvider),
+      // Watching a provider for the requested ThemeData.
+      theme: themeData,
       initialRoute: NavString.splashScreen,
       routes: routes,
     );
