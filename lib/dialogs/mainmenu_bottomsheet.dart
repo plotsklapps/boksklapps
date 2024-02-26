@@ -1,21 +1,22 @@
 import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetMainMenu extends StatelessWidget {
+class BottomSheetMainMenu extends ConsumerWidget {
   const BottomSheetMainMenu({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Local signal to compute which icon to show.
     final Computed<Widget> cSneakPeeker = computed(() {
       return sSneakPeeker.value
@@ -50,12 +51,12 @@ class BottomSheetMainMenu extends StatelessWidget {
             ).animate().fade().moveX(delay: 200.ms, begin: -32),
             ListTile(
               onTap: () {
-                sDarkTheme.value = !sDarkTheme.value;
+                ref.read(themeProvider.notifier).toggle();
                 Navigator.pop(context);
                 rootScaffoldMessengerKey.currentState!.showSnackBar(
                   SnackBar(
                     content: Text(
-                      sDarkTheme.value
+                      ref.watch(themeProvider.notifier).isDark
                           ? 'Dark theme activated'
                           : 'Light theme activated',
                     ),
@@ -63,12 +64,14 @@ class BottomSheetMainMenu extends StatelessWidget {
                   ),
                 );
               },
-              leading: sDarkTheme.value
+              leading: ref.watch(themeProvider.notifier).isDark
                   ? const FaIcon(FontAwesomeIcons.solidMoon)
                   : const FaIcon(FontAwesomeIcons.solidSun),
               title: const Text('Theme'),
               subtitle: Text(
-                sDarkTheme.value ? 'Dark theme active' : 'Light theme active',
+                ref.watch(themeProvider.notifier).isDark
+                    ? 'Dark theme active'
+                    : 'Light theme active',
               ),
               trailing: const FaIcon(FontAwesomeIcons.forwardStep),
             ).animate().fade(delay: 200.ms).moveX(delay: 400.ms, begin: -32),
