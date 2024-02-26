@@ -18,9 +18,12 @@ class StartScreenState extends ConsumerState<StartScreen> {
   @override
   void initState() {
     super.initState();
-    // Delay the checkAuthentication method to avoid initial build error.
+    // Delay the checkAuthentication method to avoid initial build errors.
     Future<void>.delayed(Duration.zero, () {
-      FirebaseAuthService().checkAuthentication(context: context, ref: ref);
+      FirebaseAuthService().checkAuthentication(
+        context: context,
+        ref: ref,
+      );
     });
   }
 

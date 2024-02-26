@@ -4,9 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final NotifierProvider<ThemeNotifier, ThemeData> themeProvider =
-    NotifierProvider<ThemeNotifier, ThemeData>(() {
-  return ThemeNotifier();
-});
+    NotifierProvider<ThemeNotifier, ThemeData>(ThemeNotifier.new);
 
 class ThemeNotifier extends Notifier<ThemeData> {
   // We can use this in the UI as 'ref.watch(themeProvider.notifier).isDark' to

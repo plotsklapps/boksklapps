@@ -152,9 +152,8 @@ class FirebaseAuthService {
 
       // Check if there is a current user signed in.
       final User? user = _firebaseAuth.currentUser;
-      // If user is signed in.
+
       if (user != null) {
-        // If user has verified their email.
         if (user.emailVerified) {
           // Cancel the spinner.
           ref.read(spinnerProvider.notifier).cancelSpinner();
@@ -162,7 +161,6 @@ class FirebaseAuthService {
           // Navigate to the HomeScreen.
           Navigate.toHomeScreen(context);
         } else {
-          // If user has NOT verified their email.
           // Cancel the spinner.
           ref.read(spinnerProvider.notifier).cancelSpinner();
 

@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final NotifierProvider<SpinnerNotifier, Widget> spinnerProvider =
-    NotifierProvider<SpinnerNotifier, Widget>(() {
-  return SpinnerNotifier();
-});
+    NotifierProvider<SpinnerNotifier, Widget>(SpinnerNotifier.new);
 
 class SpinnerNotifier extends Notifier<Widget> {
   @override
