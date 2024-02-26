@@ -1,30 +1,31 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
-class BottomSheetBMI extends StatefulWidget {
+class BottomSheetBMI extends ConsumerStatefulWidget {
   const BottomSheetBMI({
     super.key,
   });
 
   @override
-  State<BottomSheetBMI> createState() {
+  ConsumerState<BottomSheetBMI> createState() {
     return BottomSheetBMIState();
   }
 }
 
-class BottomSheetBMIState extends State<BottomSheetBMI> {
+class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
   // Custom authentification service for easier access to Firebase functions.
   // See auth_service.dart for more details.
   final AuthService _authService = AuthService();
@@ -169,28 +170,36 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
       );
       await _authService.setAgeInYrs(
         newAgeInYrs: sAgeInYrs.value,
-        onError: _handleErrors,
+        onError: (String error) {
+          _handleErrors(error, ref);
+        },
         onSuccess: () {
           // Do nothing, just continue to next step.
         },
       );
       await _authService.setHeightInCm(
         newHeightInCm: sHeightInCm.value,
-        onError: _handleErrors,
+        onError: (String error) {
+          _handleErrors(error, ref);
+        },
         onSuccess: () {
           // Do nothing, just continue to next step.
         },
       );
       await _authService.setWeightInKg(
         newWeightInKg: sWeightInKg.value,
-        onError: _handleErrors,
+        onError: (String error) {
+          _handleErrors(error, ref);
+        },
         onSuccess: () {
           // Do nothing, just continue to next step.
         },
       );
       await _authService.setBMI(
         newBMI: double.parse(cBMI.value),
-        onError: _handleErrors,
+        onError: (String error) {
+          _handleErrors(error, ref);
+        },
         onSuccess: _handleSuccess,
       );
       sShowSpinner.value = false;
@@ -199,7 +208,9 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
     }
   }
 
-  void _handleErrors(String error) {
+  void _handleErrors(String error, WidgetRef ref) {
+    // Check if the app is in dark mode.
+    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     // Log the error, cancel the spinner, pop the bottomsheet and show
     // a SnackBar to the user.
     Logger().e('Error: $error');
@@ -210,14 +221,11 @@ class BottomSheetBMIState extends State<BottomSheetBMI> {
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
+            color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: isDark ? flexSchemeDark.error : flexSchemeLight.error,
       ),
     );
   }

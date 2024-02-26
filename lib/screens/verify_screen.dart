@@ -1,19 +1,20 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/showspinner_signal.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:signals/signals_flutter.dart';
 
-class VerifyScreen extends StatelessWidget {
+class VerifyScreen extends ConsumerWidget {
   const VerifyScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final AuthService authService = AuthService();
     return Scaffold(
       body: const Center(
@@ -33,11 +34,20 @@ class VerifyScreen extends StatelessWidget {
         onPressed: () async {
           sShowSpinner.value = true;
           await authService.reload(
-            onError: _handleErrors,
+            onError: (String error) {
+              _handleErrors(
+                error,
+                ref,
+              );
+            },
             onSuccess: ({
               required bool emailVerified,
             }) {
-              _handleSuccess(context, emailVerified);
+              _handleSuccess(
+                context,
+                emailVerified,
+                ref,
+              );
             },
           );
           sShowSpinner.value = false;
@@ -57,7 +67,8 @@ class VerifyScreen extends StatelessWidget {
     );
   }
 
-  void _handleErrors(String error) {
+  void _handleErrors(String error, WidgetRef ref) {
+    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     // Log the error, cancel the spinner and show a SnackBar to the user.
     Logger().e('Error: $error');
     sShowSpinner.value = false;
@@ -66,19 +77,17 @@ class VerifyScreen extends StatelessWidget {
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
+            color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: isDark ? flexSchemeDark.error : flexSchemeLight.error,
       ),
     );
   }
 
-  void _handleSuccess(BuildContext context, bool emailVerified) {
+  void _handleSuccess(BuildContext context, bool emailVerified, WidgetRef ref) {
+    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     if (emailVerified) {
       // Log the success, cancel the spinner, navigate to the home screen
       // and show a SnackBar to the user.
@@ -100,14 +109,12 @@ class VerifyScreen extends StatelessWidget {
             'Our backend needs more time. Take three deep breaths and try '
             'again.',
             style: TextStyle(
-              color: sDarkTheme.value
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
+              color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
             ),
           ),
           showCloseIcon: true,
           backgroundColor:
-              sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+              isDark ? flexSchemeDark.error : flexSchemeLight.error,
         ),
       );
     }

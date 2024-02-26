@@ -1,9 +1,9 @@
 import 'package:boksklapps/firebase_options.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/theme/flextheme.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Using a GlobalKey for showing SnackBars to users. Mostly because
 // it's convenient, but also to avoid the 'Do not use BuildContexts
@@ -26,19 +26,19 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // runApp starts the actual Flutter app.
-  runApp(const MainEntry());
+  runApp(const ProviderScope(child: MainEntry()));
 }
 
-class MainEntry extends StatelessWidget {
+class MainEntry extends ConsumerWidget {
   const MainEntry({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       // Watching a computed signal to provide the requested ThemeData.
-      theme: cThemeMode.watch(context),
+      theme: ref.watch(themeProvider),
       initialRoute: NavString.splashScreen,
       routes: routes,
     );

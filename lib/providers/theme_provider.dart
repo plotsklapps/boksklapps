@@ -1,15 +1,26 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:signals/signals_flutter.dart';
 
-// sDarkTheme is a bool signal. cThemeMode is the computed
-// signal that returns the requested ThemeData (light or dark).
-Signal<bool> sDarkTheme = signal<bool>(false);
-
-Computed<ThemeData> cThemeMode = computed(() {
-  return sDarkTheme.value ? darkTheme : lightTheme;
+final NotifierProvider<ThemeNotifier, ThemeData> themeProvider =
+    NotifierProvider<ThemeNotifier, ThemeData>(() {
+  return ThemeNotifier();
 });
+
+class ThemeNotifier extends Notifier<ThemeData> {
+  bool isDark = false;
+
+  @override
+  ThemeData build() {
+    return lightTheme;
+  }
+
+  void toggle() {
+    isDark = !isDark;
+    state = isDark ? darkTheme : lightTheme;
+  }
+}
 
 final ThemeData lightTheme = FlexThemeData.light(
   scheme: FlexScheme.outerSpace,

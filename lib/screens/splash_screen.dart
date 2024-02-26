@@ -1,31 +1,32 @@
 import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
-import 'package:boksklapps/theme/flextheme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 // This SplashScreen merely exists to show a CircularProgressIndicator
 // while the Firebase services are loading and checking for an existing
 // user.
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() {
+  ConsumerState<SplashScreen> createState() {
     return SplashScreenState();
   }
 }
 
-class SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAuthentication();
+    _checkAuthentication(ref);
   }
 
   @override
@@ -39,7 +40,7 @@ class SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<void> _checkAuthentication() async {
+  Future<void> _checkAuthentication(WidgetRef ref) async {
     final AuthService authService = AuthService();
     // Talking to Firebase to check if the user is logged in and
     // using (computed) signals to update the UI accordingly.
@@ -54,7 +55,9 @@ class SplashScreenState extends State<SplashScreen> {
           // in their respective signals.
           await authService.getUserDoc(
             user: sCurrentUser.value!,
-            onError: _handleErrors,
+            onError: (String error) {
+              _handleErrors(error, ref);
+            },
             onSuccess: _handleSuccess,
           );
         } else {
@@ -68,21 +71,19 @@ class SplashScreenState extends State<SplashScreen> {
 
   // Method to show the error in a snackbar to the user and
   // log it to the console.
-  void _handleErrors(String error) {
+  void _handleErrors(String error, WidgetRef ref) {
+    final bool isDark = ref.watch(themeProvider.notifier).isDark;
     Logger().e('Error: $error');
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
           'Error: $error',
           style: TextStyle(
-            color: sDarkTheme.value
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
+            color: isDark ? flexSchemeDark.onError : flexSchemeLight.onError,
           ),
         ),
         showCloseIcon: true,
-        backgroundColor:
-            sDarkTheme.value ? flexSchemeDark.error : flexSchemeLight.error,
+        backgroundColor: isDark ? flexSchemeDark.error : flexSchemeLight.error,
       ),
     );
   }
