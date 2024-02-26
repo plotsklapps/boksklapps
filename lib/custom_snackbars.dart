@@ -23,4 +23,15 @@ class CustomSnackBars {
       ),
     );
   }
+
+  static void showSuccessSnackBar(WidgetRef ref, String message) {
+    rootScaffoldMessengerKey.currentState!.showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+        ),
+        showCloseIcon: true,
+      ),
+    );
+  }
 }

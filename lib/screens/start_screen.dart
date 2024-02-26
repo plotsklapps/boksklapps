@@ -1,11 +1,12 @@
-import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
+import 'package:boksklapps/main.dart';
+import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class StartScreen extends ConsumerStatefulWidget {
   const StartScreen({super.key});
@@ -17,40 +18,56 @@ class StartScreen extends ConsumerStatefulWidget {
 }
 
 class StartScreenState extends ConsumerState<StartScreen> {
-  final AuthService _authService = AuthService();
   late final User? _user;
 
   @override
   void initState() {
     super.initState();
-    _checkAuthentication(ref);
-    _user = FirebaseAuth.instance.currentUser;
+    _user = ref.read(firebaseProvider);
+    _checkAuthentication();
   }
 
-  Future<void> _checkAuthentication(WidgetRef ref) async {
-    // Talking to Firebase to check if the user is logged in and
-    // using (computed) signals to update the UI accordingly.
-    sCurrentUser.value = FirebaseAuth.instance.currentUser;
+  Future<void> _checkAuthentication() async {
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
 
     // Delay this function to avoid initState issues.
-    await Future<void>.delayed(const Duration(milliseconds: 800), () async {
-      // Check if the user is logged in and if the email is verified.
-      if (cLoggedIn.value) {
-        if (cEmailVerified.value) {
-          // Get the user document from Firestore and store the values
-          // in their respective signals.
-          await _authService.getUserDoc(
-            user: sCurrentUser.value!,
-            onError: (String error) {
-              _handleErrors(error, ref);
-            },
-            onSuccess: _handleSuccess,
+    await Future<void>.delayed(const Duration(milliseconds: 400), () async {
+      // Check if the user is signed in.
+      if (_user != null) {
+        // Check if the user has verified their email.
+        if (_user.emailVerified) {
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
+
+          // Navigate to the home screen.
+          Navigate.toHomeScreen(context);
+        }
+        // If the user is signed in, but NOT verified, show a SnackBar to
+        // the user to resend a verification mail.
+        else if (!_user.emailVerified) {
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
+
+          // Show a SnackBar to the user to verify their email.
+          rootScaffoldMessengerKey.currentState!.showSnackBar(
+            SnackBar(
+              content: const Text(
+                'Please verify your email to continue.',
+              ),
+              action: SnackBarAction(
+                label: 'Resend',
+                onPressed: () async {
+                  await _user.sendEmailVerification();
+                },
+              ),
+            ),
           );
         } else {
-          Navigate.toStartScreen(context);
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
+          return;
         }
-      } else {
-        Navigate.toStartScreen(context);
       }
     });
   }
@@ -84,12 +101,8 @@ class StartScreenState extends ConsumerState<StartScreen> {
               },
             );
           },
-          child: const FaIcon(FontAwesomeIcons.forwardStep),
-        ).animate(
-          onPlay: (AnimationController controller) {
-            controller.repeat(reverse: true);
-          },
-        ).rotate(delay: 1200.ms),
+          child: ref.watch(spinnerProvider),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: const BottomBarTitle(
           hasLeading: false,

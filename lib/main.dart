@@ -35,13 +35,11 @@ class MainEntry extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ThemeData themeData = ref.watch(themeProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
-      // Watching a provider for the requested ThemeData.
-      theme: themeData,
-      initialRoute: NavString.splashScreen,
+      theme: ref.watch(themeProvider),
+      initialRoute: NavString.startScreen,
       routes: routes,
     );
   }

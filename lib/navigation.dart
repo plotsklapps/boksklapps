@@ -1,5 +1,4 @@
 import 'package:boksklapps/screens/home_screen.dart';
-import 'package:boksklapps/screens/splash_screen.dart';
 import 'package:boksklapps/screens/start_screen.dart';
 import 'package:boksklapps/screens/tutorial_screen.dart';
 import 'package:boksklapps/screens/tutorialworkout_screen.dart';
@@ -20,9 +19,6 @@ class NavString {
 // Defining routes with key-value pairs to use in the Navigate
 // class.
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
-  NavString.splashScreen: (BuildContext context) {
-    return const SplashScreen();
-  },
   NavString.startScreen: (BuildContext context) {
     return const StartScreen();
   },
