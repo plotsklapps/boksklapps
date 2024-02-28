@@ -5,6 +5,8 @@ import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/theme_provider.dart';
+import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -300,21 +302,34 @@ class FirebaseAuthService {
   // Reload the current user.
 
   Future<void> reload(WidgetRef ref) async {
-    if (ref.watch(sneakPeekProvider)) {
+    final User? currentUser = _firebaseAuth.currentUser;
+
+    if (ref.watch(sneakPeekProvider) || currentUser == null) {
+      // Show a SnackBar with the error message to the user.
       rootScaffoldMessengerKey.currentState!.showSnackBar(
-        const SnackBar(
-          content: Text('No signed in user to reload'),
+        SnackBar(
+          content: Text(
+            'No current user is currently signed in.',
+            style: TextStyle(
+              color: ref.watch(themeProvider.notifier).isDark
+                  ? flexSchemeDark.onError
+                  : flexSchemeLight.onError,
+            ),
+          ),
           showCloseIcon: true,
+          backgroundColor: ref.watch(themeProvider.notifier).isDark
+              ? flexSchemeDark.error
+              : flexSchemeLight.error,
         ),
       );
       return;
     }
 
     try {
-      await _firebaseAuth.currentUser!.reload();
+      await currentUser.reload();
       CustomSnackBars.showSuccessSnackBar(
         ref,
-        'User reloadeded. Continuing...',
+        'User reloaded. Continuing...',
       );
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.

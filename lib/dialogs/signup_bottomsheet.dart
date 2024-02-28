@@ -177,7 +177,6 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    // Call the local _validateAndCreate method.
                     await _validateAndCreate();
                   },
                   child: ref.watch(spinnerProvider),
