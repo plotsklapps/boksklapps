@@ -58,6 +58,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       }
                     },
                     onSaved: (String? value) {
+                      // Store user input in local variable.
                       _email = value?.trim();
                     },
                     keyboardType: TextInputType.emailAddress,
@@ -74,10 +75,12 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Password needs to be at least 6 characters.';
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                     onChanged: (String? value) {
+                      // Store user input in local variable.
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
@@ -110,7 +113,10 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                   const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
+                      // Store user input in local variable.
                       _confirmPassword = value?.trim();
+
+                      // Run some checks.
                       if (_confirmPassword == null ||
                           _confirmPassword!.isEmpty ||
                           _confirmPassword!.length < 6) {
