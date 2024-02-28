@@ -84,7 +84,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the signal value.
+                    // Update the UI based on the provider.
                     obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
@@ -94,7 +94,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       ),
                       labelText: 'Password',
                       // Instead of an icon, use a TextButton to toggle the
-                      // _isObscured signal.
+                      // provider.
                       suffixIcon: TextButton(
                         onPressed: () {
                           ref.read(obscuredProvider.notifier).setObscured(
@@ -128,7 +128,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       }
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the signal value.
+                    // Update the UI based on the provider.
                     obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
@@ -138,7 +138,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       ),
                       labelText: 'Confirm Password',
                       // Instead of an icon, use a TextButton to toggle the
-                      // _isObscured signal.
+                      // provider.
                       suffixIcon: TextButton(
                         onPressed: () {
                           ref.read(obscuredProvider.notifier).setObscured(
@@ -165,7 +165,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                   onPressed: () {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
-                    // Set the isObscuredProvider back to default
+                    // Set the provider back to default.
                     ref.read(obscuredProvider.notifier).setObscured(
                           isObscured: true,
                         );
@@ -177,6 +177,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
+                    // Call the local _validateAndCreate method.
                     await _validateAndCreate();
                   },
                   child: ref.watch(spinnerProvider),
@@ -199,6 +200,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
       signupForm.save();
 
       // Create a new Firebase user with the email and password.
+      // Inside this method a verification email will be sent as well.
       await _authService.createUserWithEmailAndPassword(
         context: context,
         ref: ref,
