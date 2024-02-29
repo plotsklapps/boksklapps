@@ -79,9 +79,7 @@ class FirebaseAuthService {
   // Create a Firestore document for the newly created user.
 
   Future<void> createUserDocument({
-    required BuildContext context,
     required WidgetRef ref,
-    required String email,
   }) async {
     try {
       final DocumentReference<Map<String, dynamic>> userDoc =
@@ -134,7 +132,6 @@ class FirebaseAuthService {
   // Sign in an existing user.
 
   Future<void> signInWithEmailAndPassword({
-    required BuildContext context,
     required WidgetRef ref,
     required String email,
     required String password,
@@ -175,7 +172,6 @@ class FirebaseAuthService {
   // Sign in anonymously.
 
   Future<void> signInAnonymously({
-    required BuildContext context,
     required WidgetRef ref,
   }) async {
     try {
@@ -226,15 +222,14 @@ class FirebaseAuthService {
 
       if (user != null) {
         if (user.emailVerified) {
-          // Cancel the spinner.
-          ref.read(spinnerProvider.notifier).cancelSpinner();
+          // Create a Firestore document for the newly created user.
+          await createUserDocument(ref: ref);
 
           // Navigate to the HomeScreen.
-          Navigate.toHomeScreen(context);
+          if (context.mounted) {
+            Navigate.toHomeScreen(context);
+          }
         } else {
-          // Cancel the spinner.
-          ref.read(spinnerProvider.notifier).cancelSpinner();
-
           // Show a SnackBar with a message to the user to resend
           // the verification email.
           rootScaffoldMessengerKey.currentState!.showSnackBar(
@@ -253,8 +248,6 @@ class FirebaseAuthService {
         }
       } else {
         // If user is NOT signed in.
-        // Cancel the spinner.
-        ref.read(spinnerProvider.notifier).cancelSpinner();
         return;
       }
     } on FirebaseAuthException catch (e) {
@@ -281,6 +274,9 @@ class FirebaseAuthService {
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
+    } finally {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 
