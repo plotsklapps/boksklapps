@@ -19,7 +19,7 @@ class BMINotifier extends Notifier<double> {
     return 0;
   }
 
-  Future<void> setBMI(double newBMI) async {
+  Future<void> setBMI() async {
     final double height = ref.watch(heightProvider) / 100;
     final int weight = ref.watch(weightProvider);
     final double calculatedBMI = weight / (height * height);

@@ -1,18 +1,16 @@
-import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
+import 'package:boksklapps/providers/age_provider.dart';
+import 'package:boksklapps/providers/bmi_provider.dart';
+import 'package:boksklapps/providers/height_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
+import 'package:boksklapps/providers/weight_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
 class BottomSheetBMI extends ConsumerStatefulWidget {
   const BottomSheetBMI({
@@ -26,11 +24,6 @@ class BottomSheetBMI extends ConsumerStatefulWidget {
 }
 
 class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
-  // Custom authentification service for easier access to Firebase functions.
-  // See auth_service.dart for more details.
-  final AuthService _authService = AuthService();
-
-  // Validation key for the form textfields.
   final GlobalKey<FormState> _bmiFormKey = GlobalKey<FormState>();
 
   @override
@@ -48,68 +41,17 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
               key: _bmiFormKey,
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a valid age.';
-                      }
-                      return null;
-                    },
-                    onChanged: (String value) {
-                      sAgeInYrs.value = int.parse(value);
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      icon: SizedBox(
-                        width: 24,
-                        child: FaIcon(FontAwesomeIcons.cakeCandles),
-                      ),
-                      label: Text('Age in years'),
-                    ),
-                  ).animate().fade().moveX(delay: 200.ms, begin: -32),
+                  AgeTextFormField(ref: ref)
+                      .animate()
+                      .fade()
+                      .moveX(delay: 200.ms, begin: -32),
                   const SizedBox(height: 8),
-                  TextFormField(
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a valid height.';
-                      }
-                      return null;
-                    },
-                    onChanged: (String value) {
-                      sHeightInCm.value = int.parse(value);
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      icon: SizedBox(
-                        width: 24,
-                        child: FaIcon(FontAwesomeIcons.rulerVertical),
-                      ),
-                      label: Text('Height in centimeters'),
-                    ),
-                  )
+                  HeightTextFormField(ref: ref)
                       .animate()
                       .fade(delay: 200.ms)
                       .moveX(delay: 400.ms, begin: -32),
                   const SizedBox(height: 8),
-                  TextFormField(
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a valid weight.';
-                      }
-                      return null;
-                    },
-                    onChanged: (String value) {
-                      sWeightInKg.value = int.parse(value);
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      icon: SizedBox(
-                        width: 24,
-                        child: FaIcon(FontAwesomeIcons.weightHanging),
-                      ),
-                      label: Text('Weight in kilograms'),
-                    ),
-                  )
+                  WeightTextFormField(ref: ref)
                       .animate()
                       .fade(delay: 400.ms)
                       .moveX(delay: 600.ms, begin: -32),
@@ -123,7 +65,7 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
                 const Text('BMI', style: TextUtils.fontXL),
                 const SizedBox(width: 16),
                 Text(
-                  cBMI.watch(context),
+                  ref.watch(bmiProvider).toStringAsFixed(1),
                   style: TextUtils.fontXL,
                 ),
               ],
@@ -133,8 +75,9 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Cancel the spinner and pop the bottomsheet.
+                    // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -155,7 +98,7 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
   }
 
   Future<void> _validateAndCalculate() async {
-    // Show the spinner while the bmi is begin calculated.
+    // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
@@ -163,87 +106,125 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
     if (bmiForm!.validate()) {
       bmiForm.save();
 
-      // Show a SnackBar to the user to indicate that the data is being
-      // processed.
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        const SnackBar(content: Text('Processing Data...')),
-      );
-      await _authService.setAgeInYrs(
-        newAgeInYrs: sAgeInYrs.value,
-        onError: (String error) {
-          _handleErrors(error, ref);
-        },
-        onSuccess: () {
-          // Do nothing, just continue to next step.
-        },
-      );
-      await _authService.setHeightInCm(
-        newHeightInCm: sHeightInCm.value,
-        onError: (String error) {
-          _handleErrors(error, ref);
-        },
-        onSuccess: () {
-          // Do nothing, just continue to next step.
-        },
-      );
-      await _authService.setWeightInKg(
-        newWeightInKg: sWeightInKg.value,
-        onError: (String error) {
-          _handleErrors(error, ref);
-        },
-        onSuccess: () {
-          // Do nothing, just continue to next step.
-        },
-      );
-      await _authService.setBMI(
-        newBMI: double.parse(cBMI.value),
-        onError: (String error) {
-          _handleErrors(error, ref);
-        },
-        onSuccess: _handleSuccess,
-      );
+      // Calculate the BMI.
+      await ref.read(bmiProvider.notifier).setBMI();
+
+      // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      // Pop the bottomsheet.
+      if (mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show a SnackBar to the user.
+      rootScaffoldMessengerKey.currentState!.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Successfully calculated and saved your '
+            'BMI: ${ref.watch(bmiProvider)}!',
+          ),
+          showCloseIcon: true,
+        ),
+      );
     } else {
+      // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
+}
 
-  void _handleErrors(String error, WidgetRef ref) {
-    // Log the error, cancel the spinner, pop the bottomsheet and show
-    // a SnackBar to the user.
-    Logger().e('Error: $error');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(
-          'Error: $error',
-          style: TextStyle(
-            color: ref.watch(themeProvider.notifier).isDark
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
-          ),
+class AgeTextFormField extends StatelessWidget {
+  const AgeTextFormField({
+    required this.ref,
+    super.key,
+  });
+
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a valid age.';
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        ref.read(ageProvider.notifier).setAge(int.parse(value!));
+      },
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        icon: SizedBox(
+          width: 24,
+          child: FaIcon(FontAwesomeIcons.cakeCandles),
         ),
-        showCloseIcon: true,
-        backgroundColor: ref.watch(themeProvider.notifier).isDark
-            ? flexSchemeDark.error
-            : flexSchemeLight.error,
+        label: Text('Age in years'),
       ),
     );
   }
+}
 
-  void _handleSuccess() {
-    // Log the success, cancel the spinner, pop the bottomsheet and show
-    // a SnackBar to the user.
-    Logger().i('BMI has been calculated and saved.');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(
-          'Successfully calculated and saved your BMI: ${cBMI.value}!',
+class HeightTextFormField extends StatelessWidget {
+  const HeightTextFormField({
+    required this.ref,
+    super.key,
+  });
+
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a valid height.';
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        ref.read(heightProvider.notifier).setHeight(int.parse(value!));
+      },
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        icon: SizedBox(
+          width: 24,
+          child: FaIcon(FontAwesomeIcons.rulerVertical),
         ),
-        showCloseIcon: true,
+        label: Text('Height in centimeters'),
+      ),
+    );
+  }
+}
+
+class WeightTextFormField extends StatelessWidget {
+  const WeightTextFormField({
+    required this.ref,
+    super.key,
+  });
+
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a valid weight.';
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        ref.read(weightProvider.notifier).setWeight(int.parse(value!));
+      },
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        icon: SizedBox(
+          width: 24,
+          child: FaIcon(FontAwesomeIcons.weightHanging),
+        ),
+        label: Text('Weight in kilograms'),
       ),
     );
   }

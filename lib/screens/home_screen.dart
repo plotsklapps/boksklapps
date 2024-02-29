@@ -1,22 +1,25 @@
-import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
-import 'package:boksklapps/main.dart';
-import 'package:boksklapps/screens/tutorial_screen.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
+import 'package:boksklapps/providers/displayname_provider.dart';
+import 'package:boksklapps/providers/lastvisit_provider.dart';
+import 'package:boksklapps/providers/totalworkouts_provider.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final AuthService authService = AuthService();
+  ConsumerState<HomeScreen> createState() {
+    return HomeScreenState();
+  }
+}
 
+class HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -33,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                 children: <Widget>[
                   // Watching a computed signal to provide the
                   // corresponding displayName.
-                  Text(cDisplayName.watch(context), style: TextUtils.fontL),
+                  Text(ref.watch(displayNameProvider), style: TextUtils.fontL),
                 ],
               ),
               Row(
@@ -45,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                             leading: const FaIcon(FontAwesomeIcons.calendarDay),
-                            title: Text(cLastVisitDate.watch(context)),
+                            title: Text(ref.watch(lastVisitProvider)),
                             subtitle: const Text('Last Workout'),
                           ),
                         ],
@@ -59,8 +62,9 @@ class HomeScreen extends StatelessWidget {
                           ListTile(
                             leading:
                                 const FaIcon(FontAwesomeIcons.calendarDays),
-                            title:
-                                Text(sTotalWorkouts.watch(context).toString()),
+                            title: Text(
+                              ref.watch(totalWorkoutsProvider).toString(),
+                            ),
                             subtitle: const Text('Total Workouts'),
                           ),
                         ],
@@ -74,24 +78,11 @@ class HomeScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            if (!sSneakPeeker.value) {
-              // The following code should be used after finishing a workout,
-              // not before. But for now, it's here to demonstrate how to
-              // update the last visit date and total workouts.
-              await authService.setLastVisitDate(
-                onError: _handleErrors,
-                onSuccess: () async {
-                  await authService.setTotalWorkouts(
-                    onError: _handleErrors,
-                    onSuccess: () {
-                      _handleSuccess(context);
-                    },
-                  );
-                },
-              );
-            } else {
-              _handleSuccess(context);
-            }
+            // The following code should be used after finishing a workout,
+            // not before. But for now, it's here to demonstrate how to
+            // update the last visit date and total workouts.
+            await ref.read(lastVisitProvider.notifier).setLastVisit();
+            await ref.read(totalWorkoutsProvider.notifier).setTotalWorkouts();
           },
           child: const FaIcon(FontAwesomeIcons.forwardStep),
         ),
@@ -101,27 +92,6 @@ class HomeScreen extends StatelessWidget {
           icon: FontAwesomeIcons.barsProgress,
           bottomSheet: BottomSheetUserSettings(),
         ),
-      ),
-    );
-  }
-
-  void _handleErrors(String error) {
-    Logger().e('Error: $error');
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text('Error: $error'),
-        showCloseIcon: true,
-      ),
-    );
-  }
-
-  void _handleSuccess(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute<Widget>(
-        builder: (BuildContext context) {
-          return const TutorialScreen();
-        },
       ),
     );
   }

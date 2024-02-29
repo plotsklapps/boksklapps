@@ -1,3 +1,4 @@
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/firebase_provider.dart';
@@ -58,15 +59,26 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    // Reload the currentUser every time the user clicks the button.
-    await currentUser?.reload();
+    if (currentUser == null) {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      // Show a SnackBar to the user.
+      rootScaffoldMessengerKey.currentState!.showSnackBar(
+        const SnackBar(
+          content: Text('No user is currently signed in.'),
+          showCloseIcon: true,
+        ),
+      );
+      return;
+    }
 
     try {
-      if (currentUser != null && !currentUser.emailVerified) {
-        // Cancel the spinner.
-        ref.read(spinnerProvider.notifier).cancelSpinner();
-        return;
-      } else if (currentUser != null && currentUser.emailVerified) {
+      // Force reload the current user.
+      await currentUser.reload();
+
+      // Check if the user's email has been verified.
+      if (currentUser.emailVerified) {
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
 
@@ -75,25 +87,44 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
           Navigate.toHomeScreen(context);
         }
 
-        // Show a SnackBar with the success message to the user.
+        // Show a SnackBar to the user.
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           const SnackBar(
-            content: Text('Email has been verified. Welcome to BOKSklapps!'),
+            content: Text('Your email has been verified. Welcome to '
+                'BOKSklapps!'),
             showCloseIcon: true,
           ),
         );
-      } catch (e) {
+      } else {
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
 
-        // Show a SnackBar with the error message to the user.
+        // Show a SnackBar to the user.
         rootScaffoldMessengerKey.currentState!.showSnackBar(
           SnackBar(
-            content: Text(e.toString()),
-            backgroundColor: FlexColors.red,
+            content: Text(
+              'Our servers need a minute. Please take a few deep '
+              'breaths and try again.',
+              style: TextStyle(
+                color: ref.watch(themeProvider.notifier).isDark
+                    ? flexSchemeDark.onError
+                    : flexSchemeLight.onError,
+              ),
+            ),
             showCloseIcon: true,
+            backgroundColor: ref.watch(themeProvider.notifier).isDark
+                ? flexSchemeDark.error
+                : flexSchemeLight.error,
           ),
         );
+        return;
       }
+    } catch (e) {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    }
   }
 }
