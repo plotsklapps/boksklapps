@@ -9,9 +9,7 @@ import 'package:boksklapps/providers/height_provider.dart';
 import 'package:boksklapps/providers/lastvisit_provider.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/providers/weight_provider.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +32,6 @@ class FirebaseAuthService {
   // Sign up a new user.
 
   Future<void> createUserWithEmailAndPassword({
-    required BuildContext context,
     required WidgetRef ref,
     required String email,
     required String password,
@@ -82,6 +79,9 @@ class FirebaseAuthService {
     required WidgetRef ref,
   }) async {
     try {
+      // Start the spinner.
+      ref.read(spinnerProvider.notifier).startSpinner();
+
       final DocumentReference<Map<String, dynamic>> userDoc =
           _firestore.collection('users').doc(_firebase.currentUser!.uid);
 
@@ -126,6 +126,9 @@ class FirebaseAuthService {
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
+    } finally {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 
@@ -137,6 +140,9 @@ class FirebaseAuthService {
     required String password,
   }) async {
     try {
+      // Start the spinner.
+      ref.read(spinnerProvider.notifier).startSpinner();
+
       // Sign in the user with the email and password.
       await _firebase.signInWithEmailAndPassword(
         email: email,
@@ -166,6 +172,9 @@ class FirebaseAuthService {
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
+    } finally {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 
@@ -175,6 +184,9 @@ class FirebaseAuthService {
     required WidgetRef ref,
   }) async {
     try {
+      // Start the spinner.
+      ref.read(spinnerProvider.notifier).startSpinner();
+
       // Sign in the user 'anonymously'. For now, that means just setting
       // the sneakpeekprovider to true.
       await ref.read(sneakPeekProvider.notifier).setSneakPeek(
@@ -204,6 +216,9 @@ class FirebaseAuthService {
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
+    } finally {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 
@@ -287,6 +302,9 @@ class FirebaseAuthService {
     required WidgetRef ref,
   }) async {
     try {
+      // Start the spinner.
+      ref.read(spinnerProvider.notifier).startSpinner();
+
       if (ref.watch(sneakPeekProvider)) {
         // There is no user to sign out.
         Navigate.toStartScreen(context);
@@ -318,17 +336,22 @@ class FirebaseAuthService {
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
+    } finally {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 
   // Send a password reset email to the user.
 
   Future<void> sendPasswordResetEmail({
-    required BuildContext context,
     required WidgetRef ref,
     required String email,
   }) async {
     try {
+      // Start the spinner.
+      ref.read(spinnerProvider.notifier).startSpinner();
+
       // Send a password reset email to the user.
       await _firebase.sendPasswordResetEmail(email: email);
 
@@ -361,53 +384,9 @@ class FirebaseAuthService {
 
       // Show a SnackBar with the error message to the user.
       CustomSnackBars.showErrorSnackBar(ref, e);
-    }
-  }
-
-  // Reload the current user.
-
-  Future<void> reload(WidgetRef ref) async {
-    final User? currentUser = _firebase.currentUser;
-
-    if (ref.watch(sneakPeekProvider) || currentUser == null) {
-      // Show a SnackBar with the error message to the user.
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(
-            'No current user is currently signed in.',
-            style: TextStyle(
-              color: ref.watch(themeProvider.notifier).isDark
-                  ? flexSchemeDark.onError
-                  : flexSchemeLight.onError,
-            ),
-          ),
-          showCloseIcon: true,
-          backgroundColor: ref.watch(themeProvider.notifier).isDark
-              ? flexSchemeDark.error
-              : flexSchemeLight.error,
-        ),
-      );
-      return;
-    }
-
-    try {
-      await currentUser.reload();
-      CustomSnackBars.showSuccessSnackBar(
-        ref,
-        'User reloaded. Continuing...',
-      );
-    } on FirebaseAuthException catch (e) {
-      // Log the error to the console.
-      Logger().e('Firebase error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
-    } catch (e, s) {
-      // Log the error to the console.
-      Logger().e('Error: $e\nStackTrace: $s');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+    } finally {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }
 }

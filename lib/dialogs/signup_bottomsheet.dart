@@ -22,11 +22,8 @@ class BottomSheetSignup extends ConsumerStatefulWidget {
 class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
   final FirebaseAuthService _authService = FirebaseAuthService();
 
-  // Validation key for the form textfields.
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
-  // Instead of TextEditingControllers, use String variables to store the
-  // email and password values via the onSaved method and the _signupFormKey.
   String? _email;
   String? _password;
   String? _confirmPassword;
@@ -201,14 +198,10 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
       // Create a new Firebase user with the email and password.
       // Inside this method a verification email will be sent as well.
       await _authService.createUserWithEmailAndPassword(
-        context: context,
         ref: ref,
         email: _email!,
         password: _password!,
       );
-
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
 
       // Navigate to the verification screen.
       if (mounted) {

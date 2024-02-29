@@ -1,7 +1,9 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
+import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,12 +21,7 @@ class StartScreenState extends ConsumerState<StartScreen> {
   void initState() {
     super.initState();
     // Delay the checkAuthentication method to avoid initial build errors.
-    Future<void>.delayed(Duration.zero, () {
-      FirebaseAuthService().checkAuthentication(
-        context: context,
-        ref: ref,
-      );
-    });
+    Future<void>.delayed(Duration.zero, _checkAuthentication);
   }
 
   @override
@@ -65,5 +62,33 @@ class StartScreenState extends ConsumerState<StartScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _checkAuthentication() async {
+    // Start the spinner.
+    ref.read(spinnerProvider.notifier).startSpinner();
+
+    // Check if a currentUser exists.
+    final User? currentUser = FirebaseAuthService().currentUser;
+
+    if (currentUser != null) {
+      if (currentUser.emailVerified) {
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Navigate to the HomeScreen.
+        Navigate.toHomeScreen(context);
+      } else {
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Navigate to the VerifyScreen.
+        Navigate.toVerifyScreen(context);
+      }
+    } else {
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+      return;
+    }
   }
 }
