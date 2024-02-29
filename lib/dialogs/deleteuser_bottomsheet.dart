@@ -1,11 +1,11 @@
 import 'package:boksklapps/dialogs/deleteuserconfirmation_bottomsheet.dart';
-import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomSheetDeleteUser extends ConsumerWidget {
   const BottomSheetDeleteUser({super.key});
@@ -32,8 +32,6 @@ class BottomSheetDeleteUser extends ConsumerWidget {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Cancel the spinner.
-                    ref.read(spinnerProvider.notifier).cancelSpinner();
                     // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
@@ -42,9 +40,10 @@ class BottomSheetDeleteUser extends ConsumerWidget {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () {
-                    // Pop the bottomsheet and show the reauthentication
-                    // bottomsheet.
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
+
+                    // Show a new bottomsheet.
                     showModalBottomSheet<Widget>(
                       showDragHandle: true,
                       isScrollControlled: true,
@@ -57,7 +56,12 @@ class BottomSheetDeleteUser extends ConsumerWidget {
                   backgroundColor: ref.watch(themeProvider.notifier).isDark
                       ? flexSchemeDark.error
                       : flexSchemeLight.error,
-                  child: ref.watch(spinnerProvider),
+                  child: FaIcon(
+                    FontAwesomeIcons.solidTrashCan,
+                    color: ref.watch(themeProvider.notifier).isDark
+                        ? flexSchemeDark.onError
+                        : flexSchemeLight.onError,
+                  ),
                 ),
               ],
             ),

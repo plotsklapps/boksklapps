@@ -1,6 +1,6 @@
-import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
@@ -26,19 +26,8 @@ class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
 
 class BottomSheetDeleteUserConfirmationState
     extends ConsumerState<BottomSheetDeleteUserConfirmation> {
-  // Custom authentification service for easier access to Firebase functions.
-  final AuthService _authService = AuthService();
-
-  // Validation key for the form textfields.
   final GlobalKey<FormState> _deleteUserFormKey = GlobalKey<FormState>();
 
-  // Used for the password field to show/hide the password and simultaneously
-  // adjust the corresponding TextButton.
-  final Signal<bool> _isObscured = signal<bool>(true);
-
-  // Instead of TextEditingControllers, use String variables to store the
-  // email and password values via the onSaved method and the
-  // _deleteUserFormKey.
   String? _email;
   String? _password;
 
