@@ -13,14 +13,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-// ignore: always_specify_types
-final currentUserProvider = StreamProvider<User?>((ref) {
-  return FirebaseAuth.instance.authStateChanges();
-});
-
 class FirebaseAuthService {
   // Create an instance of the FirebaseAuth class.
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  // Get the current user.
+  User? get currentUser {
+    return _firebaseAuth.currentUser;
+  }
 
   // Sign up a new user.
 

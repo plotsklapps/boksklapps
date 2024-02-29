@@ -1,3 +1,4 @@
+import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final ageProvider = NotifierProvider<AgeNotifier, int>(AgeNotifier.new);
 
 class AgeNotifier extends Notifier<int> {
-  // Initialize the state with the user's age.
+  final FirebaseAuthService _authService = FirebaseAuthService();
   @override
   int build() {
     return 0;
@@ -15,7 +16,7 @@ class AgeNotifier extends Notifier<int> {
     // Update the user's age in the Firestore database.
     await FirebaseFirestore.instance
         .collection('users')
-        .doc('userId')
+        .doc(_authService.currentUser?.uid)
         .update(<String, int?>{
       'age': newAge,
     });
@@ -29,7 +30,7 @@ class AgeNotifier extends Notifier<int> {
     final DocumentSnapshot<Map<String, dynamic>> userDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc('userId')
+            .doc(_authService.currentUser?.uid)
             .get();
     final int age = userDoc.data()!['age'] as int;
 
@@ -43,6 +44,8 @@ final heightProvider =
     NotifierProvider<HeightNotifier, int>(HeightNotifier.new);
 
 class HeightNotifier extends Notifier<int> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   int build() {
     return 0;
@@ -52,7 +55,7 @@ class HeightNotifier extends Notifier<int> {
     // Update the user's height in the Firestore database.
     await FirebaseFirestore.instance
         .collection('users')
-        .doc('userId')
+        .doc(_authService.currentUser?.uid)
         .update(<String, int?>{
       'height': newHeight,
     });
@@ -66,7 +69,7 @@ class HeightNotifier extends Notifier<int> {
     final DocumentSnapshot<Map<String, dynamic>> userDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc('userId')
+            .doc(_authService.currentUser?.uid)
             .get();
     final int height = userDoc.data()!['height'] as int;
 
@@ -80,6 +83,8 @@ final weightProvider =
     NotifierProvider<WeightNotifier, int>(WeightNotifier.new);
 
 class WeightNotifier extends Notifier<int> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   int build() {
     return 0;
@@ -89,7 +94,7 @@ class WeightNotifier extends Notifier<int> {
     // Update the user's weight in the Firestore database.
     await FirebaseFirestore.instance
         .collection('users')
-        .doc('userId')
+        .doc(_authService.currentUser?.uid)
         .update(<String, int?>{
       'weight': newWeight,
     });
@@ -103,7 +108,7 @@ class WeightNotifier extends Notifier<int> {
     final DocumentSnapshot<Map<String, dynamic>> userDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc('userId')
+            .doc(_authService.currentUser?.uid)
             .get();
     final int weight = userDoc.data()!['weight'] as int;
 
@@ -116,6 +121,8 @@ class WeightNotifier extends Notifier<int> {
 final bmiProvider = NotifierProvider<BMINotifier, double>(BMINotifier.new);
 
 class BMINotifier extends Notifier<double> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   double build() {
     return 0;
@@ -129,7 +136,7 @@ class BMINotifier extends Notifier<double> {
     // Update the user's BMI in the Firestore database.
     await FirebaseFirestore.instance
         .collection('users')
-        .doc('userId')
+        .doc(_authService.currentUser?.uid)
         .update(<String, double?>{
       'bmi': calculatedBMI,
     });
@@ -143,7 +150,7 @@ class BMINotifier extends Notifier<double> {
     final DocumentSnapshot<Map<String, dynamic>> userDoc =
         await FirebaseFirestore.instance
             .collection('users')
-            .doc('userId')
+            .doc(_authService.currentUser?.uid)
             .get();
     final double bmi = userDoc.data()!['bmi'] as double;
 
