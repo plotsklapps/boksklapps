@@ -1,6 +1,7 @@
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/email_provider.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/obscured_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
 class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
   const BottomSheetDeleteUserConfirmation({super.key});
@@ -26,6 +26,7 @@ class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
 
 class BottomSheetDeleteUserConfirmationState
     extends ConsumerState<BottomSheetDeleteUserConfirmation> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
   final GlobalKey<FormState> _deleteUserFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -83,8 +84,8 @@ class BottomSheetDeleteUserConfirmationState
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the signal value.
-                    obscureText: _isObscured.watch(context),
+                    // Update the UI based on the provider.
+                    obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
                       icon: const SizedBox(
@@ -96,9 +97,11 @@ class BottomSheetDeleteUserConfirmationState
                       // _isObscured signal.
                       suffixIcon: TextButton(
                         onPressed: () {
-                          _isObscured.value = !_isObscured.value;
+                          ref.read(obscuredProvider.notifier).setObscured(
+                                isObscured: !ref.watch(obscuredProvider),
+                              );
                         },
-                        child: _isObscured.value
+                        child: ref.watch(obscuredProvider)
                             ? const Text('SHOW')
                             : const Text('HIDE'),
                       ),
@@ -116,9 +119,13 @@ class BottomSheetDeleteUserConfirmationState
               children: <Widget>[
                 TextButton(
                   onPressed: () {
-                    // Make sure to reset the signal values to the default.
+                    // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
-                    _isObscured.value = true;
+                    // Set the provider to true to obscure the password.
+                    ref
+                        .read(obscuredProvider.notifier)
+                        .setObscured(isObscured: true);
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -141,19 +148,23 @@ class BottomSheetDeleteUserConfirmationState
   }
 
   Future<void> _validateAndDeleteUser(BuildContext context) async {
-    // Show a spinner while the user is being deleted.
+    // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
     final FormState? deleteUserForm = _deleteUserFormKey.currentState;
     if (deleteUserForm!.validate()) {
       deleteUserForm.save();
 
-      final User? currentUser = FirebaseAuth.instance.currentUser;
+      final User? currentUser = _authService.currentUser;
 
       if (currentUser == null) {
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
         Navigator.pop(context);
+
+        // Show a SnackBar to the user.
         rootScaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(
@@ -171,53 +182,41 @@ class BottomSheetDeleteUserConfirmationState
           ),
         );
       } else {
-        // Reauthenticate the user with the email and password and
-        // delete the user.
-        await _authService.deleteUser(
-          email: _email!,
-          password: _password!,
-          onError: (String error) {
-            // Log the error, cancel the spinner, pop the bottomsheet and
-            // show a snackbar to
-            // the user with the error message.
-            Logger().e('Error: $error');
+        try {
+          // Reauthenticate the user.
+          await currentUser
+              .reauthenticateWithCredential(
+            EmailAuthProvider.credential(
+              email: _email!,
+              password: _password!,
+            ),
+          )
+              .then((UserCredential value) {
+            // Delete the user.
+            currentUser.delete();
             // Cancel the spinner.
             ref.read(spinnerProvider.notifier).cancelSpinner();
+            // Pop the bottomsheet.
             Navigator.pop(context);
-            rootScaffoldMessengerKey.currentState?.showSnackBar(
-              SnackBar(
-                content: Text(
-                  error,
-                  style: TextStyle(
-                    color: ref.watch(themeProvider.notifier).isDark
-                        ? flexSchemeDark.onError
-                        : flexSchemeLight.error,
-                  ),
-                ),
-                showCloseIcon: true,
-                backgroundColor: ref.watch(themeProvider.notifier).isDark
-                    ? flexSchemeDark.error
-                    : flexSchemeLight.error,
-              ),
-            );
-          },
-          onSuccess: () {
-            // Log the success, cancel the spinner,return to
-            // the startscreen and show a SnackBar to the user.
-            Logger().i('User deleted successfully.');
-            // Cancel the spinner.
-            ref.read(spinnerProvider.notifier).cancelSpinner();
+            // Navigate to the StartScreen.
             Navigate.toStartScreen(context);
+            // Show a SnackBar to the user.
             rootScaffoldMessengerKey.currentState?.showSnackBar(
               const SnackBar(
                 content: Text(
-                  'User deleted successfully. Thank you for using BOKSklapps!',
+                  'Account deleted successfully. Thank you for using '
+                  'BOKSklapps.',
                 ),
                 showCloseIcon: true,
               ),
             );
-          },
-        );
+          }).catchError((Object error) {
+            Logger().e('Error: $error');
+            return false;
+          });
+        } catch (e, s) {
+          print(s);
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
+import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
@@ -17,6 +18,8 @@ class StartScreen extends ConsumerStatefulWidget {
 }
 
 class StartScreenState extends ConsumerState<StartScreen> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   void initState() {
     super.initState();
@@ -68,8 +71,7 @@ class StartScreenState extends ConsumerState<StartScreen> {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    // Check if a currentUser exists.
-    final User? currentUser = FirebaseAuthService().currentUser;
+    final User? currentUser = _authService.currentUser;
 
     if (currentUser != null) {
       if (currentUser.emailVerified) {
@@ -81,14 +83,20 @@ class StartScreenState extends ConsumerState<StartScreen> {
       } else {
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
-
-        // Navigate to the VerifyScreen.
-        Navigate.toVerifyScreen(context);
+        // Show a SnackBar to the user.
+        rootScaffoldMessengerKey.currentState!.showSnackBar(
+          SnackBar(
+            content: const Text('Have you verified your email address?'),
+            action: SnackBarAction(
+              label: 'RESEND',
+              onPressed: currentUser.sendEmailVerification,
+            ),
+          ),
+        );
       }
     } else {
       // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-      return;
     }
   }
 }
