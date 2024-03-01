@@ -1,19 +1,15 @@
-import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/dialogs/signin_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
-import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 
 class BottomSheetFirstSignin extends ConsumerStatefulWidget {
   const BottomSheetFirstSignin({super.key});
@@ -26,6 +22,8 @@ class BottomSheetFirstSignin extends ConsumerStatefulWidget {
 
 class BottomSheetFirstSigninState
     extends ConsumerState<BottomSheetFirstSignin> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,8 +37,10 @@ class BottomSheetFirstSigninState
             const SizedBox(height: 16),
             ListTile(
               onTap: () async {
-                // Close this bottomsheet and open the signup bottomsheet.
+                // Pop the bottomsheet.
                 Navigator.pop(context);
+
+                // Open the signup bottomsheet.
                 await showModalBottomSheet<void>(
                   showDragHandle: true,
                   isScrollControlled: true,
@@ -62,8 +62,10 @@ class BottomSheetFirstSigninState
             ).animate().fade().moveX(delay: 200.ms, begin: -32),
             ListTile(
               onTap: () async {
-                // Close this bottomsheet and open the signin bottomsheet.
+                // Pop the bottomsheet.
                 Navigator.pop(context);
+
+                // Open the signin bottomsheet.
                 await showModalBottomSheet<void>(
                   showDragHandle: true,
                   isScrollControlled: true,
@@ -84,7 +86,7 @@ class BottomSheetFirstSigninState
             ).animate().fade(delay: 200.ms).moveX(delay: 400.ms, begin: -32),
             ListTile(
               onTap: () async {
-                await _continueAsSneakPeeker(context);
+                await _continueAsSneakPeeker(context, ref);
               },
               leading: const FaIcon(FontAwesomeIcons.userSecret),
               title: const Text('Sneak peek'),
@@ -101,57 +103,28 @@ class BottomSheetFirstSigninState
     );
   }
 
-  Future<void> _continueAsSneakPeeker(BuildContext context) async {
-    // Start the spinner and sign in 'anonymously'.
+  Future<void> _continueAsSneakPeeker(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
-    await AuthService().signInAnonymously(
-      onError: _handleErrors,
-      onSuccess: () {
-        _handleSuccess(context);
-      },
-    );
-  }
 
-  void _handleErrors(String error) {
-    // Log the error, set the user as NOT Sneak Peeker, cancel the
-    // spinner and show a SnackBar to the user.
-    Logger().e('Error: $error');
-    sSneakPeeker.value = false;
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(
-          'Error: $error',
-          style: TextStyle(
-            color: ref.watch(themeProvider.notifier).isDark
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
-          ),
-        ),
-        showCloseIcon: true,
-        backgroundColor: ref.watch(themeProvider.notifier).isDark
-            ? flexSchemeDark.error
-            : flexSchemeLight.error,
-      ),
-    );
-  }
+    await _authService.signInAnonymously(ref: ref);
 
-  void _handleSuccess(BuildContext context) {
-    // Log the success, set the user as Sneak Peeker, cancel the
-    // spinner, navigate to the home screen and show a SnackBar
-    // to the user.
-    Logger().i('User has signed in as Sneak Peeker.');
-    sSneakPeeker.value = true;
+    // Cancel the spinner.
     ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigate.toHomeScreen(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Welcome to BOKSklapps! You are a sneak peeker, '
-          'your data will NOT be stored.',
-        ),
-        showCloseIcon: true,
-      ),
+
+    // Navigate to the HomeScreen.
+    if (context.mounted) {
+      Navigate.toHomeScreen(context);
+    }
+
+    // Show a SnackBar to the user.
+    CustomSnackBars.showSuccessSnackBar(
+      ref,
+      'Welcome to BOKSklapps! You are a sneak peeker, your data will NOT be '
+      'stored.',
     );
   }
 }

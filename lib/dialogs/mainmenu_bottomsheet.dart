@@ -1,28 +1,28 @@
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
-import 'package:boksklapps/main.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
-import 'package:boksklapps/signals/firebase_signals.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:signals/signals_flutter.dart';
 
-class BottomSheetMainMenu extends ConsumerWidget {
+class BottomSheetMainMenu extends ConsumerStatefulWidget {
   const BottomSheetMainMenu({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Local signal to compute which icon to show.
-    final Computed<Widget> cSneakPeeker = computed(() {
-      return sSneakPeeker.value
-          ? const FaIcon(FontAwesomeIcons.userSecret)
-          : const FaIcon(FontAwesomeIcons.userPen);
-    });
+  ConsumerState<BottomSheetMainMenu> createState() {
+    return BottomSheetMainMenuState();
+  }
+}
+
+class BottomSheetMainMenuState extends ConsumerState<BottomSheetMainMenu> {
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       child: Padding(
         padding: bottomSheetPadding(context),
@@ -34,7 +34,10 @@ class BottomSheetMainMenu extends ConsumerWidget {
             const SizedBox(height: 16),
             ListTile(
               onTap: () async {
+                // Pop the bottomsheet.
                 Navigator.pop(context);
+
+                // Show the user settings bottomsheet.
                 await showModalBottomSheet<Widget>(
                   showDragHandle: true,
                   isScrollControlled: true,
@@ -44,24 +47,27 @@ class BottomSheetMainMenu extends ConsumerWidget {
                   },
                 );
               },
-              leading: cSneakPeeker.watch(context),
+              leading: ref.watch(sneakPeekProvider)
+                  ? const FaIcon(FontAwesomeIcons.userSecret)
+                  : const FaIcon(FontAwesomeIcons.userGear),
               title: const Text('Account'),
               subtitle: const Text('Manage your profile settings'),
               trailing: const FaIcon(FontAwesomeIcons.forwardStep),
             ).animate().fade().moveX(delay: 200.ms, begin: -32),
             ListTile(
               onTap: () {
+                // Toggle the theme.
                 ref.read(themeProvider.notifier).toggle();
+
+                // Pop the bottomsheet.
                 Navigator.pop(context);
-                rootScaffoldMessengerKey.currentState!.showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      ref.watch(themeProvider.notifier).isDark
-                          ? 'Dark theme activated'
-                          : 'Light theme activated',
-                    ),
-                    showCloseIcon: true,
-                  ),
+
+                // Show a SnackBar to the user.
+                CustomSnackBars.showSuccessSnackBar(
+                  ref,
+                  ref.watch(themeProvider.notifier).isDark
+                      ? 'Dark theme activated'
+                      : 'Light theme activated',
                 );
               },
               leading: ref.watch(themeProvider.notifier).isDark
