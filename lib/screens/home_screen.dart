@@ -1,6 +1,8 @@
 import 'package:boksklapps/dialogs/usersettings_bottomsheet.dart';
+import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/displayname_provider.dart';
 import 'package:boksklapps/providers/lastvisit_provider.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/totalworkouts_provider.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
@@ -81,8 +83,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             // The following code should be used after finishing a workout,
             // not before. But for now, it's here to demonstrate how to
             // update the last visit date and total workouts.
-            await ref.read(lastVisitProvider.notifier).setLastVisit();
-            await ref.read(totalWorkoutsProvider.notifier).setTotalWorkouts();
+            if (!ref.watch(sneakPeekProvider)) {
+              await ref.read(lastVisitProvider.notifier).setLastVisit();
+              await ref.read(totalWorkoutsProvider.notifier).setTotalWorkouts();
+            }
+
+            // Navigate to TutorialScreen.
+            if (context.mounted) {
+              Navigate.toTutorialScreen(context);
+            }
           },
           child: const FaIcon(FontAwesomeIcons.forwardStep),
         ),

@@ -1,4 +1,5 @@
 import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,7 +16,11 @@ class DisplayNameNotifier extends Notifier<String> {
 
   @override
   String build() {
-    return '';
+    if (ref.watch(sneakPeekProvider) == true) {
+      return 'Sneak Peeker';
+    } else {
+      return 'New Boxer';
+    }
   }
 
   Future<void> setDisplayName(String newDisplayName) async {

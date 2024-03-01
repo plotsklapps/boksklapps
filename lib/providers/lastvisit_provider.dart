@@ -16,7 +16,8 @@ class LastVisitNotifier extends Notifier<String> {
 
   @override
   String build() {
-    return '';
+    final String today = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    return today;
   }
 
   Future<void> setLastVisit() async {
