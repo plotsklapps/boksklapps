@@ -1,21 +1,17 @@
-import 'package:boksklapps/auth_service.dart';
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/dialogs/password_bottomsheet.dart';
-import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/obscured_provider.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
-import 'package:signals/signals_flutter.dart';
 
 class BottomSheetSignin extends ConsumerStatefulWidget {
   const BottomSheetSignin({super.key});
@@ -27,18 +23,10 @@ class BottomSheetSignin extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
-  // Custom authentification service for easier access to Firebase functions.
-  final AuthService _authService = AuthService();
+  final FirebaseAuthService _authService = FirebaseAuthService();
 
-  // Validation key for the form textfields.
   final GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
 
-  // Used for the password field to show/hide the password and simultaneously
-  // adjust the corresponding TextButton.
-  final Signal<bool> _isObscured = signal<bool>(true);
-
-  // Instead of TextEditingControllers, use String variables to store the
-  // email and password values via the onSaved method and the _signinFormKey.
   String? _email;
   String? _password;
 
@@ -51,8 +39,7 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const BottomSheetHeader(
-              title: 'Sign in to your BOKSklapps '
-                  'account',
+              title: 'Sign in to your BOKSklapps account',
             ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
@@ -95,8 +82,8 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the signal value.
-                    obscureText: _isObscured.watch(context),
+                    // Update the UI based on the provider.
+                    obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
                       icon: const SizedBox(
@@ -105,12 +92,14 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                       ),
                       labelText: 'Password',
                       // Instead of an icon, use a TextButton to toggle the
-                      // _isObscured signal.
+                      // provider.
                       suffixIcon: TextButton(
                         onPressed: () {
-                          _isObscured.value = !_isObscured.value;
+                          ref.read(obscuredProvider.notifier).setObscured(
+                                isObscured: !ref.watch(obscuredProvider),
+                              );
                         },
-                        child: _isObscured.value
+                        child: ref.watch(obscuredProvider)
                             ? const Text('SHOW')
                             : const Text('HIDE'),
                       ),
@@ -151,7 +140,13 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                   onPressed: () {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
-                    _isObscured.value = true;
+
+                    // Set the provider to the default.
+                    ref.read(obscuredProvider.notifier).setObscured(
+                          isObscured: true,
+                        );
+
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -161,8 +156,6 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                   onPressed: () async {
                     await _validateAndEnter();
                   },
-                  // Watching a computed signal to provide the corresponding
-                  // Widget.
                   child: ref.watch(spinnerProvider),
                 ),
               ],
@@ -184,56 +177,35 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
 
       // Log in to Firebase with the email and password.
       await _authService.signInWithEmailAndPassword(
+        ref: ref,
         email: _email!,
         password: _password!,
-        onError: _handleErrors,
-        onSuccess: _handleSuccess,
+      );
+
+      // Set sneak peek provider to false.
+      await ref
+          .read(sneakPeekProvider.notifier)
+          .setSneakPeek(isSneakPeeker: false);
+
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      if (mounted) {
+        // Pop the bottomsheet.
+        Navigator.pop(context);
+
+        // Navigate to the HomeScreen.
+        Navigate.toHomeScreen(context);
+      }
+
+      // Show a SnackBar to the user.
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'You have signed in. Welcome to BOKSklapps!',
       );
     } else {
-      // Validation of form failed, so cancel the spinner and return;
+      // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-      return;
     }
-  }
-
-  void _handleErrors(String error) {
-    // Log the error, cancel the spinner, pop the bottomsheet and show a
-    // SnackBar with the error message to the user.
-    Logger().e('Error: $error');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(
-          'Error: $error',
-          style: TextStyle(
-            color: ref.watch(themeProvider.notifier).isDark
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
-          ),
-        ),
-        showCloseIcon: true,
-        backgroundColor: ref.watch(themeProvider.notifier).isDark
-            ? flexSchemeDark.error
-            : flexSchemeLight.error,
-      ),
-    );
-  }
-
-  void _handleSuccess(UserCredential userCredential) {
-    // Log the success, cancel the spinner, pop the bottomsheet, make sure
-    // sneak peek == false, navigate to the homescreen and show a SnackBar
-    // to the user.
-    Logger().i('User signed in: ${userCredential.user!.email}');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    ref.read(sneakPeekProvider.notifier).setSneakPeek(isSneakPeeker: false);
-    Navigator.pop(context);
-    Navigate.toHomeScreen(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text('You have signed in. Welcome to BOKSklapps!'),
-        showCloseIcon: true,
-      ),
-    );
   }
 }
