@@ -1,16 +1,14 @@
-import 'package:boksklapps/auth_service.dart';
-import 'package:boksklapps/main.dart';
+import 'package:boksklapps/custom_snackbars.dart';
+import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 
 class BottomSheetEmail extends ConsumerStatefulWidget {
   const BottomSheetEmail({
@@ -24,14 +22,10 @@ class BottomSheetEmail extends ConsumerStatefulWidget {
 }
 
 class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
-  // Custom authentification service for easier access to Firebase functions.
-  final AuthService _authService = AuthService();
+  final FirebaseAuthService _authService = FirebaseAuthService();
 
-  // Validation key for the form textfields.
   final GlobalKey<FormState> _emailFormKey = GlobalKey<FormState>();
 
-  // Instead of a TextEditingController, use a String variable to store the
-  // email value via the onSaved method and the _emailFormKey.
   String? _email;
 
   @override
@@ -69,7 +63,7 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
                         width: 24,
                         child: FaIcon(FontAwesomeIcons.solidEnvelope),
                       ),
-                      labelText: 'Email',
+                      labelText: 'New Email',
                     ),
                   ).animate().fade().moveX(delay: 200.ms, begin: -32),
                   const SizedBox(height: 16),
@@ -88,7 +82,7 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
                       const SizedBox(width: 8),
                       FloatingActionButton(
                         onPressed: () async {
-                          await _validateAndSetEmail();
+                          await _validateAndSetEmail(context, ref);
                         },
                         // Watching a computed signal to provide the
                         // corresponding Widget.
@@ -105,65 +99,37 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
     );
   }
 
-  Future<void> _validateAndSetEmail() async {
+  Future<void> _validateAndSetEmail(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    // Validate the form and save the values.
-    final FormState? emailForm = _emailFormKey.currentState;
-    if (emailForm!.validate()) {
-      emailForm.save();
+    final FormState? emailUserForm = _emailFormKey.currentState;
+    if (emailUserForm!.validate()) {
+      emailUserForm.save();
 
-      // Send a email change request email to the user.
       await _authService.setEmail(
-        newEmail: _email!,
-        onError: _handleErrors,
-        onSuccess: _handleSuccess,
+        ref: ref,
+        email: _email!,
       );
-    } else {
-      // Validation of form failed, so cancel the spinner and return.
+
+      // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-      return;
+
+      if (context.mounted) {
+        // Pop the bottomsheet.
+        Navigator.pop(context);
+
+        // Navigate to the StartScreen.
+        Navigate.toVerifyScreen(context);
+      }
+      // Show a SnackBar to the user.
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'Please check your email to verify your new email address.',
+      );
     }
-  }
-
-  void _handleErrors(String error) {
-    // Log the error, cancel the spinner, pop the bottomsheet and show a
-    // SnackBar with the error message to the user.
-    Logger().e('Error: $error');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(
-          'Error: $error',
-          style: TextStyle(
-            color: ref.watch(themeProvider.notifier).isDark
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
-          ),
-        ),
-        showCloseIcon: true,
-        backgroundColor: ref.watch(themeProvider.notifier).isDark
-            ? flexSchemeDark.error
-            : flexSchemeLight.error,
-      ),
-    );
-  }
-
-  void _handleSuccess() {
-    // Log the success, cancel the spinner, pop the bottomsheet and show a
-    // SnackBar to the user.
-    Logger().i('User has changed their email.');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Please check your email to complete the process.',
-        ),
-        showCloseIcon: true,
-      ),
-    );
   }
 }

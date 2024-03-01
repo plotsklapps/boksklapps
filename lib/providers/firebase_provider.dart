@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:boksklapps/custom_snackbars.dart';
-import 'package:boksklapps/main.dart';
-import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/age_provider.dart';
 import 'package:boksklapps/providers/bmi_provider.dart';
 import 'package:boksklapps/providers/height_provider.dart';
@@ -11,7 +9,6 @@ import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/weight_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -206,32 +203,11 @@ class FirebaseAuthService {
   // Sign out the current user.
 
   Future<void> signOut({
-    required BuildContext context,
     required WidgetRef ref,
   }) async {
     try {
-      if (ref.watch(sneakPeekProvider)) {
-        // There is no user to sign out.
-        Navigate.toStartScreen(context);
-        // TODO(plotsklapps): Add invalidate all providers method here.
-      } else {
-        // Sign out the current user.
-        await _firebase.signOut();
-        // TODO(plotsklapps): Add invalidate all providers method here.
-        // Navigate to the StartScreen.
-        if (context.mounted) {
-          Navigate.toStartScreen(context);
-        }
-        // Show a SnackBar to the user.
-        rootScaffoldMessengerKey.currentState!.showSnackBar(
-          const SnackBar(
-            content: Text(
-              'You have successfully signed out.',
-            ),
-            showCloseIcon: true,
-          ),
-        );
-      }
+      await _firebase.signOut();
+      // TODO(plotsklapps): Add invalidate all providers method here.
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
       Logger().e('Firebase error: $e');
@@ -268,12 +244,124 @@ class FirebaseAuthService {
     try {
       // Send a password reset email to the user.
       await _firebase.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      // Log the error to the console.
+      Logger().e('Firebase error: $e');
 
-      // Show a SnackBar with the success message to the user.
-      CustomSnackBars.showSuccessSnackBar(
-          ref,
-          'Password reset email sent, '
-          'check your inbox (and spam folder)');
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on PlatformException catch (e) {
+      // Log the error to the console.
+      Logger().e('Platform error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on TimeoutException catch (e) {
+      // Log the error to the console.
+      Logger().e('Timeout error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } catch (e, s) {
+      // Log the error to the console.
+      Logger().e('Error: $e\nStackTrace: $s');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    }
+  }
+
+  // Reload the current user.
+
+  Future<void> reloadUser({
+    required WidgetRef ref,
+  }) async {
+    try {
+      // Reload the current user.
+      await currentUser!.reload();
+    } on FirebaseAuthException catch (e) {
+      // Log the error to the console.
+      Logger().e('Firebase error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on PlatformException catch (e) {
+      // Log the error to the console.
+      Logger().e('Platform error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on TimeoutException catch (e) {
+      // Log the error to the console.
+      Logger().e('Timeout error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } catch (e, s) {
+      // Log the error to the console.
+      Logger().e('Error: $e\nStackTrace: $s');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    }
+  }
+
+  // Delete the current user.
+
+  Future<void> deleteUser({
+    required WidgetRef ref,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      // Reauthenticate the current user.
+      await currentUser!
+          .reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+          email: email,
+          password: password,
+        ),
+      )
+          .then((UserCredential value) {
+        // Delete the user.
+        currentUser!.delete();
+      });
+    } on FirebaseAuthException catch (e) {
+      // Log the error to the console.
+      Logger().e('Firebase error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on PlatformException catch (e) {
+      // Log the error to the console.
+      Logger().e('Platform error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } on TimeoutException catch (e) {
+      // Log the error to the console.
+      Logger().e('Timeout error: $e');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    } catch (e, s) {
+      // Log the error to the console.
+      Logger().e('Error: $e\nStackTrace: $s');
+
+      // Show a SnackBar with the error message to the user.
+      CustomSnackBars.showErrorSnackBar(ref, e);
+    }
+  }
+
+  // Update the user's email address.
+
+  Future<void> setEmail({
+    required WidgetRef ref,
+    required String email,
+  }) async {
+    try {
+      // Send an email verification to the new email address.
+      await currentUser!.verifyBeforeUpdateEmail(email);
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
       Logger().e('Firebase error: $e');

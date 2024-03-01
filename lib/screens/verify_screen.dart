@@ -5,6 +5,7 @@ import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/flexcolors.dart';
+import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class VerifyScreen extends ConsumerStatefulWidget {
 }
 
 class VerifyScreenState extends ConsumerState<VerifyScreen> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +31,17 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('A verification email has been sent.'),
+            Text(
+              'A verification email has been sent.',
+              style: TextUtils.fontL,
+            ),
             SizedBox(height: 16),
             Text('Please check your spam folder as well.'),
             SizedBox(height: 16),
-            Text('Click the button below AFTER verifying your email address.'),
+            Text(
+              'Click the button below AFTER verifying your email address.',
+              style: TextUtils.fontL,
+            ),
           ],
         ),
       ),
@@ -54,7 +63,7 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
     BuildContext context,
     WidgetRef ref,
   ) async {
-    final User? currentUser = FirebaseAuthService().currentUser;
+    final User? currentUser = _authService.currentUser;
 
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
@@ -64,11 +73,9 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
       ref.read(spinnerProvider.notifier).cancelSpinner();
 
       // Show a SnackBar to the user.
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        const SnackBar(
-          content: Text('No user is currently signed in.'),
-          showCloseIcon: true,
-        ),
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'No user is currently signed in.',
       );
       return;
     }
@@ -88,12 +95,9 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
         }
 
         // Show a SnackBar to the user.
-        rootScaffoldMessengerKey.currentState!.showSnackBar(
-          const SnackBar(
-            content: Text('Your email has been verified. Welcome to '
-                'BOKSklapps!'),
-            showCloseIcon: true,
-          ),
+        CustomSnackBars.showSuccessSnackBar(
+          ref,
+          'Your email has been verified. Welcome to BOKSklapps!',
         );
       } else {
         // Cancel the spinner.

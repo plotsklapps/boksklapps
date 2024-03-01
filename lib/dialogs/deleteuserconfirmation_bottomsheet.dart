@@ -1,19 +1,15 @@
-import 'package:boksklapps/main.dart';
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/navigation.dart';
 import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/obscured_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 
 class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
   const BottomSheetDeleteUserConfirmation({super.key});
@@ -121,7 +117,7 @@ class BottomSheetDeleteUserConfirmationState
                   onPressed: () {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
-                    // Set the provider to true to obscure the password.
+                    // Set the provider to default.
                     ref
                         .read(obscuredProvider.notifier)
                         .setObscured(isObscured: true);
@@ -133,7 +129,7 @@ class BottomSheetDeleteUserConfirmationState
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    await _validateAndDeleteUser(context);
+                    await _validateAndDeleteUser(ref, context);
                   },
                   // Watching a computed signal to provide the corresponding
                   // Widget.
@@ -147,7 +143,10 @@ class BottomSheetDeleteUserConfirmationState
     );
   }
 
-  Future<void> _validateAndDeleteUser(BuildContext context) async {
+  Future<void> _validateAndDeleteUser(
+    WidgetRef ref,
+    BuildContext context,
+  ) async {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
@@ -155,69 +154,27 @@ class BottomSheetDeleteUserConfirmationState
     if (deleteUserForm!.validate()) {
       deleteUserForm.save();
 
-      final User? currentUser = _authService.currentUser;
+      await _authService.deleteUser(
+        ref: ref,
+        email: _email!,
+        password: _password!,
+      );
 
-      if (currentUser == null) {
-        // Cancel the spinner.
-        ref.read(spinnerProvider.notifier).cancelSpinner();
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
 
+      if (context.mounted) {
         // Pop the bottomsheet.
         Navigator.pop(context);
 
-        // Show a SnackBar to the user.
-        rootScaffoldMessengerKey.currentState?.showSnackBar(
-          SnackBar(
-            content: Text(
-              'User not found. Please check your credentials and try again.',
-              style: TextStyle(
-                color: ref.watch(themeProvider.notifier).isDark
-                    ? flexSchemeDark.onError
-                    : flexSchemeLight.error,
-              ),
-            ),
-            showCloseIcon: true,
-            backgroundColor: ref.watch(themeProvider.notifier).isDark
-                ? flexSchemeDark.error
-                : flexSchemeLight.error,
-          ),
-        );
-      } else {
-        try {
-          // Reauthenticate the user.
-          await currentUser
-              .reauthenticateWithCredential(
-            EmailAuthProvider.credential(
-              email: _email!,
-              password: _password!,
-            ),
-          )
-              .then((UserCredential value) {
-            // Delete the user.
-            currentUser.delete();
-            // Cancel the spinner.
-            ref.read(spinnerProvider.notifier).cancelSpinner();
-            // Pop the bottomsheet.
-            Navigator.pop(context);
-            // Navigate to the StartScreen.
-            Navigate.toStartScreen(context);
-            // Show a SnackBar to the user.
-            rootScaffoldMessengerKey.currentState?.showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'Account deleted successfully. Thank you for using '
-                  'BOKSklapps.',
-                ),
-                showCloseIcon: true,
-              ),
-            );
-          }).catchError((Object error) {
-            Logger().e('Error: $error');
-            return false;
-          });
-        } catch (e, s) {
-          print(s);
-        }
+        // Navigate to the StartScreen.
+        Navigate.toStartScreen(context);
       }
+      // Show a SnackBar to the user.
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'Your account has been deleted.',
+      );
     }
   }
 }
