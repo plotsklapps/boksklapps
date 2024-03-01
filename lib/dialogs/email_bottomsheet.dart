@@ -110,7 +110,7 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
     if (emailUserForm!.validate()) {
       emailUserForm.save();
 
-      await _authService.setEmail(
+      await _authService.updateEmail(
         ref: ref,
         email: _email!,
       );

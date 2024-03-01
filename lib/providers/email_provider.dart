@@ -18,7 +18,7 @@ class EmailNotifier extends Notifier<String> {
     return '';
   }
 
-  Future<void> setEmail(String newEmail) async {
+  Future<void> updateEmail(String newEmail) async {
     // Update the user's display name in the Firestore database.
     await _firestore
         .collection('users')

@@ -33,7 +33,7 @@ class BottomSheetUserSettings extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) {
-                    return const BottomSheetUsername();
+                    return const BottomSheetDisplayName();
                   },
                 );
               },
