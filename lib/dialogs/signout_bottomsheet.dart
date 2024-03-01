@@ -1,23 +1,25 @@
-import 'package:boksklapps/auth_service.dart';
 import 'package:boksklapps/custom_snackbars.dart';
-import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 
 class BottomSheetSignout extends ConsumerStatefulWidget {
   const BottomSheetSignout({super.key});
 
   @override
-  ConsumerState<BottomSheetSignout> createState() => _BottomSheetSignoutState();
+  ConsumerState<BottomSheetSignout> createState() {
+    return BottomSheetSignoutState();
+  }
 }
 
-class _BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
+class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
+  final FirebaseAuthService _authService = FirebaseAuthService();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,8 +29,7 @@ class _BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const BottomSheetHeader(
-              title: 'Are you sure you want to sign '
-                  'out?',
+              title: 'Are you sure you want to sign out?',
             ),
             const Divider(thickness: 2),
             const SizedBox(height: 16),
@@ -37,6 +38,10 @@ class _BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
               children: <Widget>[
                 TextButton(
                   onPressed: () {
+                    // Cancel the spinner.
+                    ref.read(spinnerProvider.notifier).cancelSpinner();
+
+                    // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
                   child: const Text('CANCEL'),
@@ -59,49 +64,43 @@ class _BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
   Future<void> _validateAndSignout(BuildContext context) async {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
+
     if (ref.watch(sneakPeekProvider)) {
-      // If the user is sneak peeking, just return to the
-      // Splash Screen. No need to sign out the user.
+      // Set the sneak peek provider to false.
       await ref
           .read(sneakPeekProvider.notifier)
           .setSneakPeek(isSneakPeeker: false);
-      Logger().i('User has signed out.');
+
+      // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
+
       if (context.mounted) {
+        // Pop the bottomsheet.
         Navigator.pop(context);
-        Navigate.toSplashScreen(context);
+
+        // Navigate to the StartScreen.
+        Navigate.toStartScreen(context);
       }
     } else {
-      // Sign out the user completely and return to the
-      // Splash Screen.
-      await AuthService().signOut(
-        onError: _handleErrors,
-        onSuccess: () {
-          _handleSuccess(context);
-        },
+      // Sign out the user.
+      await _authService.signOut(ref: ref);
+
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      if (context.mounted) {
+        // Pop the bottomsheet.
+        Navigator.pop(context);
+
+        // Navigate to the StartScreen.
+        Navigate.toStartScreen(context);
+      }
+
+      // Show a SnackBar to the user.
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'You have been successfully signed out.',
       );
     }
-  }
-
-  void _handleErrors(String error) {
-    // Log the error, cancel the spinner and show a SnackBar with the
-    // error message to the user.
-    Logger().e('Error: $error');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    CustomSnackBars.showErrorSnackBar(ref, error);
-  }
-
-  void _handleSuccess(BuildContext context) {
-    // Log the success, cancel the spinner, navigate to the splashscreen
-    // and show a SnackBar to the user.
-    Logger().i('User has signed out.');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigate.toSplashScreen(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text('You have been successfully signed out.'),
-        showCloseIcon: true,
-      ),
-    );
   }
 }
