@@ -1,16 +1,13 @@
-import 'package:boksklapps/auth_service.dart';
-import 'package:boksklapps/main.dart';
+import 'package:boksklapps/custom_snackbars.dart';
+import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
-import 'package:boksklapps/providers/theme_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
-import 'package:boksklapps/theme/flexcolors.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 
 class BottomSheetResetPassword extends ConsumerStatefulWidget {
   const BottomSheetResetPassword({super.key});
@@ -23,14 +20,10 @@ class BottomSheetResetPassword extends ConsumerStatefulWidget {
 
 class BottomSheetResetPasswordState
     extends ConsumerState<BottomSheetResetPassword> {
-  // Custom authentification service for easier access to Firebase functions.
-  final AuthService _authService = AuthService();
+  final FirebaseAuthService _authService = FirebaseAuthService();
 
-  // Validation key for the form textfields.
   final GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
 
-  // Instead of a TextEditingController, use a String variable to store the
-  // email value via the onSaved method and the _passwordFormKey.
   String? _email;
 
   @override
@@ -113,52 +106,26 @@ class BottomSheetResetPasswordState
 
       // Send a password reset email to the user.
       await _authService.sendPasswordResetEmail(
+        ref: ref,
         email: _email!,
-        onError: _handleErrors,
-        onSuccess: _handleSuccess,
+      );
+
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      // Pop the bottomsheet.
+      if (mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show a SnackBar to the user.
+      CustomSnackBars.showSuccessSnackBar(
+        ref,
+        'A reset password email has been sent.',
       );
     } else {
-      // Validation of form failed, so cancel the spinner and return;
+      // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-      return;
     }
-  }
-
-  void _handleErrors(String error) {
-    // Log the error, cancel the spinner, pop the bottomsheet and show a
-    // SnackBar with the error message to the user.
-    Logger().e('Error: $error');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(
-          'Error: $error',
-          style: TextStyle(
-            color: ref.watch(themeProvider.notifier).isDark
-                ? flexSchemeDark.onError
-                : flexSchemeLight.onError,
-          ),
-        ),
-        showCloseIcon: true,
-        backgroundColor: ref.watch(themeProvider.notifier).isDark
-            ? flexSchemeDark.error
-            : flexSchemeLight.error,
-      ),
-    );
-  }
-
-  void _handleSuccess() {
-    // Log the success, cancel the spinner, pop the bottomsheet and show a
-    // SnackBar to the user.
-    Logger().i('Reset password email sent.');
-    ref.read(spinnerProvider.notifier).cancelSpinner();
-    Navigator.pop(context);
-    rootScaffoldMessengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text('A reset password email has been sent.'),
-        showCloseIcon: true,
-      ),
-    );
   }
 }
