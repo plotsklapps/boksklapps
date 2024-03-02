@@ -9,7 +9,7 @@ class CustomSnackBars {
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
-          'An error occurred: $e',
+          'Error: $e',
           style: TextStyle(
             color: ref.watch(themeProvider.notifier).isDark
                 ? flexSchemeDark.onError

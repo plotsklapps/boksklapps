@@ -1,14 +1,16 @@
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/obscured_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetSignup extends ConsumerStatefulWidget {
   const BottomSheetSignup({super.key});
@@ -20,8 +22,6 @@ class BottomSheetSignup extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -187,6 +187,8 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
   }
 
   Future<void> _validateAndCreate() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
@@ -195,17 +197,32 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
     if (signupForm!.validate()) {
       signupForm.save();
 
-      // Create a new Firebase user with the email and password.
-      // Inside this method a verification email will be sent as well.
-      await _authService.createUserWithEmailAndPassword(
-        ref: ref,
-        email: _email!,
-        password: _password!,
-      );
+      try {
+        // Create a new Firebase user with the email and password.
+        await firebaseAuth.createUserWithEmailAndPassword(
+          email: _email!,
+          password: _password!,
+        );
 
-      // Navigate to the verification screen.
-      if (mounted) {
-        Navigate.toVerifyScreen(context);
+        // Send a verification email to the user.
+        await firebaseAuth.currentUser!.sendEmailVerification();
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Navigate to the email verification screen.
+        if (mounted) {
+          Navigate.toVerifyScreen(context);
+        }
+      } catch (error) {
+        // Log the error to the console.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Show a SnackBar.
+        CustomSnackBars.showErrorSnackBar(ref, error);
       }
     } else {
       // Validation of form failed: cancel the spinner.

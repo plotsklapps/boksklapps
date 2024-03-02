@@ -15,6 +15,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
+// ignore: always_specify_types
+final firebaseProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instance;
+});
+
+// ignore: always_specify_types
+final firestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instance;
+});
+
+// ignore: always_specify_types
+final currentUserProvider = Provider<User?>((ref) {
+  return ref.watch(firebaseProvider).currentUser;
+});
+
 class FirebaseAuthService {
   // Create an instance of the FirebaseAuth class.
   final FirebaseAuth _firebase = FirebaseAuth.instance;
