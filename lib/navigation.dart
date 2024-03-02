@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 // Creating a class dedicated to navigational Strings to
 // avoid typo's.
 class NavString {
-  static String splashScreen = '/splashScreen';
   static String startScreen = '/startScreen';
   static String verifyScreen = '/verifyScreen';
   static String homeScreen = '/homeScreen';
@@ -39,10 +38,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
 // Creating a more convenient way of navigating inside the app.
 // Use simply as Navigate.toSplashScreen(context); for example.
 class Navigate {
-  static void toSplashScreen(BuildContext context) {
-    Navigator.pushReplacementNamed(context, NavString.splashScreen);
-  }
-
   static void toStartScreen(BuildContext context) {
     Navigator.pushReplacementNamed(context, NavString.startScreen);
   }
