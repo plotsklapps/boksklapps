@@ -206,6 +206,12 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
         if (mounted) {
           Navigate.toVerifyScreen(context);
         }
+
+        // Show a SnackBar.
+        CustomSnackBars.showSuccess(
+          ref,
+          'A verification email has been sent to $_email.',
+        );
       } catch (error) {
         // Log the error to the console.
         Logger().e(error);

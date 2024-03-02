@@ -1,12 +1,13 @@
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetSignout extends ConsumerStatefulWidget {
   const BottomSheetSignout({super.key});
@@ -18,7 +19,7 @@ class BottomSheetSignout extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    await _validateAndSignout(context);
+                    await _validateAndSignout();
                   },
                   child: ref.watch(spinnerProvider),
                 ),
@@ -61,7 +62,7 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
     );
   }
 
-  Future<void> _validateAndSignout(BuildContext context) async {
+  Future<void> _validateAndSignout() async {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
@@ -74,33 +75,44 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
       // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
 
-      if (context.mounted) {
-        // Pop the bottomsheet.
-        Navigator.pop(context);
-
-        // Navigate to the StartScreen.
-        Navigate.toStartScreen(context);
-      }
-    } else {
-      // Sign out the user.
-      await _authService.signOut(ref: ref);
-
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
-
-      if (context.mounted) {
-        // Pop the bottomsheet.
-        Navigator.pop(context);
-
+      if (mounted) {
         // Navigate to the StartScreen.
         Navigate.toStartScreen(context);
       }
 
-      // Show a SnackBar to the user.
+      // Show a SnackBar.
       CustomSnackBars.showSuccess(
         ref,
         'You have been successfully signed out.',
       );
+    } else {
+      try {
+        // Sign out the user.
+        await _firebaseAuth.signOut();
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        if (mounted) {
+          // Navigate to the StartScreen.
+          Navigate.toStartScreen(context);
+        }
+
+        // Show a SnackBar to the user.
+        CustomSnackBars.showSuccess(
+          ref,
+          'You have been successfully signed out.',
+        );
+      } catch (error) {
+        // Log the error to the console.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
+      }
     }
   }
 }
