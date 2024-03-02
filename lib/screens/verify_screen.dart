@@ -1,8 +1,14 @@
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/age_provider.dart';
+import 'package:boksklapps/providers/bmi_provider.dart';
+import 'package:boksklapps/providers/height_provider.dart';
+import 'package:boksklapps/providers/lastvisit_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/weight_provider.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +24,8 @@ class VerifyScreen extends ConsumerStatefulWidget {
 }
 
 class VerifyScreenState extends ConsumerState<VerifyScreen> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +67,7 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
   }
 
   Future<void> _validateAndVerify() async {
-    final User? currentUser = _firebaseAuth.currentUser;
+    final User? currentUser = _firebase.currentUser;
 
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
@@ -82,6 +89,28 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
       await currentUser.reload();
 
       if (currentUser.emailVerified) {
+        // Create a Firestore document.
+        final DocumentReference<Map<String, dynamic>> userDoc =
+            _firestore.collection('users').doc(currentUser.uid);
+
+        // Create a new Firestore document for the newly created user.
+        await userDoc.set(
+          <String, dynamic>{
+            'uid': currentUser.uid,
+            'email': currentUser.email,
+            'displayName': currentUser.displayName,
+            'photoURL': currentUser.photoURL,
+            'emailVerified': currentUser.emailVerified,
+            'creationDate': currentUser.metadata.creationTime,
+            'age': ref.watch(ageProvider),
+            'height': ref.watch(heightProvider),
+            'weight': ref.watch(weightProvider),
+            'bmi': ref.watch(bmiProvider),
+            'lastVisit': ref.watch(lastVisitProvider),
+            'totalWorkouts': 0, // DateTime
+          },
+        );
+
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
 

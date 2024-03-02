@@ -1,13 +1,14 @@
 import 'package:boksklapps/custom_snackbars.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetResetPassword extends ConsumerStatefulWidget {
   const BottomSheetResetPassword({super.key});
@@ -20,7 +21,7 @@ class BottomSheetResetPassword extends ConsumerStatefulWidget {
 
 class BottomSheetResetPasswordState
     extends ConsumerState<BottomSheetResetPassword> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
 
   final GlobalKey<FormState> _passwordFormKey = GlobalKey<FormState>();
 
@@ -75,6 +76,7 @@ class BottomSheetResetPasswordState
                   onPressed: () {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
+
                     // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
@@ -96,35 +98,50 @@ class BottomSheetResetPasswordState
   }
 
   Future<void> _validateAndReset() async {
+    final FormState? passwordForm = _passwordFormKey.currentState;
+
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
-    final FormState? passwordForm = _passwordFormKey.currentState;
     if (passwordForm!.validate()) {
       passwordForm.save();
 
-      // Send a password reset email to the user.
-      await _authService.sendPasswordResetEmail(
-        ref: ref,
-        email: _email!,
-      );
+      try {
+        // Send a password reset email to the user.
+        await _firebase.sendPasswordResetEmail(email: _email!);
 
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
 
-      // Pop the bottomsheet.
-      if (mounted) {
-        Navigator.pop(context);
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showSuccess(
+          ref,
+          'A reset password email has been sent to $_email. Please check your'
+          ' inbox and spam folder.',
+        );
+      } catch (error) {
+        // Log the error to the console.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
       }
-
-      // Show a SnackBar to the user.
-      CustomSnackBars.showSuccess(
-        ref,
-        'A reset password email has been sent.',
-      );
     } else {
-      // Cancel the spinner.
+      // Validation failed, cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }

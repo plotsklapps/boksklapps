@@ -202,6 +202,11 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
 
+        // // Set the provider back to default.
+        await ref.read(obscuredProvider.notifier).setObscured(
+              isObscured: true,
+            );
+
         // Navigate to the VerifyScreen.
         if (mounted) {
           Navigate.toVerifyScreen(context);
