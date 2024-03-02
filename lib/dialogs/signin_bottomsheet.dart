@@ -1,17 +1,17 @@
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/dialogs/password_bottomsheet.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/obscured_provider.dart';
-import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetSignin extends ConsumerStatefulWidget {
   const BottomSheetSignin({super.key});
@@ -23,8 +23,7 @@ class BottomSheetSignin extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -75,14 +74,14 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                     validator: (String? value) {
                       if (value == null || value.isEmpty || value.length < 6) {
                         return 'Password needs to be at least 6 characters.';
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                     onSaved: (String? value) {
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the provider.
                     obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
@@ -91,8 +90,6 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                         child: FaIcon(FontAwesomeIcons.lock),
                       ),
                       labelText: 'Password',
-                      // Instead of an icon, use a TextButton to toggle the
-                      // provider.
                       suffixIcon: TextButton(
                         onPressed: () {
                           ref.read(obscuredProvider.notifier).setObscured(
@@ -141,7 +138,7 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
 
-                    // Set the provider to the default.
+                    // Set the provider back to default.
                     ref.read(obscuredProvider.notifier).setObscured(
                           isObscured: true,
                         );
@@ -154,7 +151,7 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    await _validateAndEnter();
+                    await _validateAndSignin();
                   },
                   child: ref.watch(spinnerProvider),
                 ),
@@ -166,45 +163,61 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
     );
   }
 
-  Future<void> _validateAndEnter() async {
+  Future<void> _validateAndSignin() async {
+    final FormState? signinForm = _signinFormKey.currentState;
+
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
-    final FormState? signinForm = _signinFormKey.currentState;
     if (signinForm!.validate()) {
       signinForm.save();
 
-      // Log in to Firebase with the email and password.
-      await _authService.signInWithEmailAndPassword(
-        ref: ref,
-        email: _email!,
-        password: _password!,
-      );
+      try {
+        // Log in to Firebase with the email and password.
+        await _firebaseAuth.signInWithEmailAndPassword(
+          email: _email!,
+          password: _password!,
+        );
 
-      // Set sneak peek provider to false.
-      await ref
-          .read(sneakPeekProvider.notifier)
-          .setSneakPeek(isSneakPeeker: false);
+        // Check if email is verified.
+        if (!_firebaseAuth.currentUser!.emailVerified) {
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
 
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
+          // Show a SnackBar.
+          CustomSnackBars.showError(
+            ref,
+            'Your email has not been verified. Please check your inbox and/or spamfolder.',
+          );
+          return;
+        } else {
+          // Cancel the spinner.
+          ref.read(spinnerProvider.notifier).cancelSpinner();
 
-      if (mounted) {
-        // Pop the bottomsheet.
-        Navigator.pop(context);
+          if (mounted) {
+            // Navigate to the HomeScreen.
+            Navigate.toHomeScreen(context);
+          }
 
-        // Navigate to the HomeScreen.
-        Navigate.toHomeScreen(context);
+          // Show a SnackBar.
+          CustomSnackBars.showSuccess(
+            ref,
+            'You have signed in. Welcome to BOKSklapps!',
+          );
+        }
+      } catch (error) {
+        // Log the error to the console.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
       }
-
-      // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
-        ref,
-        'You have signed in. Welcome to BOKSklapps!',
-      );
     } else {
-      // Cancel the spinner.
+      // Validation failed, cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
     }
   }

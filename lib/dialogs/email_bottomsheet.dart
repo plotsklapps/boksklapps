@@ -126,7 +126,7 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
         Navigate.toVerifyScreen(context);
       }
       // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
+      CustomSnackBars.showSuccess(
         ref,
         'Please check your email to verify your new email address.',
       );

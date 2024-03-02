@@ -22,6 +22,7 @@ class BottomSheetSignup extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -55,7 +56,6 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       }
                     },
                     onSaved: (String? value) {
-                      // Store user input in local variable.
                       _email = value?.trim();
                     },
                     keyboardType: TextInputType.emailAddress,
@@ -77,11 +77,9 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       }
                     },
                     onChanged: (String? value) {
-                      // Store user input in local variable.
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the provider.
                     obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
@@ -90,8 +88,6 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                         child: FaIcon(FontAwesomeIcons.lock),
                       ),
                       labelText: 'Password',
-                      // Instead of an icon, use a TextButton to toggle the
-                      // provider.
                       suffixIcon: TextButton(
                         onPressed: () {
                           ref.read(obscuredProvider.notifier).setObscured(
@@ -110,10 +106,8 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                   const SizedBox(height: 8),
                   TextFormField(
                     validator: (String? value) {
-                      // Store user input in local variable.
                       _confirmPassword = value?.trim();
 
-                      // Run some checks.
                       if (_confirmPassword == null ||
                           _confirmPassword!.isEmpty ||
                           _confirmPassword!.length < 6) {
@@ -125,7 +119,6 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                       }
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the provider.
                     obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
@@ -134,8 +127,6 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                         child: FaIcon(FontAwesomeIcons.lock),
                       ),
                       labelText: 'Confirm Password',
-                      // Instead of an icon, use a TextButton to toggle the
-                      // provider.
                       suffixIcon: TextButton(
                         onPressed: () {
                           ref.read(obscuredProvider.notifier).setObscured(
@@ -162,10 +153,12 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                   onPressed: () {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
+
                     // Set the provider back to default.
                     ref.read(obscuredProvider.notifier).setObscured(
                           isObscured: true,
                         );
+
                     // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
@@ -174,7 +167,7 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    await _validateAndCreate();
+                    await _validateAndSignup();
                   },
                   child: ref.watch(spinnerProvider),
                 ),
@@ -186,31 +179,30 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
     );
   }
 
-  Future<void> _validateAndCreate() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Future<void> _validateAndSignup() async {
+    final FormState? signupForm = _signupFormKey.currentState;
 
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
-    final FormState? signupForm = _signupFormKey.currentState;
     if (signupForm!.validate()) {
       signupForm.save();
 
       try {
         // Create a new Firebase user with the email and password.
-        await firebaseAuth.createUserWithEmailAndPassword(
+        await _firebaseAuth.createUserWithEmailAndPassword(
           email: _email!,
           password: _password!,
         );
 
         // Send a verification email to the user.
-        await firebaseAuth.currentUser!.sendEmailVerification();
+        await _firebaseAuth.currentUser!.sendEmailVerification();
 
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
 
-        // Navigate to the email verification screen.
+        // Navigate to the VerifyScreen.
         if (mounted) {
           Navigate.toVerifyScreen(context);
         }
@@ -222,12 +214,11 @@ class BottomSheetSignupState extends ConsumerState<BottomSheetSignup> {
         ref.read(spinnerProvider.notifier).cancelSpinner();
 
         // Show a SnackBar.
-        CustomSnackBars.showErrorSnackBar(ref, error);
+        CustomSnackBars.showError(ref, error.toString());
       }
     } else {
-      // Validation of form failed: cancel the spinner.
+      // Validation failed, cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-      return;
     }
   }
 }

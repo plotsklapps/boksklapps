@@ -42,50 +42,6 @@ class FirebaseAuthService {
     return _firebase.currentUser;
   }
 
-  // Sign up a new user.
-
-  Future<void> createUserWithEmailAndPassword({
-    required WidgetRef ref,
-    required String email,
-    required String password,
-  }) async {
-    try {
-      // Create a new user with the email and password.
-      final UserCredential userCredential =
-          await _firebase.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      // Send a verification email to the newly created user.
-      await userCredential.user!.sendEmailVerification();
-    } on FirebaseAuthException catch (e) {
-      // Log the error to the console.
-      Logger().e('Firebase error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
-    } on PlatformException catch (e) {
-      // Log the error to the console.
-      Logger().e('Platform error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
-    } on TimeoutException catch (e) {
-      // Log the error to the console.
-      Logger().e('Timeout error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
-    } catch (e, s) {
-      // Log the error to the console.
-      Logger().e('Error: $e\nStackTrace: $s');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
-    }
-  }
-
   // Create a Firestore document for the newly created user.
 
   Future<void> createUserDocument({
@@ -117,25 +73,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -157,25 +113,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -195,25 +151,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -230,25 +186,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -266,25 +222,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -301,25 +257,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -348,25 +304,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -387,25 +343,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 
@@ -428,25 +384,25 @@ class FirebaseAuthService {
       Logger().e('Firebase error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on PlatformException catch (e) {
       // Log the error to the console.
       Logger().e('Platform error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } on TimeoutException catch (e) {
       // Log the error to the console.
       Logger().e('Timeout error: $e');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     } catch (e, s) {
       // Log the error to the console.
       Logger().e('Error: $e\nStackTrace: $s');
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 }

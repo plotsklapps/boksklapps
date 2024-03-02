@@ -119,7 +119,7 @@ class BottomSheetResetPasswordState
       }
 
       // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
+      CustomSnackBars.showSuccess(
         ref,
         'A reset password email has been sent.',
       );

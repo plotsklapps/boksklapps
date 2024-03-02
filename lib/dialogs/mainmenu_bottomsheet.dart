@@ -63,7 +63,7 @@ class BottomSheetMainMenuState extends ConsumerState<BottomSheetMainMenu> {
                 Navigator.pop(context);
 
                 // Show a SnackBar to the user.
-                CustomSnackBars.showSuccessSnackBar(
+                CustomSnackBars.showSuccess(
                   ref,
                   ref.watch(themeProvider.notifier).isDark
                       ? 'Dark theme activated'

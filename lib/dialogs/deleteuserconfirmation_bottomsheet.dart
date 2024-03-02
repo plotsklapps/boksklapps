@@ -171,7 +171,7 @@ class BottomSheetDeleteUserConfirmationState
         Navigate.toStartScreen(context);
       }
       // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
+      CustomSnackBars.showSuccess(
         ref,
         'Your account has been deleted.',
       );

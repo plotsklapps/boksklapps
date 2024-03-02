@@ -121,7 +121,7 @@ class BottomSheetFirstSigninState
     }
 
     // Show a SnackBar to the user.
-    CustomSnackBars.showSuccessSnackBar(
+    CustomSnackBars.showSuccess(
       ref,
       'Welcome to BOKSklapps! You are a sneak peeker, your data will NOT be '
       'stored.',

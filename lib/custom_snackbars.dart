@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomSnackBars {
-  static void showErrorSnackBar(WidgetRef ref, Object e) {
+  static void showError(WidgetRef ref, String message) {
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(
-          'Error: $e',
+          message,
           style: TextStyle(
             color: ref.watch(themeProvider.notifier).isDark
                 ? flexSchemeDark.onError
@@ -24,7 +24,7 @@ class CustomSnackBars {
     );
   }
 
-  static void showSuccessSnackBar(WidgetRef ref, String message) {
+  static void showSuccess(WidgetRef ref, String message) {
     rootScaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         content: Text(

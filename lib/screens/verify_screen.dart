@@ -73,7 +73,7 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
       ref.read(spinnerProvider.notifier).cancelSpinner();
 
       // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
+      CustomSnackBars.showSuccess(
         ref,
         'No user is currently signed in.',
       );
@@ -95,7 +95,7 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
         }
 
         // Show a SnackBar to the user.
-        CustomSnackBars.showSuccessSnackBar(
+        CustomSnackBars.showSuccess(
           ref,
           'Your email has been verified. Welcome to BOKSklapps!',
         );
@@ -128,7 +128,7 @@ class VerifyScreenState extends ConsumerState<VerifyScreen> {
       ref.read(spinnerProvider.notifier).cancelSpinner();
 
       // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showErrorSnackBar(ref, e);
+      CustomSnackBars.showError(ref, e);
     }
   }
 }

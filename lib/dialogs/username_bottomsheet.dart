@@ -119,7 +119,7 @@ class BottomSheetDisplayNameState
       }
 
       // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
+      CustomSnackBars.showSuccess(
         ref,
         ' You have successfully changed your username.',
       );

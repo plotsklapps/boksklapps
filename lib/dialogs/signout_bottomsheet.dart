@@ -97,7 +97,7 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
       }
 
       // Show a SnackBar to the user.
-      CustomSnackBars.showSuccessSnackBar(
+      CustomSnackBars.showSuccess(
         ref,
         'You have been successfully signed out.',
       );
