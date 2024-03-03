@@ -1,5 +1,5 @@
 import 'package:boksklapps/custom_snackbars.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/displayname_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetDisplayName extends ConsumerStatefulWidget {
   const BottomSheetDisplayName({
@@ -21,8 +22,6 @@ class BottomSheetDisplayName extends ConsumerStatefulWidget {
 
 class BottomSheetDisplayNameState
     extends ConsumerState<BottomSheetDisplayName> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
   final GlobalKey<FormState> _displayNameFormKey = GlobalKey<FormState>();
 
   String? _displayName;
@@ -96,37 +95,47 @@ class BottomSheetDisplayNameState
   }
 
   Future<void> _validateAndSetDisplayName() async {
+    final FormState? usernameForm = _displayNameFormKey.currentState;
+
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
     // Validate the form and save the values.
-    final FormState? usernameForm = _displayNameFormKey.currentState;
     if (usernameForm!.validate()) {
       usernameForm.save();
 
-      // Change the displayName of the user.
-      await _authService.updateDisplayName(
-        ref: ref,
-        newDisplayName: _displayName!,
-      );
+      try {
+        // Update the displayName via the provider.
+        await ref.read(displayNameProvider.notifier).setDisplayName(
+              _displayName!,
+            );
 
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
 
-      // Pop the bottomsheet.
-      if (mounted) {
-        Navigator.pop(context);
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar to the user.
+        CustomSnackBars.showSuccess(
+          ref,
+          ' You have successfully changed your username, $_displayName',
+        );
+      } catch (error) {
+        // Log the error.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
       }
-
-      // Show a SnackBar to the user.
-      CustomSnackBars.showSuccess(
-        ref,
-        ' You have successfully changed your username.',
-      );
     } else {
-      // Validation of form failed, so cancel the spinner and return;
+      // Validation failed, cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-      return;
     }
   }
 }

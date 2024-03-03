@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:boksklapps/custom_snackbars.dart';
-import 'package:boksklapps/providers/displayname_provider.dart';
 import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -240,47 +239,6 @@ class FirebaseAuthService {
 
       // Update the state and Firestore with the new email address.
       await ref.read(emailProvider.notifier).updateEmail(email);
-    } on FirebaseAuthException catch (e) {
-      // Log the error to the console.
-      Logger().e('Firebase error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } on PlatformException catch (e) {
-      // Log the error to the console.
-      Logger().e('Platform error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } on TimeoutException catch (e) {
-      // Log the error to the console.
-      Logger().e('Timeout error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } catch (e, s) {
-      // Log the error to the console.
-      Logger().e('Error: $e\nStackTrace: $s');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    }
-  }
-
-  // Update the user's display name.
-
-  Future<void> updateDisplayName({
-    required WidgetRef ref,
-    required String newDisplayName,
-  }) async {
-    try {
-      // Update Firebase Auth with the new display name.
-      await _firebase.currentUser!.updateDisplayName(newDisplayName);
-
-      // Update the state and Firestore with the new display name.
-      await ref
-          .read(displayNameProvider.notifier)
-          .setDisplayName(newDisplayName);
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
       Logger().e('Firebase error: $e');

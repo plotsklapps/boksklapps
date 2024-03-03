@@ -1,6 +1,6 @@
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore: always_specify_types
@@ -8,10 +8,7 @@ final displayNameProvider =
     NotifierProvider<DisplayNameNotifier, String>(DisplayNameNotifier.new);
 
 class DisplayNameNotifier extends Notifier<String> {
-  // Create an instance of the FirebaseAuth service.
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
-  // Create an instance of the FirebaseFirestore class.
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -24,10 +21,13 @@ class DisplayNameNotifier extends Notifier<String> {
   }
 
   Future<void> setDisplayName(String newDisplayName) async {
+    // Update the user's display name in Firebase Authentication.
+    await _firebase.currentUser?.updateDisplayName(newDisplayName);
+
     // Update the user's display name in the Firestore database.
     await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .update(<String, String?>{
       'displayName': newDisplayName,
     });
@@ -37,12 +37,9 @@ class DisplayNameNotifier extends Notifier<String> {
   }
 
   Future<void> getDisplayName() async {
-    // Get the user's display name from the Firestore database.
-    final DocumentSnapshot<Map<String, dynamic>> userDoc = await _firestore
-        .collection('users')
-        .doc(_authService.currentUser?.uid)
-        .get();
-    final String displayName = userDoc.data()!['displayName'] as String;
+    // Get the user's displayName from Firebase Authentication.
+    final String displayName =
+        _firebase.currentUser?.displayName ?? 'New Boxer';
 
     // Update the state with the user's display name.
     state = displayName;
