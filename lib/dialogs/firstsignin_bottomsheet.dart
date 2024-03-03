@@ -2,14 +2,16 @@ import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/dialogs/signin_bottomsheet.dart';
 import 'package:boksklapps/dialogs/signup_bottomsheet.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetFirstSignin extends ConsumerStatefulWidget {
   const BottomSheetFirstSignin({super.key});
@@ -22,7 +24,7 @@ class BottomSheetFirstSignin extends ConsumerStatefulWidget {
 
 class BottomSheetFirstSigninState
     extends ConsumerState<BottomSheetFirstSignin> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,7 @@ class BottomSheetFirstSigninState
             ).animate().fade(delay: 200.ms).moveX(delay: 400.ms, begin: -32),
             ListTile(
               onTap: () async {
-                await _continueAsSneakPeeker(context, ref);
+                await _continueAsSneakPeeker();
               },
               leading: const FaIcon(FontAwesomeIcons.userSecret),
               title: const Text('Sneak peek'),
@@ -103,28 +105,40 @@ class BottomSheetFirstSigninState
     );
   }
 
-  Future<void> _continueAsSneakPeeker(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
+  Future<void> _continueAsSneakPeeker() async {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    await _authService.signInAnonymously(ref: ref);
+    try {
+      // Sign in the user 'anonymously'. For now, that means just setting
+      // the sneakpeekprovider to true.
+      await ref.read(sneakPeekProvider.notifier).setSneakPeek(
+            isSneakPeeker: true,
+          );
 
-    // Cancel the spinner.
-    ref.read(spinnerProvider.notifier).cancelSpinner();
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
 
-    // Navigate to the HomeScreen.
-    if (context.mounted) {
-      Navigate.toHomeScreen(context);
+      // Navigate to the HomeScreen.
+      if (mounted) {
+        Navigate.toHomeScreen(context);
+      }
+
+      // Show a SnackBar to the user.
+      CustomSnackBars.showSuccess(
+        ref,
+        'Welcome to BOKSklapps! You are a sneak peeker, your data will NOT be '
+        'stored.',
+      );
+    } catch (error) {
+      // Log the error.
+      Logger().e(error);
+
+      // Cancel the spinner.
+      ref.read(spinnerProvider.notifier).cancelSpinner();
+
+      // Show a SnackBar.
+      CustomSnackBars.showError(ref, error.toString());
     }
-
-    // Show a SnackBar to the user.
-    CustomSnackBars.showSuccess(
-      ref,
-      'Welcome to BOKSklapps! You are a sneak peeker, your data will NOT be '
-      'stored.',
-    );
   }
 }

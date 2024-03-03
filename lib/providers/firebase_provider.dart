@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/providers/email_provider.dart';
-import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -34,44 +33,6 @@ class FirebaseAuthService {
   // Get the current user.
   User? get currentUser {
     return _firebase.currentUser;
-  }
-
-  // Sign in anonymously.
-
-  Future<void> signInAnonymously({
-    required WidgetRef ref,
-  }) async {
-    try {
-      // Sign in the user 'anonymously'. For now, that means just setting
-      // the sneakpeekprovider to true.
-      await ref.read(sneakPeekProvider.notifier).setSneakPeek(
-            isSneakPeeker: true,
-          );
-    } on FirebaseAuthException catch (e) {
-      // Log the error to the console.
-      Logger().e('Firebase error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } on PlatformException catch (e) {
-      // Log the error to the console.
-      Logger().e('Platform error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } on TimeoutException catch (e) {
-      // Log the error to the console.
-      Logger().e('Timeout error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } catch (e, s) {
-      // Log the error to the console.
-      Logger().e('Error: $e\nStackTrace: $s');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    }
   }
 
   // Sign out the current user.
