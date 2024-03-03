@@ -1,7 +1,6 @@
 import 'package:boksklapps/dialogs/firstsignin_bottomsheet.dart';
 import 'package:boksklapps/main.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/widgets/bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +17,7 @@ class StartScreen extends ConsumerStatefulWidget {
 }
 
 class StartScreenState extends ConsumerState<StartScreen> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -71,7 +70,7 @@ class StartScreenState extends ConsumerState<StartScreen> {
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    final User? currentUser = _authService.currentUser;
+    final User? currentUser = _firebase.currentUser;
 
     if (currentUser != null) {
       if (currentUser.emailVerified) {
