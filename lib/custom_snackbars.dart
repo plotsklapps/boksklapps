@@ -17,6 +17,7 @@ class CustomSnackBars {
           ),
         ),
         showCloseIcon: true,
+        behavior: SnackBarBehavior.floating,
         backgroundColor: ref.watch(themeProvider.notifier).isDark
             ? flexSchemeDark.error
             : flexSchemeLight.error,
@@ -31,6 +32,7 @@ class CustomSnackBars {
           message,
         ),
         showCloseIcon: true,
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

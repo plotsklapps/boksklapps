@@ -26,7 +26,7 @@ class BMINotifier extends Notifier<double> {
         .collection('users')
         .doc(_firebase.currentUser?.uid)
         .update(<String, double?>{
-      'bmi': calculatedBMI,
+      'bmi': double.parse(calculatedBMI.toStringAsFixed(2)),
     });
 
     // Update the state with the new BMI.

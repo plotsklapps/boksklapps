@@ -1,4 +1,5 @@
 import 'package:boksklapps/custom_snackbars.dart';
+import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -106,6 +107,24 @@ class BottomSheetResetPasswordState
     // Validate the form and save the values.
     if (passwordForm!.validate()) {
       passwordForm.save();
+
+      if (ref.watch(sneakPeekProvider) || _firebase.currentUser == null) {
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(
+          ref,
+          'Cannot change password in sneak peek mode. Please sign in first.',
+        );
+
+        return;
+      }
 
       try {
         // Send a password reset email to the user.

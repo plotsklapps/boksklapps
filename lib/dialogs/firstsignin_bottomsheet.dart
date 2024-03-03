@@ -6,7 +6,6 @@ import 'package:boksklapps/providers/sneakpeek_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,8 +23,6 @@ class BottomSheetFirstSignin extends ConsumerStatefulWidget {
 
 class BottomSheetFirstSigninState
     extends ConsumerState<BottomSheetFirstSignin> {
-  final FirebaseAuth _firebase = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(

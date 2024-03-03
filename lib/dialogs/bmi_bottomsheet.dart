@@ -1,4 +1,4 @@
-import 'package:boksklapps/main.dart';
+import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/providers/age_provider.dart';
 import 'package:boksklapps/providers/bmi_provider.dart';
 import 'package:boksklapps/providers/height_provider.dart';
@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetBMI extends ConsumerStatefulWidget {
   const BottomSheetBMI({
@@ -106,27 +107,39 @@ class BottomSheetBMIState extends ConsumerState<BottomSheetBMI> {
     if (bmiForm!.validate()) {
       bmiForm.save();
 
-      // Calculate the BMI.
-      await ref.read(bmiProvider.notifier).setBMI();
+      try {
+        // Calculate the BMI.
+        await ref.read(bmiProvider.notifier).setBMI();
 
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
 
-      // Pop the bottomsheet.
-      if (mounted) {
-        Navigator.pop(context);
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showSuccess(
+          ref,
+          'Successfully calculated and saved your BMI: '
+          '${ref.watch(bmiProvider).toStringAsFixed(1)}!',
+        );
+      } catch (error) {
+        // Log the error.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
       }
-
-      // Show a SnackBar to the user.
-      rootScaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(
-            'Successfully calculated and saved your '
-            'BMI: ${ref.watch(bmiProvider)}!',
-          ),
-          showCloseIcon: true,
-        ),
-      );
     } else {
       // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
