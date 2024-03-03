@@ -1,11 +1,20 @@
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/dialogs/password_bottomsheet.dart';
 import 'package:boksklapps/navigation.dart';
+import 'package:boksklapps/providers/age_provider.dart';
+import 'package:boksklapps/providers/bmi_provider.dart';
+import 'package:boksklapps/providers/displayname_provider.dart';
+import 'package:boksklapps/providers/email_provider.dart';
+import 'package:boksklapps/providers/height_provider.dart';
+import 'package:boksklapps/providers/lastvisit_provider.dart';
 import 'package:boksklapps/providers/obscured_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
+import 'package:boksklapps/providers/totalworkouts_provider.dart';
+import 'package:boksklapps/providers/weight_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -24,6 +33,7 @@ class BottomSheetSignin extends ConsumerStatefulWidget {
 
 class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
   final FirebaseAuth _firebase = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -194,6 +204,36 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
           );
           return;
         } else {
+          // Fetch user data from Firestore.
+          await _firestore
+              .collection('users')
+              .doc(_firebase.currentUser!.uid)
+              .get();
+
+          // Get the email.
+          await ref.read(emailProvider.notifier).getEmail();
+
+          // Get the display name.
+          await ref.read(displayNameProvider.notifier).getDisplayName();
+
+          // Get the age.
+          await ref.read(ageProvider.notifier).getAge();
+
+          // Get the height.
+          await ref.read(heightProvider.notifier).getHeight();
+
+          // Get the weight.
+          await ref.read(weightProvider.notifier).getWeight();
+
+          // Get the BMI.
+          await ref.read(bmiProvider.notifier).getBMI();
+
+          // Get the last visit.
+          await ref.read(lastVisitProvider.notifier).getLastVisit();
+
+          // Get the total workouts.
+          await ref.read(totalWorkoutsProvider.notifier).getTotalWorkouts();
+
           // Cancel the spinner.
           ref.read(spinnerProvider.notifier).cancelSpinner();
 

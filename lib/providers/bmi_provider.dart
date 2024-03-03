@@ -20,17 +20,18 @@ class BMINotifier extends Notifier<double> {
     final double height = ref.watch(heightProvider) / 100;
     final int weight = ref.watch(weightProvider);
     final double calculatedBMI = weight / (height * height);
+    final double bmi = double.parse(calculatedBMI.toStringAsFixed(1));
 
     // Update the user's BMI in the Firestore database.
     await _firestore
         .collection('users')
         .doc(_firebase.currentUser?.uid)
         .update(<String, double?>{
-      'bmi': double.parse(calculatedBMI.toStringAsFixed(1)),
+      'bmi': bmi,
     });
 
     // Update the state with the new BMI.
-    state = calculatedBMI;
+    state = bmi;
   }
 
   Future<void> getBMI() async {
@@ -41,7 +42,9 @@ class BMINotifier extends Notifier<double> {
         .get();
     final double bmi = userDoc.data()!['bmi'] as double;
 
+    final double calculatedBMI = double.parse(bmi.toStringAsFixed(1));
+
     // Update the state with the user's BMI.
-    state = bmi;
+    state = calculatedBMI;
   }
 }
