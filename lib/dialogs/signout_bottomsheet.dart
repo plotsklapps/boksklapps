@@ -19,7 +19,7 @@ class BottomSheetSignout extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
     } else {
       try {
         // Sign out the user.
-        await _firebaseAuth.signOut();
+        await _firebase.signOut();
 
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
@@ -109,6 +109,11 @@ class BottomSheetSignoutState extends ConsumerState<BottomSheetSignout> {
 
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
 
         // Show a SnackBar.
         CustomSnackBars.showError(ref, error.toString());

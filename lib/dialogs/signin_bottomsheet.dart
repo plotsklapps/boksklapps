@@ -23,7 +23,7 @@ class BottomSheetSignin extends ConsumerStatefulWidget {
 }
 
 class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -109,8 +109,10 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
                     onPressed: () {
                       // Cancel the spinner.
                       ref.read(spinnerProvider.notifier).cancelSpinner();
+
                       // Pop the bottomsheet.
                       Navigator.pop(context);
+
                       // Show the password reset bottomsheet.
                       showModalBottomSheet<void>(
                         showDragHandle: true,
@@ -175,13 +177,13 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
 
       try {
         // Log in to Firebase with the email and password.
-        await _firebaseAuth.signInWithEmailAndPassword(
+        await _firebase.signInWithEmailAndPassword(
           email: _email!,
           password: _password!,
         );
 
         // Check if email is verified.
-        if (!_firebaseAuth.currentUser!.emailVerified) {
+        if (!_firebase.currentUser!.emailVerified) {
           // Cancel the spinner.
           ref.read(spinnerProvider.notifier).cancelSpinner();
 
@@ -212,6 +214,11 @@ class BottomSheetSigninState extends ConsumerState<BottomSheetSignin> {
 
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
 
         // Show a SnackBar.
         CustomSnackBars.showError(ref, error.toString());
