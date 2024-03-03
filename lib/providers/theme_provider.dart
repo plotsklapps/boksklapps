@@ -11,7 +11,6 @@ class ThemeNotifier extends Notifier<ThemeData> {
   // apply the correct theme on certain widgets.
   bool isDark = false;
 
-  // Set the initial value of the ThemeNotifier to FlexThemeData.light.
   @override
   ThemeData build() {
     return lightTheme;

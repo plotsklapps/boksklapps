@@ -2,6 +2,7 @@ import 'package:boksklapps/theme/text_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+// Returns a BottomAppBar with a title on the left and a notch on the right.
 class BottomBarTitle extends StatelessWidget {
   const BottomBarTitle({
     required this.title,
@@ -31,6 +32,7 @@ class BottomBarTitle extends StatelessWidget {
   }
 }
 
+// Returns a BottomAppBar with an icon on the left and a notch on the right.
 class BottomBarIcon extends StatelessWidget {
   const BottomBarIcon({
     required this.bottomSheet,

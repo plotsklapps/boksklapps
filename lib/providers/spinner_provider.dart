@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-final NotifierProvider<SpinnerNotifier, Widget> spinnerProvider =
+// ignore: always_specify_types
+final spinnerProvider =
     NotifierProvider<SpinnerNotifier, Widget>(SpinnerNotifier.new);
 
 class SpinnerNotifier extends Notifier<Widget> {
