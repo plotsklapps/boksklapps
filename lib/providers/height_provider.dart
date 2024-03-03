@@ -1,5 +1,5 @@
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore: always_specify_types
@@ -7,10 +7,7 @@ final heightProvider =
     NotifierProvider<HeightNotifier, int>(HeightNotifier.new);
 
 class HeightNotifier extends Notifier<int> {
-  // Create an instance of the FirebaseAuth service.
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
-  // Create an instance of the FirebaseFirestore class.
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -22,7 +19,7 @@ class HeightNotifier extends Notifier<int> {
     // Update the user's height in the Firestore database.
     await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .update(<String, int?>{
       'height': newHeight,
     });
@@ -35,7 +32,7 @@ class HeightNotifier extends Notifier<int> {
     // Get the user's height from the Firestore database.
     final DocumentSnapshot<Map<String, dynamic>> userDoc = await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .get();
     final int height = userDoc.data()!['height'] as int;
 

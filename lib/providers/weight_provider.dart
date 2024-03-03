@@ -1,5 +1,5 @@
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore: always_specify_types
@@ -7,10 +7,7 @@ final weightProvider =
     NotifierProvider<WeightNotifier, int>(WeightNotifier.new);
 
 class WeightNotifier extends Notifier<int> {
-  // Create an instance of the FirebaseAuth service.
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
-  // Create an instance of the FirebaseFirestore class.
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -22,7 +19,7 @@ class WeightNotifier extends Notifier<int> {
     // Update the user's weight in the Firestore database.
     await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .update(<String, int?>{
       'weight': newWeight,
     });
@@ -35,7 +32,7 @@ class WeightNotifier extends Notifier<int> {
     // Get the user's weight from the Firestore database.
     final DocumentSnapshot<Map<String, dynamic>> userDoc = await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .get();
     final int weight = userDoc.data()!['weight'] as int;
 

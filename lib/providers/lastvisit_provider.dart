@@ -1,5 +1,5 @@
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -8,10 +8,7 @@ final lastVisitProvider =
     NotifierProvider<LastVisitNotifier, String>(LastVisitNotifier.new);
 
 class LastVisitNotifier extends Notifier<String> {
-  // Create an instance of the FirebaseAuth service.
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
-  // Create an instance of the FirebaseFirestore class.
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -27,7 +24,7 @@ class LastVisitNotifier extends Notifier<String> {
     // Update the user's last visit in the Firestore database.
     await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .update(<String, String?>{
       'lastVisit': newLastVisit,
     });
@@ -40,7 +37,7 @@ class LastVisitNotifier extends Notifier<String> {
     // Get the user's last visit date from the Firestore database.
     final DocumentSnapshot<Map<String, dynamic>> userDoc = await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .get();
     final String lastVisit = userDoc.data()!['lastVisit'] as String;
 

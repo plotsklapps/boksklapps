@@ -1,17 +1,14 @@
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/height_provider.dart';
 import 'package:boksklapps/providers/weight_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ignore: always_specify_types
 final bmiProvider = NotifierProvider<BMINotifier, double>(BMINotifier.new);
 
 class BMINotifier extends Notifier<double> {
-  // Create an instance of the FirebaseAuth service.
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
-  // Create an instance of the FirebaseFirestore class.
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -27,7 +24,7 @@ class BMINotifier extends Notifier<double> {
     // Update the user's BMI in the Firestore database.
     await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .update(<String, double?>{
       'bmi': calculatedBMI,
     });
@@ -40,7 +37,7 @@ class BMINotifier extends Notifier<double> {
     // Get the user's BMI from the Firestore database.
     final DocumentSnapshot<Map<String, dynamic>> userDoc = await _firestore
         .collection('users')
-        .doc(_authService.currentUser?.uid)
+        .doc(_firebase.currentUser?.uid)
         .get();
     final double bmi = userDoc.data()!['bmi'] as double;
 
