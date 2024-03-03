@@ -1,6 +1,6 @@
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
+import 'package:boksklapps/providers/email_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetEmail extends ConsumerStatefulWidget {
   const BottomSheetEmail({
@@ -22,8 +23,6 @@ class BottomSheetEmail extends ConsumerStatefulWidget {
 }
 
 class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
-
   final GlobalKey<FormState> _emailFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -74,6 +73,7 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
                         onPressed: () {
                           // Cancel the spinner.
                           ref.read(spinnerProvider.notifier).cancelSpinner();
+
                           // Pop the bottomsheet.
                           Navigator.pop(context);
                         },
@@ -82,7 +82,7 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
                       const SizedBox(width: 8),
                       FloatingActionButton(
                         onPressed: () async {
-                          await _validateAndSetEmail(context, ref);
+                          await _validateAndSetEmail();
                         },
                         // Watching a computed signal to provide the
                         // corresponding Widget.
@@ -99,37 +99,52 @@ class BottomSheetEmailState extends ConsumerState<BottomSheetEmail> {
     );
   }
 
-  Future<void> _validateAndSetEmail(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
+  Future<void> _validateAndSetEmail() async {
+    final FormState? emailUserForm = _emailFormKey.currentState;
+
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    final FormState? emailUserForm = _emailFormKey.currentState;
+    // Validate the form and save the values.
     if (emailUserForm!.validate()) {
       emailUserForm.save();
 
-      await _authService.updateEmail(
-        ref: ref,
-        email: _email!,
-      );
+      try {
+        // Update the email via the provider.
+        await ref.read(emailProvider.notifier).updateEmail(_email!);
 
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        if (mounted) {
+          // Navigate to the StartScreen.
+          Navigate.toVerifyScreen(context);
+        }
+
+        // Show a SnackBar to the user.
+        CustomSnackBars.showSuccess(
+          ref,
+          'Please check your email inbox (and spamfolder) to verify your new '
+          'email address.',
+        );
+      } catch (error) {
+        // Log the error.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
+      }
+    } else {
       // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
-
-      if (context.mounted) {
-        // Pop the bottomsheet.
-        Navigator.pop(context);
-
-        // Navigate to the StartScreen.
-        Navigate.toVerifyScreen(context);
-      }
-      // Show a SnackBar to the user.
-      CustomSnackBars.showSuccess(
-        ref,
-        'Please check your email to verify your new email address.',
-      );
     }
   }
 }

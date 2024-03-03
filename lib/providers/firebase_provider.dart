@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:boksklapps/custom_snackbars.dart';
-import 'package:boksklapps/providers/email_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -161,45 +160,6 @@ class FirebaseAuthService {
         // Delete the user.
         currentUser!.delete();
       });
-    } on FirebaseAuthException catch (e) {
-      // Log the error to the console.
-      Logger().e('Firebase error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } on PlatformException catch (e) {
-      // Log the error to the console.
-      Logger().e('Platform error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } on TimeoutException catch (e) {
-      // Log the error to the console.
-      Logger().e('Timeout error: $e');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    } catch (e, s) {
-      // Log the error to the console.
-      Logger().e('Error: $e\nStackTrace: $s');
-
-      // Show a SnackBar with the error message to the user.
-      CustomSnackBars.showError(ref, e);
-    }
-  }
-
-  // Update the user's email address.
-
-  Future<void> updateEmail({
-    required WidgetRef ref,
-    required String email,
-  }) async {
-    try {
-      // Send an email verification to the new email address.
-      await currentUser!.verifyBeforeUpdateEmail(email);
-
-      // Update the state and Firestore with the new email address.
-      await ref.read(emailProvider.notifier).updateEmail(email);
     } on FirebaseAuthException catch (e) {
       // Log the error to the console.
       Logger().e('Firebase error: $e');
