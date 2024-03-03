@@ -1,15 +1,16 @@
 import 'package:boksklapps/custom_snackbars.dart';
 import 'package:boksklapps/navigation.dart';
-import 'package:boksklapps/providers/firebase_provider.dart';
 import 'package:boksklapps/providers/obscured_provider.dart';
 import 'package:boksklapps/providers/spinner_provider.dart';
 import 'package:boksklapps/theme/bottomsheet_padding.dart';
 import 'package:boksklapps/theme/text_utils.dart';
 import 'package:boksklapps/widgets/bottomsheet_header.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:logger/logger.dart';
 
 class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
   const BottomSheetDeleteUserConfirmation({super.key});
@@ -22,7 +23,7 @@ class BottomSheetDeleteUserConfirmation extends ConsumerStatefulWidget {
 
 class BottomSheetDeleteUserConfirmationState
     extends ConsumerState<BottomSheetDeleteUserConfirmation> {
-  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirebaseAuth _firebase = FirebaseAuth.instance;
   final GlobalKey<FormState> _deleteUserFormKey = GlobalKey<FormState>();
 
   String? _email;
@@ -80,7 +81,6 @@ class BottomSheetDeleteUserConfirmationState
                       _password = value?.trim();
                     },
                     keyboardType: TextInputType.text,
-                    // Update the UI based on the provider.
                     obscureText: ref.watch(obscuredProvider),
                     enableSuggestions: false,
                     decoration: InputDecoration(
@@ -89,8 +89,6 @@ class BottomSheetDeleteUserConfirmationState
                         child: FaIcon(FontAwesomeIcons.lock),
                       ),
                       labelText: 'Password',
-                      // Instead of an icon, use a TextButton to toggle the
-                      // _isObscured signal.
                       suffixIcon: TextButton(
                         onPressed: () {
                           ref.read(obscuredProvider.notifier).setObscured(
@@ -117,10 +115,12 @@ class BottomSheetDeleteUserConfirmationState
                   onPressed: () {
                     // Cancel the spinner.
                     ref.read(spinnerProvider.notifier).cancelSpinner();
+
                     // Set the provider to default.
                     ref
                         .read(obscuredProvider.notifier)
                         .setObscured(isObscured: true);
+
                     // Pop the bottomsheet.
                     Navigator.pop(context);
                   },
@@ -129,10 +129,8 @@ class BottomSheetDeleteUserConfirmationState
                 const SizedBox(width: 8),
                 FloatingActionButton(
                   onPressed: () async {
-                    await _validateAndDeleteUser(ref, context);
+                    await _validateAndDeleteUser();
                   },
-                  // Watching a computed signal to provide the corresponding
-                  // Widget.
                   child: ref.watch(spinnerProvider),
                 ),
               ],
@@ -143,38 +141,56 @@ class BottomSheetDeleteUserConfirmationState
     );
   }
 
-  Future<void> _validateAndDeleteUser(
-    WidgetRef ref,
-    BuildContext context,
-  ) async {
+  Future<void> _validateAndDeleteUser() async {
+    final FormState? deleteUserForm = _deleteUserFormKey.currentState;
+
     // Start the spinner.
     ref.read(spinnerProvider.notifier).startSpinner();
 
-    final FormState? deleteUserForm = _deleteUserFormKey.currentState;
+    // Validate the form and save the values.
     if (deleteUserForm!.validate()) {
       deleteUserForm.save();
 
-      await _authService.deleteUser(
-        ref: ref,
-        email: _email!,
-        password: _password!,
-      );
+      try {
+        // Re-authenticate the user.
+        await _firebase.currentUser!.reauthenticateWithCredential(
+          EmailAuthProvider.credential(
+            email: _email!,
+            password: _password!,
+          ),
+        );
 
-      // Cancel the spinner.
-      ref.read(spinnerProvider.notifier).cancelSpinner();
+        // Delete the user.
+        await _firebase.currentUser!.delete();
 
-      if (context.mounted) {
-        // Pop the bottomsheet.
-        Navigator.pop(context);
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
 
         // Navigate to the StartScreen.
-        Navigate.toStartScreen(context);
+        if (mounted) {
+          Navigate.toStartScreen(context);
+        }
+
+        // Show a SnackBar to the user.
+        CustomSnackBars.showSuccess(
+          ref,
+          'Your account has been deleted. Thank you for using BOKSklapps!',
+        );
+      } catch (error) {
+        // Log the error.
+        Logger().e(error);
+
+        // Cancel the spinner.
+        ref.read(spinnerProvider.notifier).cancelSpinner();
+
+        // Pop the bottomsheet.
+        if (mounted) {
+          Navigator.pop(context);
+        }
+
+        // Show a SnackBar.
+        CustomSnackBars.showError(ref, error.toString());
       }
-      // Show a SnackBar to the user.
-      CustomSnackBars.showSuccess(
-        ref,
-        'Your account has been deleted.',
-      );
     }
   }
 }

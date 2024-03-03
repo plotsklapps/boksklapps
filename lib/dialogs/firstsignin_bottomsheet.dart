@@ -137,6 +137,11 @@ class BottomSheetFirstSigninState
       // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
 
+      // Pop the bottomsheet.
+      if (mounted) {
+        Navigator.pop(context);
+      }
+
       // Show a SnackBar.
       CustomSnackBars.showError(ref, error.toString());
     }
