@@ -18,6 +18,7 @@ class StartScreen extends ConsumerStatefulWidget {
 
 class StartScreenState extends ConsumerState<StartScreen> {
   final FirebaseAuth _firebase = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -72,8 +73,36 @@ class StartScreenState extends ConsumerState<StartScreen> {
 
     final User? currentUser = _firebase.currentUser;
 
-    if (currentUser != null) {
+try {
+  if (currentUser != null) {
       if (currentUser.emailVerified) {
+        // Fetch user data from Firestore.
+        await _firestore.collection('users').doc(currentUser.uid).get();
+
+        // Get the  email.
+        await ref.read(emailProvider.notifier).getEmail();
+
+        // Get the display name.
+        await ref.read(displayNameProvider.notifier).getDisplayName();
+
+        // Get the age.
+        await ref.read(ageProvider.notifier).getAge();
+
+        // Get the height.
+        await ref.read(heightProvider.notifier).getHeight();
+
+        // Get the weight.
+        await ref.read(weightProvider.notifier).getWeight();
+
+        // Get the BMI.
+        await ref.read(bmiProvider.notifier).getBMI();
+
+        // Get the last visit.
+        await ref.read(lastVisitProvider.notifier).getLastVisit();
+
+        // Get the total workouts.
+        await ref.read(totalWorkoutsProvider.notifier).getTotalWorkouts();
+
         // Cancel the spinner.
         ref.read(spinnerProvider.notifier).cancelSpinner();
 
@@ -97,5 +126,20 @@ class StartScreenState extends ConsumerState<StartScreen> {
       // Cancel the spinner.
       ref.read(spinnerProvider.notifier).cancelSpinner();
     }
+} catch (error) {
+  // Log the error.
+  Logger().e(error);
+
+  // Cancel the spinner.
+  ref.read(spinnerProvider.notifier).cancelSpinner();
+
+  // Show a SnackBar.
+  CustomSnackBars.showError(
+    context: context,
+    message: 'An error occurred. Please try again later.',
+  );
+}
+
+    
   }
 }
